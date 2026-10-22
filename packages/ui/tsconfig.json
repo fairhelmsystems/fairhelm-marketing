@@ -1,0 +1,7 @@
+{
+  "extends": "@fairhelm/typescript-config/base.json",
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "compilerOptions": {
+    "types": ["node", "react", "react-dom"]
+  }
+}

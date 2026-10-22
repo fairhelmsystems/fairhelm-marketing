@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="562"
+  height="892"
+  viewBox="0 0 562 892"
+  fill="none"
+  role="img"
+  aria-labelledby="fairhelm-logo-title fairhelm-logo-description"
+  shape-rendering="geometricPrecision"
+>
+  <title id="fairhelm-logo-title">Fairhelm Systems logo mark</title>
+  <desc id="fairhelm-logo-description">A minimalist geometric Fairhelm Systems monogram rendered in navy and cobalt blue.</desc>
+  <path d="M311 0V149L128 257V384L280 296V441L127 531V800L101 783L0 720V181L311 0Z" fill="#07203A"/>
+  <path d="M562 159V720L440 797V470L405 445V253L562 159Z" fill="#07203A"/>
+  <path d="M282 560H403V819L282 892V560Z" fill="#07203A"/>
+  <path d="M127 711L232 778V870L127 800V711Z" fill="#1674F8"/>
+</svg>

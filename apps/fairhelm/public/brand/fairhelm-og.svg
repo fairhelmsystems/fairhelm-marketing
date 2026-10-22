@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#08182B"/>
+      <stop offset="1" stop-color="#050D18"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(1020 70) rotate(140) scale(620 430)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1674F8" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#1674F8" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" stroke="#D7E6F7" stroke-opacity=".06"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" rx="30" fill="url(#bg)"/>
+  <rect width="1200" height="630" rx="30" fill="url(#glow)"/>
+  <rect width="1200" height="630" rx="30" fill="url(#grid)"/>
+  <rect x="76" y="82" width="232" height="412" rx="28" fill="#EFF5FA"/>
+  <g transform="translate(108 110) scale(.32)">
+    <path d="M311 0V149L128 257V384L280 296V441L127 531V800L101 783L0 720V181L311 0Z" fill="#07203A"/>
+    <path d="M562 159V720L440 797V470L405 445V253L562 159Z" fill="#07203A"/>
+    <path d="M282 560H403V819L282 892V560Z" fill="#07203A"/>
+    <path d="M127 711L232 778V870L127 800V711Z" fill="#1674F8"/>
+  </g>
+  <text x="365" y="222" fill="#F0F6FC" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700" letter-spacing="-1.8">FAIRHELM SYSTEMS</text>
+  <text x="367" y="278" fill="#79C8F8" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" letter-spacing="4">GOVERNED SOFTWARE SYSTEMS</text>
+  <text x="367" y="360" fill="#B1C1D2" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="500">Built to survive scale, scrutiny,</text>
+  <text x="367" y="405" fill="#B1C1D2" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="500">and boardrooms.</text>
+  <line x1="367" y1="465" x2="1090" y2="465" stroke="#D7E6F7" stroke-opacity=".16"/>
+  <text x="367" y="512" fill="#DCE8F3" font-family="Arial, Helvetica, sans-serif" font-size="18" letter-spacing="1.6">SCHOOL OS  /  DATA PIPELINES  /  OPERATIONAL INTELLIGENCE</text>
+</svg>

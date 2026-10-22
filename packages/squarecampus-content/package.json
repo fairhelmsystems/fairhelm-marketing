@@ -1,0 +1,22 @@
+{
+  "name": "@fairhelm/squarecampus-content",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./commercial": "./src/commercial.ts",
+    "./company": "./src/company.ts",
+    "./blog/posts": "./src/blog/posts.ts",
+    "./retention": "./src/retention.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "@types/node": "catalog:",
+    "@fairhelm/typescript-config": "workspace:*"
+  },
+  "dependencies": {
+    "@fairhelm/config": "workspace:*"
+  }
+}

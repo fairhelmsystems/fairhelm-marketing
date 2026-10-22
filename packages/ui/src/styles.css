@@ -1,0 +1,1178 @@
+@import "tw-animate-css";
+@source "./";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sora);
+  --color-border-strong: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-brand: var(--brand);
+  --color-teal: var(--teal);
+  --color-amber: var(--amber);
+  --color-state-ok: var(--state-ok);
+  --color-state-attention: var(--state-attention);
+  --color-state-critical: var(--state-critical);
+  --shadow-panel: var(--shadow-2);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-ibm-plex-sans);
+  --font-mono: var(--font-ibm-plex-mono);
+  --font-display: var(--font-sora);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.75);
+  --radius-md: calc(var(--radius) * 0.9);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.25);
+  --radius-2xl: calc(var(--radius) * 1.65);
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.985 0.004 85);
+  --foreground: oklch(0.23 0.02 252);
+  --card: oklch(0.995 0.002 84);
+  --card-foreground: oklch(0.23 0.02 252);
+  --popover: oklch(0.995 0.002 84);
+  --popover-foreground: oklch(0.23 0.02 252);
+  --primary: oklch(0.24 0.03 252);
+  --primary-foreground: oklch(0.985 0.004 85);
+  --secondary: oklch(0.96 0.006 86);
+  --secondary-foreground: oklch(0.27 0.02 252);
+  --muted: oklch(0.965 0.006 86);
+  /* Darkened from oklch(0.52 …) — 5.26:1 on the page background was AA-passing
+     but thin on uncalibrated office laptops and low-end phone panels. */
+  --muted-foreground: oklch(0.45 0.021 252);
+  --accent: oklch(0.62 0.11 247);
+  --accent-foreground: oklch(0.99 0.002 84);
+  --destructive: oklch(0.61 0.18 25);
+  --border: oklch(0.91 0.01 84);
+  --input: oklch(0.91 0.01 84);
+  --ring: oklch(0.66 0.11 247);
+  --chart-1: oklch(0.62 0.11 247);
+  --chart-2: oklch(0.72 0.1 180);
+  --chart-3: oklch(0.77 0.12 73);
+  --chart-4: oklch(0.65 0.15 32);
+  --chart-5: oklch(0.7 0.07 220);
+  --sidebar: oklch(0.99 0.002 84);
+  --sidebar-foreground: oklch(0.23 0.02 252);
+  --sidebar-primary: oklch(0.24 0.03 252);
+  --sidebar-primary-foreground: oklch(0.985 0.004 85);
+  --sidebar-accent: oklch(0.965 0.006 86);
+  --sidebar-accent-foreground: oklch(0.27 0.02 252);
+  --sidebar-border: oklch(0.91 0.01 84);
+  --sidebar-ring: oklch(0.66 0.11 247);
+  --surface: rgba(255, 255, 255, 0.68);
+  --surface-strong: rgba(255, 255, 255, 0.84);
+  --surface-menu: rgba(255, 255, 255, 0.94);
+  --surface-muted: rgba(20, 31, 52, 0.04);
+  --line: rgba(32, 44, 68, 0.09);
+  --line-strong: rgba(32, 44, 68, 0.16);
+  --brand: oklch(0.6 0.11 247);
+  /* Brand-coloured TEXT on light surfaces: --brand itself measures ~3.9:1
+     there, under the 4.5:1 minimum for body-size text (audit SC-031). */
+  --brand-ink: oklch(0.48 0.12 247);
+  --brand-soft: rgba(88, 124, 204, 0.18);
+  --teal: oklch(0.73 0.1 181);
+  --amber: oklch(0.76 0.12 74);
+
+  /* --- Semantic design tokens ---------------------------------------------
+     Surfaces, elevation, operational states, focus and rhythm. Components
+     reference these rather than repeating literal rgba()/oklch() values. */
+  --surface-raised: rgba(255, 255, 255, 0.94);
+  --surface-sunken: rgba(20, 31, 52, 0.028);
+  --brand-tint: rgba(88, 124, 204, 0.08);
+
+  /* Operational state colours. Never the only carrier of meaning — every
+     usage pairs the colour with a label or icon (WCAG 1.4.1). */
+  --state-ok: oklch(0.55 0.09 168);
+  --state-attention: oklch(0.58 0.11 72);
+  --state-critical: oklch(0.56 0.16 25);
+  --state-ok-soft: rgba(58, 150, 133, 0.12);
+  --state-attention-soft: rgba(184, 134, 42, 0.13);
+  --state-critical-soft: rgba(196, 74, 58, 0.11);
+
+  --focus-ring: oklch(0.55 0.14 247);
+
+  /* Elevation ladder: 1 = resting card, 2 = raised panel, 3 = floating. */
+  --shadow-1: 0 12px 32px rgba(8, 15, 30, 0.05);
+  --shadow-2: 0 24px 60px rgba(8, 15, 30, 0.06);
+  --shadow-3: 0 34px 88px rgba(8, 15, 30, 0.1);
+
+  /* Composition rhythm. `--container-max` matches the max-w-6xl used across
+     every marketing section, expressed once so it can be referenced in CSS. */
+  --container-max: 72rem;
+  --radius-panel: 1.6rem;
+  --radius-panel-lg: 2rem;
+  --radius-chip: 0.9rem;
+
+  /* Device frames (see "Device frames" below). The shell is the aluminium,
+     the glass is the black border around every screen, the lip is the
+     shadow the lid casts on the base. */
+  --device-shell-a: #f1f2f4;
+  --device-shell-b: #c3c7cf;
+  --device-shell-edge: rgba(20, 28, 44, 0.24);
+  --device-glass: #0b0e14;
+  --device-glass-edge: rgba(255, 255, 255, 0.09);
+  --device-lip: rgba(20, 28, 44, 0.22);
+  --device-shadow: rgba(8, 15, 30, 0.3);
+  --device-glare: rgba(255, 255, 255, 0.16);
+}
+
+.dark {
+  --background: oklch(0.055 0.008 252);
+  --foreground: oklch(0.965 0.004 85);
+  --card: oklch(0.085 0.009 252);
+  --card-foreground: oklch(0.965 0.004 85);
+  --popover: oklch(0.085 0.009 252);
+  --popover-foreground: oklch(0.965 0.004 85);
+  --primary: oklch(0.965 0.004 85);
+  --primary-foreground: oklch(0.055 0.008 252);
+  --secondary: oklch(0.115 0.009 252);
+  --secondary-foreground: oklch(0.94 0.004 85);
+  --muted: oklch(0.11 0.009 252);
+  --muted-foreground: oklch(0.79 0.013 252);
+  --accent: oklch(0.69 0.09 247);
+  --accent-foreground: oklch(0.055 0.008 252);
+  --destructive: oklch(0.68 0.18 25);
+  --border: oklch(0.96 0.004 85 / 7%);
+  --input: oklch(0.96 0.004 85 / 8%);
+  --ring: oklch(0.72 0.08 247);
+  --chart-1: oklch(0.69 0.09 247);
+  --chart-2: oklch(0.73 0.07 181);
+  --chart-3: oklch(0.78 0.1 74);
+  --chart-4: oklch(0.73 0.11 32);
+  --chart-5: oklch(0.76 0.05 220);
+  --sidebar: oklch(0.085 0.009 252);
+  --sidebar-foreground: oklch(0.965 0.004 85);
+  --sidebar-primary: oklch(0.965 0.004 85);
+  --sidebar-primary-foreground: oklch(0.055 0.008 252);
+  --sidebar-accent: oklch(0.115 0.009 252);
+  --sidebar-accent-foreground: oklch(0.94 0.004 85);
+  --sidebar-border: oklch(0.96 0.004 85 / 7%);
+  --sidebar-ring: oklch(0.72 0.08 247);
+  --surface: rgba(5, 8, 15, 0.78);
+  --surface-strong: rgba(7, 11, 20, 0.92);
+  --surface-menu: rgb(7, 11, 20);
+  --surface-muted: rgba(255, 255, 255, 0.035);
+  --line: rgba(214, 222, 238, 0.085);
+  --line-strong: rgba(214, 222, 238, 0.15);
+  --brand: oklch(0.69 0.09 247);
+  --brand-ink: var(--brand);
+  --brand-soft: rgba(76, 109, 203, 0.14);
+  --teal: oklch(0.72 0.07 181);
+  --amber: oklch(0.79 0.09 74);
+
+  --surface-raised: rgba(10, 15, 26, 0.95);
+  --surface-sunken: rgba(255, 255, 255, 0.022);
+  --brand-tint: rgba(96, 132, 214, 0.09);
+
+  --state-ok: oklch(0.76 0.08 168);
+  --state-attention: oklch(0.8 0.1 72);
+  --state-critical: oklch(0.72 0.14 25);
+  --state-ok-soft: rgba(84, 190, 170, 0.14);
+  --state-attention-soft: rgba(214, 168, 76, 0.14);
+  --state-critical-soft: rgba(224, 110, 92, 0.13);
+
+  --focus-ring: oklch(0.78 0.1 247);
+
+  --shadow-1: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 24px 70px rgba(0, 0, 0, 0.5);
+  --shadow-3: 0 34px 100px rgba(0, 0, 0, 0.6);
+
+  --device-shell-a: #3b414d;
+  --device-shell-b: #171b23;
+  --device-shell-edge: rgba(255, 255, 255, 0.14);
+  --device-glass: #04060a;
+  --device-glass-edge: rgba(255, 255, 255, 0.12);
+  --device-lip: rgba(0, 0, 0, 0.55);
+  --device-shadow: rgba(0, 0, 0, 0.6);
+  --device-glare: rgba(255, 255, 255, 0.09);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
+    background-image:
+      radial-gradient(circle at 12% 0%, rgba(92, 126, 204, 0.16), transparent 32%),
+      radial-gradient(circle at 86% 12%, rgba(84, 189, 177, 0.1), transparent 28%),
+      linear-gradient(180deg, rgba(249, 249, 246, 0.96), rgba(244, 244, 240, 1));
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(circle at 16% -4%, rgba(76, 109, 203, 0.16), transparent 24%),
+      radial-gradient(circle at 84% 4%, rgba(63, 156, 147, 0.08), transparent 18%),
+      radial-gradient(circle at 50% 100%, rgba(18, 27, 48, 0.24), transparent 30%),
+      linear-gradient(180deg, rgb(2 4 9), rgb(3 6 12) 42%, rgb(1 2 6));
+  }
+
+  body::selection {
+    background: rgba(92, 126, 204, 0.22);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    /* --font-display is an inline theme token (compile-time only); reference
+       the runtime variable that next/font defines on <html>. */
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+  }
+
+  .page-shell {
+    position: relative;
+    overflow: clip;
+  }
+
+  /* Layered survey-paper texture: 28px dot grid inside a 64px line grid,
+     fading out down the page. */
+  .page-shell::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle, rgba(28, 41, 64, 0.13) 1.2px, transparent 1.2px),
+      linear-gradient(rgba(28, 41, 64, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(28, 41, 64, 0.03) 1px, transparent 1px);
+    background-size:
+      28px 28px,
+      64px 64px,
+      64px 64px;
+    mask-image: linear-gradient(180deg, black 0%, black 45%, transparent 100%);
+    opacity: 0.65;
+  }
+
+  /* Phones get a sparser, fainter grid: at 28px the dot field competes with
+     body copy on a small, often lower-contrast panel. */
+  @media (max-width: 640px) {
+    .page-shell::before {
+      background-size:
+        36px 36px,
+        96px 96px,
+        96px 96px;
+      opacity: 0.4;
+    }
+  }
+
+  .dark .page-shell::before {
+    background-image:
+      radial-gradient(circle, rgba(255, 255, 255, 0.1) 1.2px, transparent 1.2px),
+      linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    opacity: 0.4;
+  }
+
+  .surface-panel {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: var(--shadow-2);
+    backdrop-filter: blur(18px);
+  }
+
+  .surface-panel-strong {
+    border: 1px solid var(--line-strong);
+    background: var(--surface-strong);
+    box-shadow: var(--shadow-3);
+    backdrop-filter: blur(22px);
+  }
+
+  /* Quiet surface for secondary/supporting cards: present, but never
+     competing with a primary narrative panel next to it. */
+  .surface-quiet {
+    border: 1px solid var(--line);
+    background: var(--surface-sunken);
+  }
+
+  .dark .surface-panel {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      var(--shadow-2);
+  }
+
+  .dark .surface-panel-strong {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      var(--shadow-3);
+  }
+
+  /*
+   * Type scale. One definition per role so headings, body copy and metrics
+   * stay consistent across pages instead of being re-invented inline.
+   * Sizes are clamped: they grow with the viewport but stop before a heading
+   * turns into an awkward three-line wrap on a 1280px laptop.
+   */
+  .type-display {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    /* ~30px @320, ~31px @390, ~37px @768, ~40px @1024, ~46px @1440, capped at
+       48px. The shallow slope is deliberate: a steeper one pushed the hero
+       headline to three lines between 1024px and 1280px, which is exactly the
+       laptop range most buyers are on. */
+    font-size: clamp(1.9rem, 1.62rem + 1.4vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .type-page-title {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    font-size: clamp(1.85rem, 1.25rem + 2.5vw, 3.1rem);
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .type-section-title {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    font-size: clamp(1.6rem, 1.15rem + 1.8vw, 2.6rem);
+    line-height: 1.14;
+    letter-spacing: -0.042em;
+    text-wrap: balance;
+  }
+
+  /*
+   * Pull-quote: a full sentence set larger than body copy but well below a
+   * section heading. The heading steps are sized for 3–8 word titles; putting
+   * a 140-character sentence in `.type-section-title` produced a six-line wall
+   * on the homepage. Use this for the canonical doctrine sentences.
+   */
+  .type-quote {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    font-size: clamp(1.25rem, 1.08rem + 0.85vw, 1.75rem);
+    line-height: 1.34;
+    letter-spacing: -0.032em;
+    text-wrap: pretty;
+  }
+
+  .type-card-title {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    font-size: clamp(1.15rem, 1.02rem + 0.5vw, 1.4rem);
+    line-height: 1.25;
+    letter-spacing: -0.032em;
+    text-wrap: balance;
+  }
+
+  .type-body {
+    /* Floor raised to a true 16px: the previous 0.95rem floor rendered at
+       15.2px on phones, which is below comfortable reading size and is the
+       point where visitors start pinch-zooming. */
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    line-height: 1.7;
+  }
+
+  .type-support {
+    font-size: 0.9rem;
+    line-height: 1.66;
+    color: var(--muted-foreground);
+  }
+
+  .type-metric {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2.1rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .type-caption {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
+  /* Comfortable measure for long-form supporting copy (~68 characters). */
+  .measure {
+    max-width: 62ch;
+  }
+
+  /* 12px with moderate tracking (audit SC-031): the previous 10.9px at
+     0.28em tracking was hard to read in uppercase mono. */
+  .section-kicker,
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+}
+
+/*
+ * Focus visibility, site-wide. Previously only the Tailwind base
+ * `outline-ring/50` applied, which is easy to lose against the tinted
+ * surfaces. This gives every keyboard-focused control the same high-contrast
+ * ring on both themes, without affecting mouse users.
+ */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+@layer components {
+  .navigation-material {
+    border: 1px solid var(--line-strong);
+    background: linear-gradient(180deg, var(--surface-menu), var(--surface-raised));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      0 2px 4px rgba(8, 15, 30, 0.035),
+      0 12px 28px rgba(8, 15, 30, 0.08);
+    backdrop-filter: blur(20px);
+  }
+
+  .dark .navigation-material {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--surface-raised) 92%, var(--foreground)), var(--surface-raised));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.065),
+      0 2px 4px rgba(0, 0, 0, 0.16),
+      0 12px 28px rgba(0, 0, 0, 0.32);
+  }
+
+  .navigation-material-item {
+    border: 1px solid transparent;
+    color: var(--muted-foreground);
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      color 180ms ease;
+  }
+
+  .navigation-material-item:is([aria-current="page"], [aria-expanded="true"], [data-current]) {
+    border-color: var(--line-strong);
+    background-color: var(--brand-tint);
+    color: var(--foreground);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--foreground) 6%, transparent);
+  }
+
+  @media (hover: hover) {
+    .navigation-material-item:hover {
+      border-color: var(--line);
+      background-color: var(--surface-muted);
+      color: var(--foreground);
+      box-shadow: 0 2px 6px color-mix(in srgb, var(--foreground) 5%, transparent);
+    }
+  }
+
+  .navigation-material-item:active {
+    background-color: var(--brand-tint);
+    box-shadow: inset 0 1px 3px color-mix(in srgb, var(--foreground) 8%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .navigation-material-item { transition: none; }
+  }
+}
+
+/* Navigation uses a quiet inset keyboard indicator. Pointer clicks never
+ * inherit the browser's rectangular blue outline on the rounded triggers. */
+.marketing-navigation :where(a, button):focus {
+  outline: none;
+}
+
+.marketing-navigation :where(a, button):focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 1.5px var(--muted-foreground);
+}
+
+/*
+ * Select fields: replace the native chevron.
+ *
+ * These fields are pills (26px radius) with 1rem of horizontal padding, and
+ * the UA-drawn chevron sits hard against the right edge — visually detached
+ * from the value it belongs to and crowding the rounded corner, while the
+ * text inputs beside them breathe at 1rem. This draws the chevron at the same
+ * 1rem inset as the text, so a row of inputs and selects lines up.
+ *
+ * The colour is baked into the data URI because a background-image cannot
+ * read a custom property, so the two themes are declared separately from the
+ * resolved sRGB of `--muted-foreground`. `padding-right` reserves room so a
+ * long option label never runs underneath the chevron.
+ */
+.select-field {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 0.7rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%234d5661' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.dark .select-field {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%23b5bbc3' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* Safari/Firefox leave their own affordance behind without this. */
+.select-field::-ms-expand {
+  display: none;
+}
+
+/* Scroll-reveal system: Reveal toggles `.is-revealed`; everything else is CSS. */
+.reveal-root {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance, 20px));
+  transition:
+    opacity 0.82s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.82s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-root.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+ * Above-the-fold entrance (hero). Unlike `.reveal-root`, this never sets
+ * opacity to 0 and never waits for JS: the element paints fully opaque on the
+ * first frame — so it stays LCP-eligible immediately — and only its transform
+ * animates on load. No IntersectionObserver, no hydration dependency.
+ */
+.reveal-immediate {
+  animation: reveal-immediate 0.82s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes reveal-immediate {
+  from {
+    transform: translateY(var(--reveal-distance, 20px));
+  }
+  to {
+    transform: none;
+  }
+}
+
+.reveal-stagger [data-reveal-item] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-stagger.is-revealed [data-reveal-item] {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-stagger.is-revealed [data-reveal-item]:nth-child(1) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + 60ms);
+}
+.reveal-stagger.is-revealed [data-reveal-item]:nth-child(2) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + 140ms);
+}
+.reveal-stagger.is-revealed [data-reveal-item]:nth-child(3) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + 220ms);
+}
+.reveal-stagger.is-revealed [data-reveal-item]:nth-child(4) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + 300ms);
+}
+.reveal-stagger.is-revealed [data-reveal-item]:nth-child(5) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + 380ms);
+}
+.reveal-stagger.is-revealed [data-reveal-item]:nth-child(6) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + 460ms);
+}
+.reveal-stagger.is-revealed [data-reveal-item]:nth-child(n + 7) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + 540ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-root,
+  .reveal-stagger [data-reveal-item] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .reveal-immediate {
+    animation: none;
+  }
+}
+
+/* In the components layer on purpose: an unlayered `.device-phone { position:
+   relative }` would beat Tailwind's `absolute` utility on the same element,
+   and callers do position these frames with utilities. */
+@layer components {
+  /* ---------------------------------------------------------------------------
+   * Device frames.
+   *
+   * The MacBook and the phone are drawn in CSS: no raster bezel, no request at
+   * any breakpoint, and the shell follows the theme (silver in light, space
+   * grey in dark). Every dimension is in container-query units, so a frame
+   * scales with whatever column it is placed in and the screen cutout is
+   * always exactly 16:10 (laptop) or 390:844 (phone) — the ratios the rendered
+   * screens are produced at.
+   *
+   *   .device-laptop            container (width = 100cqw)
+   *     .device-laptop__lid     black glass with the camera dot
+   *       .device-laptop__screen  16:10, overflow hidden, receives the screen
+   *     .device-laptop__base    aluminium deck with the lid notch
+   *     .device-laptop__shadow  soft floor shadow
+   *
+   *   .device-phone             container
+   *     .device-phone__body     aluminium rail + black glass rim, 410:864
+   *       .device-phone__screen 390:844, overflow hidden
+   *       .device-phone__island Dynamic-Island cutout
+   *       .device-phone__btn    side buttons
+   *
+   * `.device-laptop--collapsible` drops the bezel below lg: on a phone the
+   * frame costs a quarter of the width, which is what made the dashboard
+   * illegible, so small screens get the screen alone in a plain rounded box.
+   * ------------------------------------------------------------------------ */
+  .device-laptop {
+    container-type: inline-size;
+    position: relative;
+    width: 100%;
+  }
+
+  .device-laptop__lid {
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    width: 86cqw;
+    padding: 1.55cqw 1.35cqw 2cqw;
+    border-radius: 1.8cqw 1.8cqw 0.55cqw 0.55cqw;
+    background: var(--device-glass);
+    box-shadow:
+      inset 0 0 0 0.09cqw var(--device-glass-edge),
+      0 0 0 0.3cqw var(--device-shell-b),
+      0 0 0 0.38cqw var(--device-shell-edge),
+      0 1.6cqw 3cqw -1cqw var(--device-shadow);
+  }
+
+  /* Camera. */
+  .device-laptop__lid::before {
+    content: "";
+    position: absolute;
+    top: 0.58cqw;
+    left: 50%;
+    width: 0.46cqw;
+    height: 0.46cqw;
+    margin-left: -0.23cqw;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 36%, #3d4a63 0%, #121826 55%, #05070b 100%);
+    box-shadow: 0 0 0 0.08cqw rgba(255, 255, 255, 0.08);
+  }
+
+  .device-laptop__screen {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 0.5cqw;
+    background: var(--surface);
+    /* A hair of black behind the screen edge reads as the glass bevel. */
+    box-shadow: inset 0 0 0 0.06cqw rgba(0, 0, 0, 0.4);
+  }
+
+  .device-laptop__screen > * {
+    position: absolute;
+    inset: 0;
+  }
+
+  .device-laptop__base {
+    position: relative;
+    z-index: 2;
+    width: 100cqw;
+    height: 2.05cqw;
+    border-radius: 0.3cqw 0.3cqw 1.2cqw 1.2cqw / 0.3cqw 0.3cqw 1.9cqw 1.9cqw;
+    background: linear-gradient(180deg, var(--device-shell-a) 0%, var(--device-shell-b) 100%);
+    box-shadow:
+      inset 0 0.1cqw 0 rgba(255, 255, 255, 0.65),
+      inset 0 -0.08cqw 0 rgba(0, 0, 0, 0.22),
+      0 0.5cqw 1.2cqw -0.3cqw var(--device-shadow);
+  }
+
+  /* Lid notch. */
+  .device-laptop__base::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 15cqw;
+    height: 0.7cqw;
+    transform: translateX(-50%);
+    border-radius: 0 0 0.6cqw 0.6cqw;
+    background: linear-gradient(180deg, var(--device-lip), transparent);
+  }
+
+  /* Front edge. */
+  .device-laptop__base::after {
+    content: "";
+    position: absolute;
+    left: 1.6cqw;
+    right: 1.6cqw;
+    bottom: -0.18cqw;
+    height: 0.18cqw;
+    border-radius: 0 0 1cqw 1cqw;
+    background: var(--device-shell-edge);
+  }
+
+  .device-laptop__shadow {
+    position: absolute;
+    left: 6cqw;
+    right: 6cqw;
+    bottom: -2.2cqw;
+    height: 3.6cqw;
+    border-radius: 50%;
+    background: radial-gradient(50% 50% at 50% 50%, var(--device-shadow), transparent 72%);
+    filter: blur(0.5cqw);
+    opacity: 0.55;
+  }
+
+  .dark .device-laptop__base {
+    box-shadow:
+      inset 0 0.1cqw 0 rgba(255, 255, 255, 0.16),
+      inset 0 -0.08cqw 0 rgba(0, 0, 0, 0.5),
+      0 0.5cqw 1.2cqw -0.3cqw var(--device-shadow);
+  }
+
+  @media (max-width: 63.99rem) {
+    .device-laptop--collapsible .device-laptop__lid {
+      width: 100%;
+      padding: 0;
+      border-radius: 0.9rem;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .device-laptop--collapsible .device-laptop__lid::before,
+    .device-laptop--collapsible .device-laptop__base,
+    .device-laptop--collapsible .device-laptop__shadow {
+      display: none;
+    }
+
+    .device-laptop--collapsible .device-laptop__screen {
+      border: 1px solid var(--line-strong);
+      border-radius: 0.9rem;
+      box-shadow: var(--shadow-2);
+    }
+  }
+
+  .device-phone {
+    container-type: inline-size;
+    position: relative;
+    width: 100%;
+  }
+
+  .device-phone__body {
+    position: relative;
+    aspect-ratio: 410 / 864;
+    padding: 2.44cqw;
+    border-radius: 13.4cqw;
+    background: linear-gradient(165deg, var(--device-shell-a) 0%, var(--device-shell-b) 100%);
+    box-shadow:
+      inset 0 0 0 0.55cqw var(--device-glass),
+      inset 0 0 0 0.65cqw var(--device-glass-edge),
+      0 0 0 0.22cqw var(--device-shell-edge),
+      0 3cqw 6cqw -2cqw var(--device-shadow);
+  }
+
+  .device-phone__screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 11cqw;
+    background: #f4f2ee;
+  }
+
+  .device-phone__screen > * {
+    position: absolute;
+    inset: 0;
+  }
+
+  .device-phone__island {
+    position: absolute;
+    top: 5.6cqw;
+    left: 50%;
+    z-index: 4;
+    width: 27cqw;
+    height: 7.4cqw;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #04060a;
+    box-shadow: inset 0 0 0 0.2cqw rgba(255, 255, 255, 0.05);
+  }
+
+  /* Front camera inside the island. */
+  .device-phone__island::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 2cqw;
+    width: 3cqw;
+    height: 3cqw;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #2a3550 0%, #0d1220 60%, #04060a 100%);
+  }
+
+  .device-phone__btn {
+    position: absolute;
+    width: 0.9cqw;
+    border-radius: 0.45cqw;
+    background: linear-gradient(
+      90deg,
+      var(--device-shell-b),
+      var(--device-shell-a) 60%,
+      var(--device-shell-b)
+    );
+    box-shadow: 0 0 0 0.12cqw var(--device-shell-edge);
+  }
+
+  .device-phone__btn--mute {
+    left: -0.9cqw;
+    top: 17cqw;
+    height: 5cqw;
+  }
+
+  .device-phone__btn--up {
+    left: -0.9cqw;
+    top: 25.5cqw;
+    height: 9.5cqw;
+  }
+
+  .device-phone__btn--down {
+    left: -0.9cqw;
+    top: 37cqw;
+    height: 9.5cqw;
+  }
+
+  .device-phone__btn--power {
+    right: -0.9cqw;
+    top: 29cqw;
+    height: 15cqw;
+  }
+
+  /* Screen glare — a fixed diagonal highlight plus, once, a light sweep across
+     the glass when the scene comes alive. Opacity/transform only. */
+  .device-glare {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(
+      112deg,
+      var(--device-glare) 0%,
+      rgba(255, 255, 255, 0.03) 26%,
+      transparent 44%
+    );
+  }
+
+  .device-glare::after {
+    content: "";
+    position: absolute;
+    top: -30%;
+    bottom: -30%;
+    left: -40%;
+    width: 34%;
+    transform: translateX(-160%) skewX(-18deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    opacity: 0;
+  }
+
+  .device-shine .device-glare::after,
+  .scene-root.is-live .device-glare::after {
+    animation: device-sweep 1.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.65s 1 both;
+  }
+
+  @keyframes device-sweep {
+    0% {
+      transform: translateX(-160%) skewX(-18deg);
+      opacity: 0;
+    }
+    18% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(560%) skewX(-18deg);
+      opacity: 0;
+    }
+  }
+
+  /* Stage: the brand-tinted pool of light the devices sit in. */
+  .device-stage {
+    position: relative;
+  }
+
+  .device-stage::before {
+    content: "";
+    position: absolute;
+    inset: -14% -10% -22%;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 50%;
+    background:
+      radial-gradient(60% 58% at 50% 62%, var(--brand-soft), transparent 70%),
+      radial-gradient(34% 30% at 82% 18%, rgba(84, 189, 177, 0.14), transparent 70%);
+    filter: blur(18px);
+    opacity: 0.85;
+  }
+
+  /* Hero spotlight (glyph-field.tsx): a radial mask that follows the mouse,
+     a brand gradient inside it, and a sheet of scrambling characters blended
+     over the gradient. The mask centre comes from JS as --mx / --my. */
+  .glyph-spot {
+    --mx: -9999px;
+    --my: -9999px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .glyph-spot.is-lit {
+    opacity: 1;
+  }
+
+  /* Two masks intersected: the pointer circle, and a wide ellipse that
+     keeps the spotlight at roughly half strength behind the headline and the
+     device so the copy stays legible when the cursor crosses it. */
+  .glyph-spot__glow,
+  .glyph-spot__sheet {
+    -webkit-mask-image:
+      radial-gradient(190px at var(--mx) var(--my), white, transparent),
+      radial-gradient(ellipse 58% 62% at 50% 47%, rgba(255, 255, 255, 0.3) 30%, white 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      radial-gradient(190px at var(--mx) var(--my), white, transparent),
+      radial-gradient(ellipse 58% 62% at 50% 47%, rgba(255, 255, 255, 0.3) 30%, white 100%);
+    mask-composite: intersect;
+  }
+
+  .glyph-spot__glow {
+    background: linear-gradient(100deg, var(--brand), var(--teal));
+    opacity: 0.32;
+  }
+
+  .dark .glyph-spot__glow {
+    opacity: 0.42;
+  }
+
+  /* Same 17×24 grid as the canvas: one character advance is 1ch plus the
+     letter-spacing, so `calc(17px - 1ch)` lands every glyph on a cell. */
+  .glyph-spot__sheet {
+    overflow: hidden;
+    padding: 6px 0 0 3px;
+    font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: calc(17px - 1ch);
+    white-space: pre;
+    color: #fff;
+    opacity: 0.7;
+    mix-blend-mode: overlay;
+  }
+
+  /* Tilt: a pointer-driven parallax on hover-capable devices. The wrapper sets
+     --tilt-x / --tilt-y; the transform lives on the child so the phone's float
+     (which uses `translate`/`rotate`, not `transform`) composes with it. */
+  .tilt-stage {
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    perspective: 1600px;
+  }
+
+  .tilt-stage > * {
+    transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .device-shine .device-glare::after,
+    .scene-root.is-live .device-glare::after {
+      animation: none;
+    }
+
+    .tilt-stage > * {
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+/* Device mockup scenes: hidden until `.is-live`, then cascade + gentle float. */
+.scene-root {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.92s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.92s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scene-root.is-live {
+  opacity: 1;
+  transform: none;
+}
+
+.scene-root [data-scene-item],
+.scene-root [data-scene-accent] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scene-root.is-live [data-scene-item],
+.scene-root.is-live [data-scene-accent] {
+  opacity: 1;
+  transform: none;
+}
+
+.scene-root.is-live [data-scene-item]:nth-of-type(1) {
+  transition-delay: 80ms;
+}
+.scene-root.is-live [data-scene-item]:nth-of-type(2) {
+  transition-delay: 170ms;
+}
+.scene-root.is-live [data-scene-item]:nth-of-type(3) {
+  transition-delay: 260ms;
+}
+.scene-root.is-live [data-scene-accent] {
+  transition-delay: 320ms;
+}
+
+.scene-float-primary.is-live [data-float="primary"] {
+  animation: scene-float-a 5.4s ease-in-out 1.2s infinite alternate;
+}
+
+.scene-float-secondary.is-live [data-float="secondary"] {
+  animation: scene-float-b 6.2s ease-in-out 1.4s infinite alternate;
+}
+
+@keyframes scene-float-a {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -5px;
+  }
+}
+
+@keyframes scene-float-b {
+  from {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  to {
+    translate: 0 -7px;
+    rotate: -0.8deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-root,
+  .scene-root [data-scene-item],
+  .scene-root [data-scene-accent] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Primary CTA: brand gradient with a shine sweep on hover. */
+.cta-button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, oklch(0.5 0.13 252), var(--brand) 55%, oklch(0.66 0.12 230));
+  box-shadow:
+    0 10px 26px rgba(62, 100, 180, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cta-button:hover {
+  box-shadow:
+    0 14px 32px rgba(62, 100, 180, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.cta-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-button:hover::after {
+  transform: translateX(120%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-button::after {
+    display: none;
+  }
+}
+
+/* Bottom sheet (components/site/bottom-sheet.tsx, Base UI Drawer): follows
+   the finger while swiping, slides in and out otherwise. */
+.bottom-sheet {
+  transform: translateY(var(--drawer-swipe-movement-y, 0px));
+  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.bottom-sheet[data-swiping] {
+  transition-duration: 0ms;
+}
+
+.bottom-sheet[data-starting-style],
+.bottom-sheet[data-ending-style] {
+  transform: translateY(100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-sheet {
+    transition: none;
+  }
+}

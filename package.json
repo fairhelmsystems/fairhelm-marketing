@@ -1,0 +1,78 @@
+{
+  "name": "fairhelm-marketing",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "packageManager": "bun@1.4.3",
+  "engines": {
+    "bun": ">=1.4.3"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tools/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:squarecampus": "turbo run dev --filter=@fairhelm/squarecampus",
+    "dev:blogs": "turbo run dev --filter=@fairhelm/blogs",
+    "build": "bun scripts/build.ts",
+    "check-types": "tsc --noEmit -p scripts/tsconfig.json && turbo run check-types",
+    "lint": "turbo run lint",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "test": "turbo run test",
+    "check:exports": "bun scripts/check-exports.ts",
+    "preview:squarecampus": "bun scripts/preview.ts squarecampus",
+    "preview:blogs": "bun scripts/preview.ts blogs",
+    "motion:studio": "bun run --cwd tools/motion studio",
+    "motion:render": "bun run --cwd tools/motion render",
+    "dev:fairhelm": "turbo run dev --filter=@fairhelm/fairhelm",
+    "preview:fairhelm": "bun scripts/preview.ts fairhelm",
+    "check:workspace": "bun scripts/check-workspace.ts",
+    "build:apps": "turbo run build",
+    "check:pages": "bun scripts/check-page-quality.ts",
+    "check:links": "bun scripts/check-export-links.ts",
+    "quality:plan": "bun run --cwd tools/quality plan",
+    "quality:list": "bun run --cwd tools/quality list",
+    "quality:browser": "bun run --cwd tools/quality test:browser",
+    "quality:lighthouse": "bun run --cwd tools/quality audit:lighthouse",
+    "dev:legal": "turbo run dev --filter=@fairhelm/legal",
+    "dev:press": "turbo run dev --filter=@fairhelm/press",
+    "preview:legal": "bun scripts/preview.ts legal",
+    "preview:press": "bun scripts/preview.ts press"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "@biomejs/biome": "catalog:",
+    "@types/bun": "^1.3.0",
+    "typescript": "catalog:",
+    "@types/node": "catalog:"
+  },
+  "overrides": {
+    "postcss": "^8.5.19"
+  },
+  "catalog": {
+    "@base-ui/react": "1.8.0",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "lucide-react": "1.48.0",
+    "next": "16.3.6",
+    "postcss": "8.5.23",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sonner": "2.0.8",
+    "tailwind-merge": "3.7.0",
+    "@biomejs/biome": "2.5.14",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "26.6.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tailwindcss": "4.3.3",
+    "tw-animate-css": "1.4.0",
+    "typescript": "7.0.2",
+    "sharp": "0.35.5",
+    "@playwright/test": "1.64.1",
+    "lighthouse": "13.5.0"
+  }
+}

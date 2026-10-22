@@ -1,0 +1,42 @@
+{
+  "name": "@fairhelm/ui",
+  "version": "0.1.0",
+  "private": true,
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./styles.css": "./src/styles.css",
+    "./components/*": "./src/components/*.tsx",
+    "./navigation/types": "./src/navigation/types.ts",
+    "./navigation/*": "./src/navigation/*.tsx",
+    "./backgrounds/*": "./src/backgrounds/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./lib/*": "./src/lib/*.ts",
+    "./compositions.css": "./src/compositions.css"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "biome lint src"
+  },
+  "dependencies": {
+    "@base-ui/react": "catalog:",
+    "class-variance-authority": "catalog:",
+    "clsx": "catalog:",
+    "lucide-react": "catalog:",
+    "tailwind-merge": "catalog:",
+    "tw-animate-css": "catalog:"
+  },
+  "peerDependencies": {
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:",
+    "@fairhelm/typescript-config": "workspace:*"
+  }
+}

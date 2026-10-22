@@ -1,0 +1,589 @@
+@import "tailwindcss";
+@import "@fairhelm/ui/styles.css";
+@import "@fairhelm/ui/compositions.css";
+
+@layer components {
+  /* Mono, uppercase, wide-tracked section label — the family's signature. */
+
+  /* Mono index ("01", "02") used above card titles. */
+  .index {
+    @apply font-mono text-[0.68rem] tracking-[0.24em] text-primary uppercase;
+  }
+
+  /* Small mono chip for statuses and illustrative-data labels. */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 font-mono text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Display sizes. Sora at weight 400 with tight tracking. */
+
+  /* Gradient word inside a heading. */
+  .text-gradient {
+    background: linear-gradient(120deg, var(--brand), var(--teal));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Vertical rhythm for page sections. */
+
+  .section-alt {
+    background-image: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--card) 40%, transparent),
+      color-mix(in oklab, var(--card) 40%, transparent)
+    );
+  }
+
+  /* Glass panel: the frame around every product visual. */
+
+  .panel-inner {
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius-panel) - 0.5rem);
+    background-color: color-mix(in oklab, var(--background) 82%, transparent);
+  }
+
+  /* Primary call to action: the family's gradient pill. */
+  .btn-gradient {
+    color: #fff;
+    background-image: linear-gradient(120deg, var(--cta-from), var(--cta-mid) 55%, var(--cta-to));
+    box-shadow:
+      0 10px 26px var(--cta-shadow),
+      inset 0 1px 0 rgb(255 255 255 / 18%);
+    transition:
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 220ms ease,
+      filter 220ms ease;
+  }
+
+  .btn-gradient:hover {
+    filter: brightness(1.06);
+    box-shadow:
+      0 14px 34px var(--cta-shadow),
+      inset 0 1px 0 rgb(255 255 255 / 22%);
+  }
+
+  /* Pull a page opener up under the floating header so its background
+     texture starts at the very top of the viewport. */
+  .hero-bleed {
+    margin-top: calc(-1 * var(--header-h));
+    padding-top: var(--header-h);
+  }
+
+  /* The operational "data field" behind the hero: rows of mono tokens drawn
+     from pseudo-elements so they never enter the DOM text. */
+
+  /* Inline text link: quiet underline that warms on hover. */
+  .link {
+    @apply font-medium text-foreground underline decoration-border-strong decoration-1 underline-offset-4 transition-colors hover:decoration-primary;
+  }
+
+  /* Symptom quote inside a problem card. */
+  .symptom {
+    @apply border-l-2 border-amber/70 pl-4 text-sm leading-6 text-foreground;
+  }
+
+  /* Horizontal process flow (Ingest → Transform → …). */
+  .flow {
+    @apply grid gap-2 sm:grid-cols-5;
+  }
+
+  .flow-step {
+    @apply relative rounded-2xl border border-border bg-card/70 p-4;
+  }
+
+  .flow-step + .flow-step::before {
+    position: absolute;
+    top: 50%;
+    left: -0.5rem;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--border-strong);
+    content: "";
+  }
+
+  /* Decorative SVG motif drawn behind a card's content, top-right. */
+  .motif {
+    position: absolute;
+    top: -0.75rem;
+    right: -0.75rem;
+    width: 15rem;
+    height: 10rem;
+    color: var(--brand);
+    opacity: 0.55;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at 85% 15%, black 28%, transparent 78%);
+  }
+
+  :root:not(.dark) .motif {
+    opacity: 0.4;
+  }
+
+  /* Long-form article typography (Insights). */
+  .prose-fh {
+    @apply text-[1.02rem] leading-8 text-foreground/90;
+  }
+
+  .prose-fh > * + * {
+    margin-top: 1.25rem;
+  }
+
+  .prose-fh h2 {
+    @apply mt-12 scroll-mt-28 font-heading text-[1.45rem] leading-[1.2] font-normal tracking-[-0.03em] text-foreground sm:text-[1.7rem];
+  }
+
+  .prose-fh h3 {
+    @apply mt-9 scroll-mt-28 font-heading text-[1.2rem] tracking-[-0.02em] text-foreground;
+  }
+
+  .prose-fh h2 + *,
+  .prose-fh h3 + * {
+    margin-top: 0.9rem;
+  }
+
+  .prose-fh p {
+    @apply text-pretty text-muted-foreground;
+  }
+
+  .prose-fh strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .prose-fh a {
+    @apply font-medium text-foreground underline decoration-border-strong decoration-1 underline-offset-4 transition-colors hover:decoration-primary;
+  }
+
+  .prose-fh code {
+    @apply rounded-md border border-border bg-secondary px-1.5 py-0.5 font-mono text-[0.85em] text-foreground;
+  }
+
+  .prose-fh pre {
+    @apply overflow-x-auto rounded-2xl border border-border bg-secondary p-4 font-mono text-sm leading-6;
+  }
+
+  .prose-fh pre code {
+    @apply border-0 bg-transparent p-0;
+  }
+
+  .prose-fh ul,
+  .prose-fh ol {
+    @apply flex flex-col gap-2.5 pl-6 text-muted-foreground;
+  }
+
+  .prose-fh ul {
+    list-style: disc;
+  }
+
+  .prose-fh ol {
+    list-style: decimal;
+  }
+
+  .prose-fh li::marker {
+    color: var(--brand);
+    font-family: var(--font-ibm-plex-mono);
+    font-size: 0.85em;
+  }
+
+  .prose-fh blockquote {
+    @apply my-8 rounded-3xl border border-border bg-card p-6 sm:p-7;
+    box-shadow: inset 0 1px 0 var(--panel-highlight);
+  }
+
+  .prose-fh blockquote p {
+    @apply font-heading text-[1.25rem] leading-snug tracking-[-0.02em] text-foreground sm:text-[1.4rem];
+  }
+
+  .prose-fh .table-wrap {
+    @apply my-8 overflow-x-auto rounded-3xl border border-border bg-card;
+  }
+
+  .prose-fh table {
+    @apply w-full border-collapse text-left text-sm leading-6;
+  }
+
+  .prose-fh th {
+    @apply border-b border-border px-4 py-3 font-mono text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase;
+  }
+
+  .prose-fh td {
+    @apply border-b border-border px-4 py-3 align-top text-muted-foreground;
+  }
+
+  .prose-fh tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .prose-fh td:first-child {
+    @apply font-medium text-foreground;
+  }
+
+  .prose-fh hr {
+    @apply my-10 border-border;
+  }
+
+  .cta-panel {
+    background:
+      radial-gradient(circle at 86% 0%, var(--glow-a), transparent 26rem),
+      radial-gradient(circle at 10% 100%, var(--glow-b), transparent 22rem),
+      color-mix(in oklab, var(--card) 88%, transparent);
+  }
+
+  /* Cards */
+  [data-slot="card"] {
+    position: relative;
+    box-shadow:
+      inset 0 1px 0 var(--panel-highlight),
+      var(--shadow-1);
+    transition:
+      transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 260ms ease,
+      border-color 260ms ease;
+  }
+
+  [data-slot="card"]::after {
+    position: absolute;
+    top: 0;
+    right: 14%;
+    left: 14%;
+    height: 1px;
+    transform: scaleX(0.35);
+    opacity: 0;
+    background: linear-gradient(90deg, transparent, var(--brand), transparent);
+    content: "";
+    transition:
+      transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 260ms ease;
+  }
+
+  /* Composite product visuals (console / pipeline / orbit / governance). */
+  .viz-panel {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--surface);
+    box-shadow: inset 0 1px 0 var(--panel-highlight);
+  }
+
+  .viz-cap {
+    position: absolute;
+    inset-inline: 12%;
+    top: 0;
+    height: 6rem;
+    background: radial-gradient(circle at top, var(--glow-a), transparent 70%);
+    pointer-events: none;
+  }
+
+  .system-illustration {
+    box-shadow: inset 0 1px 0 var(--panel-highlight);
+  }
+
+  .motion-path {
+    fill: none;
+    stroke: var(--brand);
+    stroke-width: 1;
+    stroke-dasharray: 8 18;
+    vector-effect: non-scaling-stroke;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .data-field-row:nth-child(even) {
+    animation-direction: reverse;
+    animation-duration: 84s;
+  }
+
+  .hero-enter > * {
+    animation: rise-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .hero-enter > *:nth-child(2) {
+    animation-delay: 80ms;
+  }
+
+  .hero-enter > *:nth-child(3) {
+    animation-delay: 160ms;
+  }
+
+  .hero-enter > *:nth-child(4) {
+    animation-delay: 240ms;
+  }
+
+  .hero-enter > *:nth-child(5) {
+    animation-delay: 320ms;
+  }
+
+  .hero-visual {
+    animation: panel-arrive 800ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
+  }
+
+  .svg-flow-dash {
+    animation: svg-flow 10s linear infinite;
+    stroke-dasharray: 10 14;
+  }
+
+  .svg-delay {
+    animation-delay: -4s;
+  }
+
+  .svg-node-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: svg-pulse 3.2s ease-in-out infinite;
+  }
+
+  .svg-signal-bar {
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    animation: svg-bar 3.6s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .svg-signal-line {
+    animation: svg-draw 5s ease-in-out infinite alternate;
+    stroke-dasharray: 620;
+  }
+
+  .svg-governance-orbit {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: svg-orbit 18s linear infinite;
+  }
+
+  .svg-orbit-reverse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: svg-orbit 24s linear infinite reverse;
+  }
+
+  .svg-radar {
+    transform-box: view-box;
+    transform-origin: 280px 110px;
+    animation: svg-orbit 7s linear infinite;
+  }
+
+  .svg-flow-reverse {
+    animation-direction: reverse;
+    animation-duration: 14s;
+  }
+
+  .svg-spoke {
+    animation: svg-spoke-glow 3.2s ease-in-out infinite;
+  }
+
+  .svg-core-glow {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: svg-glow 4.4s ease-in-out infinite;
+  }
+
+  .svg-ping {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: svg-ping 3s ease-out infinite;
+  }
+
+  .svg-traveler {
+    animation-name: svg-travel;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: 7s;
+  }
+
+  .viz-reveal [data-rise] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--d, 0ms);
+  }
+
+  .viz-reveal.is-live [data-rise] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .viz-reveal [data-draw] {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.9s ease;
+    transition-delay: var(--d, 0ms);
+  }
+
+  .viz-reveal.is-live [data-draw] {
+    stroke-dashoffset: 0;
+  }
+
+  .viz-reveal [data-grow] {
+    transform: scaleY(0.04);
+    transform-origin: bottom;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--d, 0ms);
+  }
+
+  .viz-reveal.is-live [data-grow] {
+    transform: scaleY(1);
+  }
+
+  .viz-pulse {
+    animation: svg-ping 3s ease-out infinite;
+  }
+
+  @keyframes field-drift {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes svg-glow {
+    0%,
+    100% {
+      opacity: 0.2;
+      transform: scale(0.86);
+    }
+
+    50% {
+      opacity: 0.55;
+      transform: scale(1.12);
+    }
+  }
+
+  @keyframes svg-spoke-glow {
+    0%,
+    100% {
+      opacity: 0.06;
+    }
+
+    50% {
+      opacity: 0.32;
+    }
+  }
+
+  @keyframes svg-ping {
+    0% {
+      opacity: 0.5;
+      transform: scale(0.55);
+    }
+
+    70%,
+    100% {
+      opacity: 0;
+      transform: scale(1.7);
+    }
+  }
+
+  @keyframes svg-travel {
+    from {
+      offset-distance: 0%;
+    }
+
+    to {
+      offset-distance: 100%;
+    }
+  }
+
+  @keyframes panel-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(0.985);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes svg-flow {
+    to {
+      stroke-dashoffset: -240;
+    }
+  }
+
+  @keyframes svg-pulse {
+    0%,
+    100% {
+      opacity: 0.72;
+      transform: scale(0.96);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+
+  @keyframes svg-bar {
+    from {
+      transform: scaleY(0.72);
+    }
+
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes svg-draw {
+    from {
+      stroke-dashoffset: 620;
+    }
+
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes svg-orbit {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-packet] {
+    display: none;
+  }
+}
+
+[data-slot="card"]:has(a:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-slot="card"]:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-strong);
+    box-shadow:
+      inset 0 1px 0 var(--panel-highlight),
+      var(--shadow-3);
+  }
+
+  [data-slot="card"]:hover::after {
+    transform: scaleX(1);
+    opacity: 0.75;
+  }
+}

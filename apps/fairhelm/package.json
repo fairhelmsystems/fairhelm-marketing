@@ -1,0 +1,37 @@
+{
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "name": "@fairhelm/fairhelm",
+  "scripts": {
+    "dev": "next dev --turbopack --port 3002",
+    "build": "next build && bun run build:markdown && bun run check:build",
+    "build:markdown": "bun scripts/markdown-alternates.ts",
+    "check:build": "bun scripts/check-build.ts",
+    "lint": "biome lint src scripts tests",
+    "format": "biome format --write",
+    "test": "bun tests/run.ts",
+    "indexnow:dry-run": "bun scripts/indexnow.ts --dry-run",
+    "preview": "bun ../../scripts/preview.ts fairhelm",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "lucide-react": "catalog:",
+    "@fairhelm/ui": "workspace:*",
+    "@fairhelm/config": "workspace:*",
+    "@fairhelm/fairhelm-content": "workspace:*"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
+    "@fairhelm/typescript-config": "workspace:*",
+    "@types/bun": "^1.3.0"
+  }
+}

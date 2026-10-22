@@ -1,0 +1,7 @@
+{
+  "extends": "@fairhelm/typescript-config/base.json",
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "compilerOptions": {
+    "types": ["node", "bun"]
+  }
+}

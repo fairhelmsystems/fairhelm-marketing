@@ -1,0 +1,17 @@
+squarecampus.com — website source
+Copyright 2025-2026 Fairhelm Systems (OPC) Private Limited
+
+The source code in this repository is licensed under the Apache License,
+Version 2.0 (see LICENSE).
+
+The website's content and brand are NOT licensed under the Apache License.
+This includes the SquareCampus name and logo, all page copy, blog posts, FAQs
+and legal documents, and all images, illustrations, video and motion renders.
+They remain all rights reserved. See "Content and trademarks" in README.md.
+
+SquareCampus™ is a trademark (registration pending) of Fairhelm Systems (OPC)
+Private Limited. The Apache License does not grant permission to use it
+(Apache License 2.0, section 6).
+
+Fonts in scripts/og-cards/fonts/ are distributed under the SIL Open Font
+License 1.1; see the OFL-*.txt files beside them.

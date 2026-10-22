@@ -1,0 +1,22 @@
+{
+  "name": "@fairhelm/fairhelm-content",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./insights": "./src/insights.ts",
+    "./markdown": "./src/markdown.ts",
+    "./company": "./src/company.ts",
+    "./legal": "./src/legal.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "@types/node": "catalog:",
+    "@fairhelm/typescript-config": "workspace:*"
+  },
+  "dependencies": {
+    "@fairhelm/config": "workspace:*"
+  }
+}

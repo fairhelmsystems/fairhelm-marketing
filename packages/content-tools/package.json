@@ -1,0 +1,16 @@
+{
+  "name": "@fairhelm/content-tools",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./markdown": "./src/markdown.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "@types/node": "catalog:",
+    "@fairhelm/typescript-config": "workspace:*"
+  }
+}

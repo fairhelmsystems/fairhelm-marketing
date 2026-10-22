@@ -1,0 +1,51 @@
+{
+  "name": "@fairhelm/squarecampus",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "next dev --turbopack --port 3000",
+    "build": "bun run check:claims && bun run check:content && next build && bun run build:markdown && bun run check:build",
+    "build:markdown": "bun scripts/markdown-alternates.ts && bun scripts/llms-full.ts",
+    "check:claims": "bash scripts/check-claims.sh",
+    "check:content": "bun scripts/check-content.ts",
+    "check:build": "bun scripts/check-build.ts && bun scripts/check-social-preview.ts",
+    "test": "bun tests/run.ts",
+    "gen:hero": "bun scripts/hero-workflow-screen.ts",
+    "preview": "bun ../../scripts/preview.ts squarecampus",
+    "indexnow:dry-run": "bun scripts/indexnow.ts --dry-run",
+    "lint": "biome lint src scripts tests",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "check": "biome check .",
+    "fix": "biome check --write .",
+    "check-types": "tsc --noEmit",
+    "motion:studio": "bun run --cwd ../../tools/motion studio",
+    "motion:render": "bun run --cwd ../../tools/motion render"
+  },
+  "dependencies": {
+    "@base-ui/react": "catalog:",
+    "lucide-react": "catalog:",
+    "next": "catalog:",
+    "postcss": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "sonner": "catalog:",
+    "@fairhelm/ui": "workspace:*",
+    "@fairhelm/squarecampus-content": "workspace:*",
+    "@fairhelm/config": "workspace:*"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
+    "@fairhelm/typescript-config": "workspace:*",
+    "@types/bun": "^1.3.0",
+    "sharp": "catalog:",
+    "@fairhelm/content-tools": "workspace:*"
+  }
+}

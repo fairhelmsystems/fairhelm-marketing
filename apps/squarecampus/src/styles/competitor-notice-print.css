@@ -1,0 +1,98 @@
+/* Print styles for Competitor Notice page */
+/* These styles are applied via @media print in the component itself */
+/* This file provides additional print-specific overrides */
+
+@media print {
+  /* Reset background and colors for print */
+  body {
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Hide non-essential elements using data attribute */
+  [data-print-hide="true"],
+  nav:not([data-print-show]),
+  button:not([data-print-show]) {
+    display: none !important;
+  }
+
+  /* Force backgrounds for print */
+  * {
+    box-shadow: none !important;
+  }
+
+  /* Ensure proper page breaks */
+  section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+    color: black !important;
+  }
+
+  /* Ensure text is readable */
+  p,
+  li,
+  td,
+  span {
+    color: #333 !important;
+  }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    border: 1px solid #ccc !important;
+    padding: 8px !important;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f5f5f5 !important;
+    font-weight: bold;
+  }
+
+  /* Document metadata in print */
+  code,
+  pre {
+    font-family: "Courier New", Courier, monospace !important;
+  }
+
+  /* Page margins */
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+
+  /* First page header */
+  @page :first {
+    margin-top: 1cm;
+  }
+
+  /* Links should show URL in print */
+  a[href^="http"]::after,
+  a[href^="mailto"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #666 !important;
+  }
+}
+
+/* Screen-only styles that shouldn't print */
+@media screen {
+  [data-print-only="true"] {
+    display: none;
+  }
+}

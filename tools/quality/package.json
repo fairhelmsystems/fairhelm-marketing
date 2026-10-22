@@ -1,0 +1,22 @@
+{
+  "name": "@fairhelm/quality",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "plan": "bun plan.ts",
+    "list": "bun playwright.ts --list",
+    "test:browser": "bun playwright.ts",
+    "audit:lighthouse": "bun lighthouse.ts",
+    "check-types": "tsc --noEmit",
+    "lint": "biome check .",
+    "test": "bun test summary.test.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "lighthouse": "catalog:",
+    "@biomejs/biome": "catalog:",
+    "@types/bun": "^1.3.0",
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}

@@ -1,0 +1,20 @@
+name: Validate marketing workspace
+on:
+  push:
+  pull_request:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.3
+      - run: bun install --frozen-lockfile
+      - run: bun run check:workspace
+      - run: bun run check-types
+      - run: bun run test
+      - run: bun run lint
+      - run: bun run build
+        env:
+          NEXT_PUBLIC_CONTACT_FORM_MODE: email

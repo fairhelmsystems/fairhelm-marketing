@@ -1,0 +1,135 @@
+/* Company composition aliases: the same type scale, surfaces and rhythm as SquareCampus. */
+@layer components {
+  .display-1 {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    /* ~30px @320, ~31px @390, ~37px @768, ~40px @1024, ~46px @1440, capped at
+       48px. The shallow slope is deliberate: a steeper one pushed the hero
+       headline to three lines between 1024px and 1280px, which is exactly the
+       laptop range most buyers are on. */
+    font-size: clamp(1.9rem, 1.62rem + 1.4vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+  .display-2 {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    font-size: clamp(1.6rem, 1.15rem + 1.8vw, 2.6rem);
+    line-height: 1.14;
+    letter-spacing: -0.042em;
+    text-wrap: balance;
+  }
+  .display-3 {
+    font-family: var(--font-sora), var(--font-ibm-plex-sans), sans-serif;
+    font-size: clamp(1.15rem, 1.02rem + 0.5vw, 1.4rem);
+    line-height: 1.25;
+    letter-spacing: -0.032em;
+    text-wrap: balance;
+  }
+  .lead {
+    /* Floor raised to a true 16px: the previous 0.95rem floor rendered at
+       15.2px on phones, which is below comfortable reading size and is the
+       point where visitors start pinch-zooming. */
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    line-height: 1.7;
+  }
+  .section {
+    @apply py-9 sm:py-16 lg:py-24;
+  }
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-panel);
+    background: var(--surface);
+    box-shadow: var(--shadow-2);
+    backdrop-filter: blur(18px);
+  }
+}
+:root {
+  --header-h: 5.5rem;
+  --border-strong: var(--line-strong);
+  --panel-highlight: var(--line);
+  --glow-a: var(--brand-soft);
+  --glow-b: var(--brand-tint);
+  --cta-from: var(--brand);
+  --cta-mid: var(--brand);
+  --cta-to: var(--teal);
+  --cta-shadow: var(--brand-soft);
+}
+
+@layer components {
+  .prose-fh {
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    line-height: 1.85;
+  }
+  .prose-fh > * + * {
+    margin-top: 1.25rem;
+  }
+  .prose-fh h2,
+  .prose-fh h3 {
+    font-family: var(--font-sora);
+    color: var(--foreground);
+    scroll-margin-top: 7rem;
+    margin-top: 2.5rem;
+    line-height: 1.25;
+    letter-spacing: -0.035em;
+  }
+  .prose-fh h2 {
+    font-size: clamp(1.4rem, 1.1rem + 1vw, 1.8rem);
+  }
+  .prose-fh h3 {
+    font-size: 1.25rem;
+  }
+  .prose-fh strong {
+    color: var(--foreground);
+  }
+  .prose-fh a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    color: var(--brand-ink);
+  }
+  .prose-fh ul,
+  .prose-fh ol {
+    padding-left: 1.5rem;
+  }
+  .prose-fh ul {
+    list-style: disc;
+  }
+  .prose-fh ol {
+    list-style: decimal;
+  }
+  .prose-fh li + li {
+    margin-top: 0.5rem;
+  }
+  .prose-fh blockquote {
+    border-left: 2px solid var(--line-strong);
+    padding-left: 1.25rem;
+  }
+  .prose-fh pre {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 1rem;
+    background: var(--surface);
+  }
+  .prose-fh code {
+    font-family: var(--font-ibm-plex-mono);
+    font-size: 0.85em;
+  }
+  .prose-fh .table-wrap {
+    overflow-x: auto;
+  }
+  .prose-fh table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .prose-fh th,
+  .prose-fh td {
+    padding: 0.8rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+  }
+  .prose-fh th {
+    color: var(--foreground);
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@fairhelm/config",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./urls": "./src/urls.ts",
+    "./footer": "./src/footer.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.0",
+    "typescript": "catalog:",
+    "@fairhelm/typescript-config": "workspace:*",
+    "@types/node": "catalog:"
+  }
+}

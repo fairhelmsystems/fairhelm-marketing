@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/icons": ["./src/components/icons.tsx"],
+      "@/lib/*": ["./src/lib/*"]
+    },
+    "types": ["node", "react", "react-dom", "bun"]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"],
+  "extends": "@fairhelm/typescript-config/nextjs.json"
+}

@@ -1,0 +1,19 @@
+node_modules/
+.next/
+out/
+.turbo/
+coverage/
+build/
+dist/
+.env*
+!.env.example
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+*.pem
+
+# Local browser evidence; generated only by explicit quality commands
+tools/quality/artifacts/
+
+.deploy/
+**/cdk.out/

@@ -17,4 +17,28 @@ jobs:
       - run: bun run lint
       - run: bun run build
         env:
-          NEXT_PUBLIC_CONTACT_FORM_MODE: email
+          NEXT_PUBLIC_CONTACT_ENDPOINT: /api/contact
+      # Package the outputs of this exact validated build. A later deployment
+      # job must consume this artifact rather than rebuilding the five sites.
+      - name: Package validated production sites
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for site in squarecampus fairhelm blogs legal press; do
+            test -s "apps/$site/out/index.html"
+          done
+          grep -R -q -F '/api/contact' apps/squarecampus/out
+          mkdir -p release
+          for site in squarecampus fairhelm blogs legal press; do
+            tar -C "apps/$site/out" -cf "release/$site.tar" .
+          done
+          (cd release && sha256sum squarecampus.tar fairhelm.tar blogs.tar legal.tar press.tar > SHA256SUMS)
+          printf '%s\n' "$GITHUB_SHA" > release/COMMIT
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          name: marketing-production-${{ github.sha }}
+          path: release/
+          if-no-files-found: error
+          retention-days: 30

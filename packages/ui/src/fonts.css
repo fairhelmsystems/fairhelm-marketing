@@ -1,0 +1,11 @@
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-500.css";
+@import "@fontsource/ibm-plex-sans/latin-600.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/sora/latin-400.css";
+
+:root {
+  --font-ibm-plex-sans: "IBM Plex Sans";
+  --font-ibm-plex-mono: "IBM Plex Mono";
+  --font-sora: "Sora";
+}

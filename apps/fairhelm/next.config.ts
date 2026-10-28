@@ -1,6 +1,15 @@
 import path from "node:path";
 import type { NextConfig } from "next";
 import { blogHref } from "@fairhelm/config/urls";
+const contactEnabled = process.env.NEXT_PUBLIC_FAIRHELM_CONTACT_ENABLED;
+if (
+  contactEnabled !== undefined &&
+  contactEnabled !== "" &&
+  contactEnabled !== "true" &&
+  contactEnabled !== "false"
+) {
+  throw new Error("NEXT_PUBLIC_FAIRHELM_CONTACT_ENABLED must be true or false");
+}
 const config: NextConfig = {
   output: "export",
   trailingSlash: true,

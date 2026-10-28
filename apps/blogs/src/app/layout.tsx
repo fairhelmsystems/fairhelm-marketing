@@ -1,37 +1,13 @@
 import { SkipLink } from "@fairhelm/ui/components/skip-link";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Sora } from "next/font/google";
+import "@fairhelm/ui/fonts.css";
 import { BLOGS_ORIGIN, SQUARECAMPUS_ORIGIN, FAIRHELM_ORIGIN } from "@fairhelm/config/urls";
 import { ThemeScript } from "@fairhelm/ui/components/theme-script";
 import { ThemeToggle } from "@fairhelm/ui/components/theme-toggle";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import "./globals.css";
-const bodyFont = IBM_Plex_Sans({
-  variable: "--font-ibm-plex-sans",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600"],
-});
-
-const monoFont = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400"],
-});
-
-// Every `font-display` element renders at the default 400 (no weight class
-// anywhere sets Sora heavier), so only 400 is loaded — 500/600 were two
-// unused font files on every page.
-const displayFont = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400"],
-});
-
 export const metadata: Metadata = {
   icons: {
     icon: [
@@ -65,7 +41,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en-IN"
-      className={`${bodyFont.variable} ${monoFont.variable} ${displayFont.variable} dark scroll-smooth`}
+      className="dark scroll-smooth"
       data-theme="dark"
       data-scroll-behavior="smooth"
       suppressHydrationWarning

@@ -1,4 +1,4 @@
-import { renderRobotsTxt } from "../src/app/robots.txt/route";
+import { renderRobotsTxt } from "../src/lib/robots";
 import sitemap from "../src/app/sitemap";
 import { markdownAlternatePaths } from "../src/content/markdown-alternates";
 import { siteConfig } from "../src/lib/site-config";

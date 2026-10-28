@@ -56,3 +56,28 @@ See [the design system guide](packages/ui/README.md), [architecture and SEO deci
 The public source mirror is `https://github.com/fairhelmsystems/fairhelm-marketing`. It receives a fresh, signed source snapshot after successful main-branch validation. Publication excludes private Git history, deployment tooling, AWS account configuration, release records and local files. Public apps, shared packages, content checks and the generic redirect handler remain buildable together.
 
 `scripts/export-public.ts` defines the publication allowlist, removes deployment commands from the public manifest and regenerates its Bun lockfile. The mirror workflow scans exactly that snapshot with a pinned secret scanner before writing through a deploy key scoped to the mirror repository. Older validation runs cannot overwrite a newer main revision. Production credentials and the mirror key stay in private repository settings.
+
+For Azure release preparation, validate the downloaded five-site CI artifact with
+`python3 scripts/check-release-artifact.py RELEASE_DIR EXPECTED_COMMIT` before
+upload. Supply the commit from the successful, trusted main-branch workflow run,
+not from the artifact itself. The check verifies commit, all five checksums and
+archive paths; it does not authenticate the workflow run, upload content, retain
+old hashed assets, change Front Door, or prove live delivery. Those remain release
+promotion responsibilities.
+
+`python3 scripts/prepare-azure-release.py RELEASE_DIR EXPECTED_COMMIT PREVIOUS_DIR NEW_DIR`
+prepares five upload directories, preserving `_next/static` assets from each
+previous release and rejecting path/byte conflicts. `PREVIOUS_DIR` must contain
+all five independently downloaded and verified current release trees, including
+previously retained assets; a partial snapshot is insufficient. Serialize
+writers to `NEW_DIR`. This local preparation does not establish artifact
+provenance, download or verify Azure blobs, upload, switch routes, or handle
+rollback. Complete those checks before production promotion.
+
+Fairhelm's inquiry form defaults to its mail-client fallback. A release build
+can set `NEXT_PUBLIC_FAIRHELM_CONTACT_ENABLED=true` to target the fixed
+`https://api.fairhelmsystems.com/inquiries` endpoint. CI reads the corresponding
+`FAIRHELM_CONTACT_ENABLED` repository variable; leave it unset until the Azure
+Function, Front Door route, authentication, mail and both inquiry paths pass
+end-to-end acceptance. Only `true`, `false` or unset are accepted. Changing the
+variable affects future builds; it does not alter an already deployed release.

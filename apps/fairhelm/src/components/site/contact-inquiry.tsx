@@ -41,6 +41,8 @@ const workTypes = [
 
 type WorkType = (typeof workTypes)[number]["value"];
 
+const campusOptions = ["1 campus", "2–5 campuses", "6–15 campuses", "15+ campuses"] as const;
+
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function workTypeLabel(value: WorkType | "") {
@@ -54,35 +56,31 @@ export function ContactInquiry() {
   const [name, setName] = useState("");
   const [organization, setOrganization] = useState("");
   const [email, setEmail] = useState("");
+  const [contactRole, setContactRole] = useState("");
+  const [campusCount, setCampusCount] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [consentMarketing, setConsentMarketing] = useState(false);
   const honeypotRef = useRef<HTMLInputElement>(null);
   const idempotencyKeyRef = useRef("");
-  const attributionRef = useRef({
-    campaignSource: "",
-    campaignMedium: "",
-    campaignName: "",
-    referrer: "",
-    landingPage: "",
-  });
-
   useEffect(() => {
     // Stable per-submission key so retries never create duplicate CRM leads.
     idempotencyKeyRef.current = crypto.randomUUID();
-    const params = new URLSearchParams(window.location.search);
-    attributionRef.current = {
-      campaignSource: params.get("utm_source") ?? "",
-      campaignMedium: params.get("utm_medium") ?? "",
-      campaignName: params.get("utm_campaign") ?? "",
-      referrer: document.referrer,
-      landingPage: window.location.href,
-    };
   }, []);
 
-  const endpoint = siteConfig.contactEndpoint as string;
+  // The endpoint is fixed; enabling it is a release decision after the Azure
+  // intake and edge route pass end-to-end acceptance.
+  const endpoint =
+    process.env.NEXT_PUBLIC_FAIRHELM_CONTACT_ENABLED === "true"
+      ? "https://api.fairhelmsystems.com/inquiries"
+      : (siteConfig.contactEndpoint as string);
 
   const canContinue = Boolean(workType && problem.trim().length >= 20);
-  const canCompose = Boolean(name.trim() && organization.trim() && emailPattern.test(email.trim()));
+  const canCompose = Boolean(
+    name.trim() &&
+      organization.trim() &&
+      emailPattern.test(email.trim()) &&
+      (workType !== "school-os" || (contactRole.trim() && campusCount))
+  );
 
   function composeMailtoHref() {
     const subject = `Fairhelm inquiry — ${workTypeLabel(workType)}`;
@@ -97,6 +95,9 @@ export function ContactInquiry() {
       `Name: ${name.trim()}`,
       `Organization: ${organization.trim()}`,
       `Work email: ${email.trim()}`,
+      ...(workType === "school-os"
+        ? [`Role: ${contactRole.trim()}`, `Campuses: ${campusCount}`]
+        : []),
       "",
       "Regards,",
       name.trim(),
@@ -134,27 +135,17 @@ export function ContactInquiry() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           idempotencyKey: idempotencyKeyRef.current,
-          contactName: name.trim(),
-          contactEmail: email.trim(),
-          contactPhone: "",
-          contactRole: "",
-          schoolName: organization.trim(),
-          schoolWebsite: "",
-          city: "",
-          state: "",
-          country: "India",
-          boardAffiliation: "",
-          studentCountRange: "",
-          message: `${problem.trim()}\n\nArea of interest: ${workTypeLabel(workType)}`,
+          workType,
+          workTypeLabel: workTypeLabel(workType),
+          problem: problem.trim(),
+          name: name.trim(),
+          organization: organization.trim(),
+          email: email.trim(),
+          ...(workType === "school-os" ? { contactRole: contactRole.trim(), campusCount } : {}),
           consentContact: true,
           consentMarketing,
-          campaignSource: attributionRef.current.campaignSource,
-          campaignMedium: attributionRef.current.campaignMedium,
-          campaignName: attributionRef.current.campaignName,
-          referrer: attributionRef.current.referrer,
-          landingPage: attributionRef.current.landingPage,
-          // Anti-bot honeypot; must remain empty for real submissions.
-          honeypotField: honeypotRef.current?.value ?? "",
+          source: "fairhelm-contact",
+          company_website: honeypotRef.current?.value ?? "",
         }),
       });
       if (!response.ok) {
@@ -371,6 +362,37 @@ export function ContactInquiry() {
                           required
                         />
                       </Field>
+                      {workType === "school-os" && (
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          <Field>
+                            <FieldLabel htmlFor="contact-role">Your role</FieldLabel>
+                            <Input
+                              id="contact-role"
+                              value={contactRole}
+                              onChange={(event) => setContactRole(event.target.value)}
+                              maxLength={100}
+                              required
+                            />
+                          </Field>
+                          <Field>
+                            <FieldLabel htmlFor="contact-campuses">Number of campuses</FieldLabel>
+                            <select
+                              id="contact-campuses"
+                              value={campusCount}
+                              onChange={(event) => setCampusCount(event.target.value)}
+                              required
+                              className="h-11 rounded-md border border-input bg-background px-3 text-sm"
+                            >
+                              <option value="">Select a range</option>
+                              {campusOptions.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </Field>
+                        </div>
+                      )}
                       <div className="flex items-start gap-3">
                         <Checkbox
                           id="consent-marketing"

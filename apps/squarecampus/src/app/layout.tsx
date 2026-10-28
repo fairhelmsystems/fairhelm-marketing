@@ -1,6 +1,6 @@
 import { SkipLink } from "@fairhelm/ui/components/skip-link";
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Sora } from "next/font/google";
+import "@fairhelm/ui/fonts.css";
 import type { ReactNode } from "react";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { ThemeScript } from "@fairhelm/ui/components/theme-script";
@@ -9,30 +9,6 @@ import { product } from "@/content/commercial";
 import { company } from "@/content/company";
 import { SCHEMA_IDS, SEO_CONFIG } from "@/lib/seo";
 import "./globals.css";
-
-const bodyFont = IBM_Plex_Sans({
-  variable: "--font-ibm-plex-sans",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600"],
-});
-
-const monoFont = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400"],
-});
-
-// Every `font-display` element renders at the default 400 (no weight class
-// anywhere sets Sora heavier), so only 400 is loaded — 500/600 were two
-// unused font files on every page.
-const displayFont = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SEO_CONFIG.baseUrl),
@@ -107,7 +83,7 @@ export default function RootLayout({
         already dark; the inline theme script only removes it for visitors who
         saved a light preference, before anything renders.
       */
-      className={`${bodyFont.variable} ${monoFont.variable} ${displayFont.variable} dark scroll-smooth`}
+      className="dark scroll-smooth"
       suppressHydrationWarning
       data-theme="dark"
       data-scroll-behavior="smooth"

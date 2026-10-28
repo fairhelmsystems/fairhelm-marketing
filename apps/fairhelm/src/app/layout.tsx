@@ -1,6 +1,6 @@
 import { SkipLink } from "@fairhelm/ui/components/skip-link";
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Sora } from "next/font/google";
+import "@fairhelm/ui/fonts.css";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { JsonLd } from "@/components/site/json-ld";
@@ -10,29 +10,6 @@ import { ogImage } from "@/lib/seo";
 import { absoluteUrl, siteConfig } from "@/lib/site-config";
 import { siteGraph } from "@/lib/structured-data";
 import "./globals.css";
-
-// The family type system, shared with squarecampus.com: Sora for headings,
-// IBM Plex Sans for body copy, IBM Plex Mono for eyebrows and labels.
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
-
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-ibm-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
 
 const defaultTitle = `${siteConfig.name} | ${siteConfig.tagline}`;
 
@@ -86,7 +63,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-IN"
-      className={`${sora.variable} ${plexSans.variable} ${plexMono.variable} dark scroll-smooth`}
+      className="dark scroll-smooth"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

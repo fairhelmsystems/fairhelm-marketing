@@ -103,7 +103,7 @@ export function ContactInquiry() {
       name.trim(),
     ].join("\n");
 
-    return `mailto:${siteConfig.contactEmail}?subject=${encodeURIComponent(
+    return `mailto:info@squarecampus.com,mohit.gupta@fairhelmsystems.com?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
   }

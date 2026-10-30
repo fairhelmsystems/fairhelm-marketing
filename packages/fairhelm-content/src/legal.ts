@@ -348,6 +348,13 @@ export const aiPolicySections = [
     ],
   },
   {
+    id: "aegis-and-support-automation",
+    title: "AEGIS and support automation",
+    paragraphs: [
+      "The read-only and no-autonomous-writes v1 posture applies to AEGIS within institutional workflows. Separately, customer-support systems may send disclosed, bounded automated communications under approved rules, with a route for human escalation.",
+    ],
+  },
+  {
     id: "human-oversight",
     title: "Human authority and oversight",
     paragraphs: [

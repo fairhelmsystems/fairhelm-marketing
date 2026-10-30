@@ -16,6 +16,7 @@ export const metadata: Metadata = createPageMetadata({
 const contents = [
   { label: "Company & Scope", href: "#company-scope" },
   { label: "How AI Is Used", href: "#ai-use" },
+  { label: "AI-Assisted Customer Communications", href: "#customer-communications" },
   { label: "Human Oversight", href: "#oversight" },
   { label: "Data & Privacy in AI", href: "#ai-data" },
   { label: "Responsible AI Principles", href: "#ai-principles" },
@@ -45,6 +46,12 @@ export default function AIPolicyPage() {
               institutions with workflows, insights, and user experience. AI is an assistive layer
               and does not replace institutional decision-making.
             </p>
+            <p>
+              <strong>Availability:</strong> AI capabilities described in this policy may be
+              planned, under development, or selectively available. Their inclusion does not mean
+              they are currently available. SquareCampus public release is planned for January
+              2027; individual AI features may follow a separate rollout.
+            </p>
           </LegalSection>
 
           <LegalSection title="2. How AI Is Used" id="ai-use">
@@ -60,7 +67,19 @@ export default function AIPolicyPage() {
             </p>
           </LegalSection>
 
-          <LegalSection title="3. Human Oversight" id="oversight">
+          <LegalSection title="3. AI-Assisted Customer Communications" id="customer-communications">
+            <p>
+              SquareCampus may use AI to draft or automatically send acknowledgements and routine
+              responses to enquiries. These communications will identify AI involvement and may
+              contain errors. Automated responses must use approved product information and must
+              not independently confirm pricing, contractual terms, feature availability, demo
+              bookings, or delivery commitments. Requests requiring judgment or commitments will
+              be referred to a human team member. Users may request human assistance by replying
+              to the email.
+            </p>
+          </LegalSection>
+
+          <LegalSection title="4. Human Oversight" id="oversight">
             <p>
               AI outputs are designed to be reviewable and overridable. Institutions and
               administrators remain responsible for decisions and can validate, edit, or reject AI
@@ -68,7 +87,7 @@ export default function AIPolicyPage() {
             </p>
           </LegalSection>
 
-          <LegalSection title="4. Data & Privacy in AI" id="ai-data">
+          <LegalSection title="5. Data & Privacy in AI" id="ai-data">
             <p>
               AI features follow the same privacy, access control, and retention policies as the
               rest of the SquareCampus platform.
@@ -82,7 +101,7 @@ export default function AIPolicyPage() {
             </ul>
           </LegalSection>
 
-          <LegalSection title="5. Responsible AI Principles" id="ai-principles">
+          <LegalSection title="6. Responsible AI Principles" id="ai-principles">
             <p>We apply the following principles when designing or deploying AI features:</p>
             <ul className="list-disc space-y-2 pl-5">
               <li>Fairness and bias awareness in outputs.</li>
@@ -93,7 +112,7 @@ export default function AIPolicyPage() {
             </ul>
           </LegalSection>
 
-          <LegalSection title="6. Customer Control" id="customer-control">
+          <LegalSection title="7. Customer Control" id="customer-control">
             <p>Institutions retain control over:</p>
             <ul className="list-disc space-y-2 pl-5">
               <li>Whether AI features are enabled.</li>
@@ -102,7 +121,7 @@ export default function AIPolicyPage() {
             </ul>
           </LegalSection>
 
-          <LegalSection title="7. Contact" id="contact">
+          <LegalSection title="8. Contact" id="contact">
             <p>
               If you have questions about our AI practices, contact{" "}
               <a href="mailto:support@squarecampus.com" className="text-foreground">

@@ -1,6 +1,6 @@
 "use client";
 
-import {siteHref} from "@fairhelm/config/urls";
+import { siteHref } from "@fairhelm/config/urls";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
 import { useEffect, useId, useRef, useState } from "react";
@@ -8,8 +8,10 @@ import { Toaster, toast } from "sonner";
 import { enquiryTypes, type FormIntent, formCopy, sourceTags } from "@/content/demo-intents";
 import { buildEnquiryPayload, foundingPartnerFields } from "@/lib/demo-enquiry";
 import { cn } from "@fairhelm/ui/lib/utils";
+import { HumanCheck, type HumanCheckResult } from "@fairhelm/ui/components/human-check";
+import { HoneypotField } from "@fairhelm/ui/components/honeypot-field";
+import { useFormGuard } from "@fairhelm/ui/hooks/useFormGuard";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
-import { HumanCheck, type HumanCheckResult } from "./human-check";
 
 type DemoFormState = {
   enquiryType: string;
@@ -376,6 +378,7 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
   const [announcement, setAnnouncement] = useState("");
   const [checking, setChecking] = useState(false);
   const mountedRef = useRef(true);
+  const judgeSubmission = useFormGuard();
   const panelRef = useRef<HTMLDivElement | null>(null);
   const previousStepRef = useRef(step);
   const ids = useId();
@@ -446,11 +449,19 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
   };
 
   const submit = () => {
-    // Honeypot: bots fill the hidden field, humans never see it.
-    if (state.website) {
+    const verdict = judgeSubmission(state.website);
+    // Honeypot: bots fill the hidden field, humans never see it. Pretend it
+    // worked so the bot has nothing to adapt to.
+    if (verdict === "automated") {
       setStatus("success");
       toast.success("Your request has been sent.");
       setState({ ...initialState, enquiryType: enquiryTypes[intent] });
+      return;
+    }
+    // Faster than a person can read and fill it: autofill is the usual cause,
+    // so keep what was typed and ask for one more press.
+    if (verdict === "too-fast") {
+      toast.error("That was quick. Please review your details and send again.");
       return;
     }
 
@@ -590,7 +601,11 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
           sonner ships on /demo instead of every page in the root layout. */}
       <Toaster position="top-right" richColors />
       {checking && CHALLENGE_ENDPOINT ? (
-        <HumanCheck endpoint={CHALLENGE_ENDPOINT} onResolve={handleCheckResult} />
+        <HumanCheck
+          endpoint={CHALLENGE_ENDPOINT}
+          contactEmail={CONTACT_EMAIL}
+          onResolve={handleCheckResult}
+        />
       ) : null}
       <form onSubmit={handleSubmit} noValidate className="grid gap-6">
         <StepRail current={step} onJump={goTo} />
@@ -847,13 +862,7 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
           ) : null}
         </div>
 
-        {/* Honeypot field — visually hidden and skipped by keyboard users. */}
-        <input
-          tabIndex={-1}
-          autoComplete="off"
-          aria-hidden="true"
-          className="hidden"
-          placeholder="Website"
+        <HoneypotField
           value={state.website}
           onChange={(event) => set("website", event.target.value)}
         />

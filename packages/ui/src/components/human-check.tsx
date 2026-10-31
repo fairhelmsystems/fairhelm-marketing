@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { Dialog } from "@base-ui/react/dialog";
+import { isHumanCheckDisabled } from "../lib/human-check-response";
 
 /**
  * The human check.
@@ -37,16 +38,44 @@ type Board = {
   height: number;
   start: { x: number; y: number };
   tolerance: number;
+  instructions?: { title?: string; help?: string; tileLabel?: string };
 };
 
 type Phase = "loading" | "ready" | "checking" | "passed" | "blocked" | "error";
 
-const CONTACT_EMAIL = "contact@squarecampus.com";
 const TILE = 34;
+// Board text is displayed as plain React text, bounded to keep an invalid
+// service response from overwhelming the dialog or its accessible label.
+const validBoardText = (value: unknown, max: number): value is string =>
+  typeof value === "string" &&
+  value.trim().length > 0 &&
+  value.length <= max &&
+  [...value].every((character) => {
+    const code = character.charCodeAt(0);
+    return code >= 32 && code !== 127;
+  });
+const boardText = (value: unknown, fallback: string, max: number) =>
+  validBoardText(value, max) ? value.trim() : fallback;
 const KEY_STEP = 6;
 const KEY_STEP_FAST = 18;
 /** Long enough to read the tick, short enough not to feel like a wait. */
 const VERIFIED_DWELL_MS = 1150;
+
+/** Pointer samples kept per board, and the cap on what is sent. */
+const TRACE_MAX = 64;
+const TRACE_MIN_GAP_MS = 16;
+
+type TracePoint = { x: number; y: number; t: number };
+
+/** Evenly thin a trace to `TRACE_MAX` points, always keeping the first and last. */
+function thin(points: TracePoint[]): TracePoint[] {
+  if (points.length <= TRACE_MAX) return points;
+  const out: TracePoint[] = [];
+  for (let i = 0; i < TRACE_MAX; i++) {
+    out.push(points[Math.round((i * (points.length - 1)) / (TRACE_MAX - 1))]);
+  }
+  return out;
+}
 
 const clamp = (value: number, min: number, max: number) =>
   value < min ? min : value > max ? max : value;
@@ -59,10 +88,13 @@ function currentTheme() {
 
 export function HumanCheck({
   endpoint,
+  contactEmail,
   onResolve,
 }: {
   /** Base challenge URL; `${endpoint}/solve` marks an answer. */
   endpoint: string;
+  /** The address offered as the route that needs no solving. */
+  contactEmail: string;
   onResolve: (result: HumanCheckResult) => void;
 }) {
   const [board, setBoard] = useState<Board | null>(null);
@@ -85,9 +117,20 @@ export function HumanCheck({
 
   const boardRef = useRef<HTMLDivElement>(null);
   const tileRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(pos);
   const startedAt = useRef(0);
+  /*
+    How the tile was moved, for the intake function to score. A script that
+    teleports the tile, or drags it in a straight line at constant speed, looks
+    nothing like a hand. This is evidence, not a verdict: it is readable and
+    forgeable in devtools, so only the server can weigh it, alongside the
+    one-guess board and rate limits it already enforces. Keyboard use is
+    labelled rather than penalised, so it stays a first-class route.
+  */
+  const traceRef = useRef<TracePoint[]>([]);
+  const dragStartedAt = useRef(0);
+  const firstTouchAt = useRef(0);
+  const usedKeyboard = useRef(false);
   /*
     The parent's callback, held in a ref.
 
@@ -129,7 +172,10 @@ export function HumanCheck({
       // No secret configured on the intake function: it is not enforcing the
       // check either, so asking the visitor to solve one would be theatre.
       if (response.status === 503) {
-        resolveRef.current({ kind: "skip" });
+        const body: unknown = await response.json().catch(() => null);
+        if (!live.current) return;
+        if (isHumanCheckDisabled(body)) resolveRef.current({ kind: "skip" });
+        else setPhase("error");
         return;
       }
       if (response.status === 429) {
@@ -142,9 +188,22 @@ export function HumanCheck({
       }
       const next = (await response.json()) as Board;
       if (!live.current) return;
+      if (
+        next.instructions !== undefined &&
+        (!validBoardText(next.instructions?.title, 120) ||
+          !validBoardText(next.instructions?.help, 300) ||
+          !validBoardText(next.instructions?.tileLabel, 240))
+      ) {
+        setPhase("error");
+        return;
+      }
       setBoard(next);
       place(next.start);
       startedAt.current = performance.now();
+      traceRef.current = [];
+      firstTouchAt.current = 0;
+      dragStartedAt.current = 0;
+      usedKeyboard.current = false;
       setElapsed(0);
       setPhase("ready");
     } catch {
@@ -176,11 +235,27 @@ export function HumanCheck({
         const response = await fetch(`${endpoint}/solve`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: board.id, x: Math.round(at.x), y: Math.round(at.y) }),
+          body: JSON.stringify({
+            id: board.id,
+            x: Math.round(at.x),
+            y: Math.round(at.y),
+            behaviour: {
+              via: usedKeyboard.current ? "keyboard" : "pointer",
+              thinkMs: Math.round(firstTouchAt.current - startedAt.current),
+              dragMs: Math.round(performance.now() - dragStartedAt.current),
+              trace: thin(traceRef.current),
+            },
+          }),
         });
         if (!live.current) return;
         if (response.status === 429) {
           setPhase("blocked");
+          return;
+        }
+        // A service failure is not evidence of an incorrect answer. Keep the
+        // retry/email route available instead of silently issuing another board.
+        if (!response.ok) {
+          setPhase("error");
           return;
         }
         const result = (await response.json()) as {
@@ -232,13 +307,27 @@ export function HumanCheck({
     } catch {
       /* drag still works, it just stops tracking outside the tile */
     }
+    const now = performance.now();
+    if (!firstTouchAt.current) firstTouchAt.current = now;
+    dragStartedAt.current = now;
+    traceRef.current = [];
     setDragging(true);
   };
 
   const onPointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (!dragging) return;
     const next = toBoard(event.clientX, event.clientY);
-    if (next) place(next);
+    if (!next) return;
+    place(next);
+    const now = performance.now();
+    const last = traceRef.current[traceRef.current.length - 1];
+    if (!last || now - dragStartedAt.current - last.t >= TRACE_MIN_GAP_MS) {
+      traceRef.current.push({
+        x: Math.round(next.x),
+        y: Math.round(next.y),
+        t: Math.round(now - dragStartedAt.current),
+      });
+    }
   };
 
   const endDrag = (event: React.PointerEvent<HTMLButtonElement>) => {
@@ -262,6 +351,12 @@ export function HumanCheck({
       ArrowRight: [step, 0],
     };
     const move = moves[event.key];
+    if (move || event.key === "Enter" || event.key === " ") {
+      usedKeyboard.current = true;
+      const now = performance.now();
+      if (!firstTouchAt.current) firstTouchAt.current = now;
+      if (!dragStartedAt.current) dragStartedAt.current = firstTouchAt.current;
+    }
     if (move) {
       event.preventDefault();
       place({
@@ -276,162 +371,156 @@ export function HumanCheck({
     }
   };
 
-  // Escape leaves the check without losing anything the visitor typed.
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") resolveRef.current({ kind: "cancel" });
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, []);
-
   useEffect(() => {
     if (phase === "ready") tileRef.current?.focus();
   }, [phase]);
 
   useEffect(() => {
     setMounted(true);
-    // The page behind must not scroll under the panel, on a phone especially,
-    // where a drag that starts on the board would otherwise pan the document.
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previous;
-    };
   }, []);
 
   const pct = (value: number, of: number) => `${(value / of) * 100}%`;
 
   if (!mounted) return null;
 
-  return createPortal(
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[color:var(--background)]/80 p-4 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="human-check-title"
+  return (
+    <Dialog.Root
+      open
+      disablePointerDismissal
+      onOpenChange={(open) => {
+        if (!open) resolveRef.current({ kind: "cancel" });
+      }}
     >
-      <div
-        ref={panelRef}
-        className="surface-panel-strong w-full max-w-[30rem] overflow-hidden rounded-[1.75rem] p-5 sm:p-6"
-      >
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="section-kicker">Quick human check</p>
-            <h2
-              id="human-check-title"
-              className="mt-1.5 font-display text-lg tracking-[-0.02em] sm:text-xl"
-            >
-              Follow the wire. Drop the tile where it ends.
-            </h2>
-          </div>
-          <p
-            className="shrink-0 rounded-full border border-[color:var(--line)] px-2.5 py-1 font-mono text-[0.7rem] tabular-nums text-[color:var(--muted-foreground)]"
-            aria-live="off"
-          >
-            {(phase === "passed" ? solvedIn.current : elapsed).toFixed(1)}s
-          </p>
-        </div>
-
-        {phase === "passed" ? (
-          <Verified seconds={solvedIn.current} />
-        ) : phase === "blocked" ? (
-          <Message
-            title="Let's do this the easy way."
-            body={`Too many tries from this connection. Email ${CONTACT_EMAIL} and we will pick it up from there — you will not have to fill this in again.`}
-          />
-        ) : phase === "error" ? (
-          <Message
-            title="That did not load."
-            body={`Try again in a moment, or email ${CONTACT_EMAIL} and we will take it from there.`}
-            onRetry={() => void load()}
-          />
-        ) : (
-          <>
-            <div
-              ref={boardRef}
-              key={nudge}
-              className={`relative mt-4 overflow-hidden rounded-2xl border border-[color:var(--line)] ${
-                nudge > 0 ? "human-check-nudge" : ""
-              }`}
-              style={{ aspectRatio: board ? `${board.width} / ${board.height}` : "440 / 300" }}
-            >
-              {board ? (
-                <>
-                  {/* Decorative: the board cannot be described without giving
-                      away its answer, and the panel already offers a route
-                      that does not involve solving it. */}
-                  {/* A plain <img>, not next/image: the source is a data URI
-                      minted for this one visitor, so there is nothing for a
-                      build-time optimiser to do and no file to point at. */}
-                  {/* biome-ignore lint/performance/noImgElement: per-request data URI, not a static asset next/image could optimise */}
-                  <img
-                    src={board.image}
-                    alt=""
-                    width={board.width}
-                    height={board.height}
-                    className="pointer-events-none absolute inset-0 h-full w-full select-none"
-                    draggable={false}
-                  />
-                  <button
-                    ref={tileRef}
-                    type="button"
-                    onPointerDown={onPointerDown}
-                    onPointerMove={onPointerMove}
-                    onPointerUp={endDrag}
-                    onPointerCancel={endDrag}
-                    onKeyDown={onKeyDown}
-                    aria-label="Tile. Drag it, or move it with the arrow keys and press Enter, to the dot where its wire ends."
-                    className={`absolute rounded-[0.6rem] border border-white/25 bg-[color:var(--brand)] shadow-lg outline-none transition-[box-shadow,transform] focus-visible:ring-2 focus-visible:ring-[color:var(--brand)] focus-visible:ring-offset-2 ${
-                      dragging ? "scale-110 cursor-grabbing" : "cursor-grab"
-                    } ${phase === "checking" ? "opacity-60" : ""}`}
-                    style={{
-                      width: TILE,
-                      height: TILE,
-                      left: pct(pos.x, board.width),
-                      top: pct(pos.y, board.height),
-                      transform: "translate(-50%, -50%)",
-                      touchAction: "none",
-                    }}
-                  />
-                </>
-              ) : (
-                <div className="absolute inset-0 animate-pulse bg-[color:var(--surface)]" />
-              )}
+      {/* The modal owns focus containment/restoration, Escape and scroll lock.
+          Keep its portal outside filtered form panels so it covers the viewport. */}
+      <Dialog.Portal>
+        <Dialog.Popup className="fixed inset-0 z-[100] flex items-center justify-center bg-[color:var(--background)]/80 p-4 backdrop-blur-sm">
+          <div className="surface-panel-strong w-full max-w-[30rem] overflow-hidden rounded-[1.75rem] p-5 sm:p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="section-kicker">Quick human check</p>
+                <Dialog.Title className="mt-1.5 font-display text-lg tracking-[-0.02em] sm:text-xl">
+                  {boardText(
+                    board?.instructions?.title,
+                    "Follow the wire. Drop the tile where it ends.",
+                    120
+                  )}
+                </Dialog.Title>
+              </div>
+              <p
+                className="shrink-0 rounded-full border border-[color:var(--line)] px-2.5 py-1 font-mono text-[0.7rem] tabular-nums text-[color:var(--muted-foreground)]"
+                aria-live="off"
+              >
+                {(phase === "passed" ? solvedIn.current : elapsed).toFixed(1)}s
+              </p>
             </div>
 
-            <p
-              className="mt-3 text-sm leading-6 text-[color:var(--muted-foreground)]"
-              aria-live="polite"
-            >
-              {note ??
-                "One of the lines starts under the tile. Follow it through the crossings and drop the tile on the dot at its far end."}
-            </p>
-          </>
-        )}
+            {phase === "passed" ? (
+              <Verified seconds={solvedIn.current} />
+            ) : phase === "blocked" ? (
+              <Message
+                title="Let's do this the easy way."
+                body={`Too many tries from this connection. Email ${contactEmail} and we will pick it up from there — you will not have to fill this in again.`}
+              />
+            ) : phase === "error" ? (
+              <Message
+                title="That did not load."
+                body={`Try again in a moment, or email ${contactEmail} and we will take it from there.`}
+                onRetry={() => void load()}
+              />
+            ) : (
+              <>
+                <div
+                  ref={boardRef}
+                  key={nudge}
+                  className={`relative mt-4 overflow-hidden rounded-2xl border border-[color:var(--line)] ${
+                    nudge > 0 ? "human-check-nudge" : ""
+                  }`}
+                  style={{ aspectRatio: board ? `${board.width} / ${board.height}` : "440 / 300" }}
+                >
+                  {board ? (
+                    <>
+                      {/* Decorative: the board cannot be described without giving
+                      away its answer, and the panel already offers a route
+                      that does not involve solving it. */}
+                      {/* A plain <img>, not next/image: the source is a data URI
+                      minted for this one visitor, so there is nothing for a
+                      build-time optimiser to do and no file to point at. */}
+                      <img
+                        src={board.image}
+                        alt=""
+                        width={board.width}
+                        height={board.height}
+                        className="pointer-events-none absolute inset-0 h-full w-full select-none"
+                        draggable={false}
+                      />
+                      <button
+                        ref={tileRef}
+                        type="button"
+                        onPointerDown={onPointerDown}
+                        onPointerMove={onPointerMove}
+                        onPointerUp={endDrag}
+                        onPointerCancel={endDrag}
+                        onKeyDown={onKeyDown}
+                        aria-label={boardText(
+                          board.instructions?.tileLabel,
+                          "Tile. Drag it, or move it with the arrow keys and press Enter, to the dot where its wire ends.",
+                          240
+                        )}
+                        className={`absolute rounded-[0.6rem] border border-white/25 bg-[color:var(--brand)] shadow-lg outline-none transition-[box-shadow,transform] focus-visible:ring-2 focus-visible:ring-[color:var(--brand)] focus-visible:ring-offset-2 ${
+                          dragging ? "scale-110 cursor-grabbing" : "cursor-grab"
+                        } ${phase === "checking" ? "opacity-60" : ""}`}
+                        style={{
+                          width: TILE,
+                          height: TILE,
+                          left: pct(pos.x, board.width),
+                          top: pct(pos.y, board.height),
+                          transform: "translate(-50%, -50%)",
+                          touchAction: "none",
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 animate-pulse bg-[color:var(--surface)]" />
+                  )}
+                </div>
 
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[color:var(--line)] pt-4">
-          <p className="text-xs leading-5 text-[color:var(--muted-foreground)]">
-            Rather not?{" "}
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="underline underline-offset-2 hover:text-[color:var(--foreground)]"
-            >
-              Email us
-            </a>{" "}
-            and we will reply the same way.
-          </p>
-          <button
-            type="button"
-            onClick={() => resolveRef.current({ kind: "cancel" })}
-            className="text-xs font-medium text-[color:var(--muted-foreground)] underline underline-offset-2 hover:text-[color:var(--foreground)]"
-          >
-            Back to the form
-          </button>
-        </div>
-      </div>
-    </div>,
-    document.body
+                <p
+                  className="mt-3 text-sm leading-6 text-[color:var(--muted-foreground)]"
+                  aria-live="polite"
+                >
+                  {note ??
+                    boardText(
+                      board?.instructions?.help,
+                      "One of the lines starts under the tile. Follow it through the crossings and drop the tile on the dot at its far end.",
+                      300
+                    )}
+                </p>
+              </>
+            )}
+
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[color:var(--line)] pt-4">
+              <p className="text-xs leading-5 text-[color:var(--muted-foreground)]">
+                Rather not?{" "}
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="underline underline-offset-2 hover:text-[color:var(--foreground)]"
+                >
+                  Email us
+                </a>{" "}
+                and we will reply the same way.
+              </p>
+              <Dialog.Close
+                type="button"
+                className="text-xs font-medium text-[color:var(--muted-foreground)] underline underline-offset-2 hover:text-[color:var(--foreground)]"
+              >
+                Back to the form
+              </Dialog.Close>
+            </div>
+          </div>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 

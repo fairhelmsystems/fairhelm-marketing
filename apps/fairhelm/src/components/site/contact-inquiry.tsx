@@ -23,10 +23,13 @@ import {
   FieldLegend,
   FieldSet,
 } from "@fairhelm/ui/components/field";
+import { HoneypotField } from "@fairhelm/ui/components/honeypot-field";
+import { HumanCheck, type HumanCheckResult } from "@fairhelm/ui/components/human-check";
 import { Input } from "@fairhelm/ui/components/input";
 import { Textarea } from "@fairhelm/ui/components/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@fairhelm/ui/components/toggle-group";
 import { siteConfig } from "@/lib/site-config";
+import { useFormGuard } from "@fairhelm/ui/hooks/useFormGuard";
 import { cn } from "@fairhelm/ui/lib/utils";
 
 // The lanes mirror the bounded scope in site-config: the flagship product and
@@ -60,7 +63,10 @@ export function ContactInquiry() {
   const [campusCount, setCampusCount] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [consentMarketing, setConsentMarketing] = useState(false);
+  const [checking, setChecking] = useState(false);
+  const [hurried, setHurried] = useState(false);
   const honeypotRef = useRef<HTMLInputElement>(null);
+  const judgeSubmission = useFormGuard();
   const idempotencyKeyRef = useRef("");
   useEffect(() => {
     // Stable per-submission key so retries never create duplicate CRM leads.
@@ -73,6 +79,13 @@ export function ContactInquiry() {
     process.env.NEXT_PUBLIC_FAIRHELM_CONTACT_ENABLED === "true"
       ? "https://api.fairhelmsystems.com/inquiries"
       : (siteConfig.contactEndpoint as string);
+
+  // The human check lives beside the intake endpoint, so it is derived rather
+  // than configured. Without a match the check is skipped here; the intake
+  // function still decides whether a submission without a pass token is accepted.
+  const challengeEndpoint = endpoint.endsWith("/inquiries")
+    ? `${endpoint.slice(0, -"/inquiries".length)}/challenge`
+    : undefined;
 
   const canContinue = Boolean(workType && problem.trim().length >= 20);
   const canCompose = Boolean(
@@ -128,6 +141,35 @@ export function ContactInquiry() {
       return;
     }
 
+    setHurried(false);
+    const verdict = judgeSubmission(honeypotRef.current?.value ?? "");
+    // Honeypot filled: report success so the bot has nothing to adapt to.
+    if (verdict === "automated") {
+      setStatus("success");
+      return;
+    }
+    // Faster than a person can read and fill it (autofill is the usual cause).
+    if (verdict === "too-fast") {
+      setHurried(true);
+      return;
+    }
+
+    // Everything is valid; the only thing left is the human check.
+    if (challengeEndpoint) {
+      setChecking(true);
+      return;
+    }
+    await postInquiry();
+  }
+
+  function handleCheckResult(result: HumanCheckResult) {
+    setChecking(false);
+    if (result.kind !== "cancel") {
+      void postInquiry(result.kind === "pass" ? result.token : undefined);
+    }
+  }
+
+  async function postInquiry(humanToken?: string) {
     setStatus("submitting");
     try {
       const response = await fetch(endpoint, {
@@ -146,6 +188,7 @@ export function ContactInquiry() {
           consentMarketing,
           source: "fairhelm-contact",
           company_website: honeypotRef.current?.value ?? "",
+          ...(humanToken ? { humanToken } : {}),
         }),
       });
       if (!response.ok) {
@@ -159,6 +202,13 @@ export function ContactInquiry() {
 
   return (
     <div className="flex min-w-0 flex-col gap-5">
+      {checking && challengeEndpoint ? (
+        <HumanCheck
+          endpoint={challengeEndpoint}
+          contactEmail={siteConfig.contactEmail}
+          onResolve={handleCheckResult}
+        />
+      ) : null}
       <Card
         data-md-skip
         className="system-panel overflow-visible border border-border bg-card/90 shadow-2xl shadow-black/20 backdrop-blur-xl"
@@ -244,21 +294,7 @@ export function ContactInquiry() {
             </CardHeader>
 
             <form onSubmit={handleSubmit}>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-[-9999px] h-0 w-0 overflow-hidden"
-              >
-                <label htmlFor="contact-company-website">Company website (leave blank)</label>
-                <input
-                  id="contact-company-website"
-                  ref={honeypotRef}
-                  type="text"
-                  name="company_website"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  defaultValue=""
-                />
-              </div>
+              <HoneypotField ref={honeypotRef} />
               <CardContent className="py-6">
                 {step === 1 ? (
                   <FieldSet>
@@ -433,6 +469,15 @@ export function ContactInquiry() {
                     </FieldGroup>
                   </FieldSet>
                 )}
+
+                {hurried ? (
+                  <Alert className="mt-5">
+                    <AlertTitle>That was quick.</AlertTitle>
+                    <AlertDescription>
+                      Please review your details, then send the inquiry again.
+                    </AlertDescription>
+                  </Alert>
+                ) : null}
 
                 {status === "error" ? (
                   <Alert className="mt-5 border-destructive/30 bg-destructive/5">

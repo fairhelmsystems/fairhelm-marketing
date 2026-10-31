@@ -2,6 +2,7 @@ name: Validate marketing workspace
 on:
   push:
   pull_request:
+  workflow_dispatch:
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -39,7 +40,7 @@ jobs:
           printf '%s\n' "$GITHUB_SHA" > release/COMMIT
           python3 scripts/check-release-artifact.py release "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         with:
           name: marketing-production-${{ github.sha }}
           path: release/

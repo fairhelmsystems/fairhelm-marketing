@@ -114,3 +114,13 @@ Everything the browser sees can be read, so variety and scoring belong here.
 Server-side verification of `humanToken` for Fairhelm, board generation, and the
 scoring above are all unbuilt as far as this repository shows. Nothing in the
 client changes when the service adds variety or tightens scoring.
+
+## Releasing API-enabled Fairhelm
+
+Once the public API hostname serves valid TLS and passes browser CORS checks,
+set repository variable `FAIRHELM_CONTACT_ENABLED=true` and build on main. The
+marketing CI workflow also accepts manual dispatch on main for a reviewed
+configuration rebuild. Download the exact successful run's artifact, verify
+its commit/checksums, and promote its Fairhelm archive; do not rebuild locally
+or overwrite an existing immutable release prefix. Retain the previous release
+and hashed assets for rollback and clients with cached HTML.

@@ -25,7 +25,8 @@ export default defineConfig({
     name,
     use: { viewport: { width, height }, hasTouch: touch, isMobile: width < 640 },
   })),
-  // Not started by --list. Never automatically invoked by build or normal CI.
+  // Not started by --list. CI runs focused contact-flow regressions after the
+  // build; the complete visual review matrix remains an explicit opt-in.
   webServer: sites.map((site) => ({
     command: `bun scripts/preview.ts ${site.name}`,
     cwd: "../..",

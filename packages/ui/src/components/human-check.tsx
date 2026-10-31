@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { isHumanCheckDisabled } from "../lib/human-check-response";
 
 /**
@@ -262,6 +262,7 @@ export function HumanCheck({
           ok?: boolean;
           pass?: string;
           expired?: boolean;
+          retry?: boolean;
         };
         if (result.ok && result.pass) {
           setPhase("passed");
@@ -271,9 +272,11 @@ export function HumanCheck({
           return;
         }
         setNote(
-          result.expired
-            ? "That board timed out. Here is a fresh one."
-            : "Not quite — that wire ends somewhere else. Here is a fresh one."
+          result.retry === true
+            ? "One more quick check. Here is a fresh board."
+            : result.expired
+              ? "That board timed out. Here is a fresh one."
+              : "Not quite — that wire ends somewhere else. Here is a fresh one."
         );
         setNudge((n) => n + 1);
         await load();

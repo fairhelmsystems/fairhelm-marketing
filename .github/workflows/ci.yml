@@ -21,6 +21,12 @@ jobs:
         env:
           NEXT_PUBLIC_CONTACT_ENDPOINT: /api/contact
           NEXT_PUBLIC_FAIRHELM_CONTACT_ENABLED: ${{ vars.FAIRHELM_CONTACT_ENABLED }}
+      - name: Verify contact human-check retry in desktop and phone browsers
+        shell: bash
+        run: |
+          set -euo pipefail
+          tools/quality/node_modules/.bin/playwright install --with-deps chromium
+          bun run --cwd tools/quality test:browser tests/contact-human-check.spec.ts --project=phone-390 --project=desktop-1440
       # Package the outputs of this exact validated build. A later deployment
       # job must consume this artifact rather than rebuilding the five sites.
       - name: Package validated production sites

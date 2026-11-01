@@ -43,6 +43,15 @@ def verify(site_dir, site, commit):
         with urlopen(base + quote(relative, safe='/'), timeout=30) as response:
             if response.status != 200:
                 raise ValueError(f'Origin returned non-200 for {relative}')
+            expected_types = {
+                '.html': {'text/html'},
+                '.css': {'text/css'},
+                '.js': {'text/javascript', 'application/javascript', 'application/x-javascript'},
+            }
+            allowed = expected_types.get(path.suffix.lower())
+            content_type = response.headers.get('Content-Type', '').split(';', 1)[0].strip().lower()
+            if allowed and content_type not in allowed:
+                raise ValueError(f'Origin content type differs for {relative}')
             for chunk in iter(lambda: response.read(1024 * 1024), b''):
                 received.update(chunk)
         if expected.digest() != received.digest():

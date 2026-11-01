@@ -76,10 +76,11 @@ rollback. Complete those checks before production promotion.
 
 After upload, `python3 scripts/verify-azure-release.py PREPARED_SITE SITE COMMIT`
 compares every prepared file with the corresponding immutable Azure origin by
-SHA-256. `SITE` must be one of the five configured sites, and `COMMIT` must be
-the full independently verified producer commit. It verifies expected file
-bytes; it does not list unexpected blobs, authenticate producer provenance,
-verify response metadata or establish that Front Door serves the new release.
+SHA-256 and checks the content type of HTML, CSS and JavaScript files. `SITE`
+must be one of the five configured sites, and `COMMIT` must be the full
+independently verified producer commit. It does not list unexpected blobs,
+authenticate producer provenance, verify other response metadata or establish
+that Front Door serves the new release.
 
 Fairhelm's inquiry form defaults to its mail-client fallback. A release build
 can set `NEXT_PUBLIC_FAIRHELM_CONTACT_ENABLED=true` to target the fixed

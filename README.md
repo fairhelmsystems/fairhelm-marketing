@@ -82,6 +82,28 @@ independently verified producer commit. It does not list unexpected blobs,
 authenticate producer provenance, verify other response metadata or establish
 that Front Door serves the new release.
 
+`python3 scripts/stage-azure-release.py RELEASE_DIR COMMIT OUTPUT_DIR`
+stages all five prepared sites in create-only prefixes. It requires a protected
+marketing main push and the dedicated publisher identity, downloads and checks
+complete previous blob inventories and origin bytes, preserves prior static assets,
+uses conditional blob creation, checks every upload receipt, and verifies each
+new inventory and origin.
+A failed or partial prefix is never automatically overwritten or resumed.
+It reads all five active route commits before staging and refuses success if
+they change during staging. The trusted workflow must bind `RELEASE_DIR` to
+its validated artifact and recheck route state before promotion. This command does not change routes, prove producer provenance by
+itself, delete partial blobs, or provide rollback or public-edge acceptance.
+Do not activate it until the publication environment and scoped identity are
+verified and the full promotion workflow is ready.
+
+The `stage_azure` CI job consumes the validated build artifact only after a
+successful protected main push, serializes staging and emits a staging receipt.
+It is disabled unless the repository variable `MARKETING_AZURE_STAGE_ENABLED`
+is exactly `true`; do not set it until the protected publication environment,
+scoped publisher identity, provenance pin, promotion workflow and rollback are
+verified. The job stages only and never changes Front Door. A failed upload can
+leave a partial immutable prefix that must be reconciled deliberately.
+
 Fairhelm's inquiry form defaults to its mail-client fallback. A release build
 can set `NEXT_PUBLIC_FAIRHELM_CONTACT_ENABLED=true` to target the fixed
 `https://api.fairhelmsystems.com/inquiries` endpoint. CI reads the corresponding

@@ -3,12 +3,14 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
           bun-version: 1.4.3
       - run: bun install --frozen-lockfile
@@ -45,10 +47,86 @@ jobs:
           (cd release && sha256sum squarecampus.tar fairhelm.tar blogs.tar legal.tar press.tar > SHA256SUMS)
           printf '%s\n' "$GITHUB_SHA" > release/COMMIT
           python3 scripts/check-release-artifact.py release "$GITHUB_SHA"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         with:
           name: marketing-production-${{ github.sha }}
           path: release/
+          if-no-files-found: error
+          retention-days: 30
+
+  stage_azure:
+    needs: validate
+    if: >-
+      github.event_name == 'push' && github.run_attempt == 1 &&
+      github.ref == 'refs/heads/main' && github.ref_protected == true &&
+      github.repository == 'Fairhelm-Systems-Pvt-Ltd/fairhelm_systems.marketing' &&
+      vars.MARKETING_AZURE_STAGE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    environment: azure-marketing-publication
+    concurrency:
+      group: azure-marketing-staging
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify protected environment and current main
+        env:
+          GH_HOST: fairhelm-systems-private-limited.ghe.com
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          gh api "repos/$GITHUB_REPOSITORY/environments/azure-marketing-publication" > "$RUNNER_TEMP/marketing-environment.json"
+          gh api "repos/$GITHUB_REPOSITORY/branches/main" > "$RUNNER_TEMP/marketing-branch.json"
+          python3 scripts/verify-azure-stage-context.py "$RUNNER_TEMP/marketing-environment.json" "$RUNNER_TEMP/marketing-branch.json" "$GITHUB_SHA"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: marketing-production-${{ github.sha }}
+          path: ${{ runner.temp }}/marketing-release
+      - name: Validate tested release archives
+        run: python3 scripts/check-release-artifact.py "$RUNNER_TEMP/marketing-release" "$GITHUB_SHA"
+      - name: Isolate Azure CLI credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -d -m 700 "$RUNNER_TEMP/marketing-azure"
+          printf 'AZURE_CONFIG_DIR=%s\n' "$RUNNER_TEMP/marketing-azure" >> "$GITHUB_ENV"
+      - uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906
+        with:
+          client-id: ${{ vars.AZURE_MARKETING_PUBLISHER_CLIENT_ID }}
+          tenant-id: 96b65f28-f65a-4cb2-a346-e45645488271
+          subscription-id: 4a48b271-82c2-4485-a57c-e5084371ed45
+      - name: Stage and verify all five release prefixes
+        env:
+          AZURE_MARKETING_PUBLISHER_CLIENT_ID: ${{ vars.AZURE_MARKETING_PUBLISHER_CLIENT_ID }}
+          GH_HOST: fairhelm-systems-private-limited.ghe.com
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/stage-azure-release.py "$RUNNER_TEMP/marketing-release" "$GITHUB_SHA" "$RUNNER_TEMP/marketing-prepared" > "$RUNNER_TEMP/marketing-stage.log"
+          gh api "repos/$GITHUB_REPOSITORY/branches/main" > "$RUNNER_TEMP/marketing-branch-after.json"
+          python3 - "$RUNNER_TEMP/marketing-stage.log" "$RUNNER_TEMP/marketing-branch-after.json" "$RUNNER_TEMP/marketing-stage-receipt.json" <<'PYRECEIPT'
+          import json, os, sys
+          branch = json.load(open(sys.argv[2]))
+          assert branch.get('protected') is True and (branch.get('commit') or {}).get('sha') == os.environ['GITHUB_SHA']
+          result = json.loads(open(sys.argv[1]).read().splitlines()[-1])
+          assert result.get('status') == 'staged' and result.get('commit') == os.environ['GITHUB_SHA']
+          result.update(schema='fairhelm-marketing-staging/v1', run_id=os.environ['GITHUB_RUN_ID'], attempt=os.environ['GITHUB_RUN_ATTEMPT'])
+          with open(sys.argv[3], 'w') as output: json.dump(result, output, sort_keys=True)
+          PYRECEIPT
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: marketing-staging-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/marketing-stage-receipt.json
           if-no-files-found: error
           retention-days: 30

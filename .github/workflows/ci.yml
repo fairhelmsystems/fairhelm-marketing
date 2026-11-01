@@ -87,7 +87,8 @@ jobs:
           test -z "$(git status --porcelain)"
           gh api "repos/$GITHUB_REPOSITORY/environments/azure-marketing-publication" > "$RUNNER_TEMP/marketing-environment.json"
           gh api "repos/$GITHUB_REPOSITORY/branches/main" > "$RUNNER_TEMP/marketing-branch.json"
-          python3 scripts/verify-azure-stage-context.py "$RUNNER_TEMP/marketing-environment.json" "$RUNNER_TEMP/marketing-branch.json" "$GITHUB_SHA"
+          gh api "repos/$GITHUB_REPOSITORY/environments/azure-marketing-publication/deployment-branch-policies" > "$RUNNER_TEMP/marketing-policies.json"
+          python3 scripts/verify-azure-stage-context.py "$RUNNER_TEMP/marketing-environment.json" "$RUNNER_TEMP/marketing-branch.json" "$RUNNER_TEMP/marketing-policies.json" "$GITHUB_SHA"
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: marketing-production-${{ github.sha }}

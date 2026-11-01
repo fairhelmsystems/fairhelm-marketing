@@ -39,7 +39,8 @@ def main():
     created = request(token, name, 'PUT', BODY, True)
     if created[0] != 201: raise ValueError(f'conditional creation failed: HTTP {created[0]}')
     replaced = request(token, name, 'PUT', b'should not overwrite\n', True)
-    if replaced[0] != 412: raise ValueError(f'conditional overwrite was not rejected: HTTP {replaced[0]}')
+    if replaced[:2] not in ((412, 'ConditionNotMet'), (409, 'BlobAlreadyExists')):
+        raise ValueError(f'conditional overwrite was not rejected: HTTP {replaced[0]}, code {replaced[1]}')
     deleted = request(token, name, 'DELETE')
     if deleted[:2] != (403, 'AuthorizationPermissionMismatch'):
         raise ValueError(f'delete denial was not established: HTTP {deleted[0]}')

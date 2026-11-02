@@ -131,3 +131,26 @@ jobs:
           path: ${{ runner.temp }}/marketing-stage-receipt.json
           if-no-files-found: error
           retention-days: 30
+      # The dispatch identity can start workflows only in the deployment repo.
+      # Its promotion workflow independently verifies this producer, all five
+      # staged sites, current protected main and the locked Terraform plan.
+      - name: Create marketing promotion dispatch token
+        if: vars.MARKETING_PROMOTION_DISPATCH_ENABLED == 'true'
+        id: promotion_dispatch_token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        with:
+          app-id: ${{ vars.MARKETING_GH_DISPATCH_APP_ID }}
+          private-key: ${{ secrets.MARKETING_GH_DISPATCH_APP_PRIVATE_KEY }}
+          owner: Fairhelm-Systems-Pvt-Ltd
+          repositories: square_campus.deployment
+          permission-actions: write
+      - name: Dispatch the protected marketing promotion
+        if: vars.MARKETING_PROMOTION_DISPATCH_ENABLED == 'true'
+        env:
+          GH_HOST: fairhelm-systems-private-limited.ghe.com
+          GH_TOKEN: ${{ steps.promotion_dispatch_token.outputs.token }}
+        run: |
+          set -eu
+          gh workflow run azure-marketing-promotion.yml \
+            --repo Fairhelm-Systems-Pvt-Ltd/square_campus.deployment --ref main \
+            -f run_id="$GITHUB_RUN_ID"

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compare a prepared site's files to its immutable Azure static-website prefix."""
 import hashlib
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import re
 import sys
@@ -33,7 +34,7 @@ def verify(site_dir, site, commit):
     if not (site_dir / 'index.html').is_file():
         raise ValueError('Prepared site is missing index.html')
     base = f'https://{ORIGINS[site]}/releases/{commit}/'
-    for path in sorted(files):
+    def verify_file(path):
         relative = path.relative_to(site_dir).as_posix()
         expected = hashlib.sha256()
         with path.open('rb') as source:
@@ -56,6 +57,12 @@ def verify(site_dir, site, commit):
                 received.update(chunk)
         if expected.digest() != received.digest():
             raise ValueError(f'Origin bytes differ for {relative}')
+
+    # Each immutable file is independent. Bound parallel reads to avoid a long
+    # serial verification while keeping origin load predictable; consuming all
+    # results ensures every failure still rejects the whole release.
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        list(executor.map(verify_file, sorted(files)))
     print(f'Verified {len(files)} {site} files at Azure origin for {commit}')
 
 

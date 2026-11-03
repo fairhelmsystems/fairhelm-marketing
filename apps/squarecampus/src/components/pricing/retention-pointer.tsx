@@ -1,4 +1,4 @@
-import { Archive, ArrowRight } from "lucide-react";
+import { Archive } from "lucide-react";
 import Link from "next/link";
 import { retentionPointer } from "@/content/retention";
 import { cn } from "@fairhelm/ui/lib/utils";
@@ -19,7 +19,6 @@ export function RetentionPointer({ className }: { className?: string }) {
           className="inline-flex items-center gap-1 whitespace-nowrap text-[color:var(--foreground)] underline decoration-[color:var(--brand)]/50 underline-offset-[3px] hover:decoration-[color:var(--brand)]"
         >
           {retentionPointer.linkLabel}
-          <ArrowRight aria-hidden className="size-3" />
         </Link>
       </span>
     </p>

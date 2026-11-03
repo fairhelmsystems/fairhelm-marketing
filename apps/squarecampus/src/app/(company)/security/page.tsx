@@ -1,4 +1,4 @@
-import {siteHref} from "@fairhelm/config/urls";
+import { siteHref } from "@fairhelm/config/urls";
 import {
   Bell,
   Database,
@@ -18,6 +18,7 @@ import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { deploymentSummary, identity, securityBaseline } from "@/content/commercial";
 import { securityFaqs } from "@/content/security-faq";
 import { ctaLabels, siteCtas } from "@/content/site-content";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 /**
  * The questions a procurement or IT review asks first, each answered with a
@@ -65,11 +66,11 @@ export default function SecurityPage() {
       <SectionShell className="pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <Reveal immediate className="space-y-6">
-            <p className="section-kicker">Trust and security</p>
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
               Security answers for the people who review school software.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-[color:var(--muted-foreground)]">
+              <LeadIn>{"Trust and security"}</LeadIn>
               Access control, audit history, encryption, hosting, backups and how to report an issue
               — stated plainly, with the evidence behind each one shared in writing during security
               review.
@@ -153,7 +154,7 @@ export default function SecurityPage() {
                   key={mode}
                   className="rounded-[1.2rem] bg-[color:var(--surface-muted)] px-4 py-4 text-sm leading-6 text-[color:var(--foreground)]"
                 >
-                  <span className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-[color:var(--muted-foreground)]">
+                  <span className="text-xs text-[color:var(--muted-foreground)]">
                     Mode {index + 1}
                   </span>
                   <span className="mt-2 block">{mode}</span>
@@ -195,10 +196,16 @@ export default function SecurityPage() {
             ))}
           </ul>
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-(--line) pt-5 text-sm">
-            <Link href={siteHref("squarecampus", "/data-processing-addendum/")} className="underline underline-offset-4">
+            <Link
+              href={siteHref("squarecampus", "/data-processing-addendum/")}
+              className="underline underline-offset-4"
+            >
               Data Processing Addendum
             </Link>
-            <Link href={siteHref("squarecampus", "/data-retention/")} className="underline underline-offset-4">
+            <Link
+              href={siteHref("squarecampus", "/data-retention/")}
+              className="underline underline-offset-4"
+            >
               Data retention
             </Link>
             <Link href="/infrastructure/" className="underline underline-offset-4">
@@ -227,11 +234,11 @@ export default function SecurityPage() {
         <Reveal className="surface-panel-strong rounded-[2rem] p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-center">
             <div>
-              <p className="section-kicker">Security review</p>
               <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                 Bring your questionnaire, policy concerns, or institutional requirements.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
+                <LeadIn>{"Security review"}</LeadIn>
                 The right trust conversation covers the real product controls, the operating
                 posture, and how the institution can stay confident after go-live.
               </p>

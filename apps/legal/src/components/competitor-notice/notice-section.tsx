@@ -63,7 +63,7 @@ export function NoticeSection({ id, number, title, severity, children }: NoticeS
         <h2 className="text-xl font-semibold text-white sm:text-2xl md:text-3xl">{title}</h2>
         <span
           className={cn(
-            "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide",
+            "rounded-full px-3 py-1 text-xs font-semibold",
             config.badgeBg,
             config.badgeText
           )}

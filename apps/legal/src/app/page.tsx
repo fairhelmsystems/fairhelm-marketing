@@ -3,7 +3,6 @@ import { siteConfig } from "@fairhelm/fairhelm-content/company";
 import { IconBadge, ResourceCard } from "@fairhelm/ui/components/resource-card";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import {
-  ArrowRight,
   ArrowUpRight,
   BookOpen,
   BrainCircuit,
@@ -121,7 +120,7 @@ export function DocumentDirectory({ scope }: { scope?: LegalScope }) {
                 href="#reading-guide"
                 className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm text-(--brand)"
               >
-                Compare similar titles <ArrowRight aria-hidden className="size-4" />
+                Compare similar titles{" "}
               </a>
             </div>
           </div>
@@ -172,7 +171,7 @@ export function DocumentDirectory({ scope }: { scope?: LegalScope }) {
                       href={documentPath(item)}
                       className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm text-(--brand)"
                     >
-                      View {collection.name} documents <ArrowRight aria-hidden className="size-4" />
+                      View {collection.name} documents{" "}
                     </Link>
                   ) : null}
                 </ResourceCard>

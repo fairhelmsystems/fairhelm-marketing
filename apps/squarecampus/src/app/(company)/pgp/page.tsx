@@ -1,12 +1,13 @@
 "use client";
 
-import { Check, Copy, Download, Key, Lock, Mail, Shield } from "lucide-react";
+import { Check, Copy, Download, Lock, Mail, Shield } from "lucide-react";
 import { useState } from "react";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { Reveal } from "@fairhelm/ui/components/reveal";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { createBreadcrumbSchema, createWebPageSchema, SEO_CONFIG } from "@/lib/seo";
 import { cn } from "@fairhelm/ui/lib/utils";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 const pgpKeyData = {
   email: "security@squarecampus.com",
@@ -186,14 +187,11 @@ export default function PGPPage() {
 
       <SectionShell className="pt-12 sm:pt-16">
         <Reveal className="max-w-3xl space-y-6">
-          <p className="section-kicker inline-flex items-center gap-2">
-            <Key className="size-3.5" />
-            Secure communication
-          </p>
           <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
             PGP public key.
           </h1>
           <p className="max-w-xl text-lg leading-8 text-muted-foreground">
+            <LeadIn>{"Secure communication"}</LeadIn>
             Use this key to send encrypted messages to our security team or verify communications
             from SquareCampus.
           </p>
@@ -205,9 +203,7 @@ export default function PGPPage() {
               ["Expires", pgpKeyData.expires],
             ].map(([label, value]) => (
               <div key={label} className="surface-panel overflow-hidden rounded-[1.2rem] p-4">
-                <p className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground">
-                  {label}
-                </p>
+                <p className="text-xs text-muted-foreground">{label}</p>
                 <p className="mt-2 truncate font-mono text-sm text-foreground" title={value}>
                   {value}
                 </p>

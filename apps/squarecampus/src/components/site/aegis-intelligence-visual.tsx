@@ -173,7 +173,6 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
     <div data-md-skip ref={ref} className={cn("aegis-visual @container relative", className)}>
       <div className="surface-panel-strong relative overflow-hidden rounded-4xl p-4 sm:p-5 md:p-6">
         {/* Ambient light behind the hub. Plain gradients, no filter blur. */}
-        <div className="pointer-events-none absolute inset-x-[10%] top-[30%] h-[40%] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(88,124,204,0.16),transparent_68%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(88,124,204,0.14),transparent_70%)]" />
 
         <div className="relative grid grid-cols-2 gap-3 @lg:block">
           {/* Sources above the hub */}
@@ -191,7 +190,7 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
 
             <div className="relative grid gap-6 @xl:grid-cols-[1.05fr_0.95fr] @xl:gap-8">
               <div>
-                <p className="flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-muted-foreground">
+                <p className="flex items-center gap-2 text-[0.6875rem] text-muted-foreground">
                   <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--brand-soft),transparent_70%)]">
                     <Radar className="size-3 text-(--brand)" />
                   </span>
@@ -216,7 +215,7 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
                       key={item}
                       data-aegis-rise
                       style={{ "--d": `${T.chip + index * T.chipStep}ms` } as Vars}
-                      className="rounded-full border border-(--line) bg-(--surface) px-3 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground"
+                      className="rounded-full border border-(--line) bg-(--surface) px-3 py-1.5 text-[0.6875rem] text-muted-foreground"
                     >
                       {item}
                     </span>
@@ -226,10 +225,8 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
 
               <div className="flex flex-col rounded-[1.2rem] border border-(--line) bg-(--surface-sunken) p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground">
-                    Governance checks
-                  </p>
-                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-(--line) bg-(--surface) px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground">
+                  <p className="text-[0.6875rem] text-muted-foreground">Governance checks</p>
+                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-(--line) bg-(--surface) px-2.5 py-1 text-[0.6875rem] text-muted-foreground">
                     Illustrative
                   </span>
                 </div>
@@ -240,7 +237,7 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
                       <div key={check.label} data-aegis-check style={{ "--d": delay } as Vars}>
                         <div className="mb-1.5 flex items-center justify-between gap-3 text-[0.68rem]">
                           <span className="text-foreground">{check.label}</span>
-                          <span className="aegis-status relative font-mono text-[0.6875rem] uppercase tracking-[0.16em]">
+                          <span className="aegis-status relative text-[0.6875rem]">
                             <span className="aegis-status-pending text-muted-foreground">
                               Checking
                             </span>

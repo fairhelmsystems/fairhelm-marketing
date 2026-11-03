@@ -23,9 +23,9 @@ export function BrandLogo({
       <span
         className={cn(
           "relative shrink-0",
-          framed
-            ? "overflow-hidden rounded-[1.1rem] border border-[color:var(--line-strong)] bg-[linear-gradient(135deg,rgba(83,117,194,0.12),transparent_65%)] shadow-[0_18px_36px_rgba(8,15,30,0.08)] dark:shadow-[0_18px_36px_rgba(0,0,0,0.34)]"
-            : "drop-shadow-[0_14px_28px_rgba(8,15,30,0.12)] dark:drop-shadow-[0_14px_28px_rgba(0,0,0,0.34)]"
+          // A still, flat mark: no drop-shadow filter or glow behind it.
+          framed &&
+            "overflow-hidden rounded-[1.1rem] border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)]"
         )}
         style={{ width: iconSize, height: iconSize }}
       >
@@ -53,7 +53,7 @@ export function BrandLogo({
         </span>
         <span
           className={cn(
-            "mt-0.5 block font-mono text-[0.6875rem] uppercase tracking-[0.24em] text-[color:var(--muted-foreground)]",
+            "mt-0.5 block text-xs text-[color:var(--muted-foreground)]",
             subtitleClassName
           )}
         >

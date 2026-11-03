@@ -2,6 +2,7 @@ import { Compass, HeartHandshake, Wrench } from "lucide-react";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { Reveal } from "@fairhelm/ui/components/reveal";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 type Job = {
   id: string;
@@ -39,11 +40,11 @@ export default function CareersPage() {
     <main tabIndex={-1} id="main-content">
       <SectionShell className="pt-12 sm:pt-16">
         <Reveal className="max-w-3xl space-y-6">
-          <p className="section-kicker">Careers</p>
           <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
             Build the backbone of modern institutions.
           </h1>
           <p className="max-w-xl text-lg leading-8 text-muted-foreground">
+            <LeadIn>{"Careers"}</LeadIn>
             SquareCampus is building long-term infrastructure for schools and colleges. That means
             thoughtful engineering, calm execution, and a team that cares about reliability as much
             as speed.
@@ -94,11 +95,11 @@ export default function CareersPage() {
             </div>
           ) : (
             <div className="surface-panel-strong rounded-[2rem] p-8 lg:p-10">
-              <p className="section-kicker">No open positions right now</p>
               <h2 className="mt-4 max-w-2xl font-display text-3xl tracking-[-0.05em]">
                 We publish roles here as the team expands.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+                <LeadIn>{"No open positions right now"}</LeadIn>
                 If you strongly believe you can help shape SquareCampus, reach out with a short note
                 and your profile — thoughtful, unsolicited applications get read.
               </p>

@@ -27,6 +27,7 @@ import { identity, pricingAvailability } from "@/content/commercial";
 import { intentPages } from "@/content/intent-pages";
 import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createBreadcrumbSchema, createWebPageSchema, SEO_CONFIG } from "@/lib/seo";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 const securityPackMailto =
   "mailto:security@squarecampus.com?subject=Security%20%26%20Compliance%20Pack%20Request%20-%20%5BSchool%20Name%5D&body=Hello%20SquareCampus%20Security%20Team%2C%0A%0AWe%20would%20like%20to%20request%20your%20Security%20%26%20Compliance%20Pack.%0A%0ASchool%20name%3A%20%5BYour%20School%20Name%5D%0AContact%20name%3A%20%5BYour%20Name%5D%0ARole%3A%20%5BTitle%20%2F%20Department%5D%0AEmail%3A%20%5BWork%20Email%5D%0APhone%3A%20%5BPhone%20Number%5D%0AStudent%20count%3A%20%5BApproximate%5D%0ACampuses%3A%20%5BNumber%20of%20Campuses%5D%0ASpecific%20requirements%3A%20%5BOptional%5D%0A%0AThank%20you%2C%0A%5BYour%20Name%5D";
@@ -181,21 +182,21 @@ export default function SchoolManagementSystemPage() {
       <SectionShell className="pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
           <Reveal immediate className="space-y-6">
-            <p className="section-kicker">School management system</p>
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
               School management system built for Indian schools.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-muted-foreground">
-              A school management system should be the operating manual of your campus — not a stack
-              of disconnected tools. Sometimes labeled school ERP software, SquareCampus is a School
-              OS built for India: admissions, attendance, fees, exams, communication, transport, and
-              compliance stay connected so nothing slips.
+              <LeadIn>{"School management system"}</LeadIn>A school management system should be the
+              operating manual of your campus — not a stack of disconnected tools. Sometimes labeled
+              school ERP software, SquareCampus is a School OS built for India: admissions,
+              attendance, fees, exams, communication, transport, and compliance stay connected so
+              nothing slips.
             </p>
             <div className="flex flex-wrap gap-2">
               {["Guided rollout", "One governed record", "Audit-ready by design"].map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-(--line) bg-(--surface) px-3 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground"
+                  className="rounded-full border border-(--line) bg-(--surface) px-3 py-2 text-xs text-muted-foreground"
                 >
                   {item}
                 </span>
@@ -212,7 +213,7 @@ export default function SchoolManagementSystemPage() {
           </Reveal>
 
           <Reveal immediate delay={120} className="surface-panel-strong rounded-[2rem] p-5 lg:p-6">
-            <div className="flex items-center justify-between font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>One view, zero chaos</span>
               <span className="inline-flex items-center gap-2">
                 <span className="size-1.5 animate-pulse rounded-full bg-(--teal)" />
@@ -242,9 +243,7 @@ export default function SchoolManagementSystemPage() {
                   key={label}
                   className="rounded-[1.2rem] border border-(--line) bg-(--surface) p-3"
                 >
-                  <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground">
-                    {label}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{label}</p>
                   <p className="mt-1.5 text-sm font-medium text-foreground">{value}</p>
                 </div>
               ))}
@@ -338,7 +337,7 @@ export default function SchoolManagementSystemPage() {
                   {page.definition.title}
                 </span>
               </span>
-              <span className="inline-flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground group-hover:text-(--brand)">
+              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground group-hover:text-(--brand)">
                 Read the answer
                 <ArrowRightLeft className="size-3" />
               </span>
@@ -533,11 +532,11 @@ export default function SchoolManagementSystemPage() {
 
       <SectionShell className="pb-22 pt-0">
         <Reveal className="surface-panel-strong rounded-[2rem] p-8 text-center lg:p-12">
-          <p className="section-kicker">School management system</p>
           <h2 className="mx-auto mt-4 max-w-2xl font-display text-3xl tracking-[-0.05em] sm:text-4xl">
             Ready to run every campus day from one operating system?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-muted-foreground">
+            <LeadIn>{"School management system"}</LeadIn>
             Book a demo, see your workflows mapped, and launch with a timeline that respects the
             academic calendar.
           </p>

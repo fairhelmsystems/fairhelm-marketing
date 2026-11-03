@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Check, Clock3, LockKeyhole, Mail } from "lucide-react";
+import { ArrowLeft, Check, Clock3, LockKeyhole, Mail } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@fairhelm/ui/components/alert";
@@ -211,7 +211,7 @@ export function ContactInquiry() {
       ) : null}
       <Card
         data-md-skip
-        className="system-panel overflow-visible border border-border bg-card/90 shadow-2xl shadow-black/20 backdrop-blur-xl"
+        className="system-panel overflow-visible border border-border bg-card/90 shadow-2xl shadow-black/20"
       >
         {status === "success" ? (
           <div className="flex flex-col gap-4 p-6 sm:p-8">
@@ -234,7 +234,7 @@ export function ContactInquiry() {
             <CardHeader className="border-b border-border pb-5">
               <div className="mb-2 flex items-center justify-between gap-4">
                 <p className="eyebrow">Inquiry</p>
-                <Badge variant="outline" className="font-mono text-[0.65rem]">
+                <Badge variant="outline" className="text-xs">
                   Step {step} of 2
                 </Badge>
               </div>
@@ -527,11 +527,7 @@ export function ContactInquiry() {
                       : endpoint
                         ? "Send inquiry"
                         : "Prepare email"}
-                  {step === 1 ? (
-                    <ArrowRight data-icon="inline-end" />
-                  ) : (
-                    <Mail data-icon="inline-end" />
-                  )}
+                  {step === 1 ? null : <Mail data-icon="inline-end" />}
                 </Button>
               </CardFooter>
             </form>
@@ -559,7 +555,6 @@ export function ContactInquiry() {
               className={cn(buttonVariants({ variant: "link", size: "sm" }), "h-auto px-0")}
             >
               Open in mail client
-              <ArrowRight data-icon="inline-end" />
             </Link>
           </CardFooter>
         </Card>

@@ -52,7 +52,7 @@ export function EvidenceFooter() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-              <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+              <div className="mb-2 flex items-center gap-2 text-xs font-medium text-neutral-500">
                 <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                 Document ID
               </div>
@@ -60,7 +60,7 @@ export function EvidenceFooter() {
             </div>
 
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-              <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+              <div className="mb-2 flex items-center gap-2 text-xs font-medium text-neutral-500">
                 <Clock className="h-3.5 w-3.5" aria-hidden="true" />
                 Version
               </div>
@@ -68,7 +68,7 @@ export function EvidenceFooter() {
             </div>
 
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-              <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+              <div className="mb-2 flex items-center gap-2 text-xs font-medium text-neutral-500">
                 <Clock className="h-3.5 w-3.5" aria-hidden="true" />
                 Effective Date
               </div>
@@ -76,7 +76,7 @@ export function EvidenceFooter() {
             </div>
 
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-              <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+              <div className="mb-2 flex items-center gap-2 text-xs font-medium text-neutral-500">
                 <Globe className="h-3.5 w-3.5" aria-hidden="true" />
                 Jurisdiction
               </div>
@@ -85,7 +85,7 @@ export function EvidenceFooter() {
           </div>
 
           <div className="mt-6 rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-            <div className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+            <div className="mb-2 text-xs font-medium text-neutral-500">
               Relevant Indian Law (Non-Exhaustive)
             </div>
             <p className="text-sm text-neutral-300">{documentMetadata.governingLaw}</p>
@@ -93,17 +93,13 @@ export function EvidenceFooter() {
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-              <div className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
-                Legal Entity
-              </div>
+              <div className="mb-2 text-xs font-medium text-neutral-500">Legal Entity</div>
               <p className="text-sm text-white">{documentMetadata.legalEntity}</p>
               <p className="mt-1 text-xs text-neutral-500">Trading as SquareCampus</p>
             </div>
 
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-              <div className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
-                Access Timestamp
-              </div>
+              <div className="mb-2 text-xs font-medium text-neutral-500">Access Timestamp</div>
               <p className="font-mono text-xs text-neutral-300">{timestamp || "Loading..."}</p>
               <p className="mt-1 text-xs text-neutral-500 print:hidden">
                 (Auto-populated on print)
@@ -121,9 +117,7 @@ export function EvidenceFooter() {
                 key={contact.email}
                 className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4"
               >
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-500">
-                  {contact.label}
-                </p>
+                <p className="mb-1 text-xs font-medium text-neutral-500">{contact.label}</p>
                 <a
                   href={`mailto:${contact.email}`}
                   className="text-sm text-teal-400 hover:text-teal-300 hover:underline"
@@ -133,9 +127,7 @@ export function EvidenceFooter() {
               </div>
             ))}
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-              <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-500">
-                Website
-              </p>
+              <p className="mb-1 text-xs font-medium text-neutral-500">Website</p>
               <a
                 href="https://squarecampus.com"
                 target="_blank"

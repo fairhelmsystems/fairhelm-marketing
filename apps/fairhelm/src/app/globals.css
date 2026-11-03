@@ -1,18 +1,19 @@
+/* Hallmark · shape: kept · genre: modern-minimal · theme: brand · redesign: restyle · copy: verbatim · system: @fairhelm/ui/styles.css (tokens, base, Floor rules; overflow-x clip and :focus-visible live there) */
 @import "tailwindcss";
 @import "@fairhelm/ui/styles.css";
 @import "@fairhelm/ui/compositions.css";
 
 @layer components {
-  /* Mono, uppercase, wide-tracked section label — the family's signature. */
-
-  /* Mono index ("01", "02") used above card titles. */
+  /* Card index ("01", "02"): a figure, so it keeps the mono face for its
+     tabular digits, but it is no longer a tracked capital label. */
   .index {
-    @apply font-mono text-[0.68rem] tracking-[0.24em] text-primary uppercase;
+    @apply font-mono text-sm text-muted-foreground tabular-nums;
   }
 
-  /* Small mono chip for statuses and illustrative-data labels. */
+  /* Small chip for statuses and illustrative-data labels: body face,
+     sentence case, untracked. */
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 font-mono text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-muted-foreground;
   }
 
   .no-scrollbar {
@@ -23,14 +24,10 @@
     display: none;
   }
 
-  /* Display sizes. Sora at weight 400 with tight tracking. */
-
-  /* Gradient word inside a heading. */
+  /* Formerly a gradient word inside a heading. A heading is now set one way,
+     one ink; the class stays so markup and content checks are untouched. */
   .text-gradient {
-    background: linear-gradient(120deg, var(--brand), var(--teal));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: inherit;
   }
 
   /* Vertical rhythm for page sections. */
@@ -51,24 +48,24 @@
     background-color: color-mix(in oklab, var(--background) 82%, transparent);
   }
 
-  /* Primary call to action: the family's gradient pill. */
+  /* Primary call to action: the same solid brand fill as `.cta-button` in
+     @fairhelm/ui (tokens --cta-bg / --cta-bg-hover / --cta-ink). */
   .btn-gradient {
-    color: #fff;
-    background-image: linear-gradient(120deg, var(--cta-from), var(--cta-mid) 55%, var(--cta-to));
-    box-shadow:
-      0 10px 26px var(--cta-shadow),
-      inset 0 1px 0 rgb(255 255 255 / 18%);
+    color: var(--cta-ink);
+    background-color: var(--cta-bg);
     transition:
-      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 220ms ease,
-      filter 220ms ease;
+      background-color 160ms ease,
+      transform 120ms ease;
   }
 
-  .btn-gradient:hover {
-    filter: brightness(1.06);
-    box-shadow:
-      0 14px 34px var(--cta-shadow),
-      inset 0 1px 0 rgb(255 255 255 / 22%);
+  @media (hover: hover) {
+    .btn-gradient:hover {
+      background-color: var(--cta-bg-hover);
+    }
+  }
+
+  .btn-gradient:active {
+    transform: translateY(1px);
   }
 
   /* Pull a page opener up under the floating header so its background
@@ -230,22 +227,16 @@
   }
 
   .cta-panel {
-    background:
-      radial-gradient(circle at 86% 0%, var(--glow-a), transparent 26rem),
-      radial-gradient(circle at 10% 100%, var(--glow-b), transparent 22rem),
-      color-mix(in oklab, var(--card) 88%, transparent);
+    background: var(--surface-strong);
   }
 
   /* Cards */
   [data-slot="card"] {
     position: relative;
-    box-shadow:
-      inset 0 1px 0 var(--panel-highlight),
-      var(--shadow-1);
+    box-shadow: var(--shadow-1);
     transition:
-      transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 260ms ease,
-      border-color 260ms ease;
+      transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 200ms ease;
   }
 
   [data-slot="card"]::after {
@@ -276,7 +267,7 @@
     inset-inline: 12%;
     top: 0;
     height: 6rem;
-    background: radial-gradient(circle at top, var(--glow-a), transparent 70%);
+    display: none;
     pointer-events: none;
   }
 
@@ -324,7 +315,7 @@
   }
 
   .svg-flow-dash {
-    animation: svg-flow 10s linear infinite;
+    animation: svg-flow 10s linear 3;
     stroke-dasharray: 10 14;
   }
 
@@ -335,36 +326,36 @@
   .svg-node-pulse {
     transform-box: fill-box;
     transform-origin: center;
-    animation: svg-pulse 3.2s ease-in-out infinite;
+    animation: svg-pulse 3.2s ease-in-out 3;
   }
 
   .svg-signal-bar {
     transform-box: fill-box;
     transform-origin: center bottom;
-    animation: svg-bar 3.6s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+    animation: svg-bar 3.6s cubic-bezier(0.22, 1, 0.36, 1) 4 alternate;
   }
 
   .svg-signal-line {
-    animation: svg-draw 5s ease-in-out infinite alternate;
+    animation: svg-draw 5s ease-in-out 4 alternate;
     stroke-dasharray: 620;
   }
 
   .svg-governance-orbit {
     transform-box: fill-box;
     transform-origin: center;
-    animation: svg-orbit 18s linear infinite;
+    animation: svg-orbit 18s linear 3;
   }
 
   .svg-orbit-reverse {
     transform-box: fill-box;
     transform-origin: center;
-    animation: svg-orbit 24s linear infinite reverse;
+    animation: svg-orbit 24s linear 3 reverse;
   }
 
   .svg-radar {
     transform-box: view-box;
     transform-origin: 280px 110px;
-    animation: svg-orbit 7s linear infinite;
+    animation: svg-orbit 7s linear 3;
   }
 
   .svg-flow-reverse {
@@ -373,29 +364,29 @@
   }
 
   .svg-spoke {
-    animation: svg-spoke-glow 3.2s ease-in-out infinite;
+    animation: svg-spoke-glow 3.2s ease-in-out 3;
   }
 
   .svg-core-glow {
     transform-box: fill-box;
     transform-origin: center;
-    animation: svg-glow 4.4s ease-in-out infinite;
+    animation: svg-glow 4.4s ease-in-out 3;
   }
 
   .svg-ping {
     transform-box: fill-box;
     transform-origin: center;
-    animation: svg-ping 3s ease-out infinite;
+    animation: svg-ping 3s ease-out 3;
   }
 
   .svg-traveler {
     animation-name: svg-travel;
     animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    animation-iteration-count: 3;
     animation-duration: 7s;
   }
 
-  .viz-reveal [data-rise] {
+  .js .viz-reveal [data-rise] {
     opacity: 0;
     transform: translateY(14px);
     transition:
@@ -404,35 +395,35 @@
     transition-delay: var(--d, 0ms);
   }
 
-  .viz-reveal.is-live [data-rise] {
+  .js .viz-reveal.is-live [data-rise] {
     opacity: 1;
     transform: none;
   }
 
-  .viz-reveal [data-draw] {
+  .js .viz-reveal [data-draw] {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
     transition: stroke-dashoffset 0.9s ease;
     transition-delay: var(--d, 0ms);
   }
 
-  .viz-reveal.is-live [data-draw] {
+  .js .viz-reveal.is-live [data-draw] {
     stroke-dashoffset: 0;
   }
 
-  .viz-reveal [data-grow] {
+  .js .viz-reveal [data-grow] {
     transform: scaleY(0.04);
     transform-origin: bottom;
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     transition-delay: var(--d, 0ms);
   }
 
-  .viz-reveal.is-live [data-grow] {
+  .js .viz-reveal.is-live [data-grow] {
     transform: scaleY(1);
   }
 
   .viz-pulse {
-    animation: svg-ping 3s ease-out infinite;
+    animation: svg-ping 3s ease-out 3;
   }
 
   @keyframes field-drift {
@@ -575,11 +566,8 @@
 
 @media (hover: hover) and (pointer: fine) {
   [data-slot="card"]:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     border-color: var(--border-strong);
-    box-shadow:
-      inset 0 1px 0 var(--panel-highlight),
-      var(--shadow-3);
   }
 
   [data-slot="card"]:hover::after {

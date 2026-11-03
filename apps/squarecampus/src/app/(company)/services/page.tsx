@@ -20,6 +20,7 @@ import { ServicesFlowVisual } from "@/components/site/services-flow-visual";
 import { deploymentOptions, integrationScope } from "@/content/commercial";
 import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createAlternates } from "@/lib/seo";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 const ogImage = {
   url: "https://squarecampus.com/og/services-card.png",
@@ -101,11 +102,11 @@ export default function ServicesPage() {
       <SectionShell className="pt-12 sm:pt-16">
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <Reveal immediate className="max-w-3xl space-y-6">
-            <p className="section-kicker">Integration, data &amp; deployment services</p>
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
               Your existing tools don&rsquo;t have to be dead ends.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-muted-foreground">
+              <LeadIn>{"Integration, data & deployment services"}</LeadIn>
               Beyond the School OS, we scope connections to the systems you already run, unify their
               data into one dashboard, and deploy on our managed cloud or a dedicated Enterprise
               environment.
@@ -167,7 +168,7 @@ export default function ServicesPage() {
                 >
                   <dt className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-sm font-medium text-foreground">{group.label}</span>
-                    <span className="rounded-full border border-(--line) px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted-foreground">
+                    <span className="rounded-full border border-(--line) px-2.5 py-1 text-xs text-muted-foreground">
                       {group.status}
                     </span>
                   </dt>
@@ -250,11 +251,11 @@ export default function ServicesPage() {
         </Reveal>
         <Reveal delay={120} className="mt-4">
           <div className="surface-panel flex flex-wrap items-center gap-x-5 gap-y-2 rounded-[1.4rem] px-5 py-4">
-            <span className="inline-flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground">
+            <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
               <ShieldCheck className="size-3.5 text-(--teal)" />
               Same role-based access and audit design in every model
             </span>
-            <span className="inline-flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground">
+            <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
               <Lock className="size-3.5 text-(--teal)" />
               Hosted on Microsoft Azure in India by default
             </span>
@@ -266,11 +267,11 @@ export default function ServicesPage() {
         <Reveal className="surface-panel-strong rounded-[2rem] p-5 sm:p-8 lg:p-10">
           <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-center">
             <div>
-              <p className="section-kicker">Start with an integration audit</p>
               <h2 className="mt-4 font-display text-2xl tracking-[-0.05em] sm:text-4xl">
                 Bring your current tool list. We&rsquo;ll map what connects.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+                <LeadIn>{"Start with an integration audit"}</LeadIn>
                 In one session we identify which systems can integrate, what the pipeline looks
                 like, and which deployment model fits your institution&rsquo;s governance.
               </p>

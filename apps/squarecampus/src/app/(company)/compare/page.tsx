@@ -8,6 +8,7 @@ import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { comparisons } from "@/content/comparisons";
 import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createAlternates } from "@/lib/seo";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 export const metadata: Metadata = {
   title: "Compare School Management Systems",
@@ -75,11 +76,11 @@ export default function CompareHubPage() {
 
       <SectionShell className="pt-12 sm:pt-16">
         <Reveal immediate className="max-w-3xl space-y-6">
-          <p className="section-kicker">Compare</p>
           <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
             Evaluating school management systems? Start here.
           </h1>
           <p className="max-w-xl text-lg leading-8 text-muted-foreground">
+            <LeadIn>{"Compare"}</LeadIn>
             Honest, side-by-side comparisons of SquareCampus with the school ERPs you&rsquo;re
             likely weighing — including where each alternative is the better fit — plus a framework
             for evaluating any of them.
@@ -101,7 +102,7 @@ export default function CompareHubPage() {
             <article
               key={c.slug}
               data-reveal-item
-              className="surface-panel group relative flex flex-col rounded-[1.6rem] p-6 transition-shadow hover:shadow-[0_30px_72px_rgba(8,15,30,0.1)]"
+              className="surface-panel group relative flex flex-col rounded-[1.6rem] p-6 transition-shadow hover:shadow-(--shadow-2)"
             >
               <p className="section-kicker">{c.intentLabel}</p>
               <h2 className="mt-4 font-display text-2xl tracking-[-0.04em]">
@@ -127,9 +128,7 @@ export default function CompareHubPage() {
         <Reveal staggerChildren className="grid gap-4 md:grid-cols-2">
           {evaluationCriteria.map((item, index) => (
             <article key={item.q} data-reveal-item className="surface-panel rounded-[1.6rem] p-6">
-              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground">
-                {String(index + 1).padStart(2, "0")}
-              </p>
+              <p className="text-xs text-muted-foreground">{String(index + 1).padStart(2, "0")}</p>
               <h2 className="mt-3 font-display text-xl tracking-[-0.03em]">{item.q}</h2>
               <p className="mt-3 text-base leading-7 text-muted-foreground">{item.body}</p>
             </article>
@@ -139,10 +138,10 @@ export default function CompareHubPage() {
 
       <SectionShell className="pb-22 pt-0">
         <Reveal className="surface-panel-strong rounded-[2rem] p-6 text-center sm:p-10">
-          <p className="section-kicker">Skip the spreadsheet</p>
           <h2 className="mx-auto mt-4 max-w-2xl font-display text-2xl tracking-[-0.05em] sm:text-4xl">
             Bring your shortlist. We&rsquo;ll map SquareCampus against it, honestly.
           </h2>
+          <p className="label">{"Skip the spreadsheet"}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} variant="cta" />
             <ButtonLink href="/why-squarecampus" label="Why SquareCampus" variant="secondary" />

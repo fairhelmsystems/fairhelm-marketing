@@ -23,6 +23,7 @@ import { MobileExpand } from "@fairhelm/ui/components/mobile-expand";
 import { PainRemedyGrid } from "@/components/site/pain-remedy";
 import { Reveal } from "@fairhelm/ui/components/reveal";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { SyntheticDataNote } from "@/components/site/synthetic-data-note";
@@ -138,7 +139,7 @@ function EditorialGeometryOverlay({ variant = "cool" }: { variant?: "cool" | "wa
         <circle cx="812" cy="208" r="24" fill={fill} stroke={stroke} strokeWidth="1.8" />
         <circle cx="892" cy="424" r="14" fill={fill} stroke={stroke} strokeWidth="1.6" />
       </svg>
-      <div className="absolute left-[16%] top-[18%] h-24 w-24 rounded-full border border-white/14 bg-white/8 backdrop-blur-[2px]" />
+      <div className="absolute left-[16%] top-[18%] h-24 w-24 rounded-full border border-white/14 bg-white/8" />
       <div className="absolute right-[12%] top-[16%] h-px w-28 bg-white/20" />
       <div className="absolute right-[12%] top-[16%] h-12 w-px bg-white/20" />
       <div
@@ -149,7 +150,7 @@ function EditorialGeometryOverlay({ variant = "cool" }: { variant?: "cool" | "wa
         className="absolute right-[18.2%] top-[28.2%] size-2.5 rounded-full"
         style={{ backgroundColor: dot }}
       />
-      <div className="absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent)]" />
+      <div className="absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,var(--surface-muted),transparent)]" />
     </div>
   );
 }
@@ -174,14 +175,15 @@ export default function Home() {
               immediate
               className="space-y-4 sm:space-y-5 lg:col-start-1 lg:row-start-1 lg:self-end"
             >
-              {/* Category and audience first (audit SC-007): a first-time
-                  visitor should know what this is before the proposition. */}
-              <p className="section-kicker">{product.categoryDescriptor}</p>
               <h1 className="type-display">
                 Run daily operations. See what needs{" "}
                 <span className="hero-emphasis">attention</span>.
               </h1>
+              {/* Category and audience (audit SC-007) open the first sentence
+                  under the headline: a first-time visitor still learns what
+                  this is before the actions, without a label above the H1. */}
               <p className="type-body measure text-muted-foreground">
+                <LeadIn>{product.categoryDescriptor}</LeadIn>
                 Admissions, attendance, fees, exams and parent communication in one connected system
                 — with clear responsibilities for school teams and one shared view for leadership
                 across campuses.
@@ -299,10 +301,10 @@ export default function Home() {
           <MobileExpand label="See the command centre" title="The command centre">
             <Reveal className="grid gap-4 xl:grid-cols-[1.06fr_0.94fr]">
               <article className="surface-panel-strong relative overflow-hidden rounded-[2.15rem] p-6 lg:p-7">
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(88,124,204,0.14),transparent)]" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,var(--brand-tint),transparent)]" />
                 <div className="relative flex h-full flex-col">
                   <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-(--line) bg-(--surface) px-4 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-(--line) bg-(--surface) px-4 py-2 text-xs text-muted-foreground">
                       <ChartNoAxesCombined className="size-4 text-(--teal)" />
                       Institution view
                     </div>
@@ -340,11 +342,9 @@ export default function Home() {
                             </span>
                             <div className="relative h-5 flex-1 overflow-hidden rounded-full bg-(--surface-muted)">
                               <div
-                                className="absolute inset-y-0 left-0 rounded-full transition-all duration-[1.5s] ease-out"
+                                className="absolute inset-y-0 left-0 origin-left rounded-full bg-(--brand)"
                                 style={{
                                   width: `${value}%`,
-                                  background:
-                                    "linear-gradient(90deg, var(--brand), color-mix(in oklch, var(--brand), white 25%))",
                                   animation: `bar-grow 1.2s ease-out both`,
                                   animationDelay: `${["Grade 10", "Grade 9", "Grade 8", "Grade 7", "Grade 6"].indexOf(label as string) * 0.1}s`,
                                 }}
@@ -360,7 +360,7 @@ export default function Home() {
                         {["Campus roll-up", "Exceptions flagged"].map((item) => (
                           <span
                             key={item}
-                            className="rounded-full border border-(--line) bg-(--surface-strong) px-3 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-[color:var(--muted-foreground)]"
+                            className="rounded-full border border-(--line) bg-(--surface-strong) px-3 py-2 text-xs text-[color:var(--muted-foreground)]"
                           >
                             {item}
                           </span>
@@ -439,7 +439,7 @@ export default function Home() {
                             <span className="font-display text-2xl tracking-[-0.04em] text-[color:var(--foreground)]">
                               72%
                             </span>
-                            <span className="mt-0.5 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-[color:var(--muted-foreground)]">
+                            <span className="mt-0.5 text-xs text-[color:var(--muted-foreground)]">
                               Collected
                             </span>
                           </div>
@@ -482,11 +482,9 @@ export default function Home() {
                         className="absolute inset-0 h-full w-full object-cover"
                       />
                       <EditorialGeometryOverlay />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(16,24,38,0.06),rgba(16,24,38,0.76))]" />
-                      <div className="absolute inset-x-5 bottom-5 rounded-[1.3rem] border border-white/14 bg-[rgba(12,20,32,0.55)] p-4 text-white backdrop-blur-md">
-                        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-white/85">
-                          Who it is for
-                        </p>
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,var(--photo-scrim-top),var(--photo-scrim))]" />
+                      <div className="absolute inset-x-5 bottom-5 rounded-[1.3rem] border border-white/14 bg-(--photo-chip) p-4 text-white">
+                        <p className="text-xs text-white/85">Who it is for</p>
                         <p className="mt-3 font-display text-2xl tracking-[-0.04em]">
                           Trustees, principals, finance teams and campus operators, on one record.
                         </p>
@@ -500,12 +498,12 @@ export default function Home() {
                 <div className="flex h-full flex-col">
                   <div className="flex flex-wrap items-start justify-between gap-4 border-b border-(--line) pb-5">
                     <div>
-                      <p className="section-kicker">Governance model</p>
                       <h2 className="mt-3 max-w-sm font-display text-2xl tracking-[-0.04em]">
                         Trust-level governance. Campus-level autonomy.
                       </h2>
+                      <p className="label">{"Governance model"}</p>
                     </div>
-                    <span className="rounded-full border border-(--line) bg-(--surface-strong) px-4 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground">
+                    <span className="rounded-full border border-(--line) bg-(--surface-strong) px-4 py-2 text-xs text-muted-foreground">
                       <Building2 className="mr-2 inline size-4 text-(--brand)" />
                       Every campus
                     </span>
@@ -555,7 +553,6 @@ export default function Home() {
           <MobileExpand label="See the sovereignty model" title="Data, deployment and exit">
             <Reveal className="grid gap-4 lg:grid-cols-[1fr_0.95fr]">
               <div className="surface-panel-strong relative overflow-hidden rounded-[1.8rem] p-8">
-                <div className="pointer-events-none absolute right-[-3rem] top-[-2rem] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(88,124,204,0.16),transparent_72%)] blur-3xl" />
                 <Languages className="size-5 text-[color:var(--brand)]" />
                 <h2 className="mt-5 font-display text-3xl tracking-[-0.05em]">
                   Sovereign does not mean rigid.
@@ -577,7 +574,7 @@ export default function Home() {
                         {["English", "Hindi", "Kannada"].map((item) => (
                           <span
                             key={item}
-                            className="rounded-full border border-[color:var(--line)] bg-[color:var(--surface-strong)] px-3 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-[color:var(--muted-foreground)]"
+                            className="rounded-full border border-[color:var(--line)] bg-[color:var(--surface-strong)] px-3 py-2 text-xs text-[color:var(--muted-foreground)]"
                           >
                             {item}
                           </span>
@@ -608,18 +605,18 @@ export default function Home() {
                       className="absolute inset-0 h-full w-full object-cover"
                     />
                     <EditorialGeometryOverlay variant="warm" />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(16,24,38,0.08),rgba(16,24,38,0.78))]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,var(--photo-scrim-top),var(--photo-scrim))]" />
 
-                    <div className="absolute right-4 top-4 max-w-[16rem] rounded-[1.35rem] border border-white/14 bg-[rgba(255,255,255,0.76)] p-4 text-[color:var(--foreground)] shadow-[0_18px_50px_rgba(8,15,30,0.14)] backdrop-blur-md dark:border-white/10 dark:bg-[rgba(12,20,32,0.72)] dark:text-white dark:shadow-[0_18px_50px_rgba(0,0,0,0.4)]">
+                    <div className="absolute right-4 top-4 max-w-[16rem] rounded-[1.35rem] border border-white/14 bg-(--photo-chip-light) p-4 text-[color:var(--foreground)] shadow-(--shadow-2) dark:border-white/10 dark:bg-[rgba(12,20,32,0.72)] dark:text-white dark:shadow-[0_18px_50px_rgba(0,0,0,0.4)]">
                       <div className="flex items-center justify-between gap-3">
-                        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-[color:var(--muted-foreground)] dark:text-white/60">
+                        <p className="text-xs text-[color:var(--muted-foreground)] dark:text-white/60">
                           Circular delivery
                         </p>
                         <div className="flex gap-1.5">
                           {["ENG", "HIN"].map((item) => (
                             <span
                               key={item}
-                              className="rounded-full bg-[color:var(--surface-strong)] px-2 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-[color:var(--muted-foreground)] dark:bg-white/10 dark:text-white/60"
+                              className="rounded-full bg-[color:var(--surface-strong)] px-2 py-1 text-xs text-[color:var(--muted-foreground)] dark:bg-white/10 dark:text-white/60"
                             >
                               {item}
                             </span>
@@ -635,10 +632,8 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <div className="absolute inset-x-4 bottom-4 rounded-[1.35rem] border border-white/14 bg-[rgba(12,20,32,0.58)] p-5 text-white backdrop-blur-md">
-                      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-white/85">
-                        India-aware operating model
-                      </p>
+                    <div className="absolute inset-x-4 bottom-4 rounded-[1.35rem] border border-white/14 bg-(--photo-chip) p-5 text-white">
+                      <p className="text-xs text-white/85">India-aware operating model</p>
                       <p className="mt-3 font-display text-2xl tracking-[-0.04em]">
                         Language stays flexible while the institution stays operationally strict.
                       </p>
@@ -778,11 +773,11 @@ export default function Home() {
           <Reveal className="surface-panel-strong rounded-[2rem] p-5 sm:p-8 lg:p-10">
             <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-center">
               <div>
-                <p className="section-kicker">Next move</p>
                 <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                   See whether SquareCampus can govern your institution.
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
+                  <LeadIn>{"Next move"}</LeadIn>
                   Bring your current stack. We will map it against the governed operating model and
                   walk through rollout, controls, and institutional fit.
                 </p>

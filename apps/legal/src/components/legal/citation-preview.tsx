@@ -35,9 +35,9 @@ export function CitationPreview({
       </PreviewCard.Trigger>
       <PreviewCard.Portal>
         <PreviewCard.Positioner sideOffset={10} className="z-50">
-          <PreviewCard.Popup className="w-[min(22rem,calc(100vw-2rem))] origin-[var(--transform-origin)] rounded-[1.1rem] border border-[color:var(--line-strong)] bg-background p-4 text-left shadow-[0_24px_60px_rgba(8,15,30,0.18)] dark:border-[color:var(--cite-neon)]/35 dark:shadow-[0_0_48px_-16px_var(--cite-neon),0_24px_60px_rgba(0,0,0,0.6)] transition-[transform,opacity] duration-150 ease-out data-ending-style:scale-[0.97] data-ending-style:opacity-0 data-starting-style:scale-[0.97] data-starting-style:opacity-0 motion-reduce:transition-none">
+          <PreviewCard.Popup className="w-[min(22rem,calc(100vw-2rem))] origin-[var(--transform-origin)] rounded-[1.1rem] border border-[color:var(--line-strong)] bg-background p-4 text-left shadow-(--shadow-2) dark:border-[color:var(--cite-neon)]/35 dark:shadow-[0_0_48px_-16px_var(--cite-neon),0_24px_60px_rgba(0,0,0,0.6)] transition-[transform,opacity] duration-150 ease-out data-ending-style:scale-[0.97] data-ending-style:opacity-0 data-starting-style:scale-[0.97] data-starting-style:opacity-0 motion-reduce:transition-none">
             <SourceThumbnail host={reference.host} seed={reference.id} />
-            <p className="mt-3.5 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-[color:var(--brand)]">
+            <p className="mt-3.5 text-xs text-[color:var(--brand)]">
               Official source · {reference.host}
             </p>
             <p className="mt-2 font-display text-base leading-snug tracking-[-0.02em] text-foreground">

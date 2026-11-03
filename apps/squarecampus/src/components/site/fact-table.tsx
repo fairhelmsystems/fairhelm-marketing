@@ -26,11 +26,12 @@ export function FactTable({
     <section
       aria-label={caption}
       className={cn(
-        "surface-panel overflow-x-auto rounded-[var(--radius-panel-lg)] p-6 focus-visible:outline-2 focus-visible:outline-[color:var(--brand)] lg:p-8",
+        // Phones restack each row (.compare-stack); sm and up scroll sideways.
+        "surface-panel rounded-[var(--radius-panel-lg)] p-5 sm:overflow-x-auto sm:p-6 lg:p-8",
         className
       )}
     >
-      <table className="w-full min-w-[40rem] border-collapse text-left">
+      <table className="compare-stack w-full border-collapse text-left sm:min-w-[40rem]">
         <caption className="sr-only">{caption}</caption>
         <thead>
           <tr>
@@ -54,6 +55,7 @@ export function FactTable({
               values={row.values.map((content, index) => ({
                 key: columns[index]?.key ?? String(index),
                 content,
+                label: columns[index]?.label,
               }))}
             />
           ))}

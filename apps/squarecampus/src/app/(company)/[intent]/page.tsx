@@ -22,6 +22,7 @@ import {
   createPageMetadata,
   SEO_CONFIG,
 } from "@/lib/seo";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 /**
  * Search-intent pages, one per query cluster, rendered from
@@ -104,12 +105,16 @@ export default async function IntentPage({ params }: PageProps) {
       <SectionShell className="pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           <Reveal immediate className="space-y-6">
-            <p className="section-kicker">
-              <Link href="/school-management-system/" className="hover:text-foreground">
+            <nav aria-label="Breadcrumb" className="label">
+              <Link
+                href="/school-management-system/"
+                className="underline-offset-4 hover:text-foreground hover:underline"
+              >
                 School management system
-              </Link>{" "}
-              · {page.keyword}
-            </p>
+              </Link>
+              <span aria-hidden="true"> / </span>
+              <span aria-current="page">{page.keyword}</span>
+            </nav>
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-[3.6rem]">
               {page.h1}
             </h1>
@@ -118,7 +123,7 @@ export default async function IntentPage({ params }: PageProps) {
               {page.audience.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-(--line) bg-(--surface) px-3 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground"
+                  className="rounded-full border border-(--line) bg-(--surface) px-3 py-2 text-xs text-muted-foreground"
                 >
                   {item}
                 </span>
@@ -141,11 +146,13 @@ export default async function IntentPage({ params }: PageProps) {
             delay={120}
             className="surface-panel-strong rounded-[1.8rem] p-6 lg:p-7"
           >
-            <p className="section-kicker">Direct answer</p>
             <h2 className="mt-4 font-display text-2xl tracking-[-0.04em]">
               {page.definition.title}
             </h2>
-            <p className="mt-3 text-base leading-7 text-muted-foreground">{page.definition.body}</p>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">
+              <LeadIn>{"Direct answer"}</LeadIn>
+              {page.definition.body}
+            </p>
             <p className="mt-5 border-t border-(--line) pt-4 text-sm leading-6 text-muted-foreground">
               {product.categoryRelationship}{" "}
               <Link
@@ -347,12 +354,12 @@ export default async function IntentPage({ params }: PageProps) {
 
       <SectionShell className="pb-16">
         <Reveal className="surface-panel-strong rounded-[2rem] p-8 text-center sm:p-10">
-          <p className="section-kicker">Next step</p>
           <h2 className="mx-auto mt-4 max-w-2xl font-display text-3xl tracking-[-0.05em] sm:text-4xl">
             Bring one real bottleneck. We will show how it runs.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-muted-foreground">
-            A guided demo on your own scenario, followed by a written scope, from a{" "}
+            <LeadIn>{"Next step"}</LeadIn>A guided demo on your own scenario, followed by a written
+            scope, from a{" "}
             <Link href="/about/" className="text-foreground underline-offset-4 hover:underline">
               founder-led team
             </Link>

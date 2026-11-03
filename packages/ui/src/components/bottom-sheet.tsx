@@ -30,9 +30,9 @@ export default function BottomSheet({
   return (
     <Drawer.Root open={open} onOpenChange={onOpenChange} swipeDirection="down">
       <Drawer.Portal>
-        <Drawer.Backdrop className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] transition-opacity duration-300 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0" />
+        <Drawer.Backdrop className="fixed inset-0 z-50 bg-black/45 transition-opacity duration-300 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0" />
         <Drawer.Viewport className="fixed inset-0 z-50 flex items-end justify-center">
-          <Drawer.Popup className="bottom-sheet relative flex max-h-[88dvh] w-full flex-col rounded-t-[1.75rem] border border-b-0 border-[color:var(--line-strong)] bg-background shadow-[0_-24px_60px_rgba(8,15,30,0.28)] outline-none">
+          <Drawer.Popup className="bottom-sheet relative flex max-h-[88dvh] w-full flex-col rounded-t-[1.75rem] border border-b-0 border-[color:var(--line-strong)] bg-background shadow-(--shadow-3) outline-none">
             {/* Drag handle: the popup itself is swipeable; this is the affordance. */}
             <span
               aria-hidden

@@ -242,9 +242,7 @@ export function MobileNavigation({
       {items.map((item) =>
         isNavigationGroup(item) ? (
           <div key={item.label}>
-            <p className="px-4 pb-1 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-[color:var(--muted-foreground)]">
-              {item.label}
-            </p>
+            <p className="px-4 pb-1 text-xs text-[color:var(--muted-foreground)]">{item.label}</p>
             <ul className="grid">
               {item.links.map((link) => (
                 <li key={link.href}>{renderLink(link)}</li>

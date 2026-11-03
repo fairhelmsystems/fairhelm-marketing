@@ -1,5 +1,4 @@
 import {
-  ArrowRight,
   BarChart3,
   Building2,
   Check,
@@ -272,7 +271,7 @@ export default function HomePage() {
           >
             {facts.map((fact) => (
               <div key={fact.label} className="min-w-0">
-                <p className="eyebrow text-[0.6rem]">{fact.label}</p>
+                <p className="eyebrow">{fact.label}</p>
                 <p className="mt-2 font-heading text-[1.05rem] leading-snug tracking-[-0.02em] text-foreground sm:text-lg">
                   {fact.value}
                 </p>
@@ -294,7 +293,7 @@ export default function HomePage() {
             title="Institutions rarely lack software. They lack visibility and ownership."
             description="Recurring operating cycles break in predictable places. Each failure has a cost, and each maps to something Fairhelm builds."
           />
-          <Reveal stagger className="mt-10 grid gap-4 lg:grid-cols-3">
+          <Reveal stagger className="rail-phone mt-10 grid gap-4 lg:grid-cols-3">
             {problems.map((problem) => (
               <article
                 key={problem.index}
@@ -309,11 +308,11 @@ export default function HomePage() {
                 <p className="symptom mt-4">{problem.symptom}</p>
                 <dl className="mt-5 grid gap-4 text-sm leading-6">
                   <div>
-                    <dt className="eyebrow text-[0.58rem]">Hidden cost</dt>
+                    <dt className="eyebrow">Hidden cost</dt>
                     <dd className="mt-1.5 text-muted-foreground">{problem.cost}</dd>
                   </div>
                   <div>
-                    <dt className="eyebrow text-[0.58rem]">What we build</dt>
+                    <dt className="eyebrow">What we build</dt>
                     <dd className="mt-1.5 text-foreground">{problem.response}</dd>
                   </div>
                 </dl>
@@ -322,7 +321,6 @@ export default function HomePage() {
                   className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-[color:var(--brand-ink)] after:absolute after:inset-0 after:rounded-3xl focus-visible:outline-none"
                 >
                   {problem.lane}
-                  <ArrowRight aria-hidden="true" className="size-3.5" />
                 </Link>
               </article>
             ))}
@@ -341,7 +339,7 @@ export default function HomePage() {
               description="Not a module list. SquareCampus connects each operating cycle to its owners, evidence, exceptions and governance context, for a single school or a multi-campus trust."
             />
             <Reveal delay={120} className="mt-7">
-              <p className="eyebrow text-[0.6rem]">Operating cycles</p>
+              <p className="eyebrow">Operating cycles</p>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {cycles.map((cycle) => (
                   <li key={cycle} className="chip normal-case tracking-normal">
@@ -365,7 +363,6 @@ export default function HomePage() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link href="/squarecampus/" className={cn(buttonVariants())}>
                   How Fairhelm builds SquareCampus
-                  <ArrowRight data-icon="inline-end" />
                 </Link>
                 <a
                   href={siteConfig.product.url}
@@ -397,7 +394,7 @@ export default function HomePage() {
             title="From raw operational data to decisions leadership can act on."
             description="Two lanes, one standard. Fairhelm takes on this work selectively, where it aligns with the systems it already builds and operates."
           />
-          <Reveal stagger className="mt-10 grid gap-5 lg:grid-cols-2">
+          <Reveal stagger className="rail-phone mt-10 grid gap-5 lg:grid-cols-2">
             {lanes.map(({ Visual, icon: Icon, ...lane }) => (
               <article
                 key={lane.href}
@@ -409,7 +406,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex flex-1 flex-col px-5 pt-2 pb-6 sm:px-7 sm:pb-7">
                   <div className="flex items-center justify-between gap-4">
-                    <p className="eyebrow text-[0.6rem]">{lane.eyebrow}</p>
+                    <p className="eyebrow">{lane.eyebrow}</p>
                     <span className="flex size-9 items-center justify-center rounded-xl border border-border bg-secondary text-[color:var(--brand-ink)]">
                       <Icon aria-hidden="true" className="size-4" />
                     </span>
@@ -436,10 +433,6 @@ export default function HomePage() {
                   </ul>
                   <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-[color:var(--brand-ink)]">
                     {lane.label}
-                    <ArrowRight
-                      aria-hidden="true"
-                      className="size-3.5 transition-transform group-hover/card:translate-x-0.5"
-                    />
                   </span>
                 </div>
               </article>
@@ -474,7 +467,7 @@ export default function HomePage() {
               delay={120}
               className="mt-8 surface-panel rounded-[var(--radius-panel)] p-5 sm:p-6"
             >
-              <p className="eyebrow text-[0.6rem]">Outside our scope</p>
+              <p className="eyebrow">Outside our scope</p>
               <ul className="mt-3 grid gap-2 text-sm leading-6 text-muted-foreground">
                 {siteConfig.services.outOfScope.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
@@ -554,7 +547,7 @@ export default function HomePage() {
           />
           <Reveal stagger className="mt-10 grid gap-4 md:grid-cols-2">
             <div className="surface-panel rounded-[var(--radius-panel)] p-5 sm:p-6">
-              <p className="eyebrow text-[0.6rem]">Published</p>
+              <p className="eyebrow">Published</p>
               <ul className="mt-4 divide-y divide-border">
                 {published.map(([label, href]) => (
                   <li key={href}>
@@ -566,17 +559,13 @@ export default function HomePage() {
                         <Check aria-hidden="true" className="size-3.5 shrink-0 text-teal" />
                         {label}
                       </span>
-                      <ArrowRight
-                        aria-hidden="true"
-                        className="size-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-[color:var(--brand-ink)]"
-                      />
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div className="surface-panel rounded-[var(--radius-panel)] p-5 sm:p-6">
-              <p className="eyebrow text-[0.6rem]">Not published until it exists and is verified</p>
+              <p className="eyebrow">Not published until it exists and is verified</p>
               <ul className="mt-4 divide-y divide-border">
                 {withheld.map((item) => (
                   <li

@@ -1,7 +1,7 @@
 "use client";
 
 import { siteHref } from "@fairhelm/config/urls";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, Check } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
@@ -893,10 +893,10 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
             type="submit"
             disabled={status === "submitting" || status === "verifying"}
             className={cn(
-              "group/button inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium transition-all disabled:cursor-not-allowed disabled:opacity-60",
+              "group/button inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium transition-[background-color,opacity,transform] disabled:cursor-not-allowed disabled:opacity-60",
               step === LAST_STEP
-                ? "cta-button text-white"
-                : "bg-foreground text-background hover:opacity-92 active:opacity-85"
+                ? "cta-button"
+                : "bg-foreground text-background hover:opacity-92 active:translate-y-px active:opacity-85"
             )}
           >
             {status === "submitting" || status === "verifying"
@@ -906,10 +906,6 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
                   ? intentCopy.emailSubmitLabel
                   : intentCopy.submitLabel
                 : "Continue"}
-            <ArrowRight
-              aria-hidden
-              className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5"
-            />
           </button>
         </div>
       </form>

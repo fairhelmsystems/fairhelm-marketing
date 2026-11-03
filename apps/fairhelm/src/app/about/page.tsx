@@ -114,7 +114,7 @@ export default function AboutPage() {
         <div className="panel p-2.5 sm:p-3">
           <div className="panel-inner p-5 sm:p-7">
             <div className="flex items-center gap-5">
-              <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-border bg-[#f4f6fa] p-3 shadow-sm">
+              <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-border bg-(--logo-plate) p-3 shadow-sm">
                 <Image
                   src="/brand/fairhelm-logo.svg"
                   alt="Fairhelm Systems logo mark"
@@ -125,7 +125,7 @@ export default function AboutPage() {
                 />
               </div>
               <div>
-                <p className="eyebrow text-[0.6rem]">Operating brand</p>
+                <p className="eyebrow">Operating brand</p>
                 <p className="mt-2 font-heading text-xl tracking-[-0.02em] text-foreground">
                   Fairhelm Systems
                 </p>
@@ -133,31 +133,31 @@ export default function AboutPage() {
             </div>
             <dl className="mt-7 grid gap-5 border-t border-border pt-6 sm:grid-cols-2">
               <div>
-                <dt className="eyebrow text-[0.6rem]">Legal entity</dt>
+                <dt className="eyebrow">Legal entity</dt>
                 <dd className="mt-2 text-sm font-medium text-foreground">
                   {siteConfig.legalNameDisplay}
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow text-[0.6rem]">CIN</dt>
+                <dt className="eyebrow">CIN</dt>
                 <dd className="mt-2 font-mono text-[0.8rem] tracking-tight text-foreground">
                   {siteConfig.cin}
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow text-[0.6rem]">GSTIN</dt>
+                <dt className="eyebrow">GSTIN</dt>
                 <dd className="mt-2 font-mono text-[0.8rem] tracking-tight text-foreground">
                   {siteConfig.gstin}
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow text-[0.6rem]">Incorporated</dt>
+                <dt className="eyebrow">Incorporated</dt>
                 <dd className="mt-2 text-sm text-foreground">
                   {siteConfig.incorporationDateDisplay} · One Person Company
                 </dd>
               </div>
               <div className="sm:col-span-2">
-                <dt className="eyebrow text-[0.6rem]">Registered office</dt>
+                <dt className="eyebrow">Registered office</dt>
                 <dd className="mt-2 flex items-start gap-2 text-sm leading-6 text-muted-foreground">
                   <MapPin
                     aria-hidden="true"
@@ -210,17 +210,13 @@ export default function AboutPage() {
           />
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="surface-panel rounded-[var(--radius-panel)] p-5 sm:p-6">
-              <span className="index">01</span>
-              <h3 className="display-3 mt-3">
-                Is Fairhelm a product company or a services company?
-              </h3>
+              <h3 className="display-3">Is Fairhelm a product company or a services company?</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 {siteConfig.positioning.is} It is not {siteConfig.positioning.isNot.join(", ")}.
               </p>
             </div>
             <div className="surface-panel rounded-[var(--radius-panel)] p-5 sm:p-6">
-              <span className="index">02</span>
-              <h3 className="display-3 mt-3">Who operates SquareCampus?</h3>
+              <h3 className="display-3">Who operates SquareCampus?</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 {siteConfig.product.relationship} Institutions should evaluate it at{" "}
                 <a
@@ -233,8 +229,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="surface-panel rounded-[var(--radius-panel)] p-5 sm:p-6">
-              <span className="index">03</span>
-              <h3 className="display-3 mt-3">What engineering work does Fairhelm take on?</h3>
+              <h3 className="display-3">What engineering work does Fairhelm take on?</h3>
               <ul className="mt-3 flex list-disc flex-col gap-1 pl-5 text-sm leading-6 text-muted-foreground">
                 {siteConfig.services.lanes.map((lane) => (
                   <li key={lane.href}>
@@ -250,8 +245,7 @@ export default function AboutPage() {
               </ul>
             </div>
             <div className="surface-panel rounded-[var(--radius-panel)] p-5 sm:p-6">
-              <span className="index">04</span>
-              <h3 className="display-3 mt-3">What is outside Fairhelm's scope?</h3>
+              <h3 className="display-3">What is outside Fairhelm's scope?</h3>
               <ul className="mt-3 flex list-disc flex-col gap-1 pl-5 text-sm leading-6 text-muted-foreground">
                 {siteConfig.services.outOfScope.map((item) => (
                   <li key={item}>{item}</li>

@@ -29,7 +29,7 @@ export function Hero() {
             className={cn(
               "inline-flex items-center gap-2 rounded-full",
               "border border-red-500/30 bg-red-950/50 px-4 py-2",
-              "text-xs font-semibold uppercase tracking-widest text-red-400"
+              "text-xs font-semibold text-red-400"
             )}
           >
             <AlertTriangle className="h-4 w-4" aria-hidden="true" />
@@ -131,9 +131,7 @@ export function Hero() {
                     key={item.label}
                     className="rounded-lg border border-red-500/10 bg-red-950/30 p-4"
                   >
-                    <p className="text-xs font-medium uppercase tracking-wide text-red-400/80">
-                      {item.label}
-                    </p>
+                    <p className="text-xs font-medium text-red-400/80">{item.label}</p>
                     <p className="mt-1 text-lg font-semibold text-white">{item.value}</p>
                   </div>
                 ))}

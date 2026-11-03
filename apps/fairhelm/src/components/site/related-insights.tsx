@@ -1,13 +1,11 @@
 import { MobileExpand } from "@fairhelm/ui/components/mobile-expand";
 import { blogHref } from "@fairhelm/config/urls";
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Container } from "@/components/site/container";
 import { InsightCard } from "@/components/site/insight-card";
 import { Reveal } from "@/components/site/reveal";
 import { getInsights, INSIGHTS_PATH, insightsForLane } from "@/content/insights";
 import { cn } from "@fairhelm/ui/lib/utils";
-
 
 /**
  * Up to three Insights for a page. With `lane` set, the notes that belong to
@@ -51,7 +49,6 @@ export function RelatedInsights({
             className="inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--brand-ink)] hover:underline"
           >
             All insights
-            <ArrowRight aria-hidden="true" className="size-3.5" />
           </Link>
         </div>
         <MobileExpand label="Explore related practice notes" title="Related reading">

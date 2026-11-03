@@ -27,6 +27,7 @@ import { WorkflowCards } from "@/components/site/workflow-cards";
 import { motionAssets } from "@/content/motion-assets";
 import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createPageMetadata } from "@/lib/seo";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 export const metadata: Metadata = createPageMetadata({
   title: "School Management Platform",
@@ -119,11 +120,11 @@ export default function PlatformPage() {
 
       <SectionShell className="pt-12 sm:pt-16">
         <Reveal immediate className="mx-auto max-w-3xl space-y-6 text-center">
-          <p className="section-kicker">School management platform</p>
           <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
             Every school workflow on one shared record.
           </h1>
           <p className="mx-auto max-w-xl text-lg leading-8 text-muted-foreground">
+            <LeadIn>{"School management platform"}</LeadIn>
             Admissions, attendance, fees, exams and parent communication run as connected workflows.
             What staff do in one reaches the others without re-typing, and every step has an owner.
           </p>
@@ -253,11 +254,11 @@ export default function PlatformPage() {
         <Reveal className="surface-panel-strong rounded-4xl p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
             <div>
-              <p className="section-kicker">Governed intelligence</p>
               <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                 AEGIS is embedded where context already exists.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+                <LeadIn>{"Governed intelligence"}</LeadIn>
                 AEGIS works inside SquareCampus, not beside it. It reads the same timelines,
                 permissions and records the School OS already holds, so there is no second system to
                 reconcile.

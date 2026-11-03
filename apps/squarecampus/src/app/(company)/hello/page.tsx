@@ -28,7 +28,11 @@ const GREETINGS = [
 
 export default function Hello() {
   return (
-    <main tabIndex={-1} id="main-content" className="flex min-h-[100dvh] items-center justify-center bg-[rgb(4,8,16)] px-4">
+    <main
+      tabIndex={-1}
+      id="main-content"
+      className="flex min-h-[100dvh] items-center justify-center bg-(--night) px-4"
+    >
       <div className="relative aspect-video w-full max-w-5xl overflow-hidden rounded-[2rem] border border-white/10">
         {GREETINGS.map((item) => (
           <span
@@ -43,7 +47,7 @@ export default function Hello() {
             {item.word}
           </span>
         ))}
-        <p className="absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[0.6875rem] tracking-[0.12em] text-white/40">
+        <p className="absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-white/40">
           SquareCampus · Built with ❤️ in Bharath
         </p>
       </div>

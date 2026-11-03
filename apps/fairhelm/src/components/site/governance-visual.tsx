@@ -34,7 +34,7 @@ export function GovernanceVisual({
 
   return (
     <div ref={ref} className={cn("viz-reveal", className)}>
-      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70 p-4 backdrop-blur sm:p-5">
+      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70 p-4 sm:p-5">
         <div className="viz-cap" />
 
         <div data-rise style={{ "--d": "80ms" } as CSSProperties}>
@@ -143,7 +143,7 @@ export function GovernanceVisual({
           {chips.map((chip) => (
             <span
               key={chip}
-              className="inline-flex items-center gap-1.5 font-mono text-[0.56rem] tracking-[0.16em] text-muted-foreground uppercase"
+              className="inline-flex items-center gap-1.5 text-[0.56rem] text-muted-foreground"
             >
               <ScrollText className="size-3 text-[color:var(--brand-ink)]" />
               {chip}

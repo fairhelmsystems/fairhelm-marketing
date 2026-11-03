@@ -6,6 +6,7 @@ import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { product } from "@/content/commercial";
 import { company } from "@/content/company";
 import { ctaLabels, siteCtas } from "@/content/site-content";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 const values = [
   {
@@ -83,11 +84,11 @@ export default function AboutPage() {
       <SectionShell className="pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <Reveal immediate className="space-y-6">
-            <p className="section-kicker">About SquareCampus</p>
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
               A founder-led company building software for Indian schools.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-muted-foreground">
+              <LeadIn>{"About SquareCampus"}</LeadIn>
               SquareCampus is built by {company.legalNameDisplay}, in Bangalore. It exists to put
               admissions, academics, fees and communication on one record, with a clear owner for
               every exception — for standalone schools, school groups and education trusts.
@@ -261,7 +262,7 @@ export default function AboutPage() {
 
       <SectionShell className="pt-0">
         <Reveal className="surface-panel-strong relative overflow-hidden rounded-[2rem] p-8 lg:p-12">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[linear-gradient(180deg,rgba(88,124,204,0.12),transparent)]" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[linear-gradient(180deg,var(--brand-tint),transparent)]" />
           <blockquote className="relative mx-auto max-w-3xl">
             <p className="font-display text-2xl leading-snug tracking-[-0.03em] sm:text-3xl">
               &ldquo;Indian schools and colleges don&rsquo;t need another shiny dashboard — they
@@ -280,11 +281,11 @@ export default function AboutPage() {
         <Reveal className="surface-panel-strong rounded-[2rem] p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-center">
             <div>
-              <p className="section-kicker">Next step</p>
               <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                 Ready to see SquareCampus in action?
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+                <LeadIn>{"Next step"}</LeadIn>
                 Share how your institution operates today, and we&rsquo;ll walk you through how
                 SquareCampus can simplify, connect, and de-risk your daily workflows.
               </p>

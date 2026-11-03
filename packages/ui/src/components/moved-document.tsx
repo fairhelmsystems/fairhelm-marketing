@@ -12,7 +12,7 @@ export function MovedDocument({ href, landmark = true }: { href: string; landmar
         Policies and press resources now have a dedicated home.
       </p>
       <Link href={href} className="mt-6 inline-block underline">
-        Open the current document →
+        Open the current document
       </Link>
     </Tag>
   );

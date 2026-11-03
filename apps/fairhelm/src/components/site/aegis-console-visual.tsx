@@ -52,7 +52,7 @@ export function AegisConsoleVisual({ className }: { className?: string }) {
       aria-label="Illustrative example of an AEGIS console exchange with sample campuses and figures. Not customer data."
       className={cn("viz-reveal", className)}
     >
-      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70 backdrop-blur">
+      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70">
         <div className="viz-cap" />
 
         {/* Console chrome */}
@@ -61,11 +61,9 @@ export function AegisConsoleVisual({ className }: { className?: string }) {
             <span className="flex size-7 items-center justify-center rounded-full bg-primary/15">
               <Radar className="size-3.5 text-primary" />
             </span>
-            <span className="font-mono text-[0.58rem] tracking-[0.22em] text-muted-foreground uppercase">
-              AEGIS · Governed console
-            </span>
+            <span className="text-[0.58rem] text-muted-foreground">AEGIS · Governed console</span>
           </div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 font-mono text-[0.52rem] tracking-[0.16em] text-muted-foreground uppercase">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 text-[0.52rem] text-muted-foreground">
             <Fingerprint className="size-3 text-primary" />
             Illustrative · Trust admin
           </span>
@@ -110,7 +108,7 @@ export function AegisConsoleVisual({ className }: { className?: string }) {
           {/* Suggested next steps */}
           <div data-rise style={{ "--d": "320ms" } as CSSProperties}>
             <div className="max-w-[92%] rounded-2xl rounded-bl-md border border-border bg-background/55 p-4">
-              <p className="flex items-center gap-1.5 font-mono text-[0.54rem] tracking-[0.18em] text-muted-foreground uppercase">
+              <p className="flex items-center gap-1.5 text-[0.54rem] text-muted-foreground">
                 <ListChecks className="size-3 text-primary" />
                 Suggested next steps
               </p>
@@ -136,7 +134,7 @@ export function AegisConsoleVisual({ className }: { className?: string }) {
             {governance.map((item) => (
               <span
                 key={item.text}
-                className="inline-flex items-center gap-1.5 font-mono text-[0.55rem] tracking-[0.14em] text-muted-foreground uppercase"
+                className="inline-flex items-center gap-1.5 text-[0.55rem] text-muted-foreground"
               >
                 <item.icon className="size-3 text-chart-4" />
                 {item.text}

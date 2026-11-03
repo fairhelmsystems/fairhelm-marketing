@@ -3,7 +3,6 @@ import { siteConfig } from "@fairhelm/fairhelm-content/company";
 import { ResourceCard } from "@fairhelm/ui/components/resource-card";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import {
-  ArrowRight,
   ArrowUpRight,
   Building2,
   CalendarDays,
@@ -82,7 +81,6 @@ export default function Page() {
                 className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm text-(--brand)"
               >
                 SquareCampus press resources
-                <ArrowRight aria-hidden className="size-4" />
               </Link>
             </div>
             <a

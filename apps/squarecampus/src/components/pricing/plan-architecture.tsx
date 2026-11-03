@@ -2,7 +2,7 @@
 
 import { Check, ChevronDown, KeyRound, Plus } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useEffect, useId, useRef, useState } from "react";
+import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { RetentionPointer } from "@/components/pricing/retention-pointer";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { OperationalBadge } from "@fairhelm/ui/components/marketing";
@@ -89,6 +89,7 @@ export function PlanArchitecture() {
   const [open, setOpen] = useState<Plan["id"] | null>(null);
   const baseId = useId();
   const panelRefs = useRef<Record<string, HTMLElement | null>>({});
+  const toggleRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   // React serialises `hidden` as a plain boolean. Upgrade closed panels to
   // hidden="until-found" so find-in-page can reach (and open) them.
@@ -130,6 +131,18 @@ export function PlanArchitecture() {
         panelRefs.current[next]?.scrollIntoView({ block: "nearest", behavior: "smooth" })
       );
     }
+  };
+
+  // Closing from the foot of a long panel: collapse it, then bring the plan's
+  // card back into view and return focus to its toggle, so a keyboard or
+  // screen-reader user lands where they started instead of mid-page.
+  const close = (id: Plan["id"]) => {
+    setOpen(null);
+    requestAnimationFrame(() => {
+      const button = toggleRefs.current[id];
+      button?.closest("article")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      button?.focus({ preventScroll: true });
+    });
   };
 
   return (
@@ -174,6 +187,9 @@ export function PlanArchitecture() {
                 {plan.bestFor[0]}
               </p>
               <button
+                ref={(node) => {
+                  toggleRefs.current[plan.id] = node;
+                }}
                 type="button"
                 aria-expanded={isOpen || sheet === plan.id}
                 aria-controls={`${baseId}-${plan.id}`}
@@ -212,9 +228,9 @@ export function PlanArchitecture() {
             <span aria-hidden className={cn("absolute inset-y-0 left-0 w-1", railTone[index])} />
             <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2">
               <span className="type-caption text-[color:var(--brand)]">{plan.step}</span>
-              <p className="font-display text-xl tracking-[-0.04em]">{plan.name} in detail</p>
+              <h3 className="font-display text-xl tracking-[-0.04em]">{plan.name} in detail</h3>
             </div>
-            <PlanDetail plan={plan} index={index} />
+            <PlanDetail plan={plan} index={index} onClose={() => close(plan.id)} />
           </div>
         </section>
       ))}
@@ -222,94 +238,131 @@ export function PlanArchitecture() {
   );
 }
 
-function ScopedSeparately({ plan }: { plan: Plan }) {
+/** A titled block that never splits across the two balanced columns. */
+function Block({
+  title,
+  children,
+  className,
+}: {
+  title?: string;
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="mt-6 border-t border-[color:var(--line)] pt-5">
-      <p className="eyebrow">Scoped separately</p>
-      <Bullets items={plan.scopedExtras} icon="plus" />
-      <p className="type-support mt-3">
-        <a href="#proposal" className="text-[color:var(--foreground)] underline underline-offset-4">
-          What we need for a proposal
-        </a>
-      </p>
+    <div className={cn("mb-7 break-inside-avoid last:mb-0", className)}>
+      {title ? (
+        <h4 className="text-sm font-medium text-[color:var(--foreground)]">{title}</h4>
+      ) : null}
+      {children}
     </div>
   );
 }
 
 /**
- * The full band for one plan. Inclusions sit on the right; when the plan has an
- * identity card it follows them and the scoping detail moves left, so the card
- * sits high. Without one, the scoping detail follows the inclusions instead, so
- * the two columns stay balanced.
+ * The full detail for one plan.
+ *
+ * The blocks flow through two balanced CSS columns on desktop (`lg:columns-2`),
+ * so whichever plan is open, and at whatever width, the two columns end at
+ * nearly the same height: the browser balances them, no per-plan placement.
+ * Blocks never split; the inclusion list may continue into the next column
+ * between items. Reading order is the DOM order: the problem, who it suits,
+ * what the plan includes (its own capabilities first, the statement common to
+ * every plan after them), identity, what is scoped separately, deployment.
+ * The action sits in a footer under both columns, with the proposal link and,
+ * on desktop, a control to close the panel from where the reader finished.
  */
-function PlanDetail({ plan, index }: { plan: Plan; index: number }) {
+function PlanDetail({ plan, index, onClose }: { plan: Plan; index: number; onClose?: () => void }) {
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-12">
-      <div>
-        <div className="rounded-[var(--radius-chip)] border border-[color:var(--line)] bg-[color:var(--surface-muted)] px-4 py-4">
-          <p className="eyebrow">The problem it solves</p>
-          <p className="type-support mt-2 text-[color:var(--muted-foreground)]">{plan.problem}</p>
-        </div>
+    <div>
+      <div className="lg:columns-2 lg:gap-12">
+        <Block>
+          <div className="rounded-[var(--radius-chip)] border border-[color:var(--line)] bg-[color:var(--surface-muted)] px-4 py-4">
+            <h4 className="text-sm font-medium text-[color:var(--foreground)]">
+              The problem it solves
+            </h4>
+            <p className="type-support mt-2">{plan.problem}</p>
+          </div>
+        </Block>
 
-        <div className="mt-6">
-          <p className="eyebrow">Best suited for</p>
+        <Block title="Best suited for">
           <Bullets items={plan.bestFor} icon="dot" />
-        </div>
+        </Block>
 
-        {plan.spotlight ? <ScopedSeparately plan={plan} /> : null}
+        <Block title={`What ${plan.name} includes`}>
+          <ul className="mt-3 space-y-2.5">
+            {plan.capabilities.map((capability) => (
+              <li key={capability} className="type-support flex gap-2.5">
+                <Check aria-hidden className="mt-1 size-3.5 shrink-0 text-[color:var(--brand)]" />
+                <span>{capability}</span>
+              </li>
+            ))}
+          </ul>
+        </Block>
 
-        <div className="mt-6 border-t border-[color:var(--line)] pt-5">
-          <p className="eyebrow">Deployment</p>
-          <p className="type-support mt-2">{plan.deployment}</p>
-          <RetentionPointer className="mt-4" />
-        </div>
-      </div>
-
-      <div className="flex flex-col">
-        <p className="eyebrow">Core platform and plan depth</p>
-        <p className="type-support mt-3">{corePlatform.included}</p>
-        <p className="type-support mt-3">{corePlatform.multiCampus}</p>
-        <ul className="mt-4 grid gap-x-6 gap-y-2.5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-          {plan.capabilities.map((capability) => (
-            <li key={capability} className="type-support flex gap-2.5">
-              <Check aria-hidden className="mt-1 size-3.5 shrink-0 text-[color:var(--brand)]" />
-              <span>{capability}</span>
-            </li>
-          ))}
-        </ul>
+        {/* The same on every plan, so it reads as a note after the plan's own
+            list rather than leading it; free to sit in either column. */}
+        <Block className="space-y-2 border-l-2 border-[color:var(--line-strong)] pl-4 text-[0.8125rem] leading-6 text-[color:var(--muted-foreground)]">
+          <p>{corePlatform.included}</p>
+          <p>{corePlatform.multiCampus}</p>
+        </Block>
 
         {plan.spotlight ? (
-          <div className="mt-6 rounded-[var(--radius-chip)] border border-[color:var(--line-strong)] bg-[color:var(--brand-tint)] px-5 py-5">
-            <div className="flex items-center gap-2.5">
-              <KeyRound aria-hidden className="size-4 text-[color:var(--brand)]" />
-              <h4 className="text-sm font-medium text-[color:var(--foreground)]">
-                {plan.spotlight.title}
-              </h4>
+          <Block>
+            <div className="rounded-[var(--radius-chip)] border border-[color:var(--line-strong)] bg-[color:var(--brand-tint)] px-5 py-5">
+              <div className="flex items-center gap-2.5">
+                <KeyRound aria-hidden className="size-4 text-[color:var(--brand)]" />
+                <h4 className="text-sm font-medium text-[color:var(--foreground)]">
+                  {plan.spotlight.title}
+                </h4>
+              </div>
+              <p className="type-support mt-3">{plan.spotlight.body}</p>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {plan.spotlight.labels.map((label) => (
+                  <li key={label}>
+                    <span className="inline-flex rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface)] px-2.5 py-1 text-xs text-[color:var(--muted-foreground)]">
+                      {label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="type-support mt-4">{plan.spotlight.note}</p>
             </div>
-            <p className="type-support mt-3">{plan.spotlight.body}</p>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {plan.spotlight.labels.map((label) => (
-                <li key={label}>
-                  <span className="inline-flex rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface)] px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-[color:var(--muted-foreground)]">
-                    {label}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <p className="type-support mt-4">{plan.spotlight.note}</p>
-          </div>
-        ) : (
-          <ScopedSeparately plan={plan} />
-        )}
+          </Block>
+        ) : null}
 
-        <div className="mt-6 lg:mt-auto lg:pt-6">
-          <ButtonLink
-            href={plan.cta.href}
-            label={plan.cta.label}
-            variant={index === 2 ? "cta" : "secondary"}
-            className="w-full justify-center sm:w-auto"
-          />
-        </div>
+        <Block title="Scoped separately">
+          <Bullets items={plan.scopedExtras} icon="plus" />
+        </Block>
+
+        <Block title="Deployment">
+          <p className="type-support mt-2">{plan.deployment}</p>
+          <RetentionPointer className="mt-4" />
+        </Block>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-4 border-t border-[color:var(--line)] pt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
+        <ButtonLink
+          href={plan.cta.href}
+          label={plan.cta.label}
+          variant={index === 2 ? "cta" : "secondary"}
+          className="w-full justify-center sm:w-auto"
+        />
+        <a
+          href="#proposal"
+          className="type-support text-[color:var(--foreground)] underline underline-offset-4 hover:decoration-[color:var(--brand)]"
+        >
+          What we need for a proposal
+        </a>
+        {onClose ? (
+          <button
+            type="button"
+            onClick={onClose}
+            className="hidden min-h-11 items-center gap-2 rounded-full px-3 text-sm font-medium text-[color:var(--muted-foreground)] transition-colors hover:bg-[color:var(--surface-muted)] hover:text-[color:var(--foreground)] lg:ml-auto lg:inline-flex"
+          >
+            Hide {plan.name} details
+            <ChevronDown aria-hidden className="size-4 rotate-180" />
+          </button>
+        ) : null}
       </div>
     </div>
   );

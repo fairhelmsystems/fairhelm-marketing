@@ -44,7 +44,7 @@ export function AccessControlVisual({ className }: { className?: string }) {
       aria-label="Illustrative example of an access decision evaluated against explicit authority. Sample roles and scopes, not customer data."
       className={cn("viz-reveal", className)}
     >
-      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70 backdrop-blur">
+      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70">
         <div className="viz-cap" />
 
         {/* Console chrome */}
@@ -53,11 +53,9 @@ export function AccessControlVisual({ className }: { className?: string }) {
             <span className="flex size-7 items-center justify-center rounded-full bg-primary/15">
               <ShieldCheck className="size-3.5 text-[color:var(--brand-ink)]" />
             </span>
-            <span className="font-mono text-[0.58rem] tracking-[0.22em] text-muted-foreground uppercase">
-              Access control plane
-            </span>
+            <span className="text-[0.58rem] text-muted-foreground">Access control plane</span>
           </div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 font-mono text-[0.52rem] tracking-[0.16em] text-muted-foreground uppercase">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 text-[0.52rem] text-muted-foreground">
             <KeyRound className="size-3 text-[color:var(--brand-ink)]" />
             Least privilege
           </span>
@@ -75,9 +73,7 @@ export function AccessControlVisual({ className }: { className?: string }) {
                 <Fingerprint className="size-4 text-[color:var(--brand-ink)]" />
                 <div>
                   <p className="text-sm font-medium text-foreground">Regional Coordinator</p>
-                  <p className="font-mono text-[0.6rem] tracking-[0.14em] text-muted-foreground uppercase">
-                    Scope: North Zone
-                  </p>
+                  <p className="text-[0.6rem] text-muted-foreground">Scope: North Zone</p>
                 </div>
               </div>
               <span className="rounded-full border border-border bg-secondary/40 px-3 py-1 text-[0.66rem] text-muted-foreground">
@@ -111,7 +107,7 @@ export function AccessControlVisual({ className }: { className?: string }) {
                   </span>
                   <span
                     className={cn(
-                      "font-mono text-[0.64rem] tracking-[0.16em] uppercase",
+                      "text-[0.64rem]",
                       row.tone === "allow"
                         ? "text-[color:var(--brand-ink)]"
                         : "text-muted-foreground"
@@ -132,7 +128,7 @@ export function AccessControlVisual({ className }: { className?: string }) {
             className="flex items-center gap-2.5 rounded-xl border border-border bg-background/55 px-4 py-2.5"
           >
             <ScrollText className="size-3.5 shrink-0 text-chart-4" />
-            <p className="font-mono text-[0.6rem] leading-5 tracking-[0.1em] text-muted-foreground uppercase">
+            <p className="text-[0.6rem] leading-5 text-muted-foreground">
               Decision written to immutable audit trail
             </p>
           </div>
@@ -146,7 +142,7 @@ export function AccessControlVisual({ className }: { className?: string }) {
             {controls.map((item) => (
               <span
                 key={item.text}
-                className="inline-flex items-center gap-1.5 font-mono text-[0.55rem] tracking-[0.14em] text-muted-foreground uppercase"
+                className="inline-flex items-center gap-1.5 text-[0.55rem] text-muted-foreground"
               >
                 <item.icon className="size-3 text-chart-4" />
                 {item.text}

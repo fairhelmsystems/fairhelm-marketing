@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { workflows } from "@/content/workflows";
 import { cn } from "@fairhelm/ui/lib/utils";
@@ -10,7 +9,10 @@ import { Reveal } from "@fairhelm/ui/components/reveal";
  */
 export function WorkflowCards({ className }: { className?: string }) {
   return (
-    <Reveal staggerChildren className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-3", className)}>
+    <Reveal
+      staggerChildren
+      className={cn("rail-phone grid gap-4 sm:grid-cols-2 lg:grid-cols-3", className)}
+    >
       {workflows.map((item) => (
         <article
           key={item.id}
@@ -33,10 +35,6 @@ export function WorkflowCards({ className }: { className?: string }) {
             className="group/link mt-5 inline-flex items-center gap-1.5 self-start text-sm font-medium text-(--brand-ink) underline-offset-4 hover:underline"
           >
             {item.linkLabel}
-            <ArrowRight
-              aria-hidden
-              className="size-3.5 transition-transform group-hover/link:translate-x-0.5"
-            />
           </Link>
         </article>
       ))}

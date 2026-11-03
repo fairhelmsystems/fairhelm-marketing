@@ -5,7 +5,6 @@ import {
   Check,
   Fingerprint,
   Landmark,
-  Radar,
   ScrollText,
   ShieldCheck,
   Sparkles,
@@ -29,6 +28,7 @@ import {
   createWebPageSchema,
   SEO_CONFIG,
 } from "@/lib/seo";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 export const metadata: Metadata = createPageMetadata({
   title: "AEGIS: AI for School Operations",
@@ -148,14 +148,11 @@ export default function AegisPage() {
       <SectionShell className="pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <Reveal immediate className="space-y-6">
-            <p className="section-kicker inline-flex items-center gap-2">
-              <Radar className="size-3.5 text-(--brand)" />
-              Adaptive Enterprise Governance &amp; Intelligence System
-            </p>
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-[4.4rem]">
               Ask AEGIS. Don&rsquo;t chase reports.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-muted-foreground">
+              <LeadIn>{"Adaptive Enterprise Governance & Intelligence System"}</LeadIn>
               The AI inside SquareCampus, not a chatbot bolted onto an ERP. Ask in plain language;
               it answers from your school&rsquo;s records, inside your permissions, on the audit
               trail. It suggests — people decide and act.
@@ -172,7 +169,7 @@ export default function AegisPage() {
               {["Inside SquareCampus", "Answers in role scope", "Read-only"].map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-(--line) bg-(--surface) px-3 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground"
+                  className="rounded-full border border-(--line) bg-(--surface) px-3 py-2 text-xs text-muted-foreground"
                 >
                   {item}
                 </span>
@@ -303,15 +300,11 @@ export default function AegisPage() {
           {eraComparison.map((row) => (
             <article key={row.aegis} data-reveal-item className="grid gap-3 lg:grid-cols-2">
               <div className="rounded-[1.4rem] bg-(--surface-muted) p-5">
-                <p className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground">
-                  Legacy ERP reporting
-                </p>
+                <p className="text-xs text-muted-foreground">Legacy ERP reporting</p>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">{row.legacy}</p>
               </div>
               <div className="surface-panel-strong rounded-[1.4rem] p-5">
-                <p className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-(--brand-ink)">
-                  With AEGIS
-                </p>
+                <p className="text-xs text-(--brand-ink)">With AEGIS</p>
                 <p className="mt-3 text-sm leading-7 text-foreground">{row.aegis}</p>
               </div>
             </article>
@@ -357,14 +350,14 @@ export default function AegisPage() {
 
       <SectionShell className="pb-22 pt-0">
         <Reveal className="surface-panel-strong relative overflow-hidden rounded-[2rem] p-8 lg:p-12">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[linear-gradient(180deg,rgba(88,124,204,0.14),transparent)]" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[linear-gradient(180deg,var(--brand-tint),transparent)]" />
           <div className="relative grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-center">
             <div>
-              <p className="section-kicker">See it on your own numbers</p>
               <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                 Bring one question you currently wait days to answer.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+                <LeadIn>{"See it on your own numbers"}</LeadIn>
                 In a guided demo we&rsquo;ll walk through how AEGIS is designed to answer it, what
                 it would draw on in your records, and where its limits are.
               </p>

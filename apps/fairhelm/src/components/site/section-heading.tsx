@@ -6,7 +6,6 @@ export function SectionHeading({
   eyebrow,
   title,
   description,
-  number,
   align = "left",
   className,
 }: {
@@ -20,7 +19,9 @@ export function SectionHeading({
   return (
     <Reveal>
       <SectionHeader
-        eyebrow={number ? `${number} · ${eyebrow}` : eyebrow}
+        // `number` is kept for callers; an ordinal ahead of the label read as
+        // decoration, so only the label is shown, as the paragraph lead-in.
+        eyebrow={eyebrow}
         title={title}
         body={description}
         align={align}

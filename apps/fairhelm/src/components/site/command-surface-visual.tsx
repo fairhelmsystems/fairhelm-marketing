@@ -48,7 +48,7 @@ export function CommandSurfaceVisual({ className }: { className?: string }) {
       aria-label="Illustrative example of an operational dashboard with sample figures. Not customer data."
       className={cn("viz-reveal", className)}
     >
-      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70 backdrop-blur">
+      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70">
         <div className="viz-cap" />
 
         {/* Console chrome */}
@@ -57,11 +57,9 @@ export function CommandSurfaceVisual({ className }: { className?: string }) {
             <span className="flex size-7 items-center justify-center rounded-full bg-primary/15">
               <Gauge className="size-3.5 text-[color:var(--brand-ink)]" />
             </span>
-            <span className="font-mono text-[0.58rem] tracking-[0.22em] text-muted-foreground uppercase">
-              Command surface
-            </span>
+            <span className="text-[0.58rem] text-muted-foreground">Command surface</span>
           </div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 font-mono text-[0.52rem] tracking-[0.18em] text-muted-foreground uppercase">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 text-[0.52rem] text-muted-foreground">
             <span className="size-1.5 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]" />
             Illustrative data
           </span>
@@ -76,9 +74,7 @@ export function CommandSurfaceVisual({ className }: { className?: string }) {
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[0.54rem] tracking-[0.2em] text-muted-foreground uppercase">
-                  Operating posture
-                </p>
+                <p className="text-[0.54rem] text-muted-foreground">Operating posture</p>
                 <p className="mt-1.5 text-2xl font-semibold text-foreground">On track</p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   Reconciled · +3.4% vs prior period
@@ -108,7 +104,7 @@ export function CommandSurfaceVisual({ className }: { className?: string }) {
             style={{ "--d": "260ms" } as CSSProperties}
             className="rounded-2xl border border-border bg-background/55 p-4"
           >
-            <p className="flex items-center gap-1.5 font-mono text-[0.54rem] tracking-[0.2em] text-muted-foreground uppercase">
+            <p className="flex items-center gap-1.5 text-[0.54rem] text-muted-foreground">
               <ChartNoAxesColumn className="size-3 text-[color:var(--brand-ink)]" />
               Exceptions that need a decision
             </p>
@@ -141,7 +137,7 @@ export function CommandSurfaceVisual({ className }: { className?: string }) {
             {controls.map((item) => (
               <span
                 key={item.text}
-                className="inline-flex items-center gap-1.5 font-mono text-[0.56rem] tracking-[0.16em] text-muted-foreground uppercase"
+                className="inline-flex items-center gap-1.5 text-[0.56rem] text-muted-foreground"
               >
                 <item.icon className="size-3 text-chart-4" />
                 {item.text}

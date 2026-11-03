@@ -36,9 +36,7 @@ function SocialIcon({ name }: { name: (typeof socialLinks)[number]["icon"] }) {
 function DisclosureField({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-[color:var(--muted-foreground)]">
-        {label}
-      </p>
+      <p className="text-xs text-[color:var(--muted-foreground)]">{label}</p>
       <div className="text-sm leading-6 text-[color:var(--muted-foreground)]">{children}</div>
     </div>
   );
@@ -148,9 +146,7 @@ export function SiteFooter() {
             <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-8 lg:gap-x-8">
               {footerGroups.map((group) => (
                 <div key={group.title}>
-                  <p className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-[color:var(--muted-foreground)]">
-                    {group.title}
-                  </p>
+                  <p className="text-xs text-[color:var(--muted-foreground)]">{group.title}</p>
                   <ul className="mt-4 space-y-3">
                     {group.links.map((link) => {
                       // A path with an extension is a file, not a route. The
@@ -185,9 +181,7 @@ export function SiteFooter() {
 
         <div className="flex flex-col gap-4 border-t border-[color:var(--line)] pt-6 text-sm text-[color:var(--muted-foreground)] sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <p className="font-mono text-[0.6875rem] tracking-[0.12em] text-[color:var(--muted-foreground)]">
-              Built with ❤️ in Bharath
-            </p>
+            <p className="text-xs text-[color:var(--muted-foreground)]">Built with ❤️ in Bharath</p>
             <p>For institutions that cannot afford operational drift.</p>
           </div>
           <SourceLink />
@@ -201,7 +195,7 @@ export function SiteFooter() {
       <div className="pointer-events-none relative hidden overflow-hidden pt-6 sm:block">
         <p
           aria-hidden="true"
-          className="select-none text-center font-display text-[4rem] uppercase tracking-[0.22em] text-[color:var(--foreground)]/[0.045] md:text-[5.5rem] lg:text-[7rem]"
+          className="select-none text-center font-display text-[4rem] text-[color:var(--foreground)]/[0.045] md:text-[5.5rem] lg:text-[7rem]"
         >
           SquareCampus
         </p>

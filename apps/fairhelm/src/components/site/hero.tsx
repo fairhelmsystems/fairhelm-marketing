@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Container } from "@/components/site/container";
 import { DataField } from "@/components/site/data-field";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
-import { CTAGroup } from "@fairhelm/ui/components/marketing";
+import { CTAGroup, LeadIn } from "@fairhelm/ui/components/marketing";
 import { cn } from "@fairhelm/ui/lib/utils";
 
 type Cta = { label: string; href: string };
@@ -62,9 +62,11 @@ export function Hero({
         )}
       >
         <div className="hero-enter flex flex-col gap-5 sm:gap-6">
-          <p className="eyebrow">{eyebrow}</p>
           <h1 className="display-1">{renderTitle()}</h1>
-          <p className="lead max-w-2xl text-pretty">{description}</p>
+          <p className="lead max-w-2xl text-pretty text-muted-foreground">
+            <LeadIn>{eyebrow}</LeadIn>
+            {description}
+          </p>
           {primary || secondary ? (
             <CTAGroup className="flex-col items-stretch pt-1 sm:flex-row sm:items-center">
               {primary ? (
@@ -94,10 +96,7 @@ export function Hero({
             {children}
             {visualLabel ? (
               <p data-md-skip className="mt-4 flex justify-center lg:justify-start">
-                <span className="chip">
-                  <span aria-hidden="true" className="size-1.5 rounded-full bg-teal" />
-                  {visualLabel}
-                </span>
+                <span className="chip">{visualLabel}</span>
               </p>
             ) : null}
           </div>

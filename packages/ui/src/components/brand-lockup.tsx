@@ -23,7 +23,7 @@ export function BrandLockup({
       aria-label={`${label} home`}
       className={cn("inline-flex items-center gap-3", className)}
     >
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-border bg-[#f4f6fa] p-1.5 shadow-sm">
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-border bg-(--logo-plate) p-1.5 shadow-sm">
         <Image
           src={markSrc}
           alt=""
@@ -38,9 +38,7 @@ export function BrandLockup({
           {label}
         </span>
         {tagline ? (
-          <span className="mt-1 hidden font-mono text-[0.56rem] tracking-[0.26em] text-muted-foreground uppercase sm:block">
-            {tagline}
-          </span>
+          <span className="mt-1 hidden text-xs text-muted-foreground sm:block">{tagline}</span>
         ) : null}
       </span>
     </Link>

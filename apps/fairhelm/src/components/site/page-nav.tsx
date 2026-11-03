@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Container } from "@/components/site/container";
 import { Reveal } from "@/components/site/reveal";
@@ -32,10 +31,6 @@ export function PageNav({ items }: { items: readonly PageNavItem[] }) {
                     {item.description}
                   </span>
                 </span>
-                <ArrowRight
-                  aria-hidden="true"
-                  className="mt-1 size-4 shrink-0 text-muted-foreground transition-transform group-hover/card:translate-x-0.5 group-hover/card:text-[color:var(--brand-ink)]"
-                />
               </>
             );
             const classes =

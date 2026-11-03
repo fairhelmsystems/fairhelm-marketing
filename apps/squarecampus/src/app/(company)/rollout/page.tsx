@@ -17,6 +17,7 @@ import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { motionAssets } from "@/content/motion-assets";
 import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createPageMetadata } from "@/lib/seo";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 export const metadata: Metadata = createPageMetadata({
   title: "School ERP Implementation & Migration",
@@ -113,11 +114,11 @@ export default function RolloutPage() {
       <SectionShell className="pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <Reveal immediate className="space-y-6">
-            <p className="section-kicker">Rollout model</p>
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
               Go live like an institution, not a software experiment.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-[color:var(--muted-foreground)]">
+              <LeadIn>{"Rollout model"}</LeadIn>
               Schools and colleges do not have the luxury of chaotic launches. SquareCampus rollout
               is designed around migration discipline, role-based training, parallel validation, and
               predictable go-live support.
@@ -166,11 +167,11 @@ export default function RolloutPage() {
       >
         <Reveal className="grid gap-4 lg:grid-cols-2">
           <div className="surface-panel rounded-[1.6rem] p-6 sm:p-8">
-            <p className="section-kicker">Path one · Coexistence</p>
             <h2 className="mt-4 font-display text-2xl tracking-[-0.04em]">
               A bounded deployment runs alongside the current stack.
             </h2>
             <p className="mt-3 text-base leading-7 text-[color:var(--muted-foreground)]">
+              <LeadIn>{"Path one \u00b7 Coexistence"}</LeadIn>
               One campus, or one workflow bundle. The existing ERP, LMS, payment portal and identity
               provider stay in place and stay authoritative. SquareCampus governs the workflow that
               runs across them — routing exceptions, assigning ownership, recording what was decided
@@ -178,11 +179,11 @@ export default function RolloutPage() {
             </p>
           </div>
           <div className="surface-quiet rounded-[1.6rem] p-6 sm:p-8">
-            <p className="section-kicker">Path two · Consolidation</p>
             <h2 className="mt-4 font-display text-2xl tracking-[-0.04em]">
               A later rollout may replace selected fragmented tools.
             </h2>
             <p className="mt-3 text-base leading-7 text-[color:var(--muted-foreground)]">
+              <LeadIn>{"Path two \u00b7 Consolidation"}</LeadIn>
               When the institution decides to — after the evidence exists, and workflow by workflow.
               Consolidation is an outcome an institution can choose, never a precondition of
               starting. There is no compulsory rip-and-replace at any point.
@@ -216,7 +217,7 @@ export default function RolloutPage() {
             >
               <div className="flex items-center justify-between">
                 <step.icon className="size-5 text-[color:var(--brand)]" />
-                <span className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-[color:var(--muted-foreground)]">
+                <span className="text-xs text-[color:var(--muted-foreground)]">
                   Stage {index + 1}
                 </span>
               </div>
@@ -294,11 +295,11 @@ export default function RolloutPage() {
         <Reveal className="surface-panel-strong rounded-[2rem] p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
-              <p className="section-kicker">Next step</p>
               <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                 Bring your current patchwork and launch constraints to the table.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
+                <LeadIn>{"Next step"}</LeadIn>
                 We can map your institution’s current operating stack, outline a rollout path, and
                 show where SquareCampus would sit alongside what you already run — and where it
                 would eventually replace complexity, without destabilizing the term in motion.

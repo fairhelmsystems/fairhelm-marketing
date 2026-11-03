@@ -79,11 +79,7 @@ export function FeatureCard({
       </h3>
       <p className="relative mt-2.5 text-sm leading-6 text-muted-foreground">{description}</p>
       {children}
-      {meta ? (
-        <p className="mt-auto pt-5 font-mono text-[0.62rem] tracking-[0.2em] text-muted-foreground uppercase">
-          {meta}
-        </p>
-      ) : null}
+      {meta ? <p className="mt-auto pt-5 text-xs text-muted-foreground">{meta}</p> : null}
     </FeaturePanel>
   );
 }

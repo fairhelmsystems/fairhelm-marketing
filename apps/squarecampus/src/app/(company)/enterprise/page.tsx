@@ -78,7 +78,7 @@ export default function EnterprisePage() {
                   <Network aria-hidden className="size-5 text-[color:var(--brand)]" />
                   <p className="type-card-title">One institutional policy</p>
                 </div>
-                <p className="type-support mt-3">Identity · Authority · Audit requirements</p>
+                <p className="type-support mt-3">Identity, authority and audit requirements</p>
               </div>
               <div aria-hidden className="mx-auto h-8 w-px bg-[color:var(--line-strong)]" />
               <div className="grid grid-cols-3 gap-3">

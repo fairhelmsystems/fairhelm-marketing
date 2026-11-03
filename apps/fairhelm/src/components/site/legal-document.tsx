@@ -87,9 +87,7 @@ export function LegalDocument({
                 </section>
               ))}
             </div>
-            <p className="mt-10 font-mono text-xs text-muted-foreground">
-              Last updated: {lastUpdated}
-            </p>
+            <p className="mt-10 text-sm text-muted-foreground">Last updated: {lastUpdated}</p>
           </article>
         </Container>
       </section>

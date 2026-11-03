@@ -154,7 +154,7 @@ export function TableOfContents() {
   return (
     <>
       {/* Mobile Toggle Bar - Fixed at top on mobile/tablet */}
-      <div className="sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950/95 backdrop-blur-sm xl:hidden print:hidden">
+      <div className="sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950/95 xl:hidden print:hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <button
             type="button"
@@ -166,9 +166,7 @@ export function TableOfContents() {
             aria-expanded={isExpanded}
           >
             <span className="flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
-                Contents
-              </span>
+              <span className="text-xs font-semibold text-neutral-500">Contents</span>
               {activeSection && (
                 <>
                   <span className="text-neutral-600">|</span>
@@ -266,9 +264,7 @@ export function TableOfContentsSidebar() {
   return (
     <nav aria-label="Table of contents" className="sticky top-8 hidden xl:block print:hidden">
       <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-4">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-500">
-          On this page
-        </p>
+        <p className="mb-4 text-xs font-semibold text-neutral-500">On this page</p>
         <ul className="space-y-1">
           {tocSections.map((section) => (
             <li key={section.id}>

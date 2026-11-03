@@ -1,0 +1,214 @@
+/*
+ * @fairhelm/ui design tokens: the one place colours, surfaces, elevation and
+ * rhythm are declared. `:root` is the light theme; `.dark` (set on <html> by
+ * the theme script, and usable on a subtree) is the dark theme, which is the
+ * default. Components and app stylesheets reference these names only.
+ */
+:root {
+  --radius: 1rem;
+  --background: oklch(0.985 0.004 85);
+  --foreground: oklch(0.23 0.02 252);
+  --card: oklch(0.995 0.002 84);
+  --card-foreground: oklch(0.23 0.02 252);
+  --popover: oklch(0.995 0.002 84);
+  --popover-foreground: oklch(0.23 0.02 252);
+  --primary: oklch(0.24 0.03 252);
+  --primary-foreground: oklch(0.985 0.004 85);
+  --secondary: oklch(0.96 0.006 86);
+  --secondary-foreground: oklch(0.27 0.02 252);
+  --muted: oklch(0.965 0.006 86);
+  /* Darkened from oklch(0.52 …) — 5.26:1 on the page background was AA-passing
+     but thin on uncalibrated office laptops and low-end phone panels. */
+  --muted-foreground: oklch(0.45 0.021 252);
+  --accent: oklch(0.62 0.11 247);
+  --accent-foreground: oklch(0.99 0.002 84);
+  --destructive: oklch(0.61 0.18 25);
+  --border: oklch(0.91 0.01 84);
+  --input: oklch(0.91 0.01 84);
+  --ring: oklch(0.66 0.11 247);
+  --chart-1: oklch(0.62 0.11 247);
+  --chart-2: oklch(0.72 0.1 180);
+  --chart-3: oklch(0.77 0.12 73);
+  --chart-4: oklch(0.65 0.15 32);
+  --chart-5: oklch(0.7 0.07 220);
+  --sidebar: oklch(0.99 0.002 84);
+  --sidebar-foreground: oklch(0.23 0.02 252);
+  --sidebar-primary: oklch(0.24 0.03 252);
+  --sidebar-primary-foreground: oklch(0.985 0.004 85);
+  --sidebar-accent: oklch(0.965 0.006 86);
+  --sidebar-accent-foreground: oklch(0.27 0.02 252);
+  --sidebar-border: oklch(0.91 0.01 84);
+  --sidebar-ring: oklch(0.66 0.11 247);
+  /* Surfaces are solid: depth comes from lightness and a hairline edge, not
+     from frosted glass over a busy page. */
+  --surface: oklch(0.995 0.002 84);
+  --surface-strong: oklch(1 0 0);
+  --surface-menu: oklch(1 0 0);
+  --surface-muted: rgba(20, 31, 52, 0.04);
+  --line: rgba(32, 44, 68, 0.09);
+  --line-strong: rgba(32, 44, 68, 0.16);
+  --brand: oklch(0.6 0.11 247);
+  /* Brand-coloured TEXT on light surfaces: --brand itself measures ~3.9:1
+     there, under the 4.5:1 minimum for body-size text (audit SC-031). */
+  --brand-ink: oklch(0.48 0.12 247);
+  --brand-soft: rgba(88, 124, 204, 0.18);
+  --teal: oklch(0.73 0.1 181);
+  --amber: oklch(0.76 0.12 74);
+
+  /* --- Semantic design tokens ---------------------------------------------
+     Surfaces, elevation, operational states, focus and rhythm. Components
+     reference these rather than repeating literal rgba()/oklch() values. */
+  --surface-raised: rgba(255, 255, 255, 0.94);
+  --surface-sunken: rgba(20, 31, 52, 0.028);
+  --brand-tint: rgba(88, 124, 204, 0.08);
+
+  /* Operational state colours. Never the only carrier of meaning — every
+     usage pairs the colour with a label or icon (WCAG 1.4.1). */
+  --state-ok: oklch(0.55 0.09 168);
+  --state-attention: oklch(0.58 0.11 72);
+  --state-critical: oklch(0.56 0.16 25);
+  --state-ok-soft: rgba(58, 150, 133, 0.12);
+  --state-attention-soft: rgba(184, 134, 42, 0.13);
+  --state-critical-soft: rgba(196, 74, 58, 0.11);
+
+  --focus-ring: oklch(0.55 0.14 247);
+
+  /* Elevation ladder: 1 = resting card, 2 = raised panel, 3 = floating.
+     Short, offset shadows that sit under a defined edge, never a wide haze. */
+  --shadow-1: 0 1px 2px rgba(8, 15, 30, 0.05);
+  --shadow-2: 0 1px 2px rgba(8, 15, 30, 0.05), 0 6px 16px -10px rgba(8, 15, 30, 0.14);
+  --shadow-3: 0 2px 4px rgba(8, 15, 30, 0.06), 0 16px 32px -16px rgba(8, 15, 30, 0.22);
+
+  /* Primary action: one solid brand fill, no gradient, no glow. */
+  --cta-bg: oklch(0.48 0.12 247);
+  --cta-bg-hover: oklch(0.43 0.12 247);
+  --cta-ink: oklch(0.99 0.002 84);
+
+  /* Page ground: paper, plus the faint ledger rule it is printed on. */
+  --paper-rule: rgba(28, 41, 64, 0.045);
+  --selection: rgba(92, 126, 204, 0.22);
+
+  /* Composition rhythm. `--container-max` matches the max-w-6xl used across
+     every marketing section, expressed once so it can be referenced in CSS. */
+  --container-max: 72rem;
+  --radius-panel: 1.6rem;
+  --radius-panel-lg: 2rem;
+  --radius-chip: 0.9rem;
+
+  /* Device frames (see "Device frames" below). The shell is the aluminium,
+     the glass is the black border around every screen, the lip is the
+     shadow the lid casts on the base. */
+  --device-shell-a: #f1f2f4;
+  --device-shell-b: #c3c7cf;
+  --device-shell-edge: rgba(20, 28, 44, 0.24);
+  --device-glass: #0b0e14;
+  --device-glass-edge: rgba(255, 255, 255, 0.09);
+  --device-lip: rgba(20, 28, 44, 0.22);
+  --device-shadow: rgba(8, 15, 30, 0.3);
+  --device-glare: rgba(255, 255, 255, 0.16);
+  --device-glare-soft: rgba(255, 255, 255, 0.03);
+  --device-sweep: rgba(255, 255, 255, 0.28);
+  --device-bevel: rgba(0, 0, 0, 0.4);
+  --device-base-hi: rgba(255, 255, 255, 0.65);
+  --device-base-lo: rgba(0, 0, 0, 0.22);
+  --device-lens-a: #3d4a63;
+  --device-lens-b: #121826;
+  --device-lens-c: #05070b;
+  --device-phone-screen: #f4f2ee;
+
+  /* Logo tile: the mark is drawn for a light plate in both themes. */
+  --logo-plate: #f4f6fa;
+  /* Scrims and chips laid over photographs (same in both themes: they sit on
+     the image, not on the page). */
+  --photo-scrim-top: rgba(16, 24, 38, 0.06);
+  --photo-scrim: rgba(16, 24, 38, 0.76);
+  --photo-chip: rgba(12, 20, 32, 0.56);
+  --photo-chip-light: rgba(255, 255, 255, 0.76);
+  --night: rgb(4 8 16);
+  --mask-solid: #000;
+  /* Centre of the hero sweep band. */
+  --sweep-core: rgba(88, 124, 204, 0.16);
+}
+
+.dark {
+  --background: oklch(0.055 0.008 252);
+  --foreground: oklch(0.965 0.004 85);
+  --card: oklch(0.085 0.009 252);
+  --card-foreground: oklch(0.965 0.004 85);
+  --popover: oklch(0.085 0.009 252);
+  --popover-foreground: oklch(0.965 0.004 85);
+  --primary: oklch(0.965 0.004 85);
+  --primary-foreground: oklch(0.055 0.008 252);
+  --secondary: oklch(0.115 0.009 252);
+  --secondary-foreground: oklch(0.94 0.004 85);
+  --muted: oklch(0.11 0.009 252);
+  --muted-foreground: oklch(0.79 0.013 252);
+  --accent: oklch(0.69 0.09 247);
+  --accent-foreground: oklch(0.055 0.008 252);
+  --destructive: oklch(0.68 0.18 25);
+  --border: oklch(0.96 0.004 85 / 7%);
+  --input: oklch(0.96 0.004 85 / 8%);
+  --ring: oklch(0.72 0.08 247);
+  --chart-1: oklch(0.69 0.09 247);
+  --chart-2: oklch(0.73 0.07 181);
+  --chart-3: oklch(0.78 0.1 74);
+  --chart-4: oklch(0.73 0.11 32);
+  --chart-5: oklch(0.76 0.05 220);
+  --sidebar: oklch(0.085 0.009 252);
+  --sidebar-foreground: oklch(0.965 0.004 85);
+  --sidebar-primary: oklch(0.965 0.004 85);
+  --sidebar-primary-foreground: oklch(0.055 0.008 252);
+  --sidebar-accent: oklch(0.115 0.009 252);
+  --sidebar-accent-foreground: oklch(0.94 0.004 85);
+  --sidebar-border: oklch(0.96 0.004 85 / 7%);
+  --sidebar-ring: oklch(0.72 0.08 247);
+  --surface: oklch(0.1 0.01 252);
+  --surface-strong: oklch(0.125 0.011 252);
+  --surface-menu: oklch(0.125 0.011 252);
+  --surface-muted: rgba(255, 255, 255, 0.035);
+  --line: rgba(214, 222, 238, 0.085);
+  --line-strong: rgba(214, 222, 238, 0.15);
+  --brand: oklch(0.69 0.09 247);
+  --brand-ink: var(--brand);
+  --brand-soft: rgba(76, 109, 203, 0.14);
+  --teal: oklch(0.72 0.07 181);
+  --amber: oklch(0.79 0.09 74);
+
+  --surface-raised: rgba(10, 15, 26, 0.95);
+  --surface-sunken: rgba(255, 255, 255, 0.022);
+  --brand-tint: rgba(96, 132, 214, 0.09);
+
+  --state-ok: oklch(0.76 0.08 168);
+  --state-attention: oklch(0.8 0.1 72);
+  --state-critical: oklch(0.72 0.14 25);
+  --state-ok-soft: rgba(84, 190, 170, 0.14);
+  --state-attention-soft: rgba(214, 168, 76, 0.14);
+  --state-critical-soft: rgba(224, 110, 92, 0.13);
+
+  --focus-ring: oklch(0.78 0.1 247);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 20px -12px rgba(0, 0, 0, 0.6);
+  --shadow-3: 0 2px 4px rgba(0, 0, 0, 0.45), 0 18px 36px -18px rgba(0, 0, 0, 0.7);
+
+  /* White on the dark-theme --brand is under 3:1; the action fill steps down
+     to a deeper blue so its label clears 4.5:1. */
+  --cta-bg: oklch(0.52 0.13 250);
+  --cta-bg-hover: oklch(0.57 0.13 250);
+  --cta-ink: oklch(0.99 0.002 84);
+
+  --paper-rule: rgba(255, 255, 255, 0.028);
+  --selection: rgba(96, 132, 214, 0.32);
+
+  --device-shell-a: #3b414d;
+  --device-shell-b: #171b23;
+  --device-shell-edge: rgba(255, 255, 255, 0.14);
+  --device-glass: #04060a;
+  --device-glass-edge: rgba(255, 255, 255, 0.12);
+  --device-lip: rgba(0, 0, 0, 0.55);
+  --device-shadow: rgba(0, 0, 0, 0.6);
+  --device-glare: rgba(255, 255, 255, 0.09);
+  --device-base-hi: rgba(255, 255, 255, 0.16);
+  --device-base-lo: rgba(0, 0, 0, 0.5);
+  --sweep-core: rgba(110, 146, 230, 0.14);
+}

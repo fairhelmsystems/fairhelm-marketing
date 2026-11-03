@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/site/json-ld";
 import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 import { breadcrumbSchema } from "@/lib/structured-data";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 export const metadata = createPageMetadata({
   title: "Contact Fairhelm Systems, Bangalore",
@@ -24,8 +25,8 @@ const goodFit = [
 function FitCard() {
   return (
     <div className="surface-panel rounded-[var(--radius-panel)] p-5 sm:p-6">
-      <p className="eyebrow">Good fit</p>
       <h2 className="display-3 mt-3">Problems worth bringing to the table</h2>
+      <p className="label">{"Good fit"}</p>
       <ul className="mt-4 flex flex-col">
         {goodFit.map((item) => (
           <li
@@ -64,11 +65,11 @@ export default function ContactPage() {
 
         <Container className="relative grid items-start gap-10 pt-10 pb-12 sm:pt-16 sm:pb-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-x-14 lg:pt-20 lg:pb-24">
           <div className="hero-enter flex flex-col gap-5 lg:col-start-1 lg:row-start-1">
-            <p className="eyebrow">Contact · Bangalore, India</p>
             <h1 className="display-1">
               Start with the <span className="text-gradient">concrete version</span> of the problem.
             </h1>
             <p className="lead max-w-xl text-pretty">
+              <LeadIn>{"Contact \u00b7 Bangalore, India"}</LeadIn>
               Tell us what needs to work better, what is breaking down and where the current system
               is creating drag. The useful conversation starts there.
             </p>
@@ -136,7 +137,7 @@ export default function ContactPage() {
                 {siteConfig.phone}
               </a>
             ) : null}
-            <span className="mt-2 block font-mono text-xs text-muted-foreground/80">
+            <span className="mt-2 block text-xs text-muted-foreground">
               No hidden submission · no data capture
             </span>
           </div>

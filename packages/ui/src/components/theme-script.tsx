@@ -2,6 +2,10 @@ const themeScript = `
 (() => {
   const storageKey = "fairhelm-marketing-theme";
 
+  // Scripting is on: only now may entrance animations start content hidden.
+  // Without this class (no JS) every revealed section renders visible.
+  document.documentElement.classList.add("js");
+
   try {
     const saved = localStorage.getItem(storageKey);
     const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";

@@ -68,7 +68,7 @@ export function InsightCard({
             className="size-4 text-muted-foreground transition-colors group-hover/card:text-[color:var(--brand-ink)]"
           />
         </div>
-        <p className="mt-4 font-mono text-[0.62rem] tracking-[0.18em] text-muted-foreground uppercase">
+        <p className="mt-4 text-xs text-muted-foreground">
           <time dateTime={post.date}>{formatInsightDate(post.date)}</time>
           <span className="mx-2">·</span>
           {post.minutes} min read

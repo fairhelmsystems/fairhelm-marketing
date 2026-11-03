@@ -118,33 +118,23 @@ export default function ContactPage() {
             </address>
             <dl className="mt-6 grid gap-4 border-t border-(--line) pt-6 text-sm sm:grid-cols-2">
               <div>
-                <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-muted-foreground">
-                  CIN
-                </dt>
+                <dt className="text-xs text-muted-foreground">CIN</dt>
                 <dd className="mt-1.5 font-mono text-[0.8rem] text-foreground">{company.cin}</dd>
               </div>
               <div>
-                <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-muted-foreground">
-                  Incorporated
-                </dt>
+                <dt className="text-xs text-muted-foreground">Incorporated</dt>
                 <dd className="mt-1.5 text-foreground">{company.incorporationDateDisplay}</dd>
               </div>
               <div>
-                <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-muted-foreground">
-                  GSTIN
-                </dt>
+                <dt className="text-xs text-muted-foreground">GSTIN</dt>
                 <dd className="mt-1.5 font-mono text-[0.8rem] text-foreground">{company.gstin}</dd>
               </div>
               <div>
-                <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-muted-foreground">
-                  GST registered
-                </dt>
+                <dt className="text-xs text-muted-foreground">GST registered</dt>
                 <dd className="mt-1.5 text-foreground">{company.gstinRegistrationDateDisplay}</dd>
               </div>
               <div className="sm:col-span-2">
-                <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-muted-foreground">
-                  Telephone
-                </dt>
+                <dt className="text-xs text-muted-foreground">Telephone</dt>
                 <dd className="mt-1.5 text-muted-foreground">
                   {company.phone ? (
                     <a

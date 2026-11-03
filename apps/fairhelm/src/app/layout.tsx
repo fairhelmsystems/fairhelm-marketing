@@ -101,7 +101,8 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
-          <ThemeToggle />
+          {/* Phones get the toggle inside the menu instead (MarketingHeader). */}
+          <ThemeToggle className="max-lg:hidden" />
         </div>
       </body>
     </html>

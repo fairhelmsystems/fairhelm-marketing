@@ -1,3 +1,13 @@
+/* Hallmark · shape: kept · genre: modern-minimal · theme: brand · redesign: restyle · copy: verbatim · print sheet for the competitor notice */
+:root {
+  --print-paper: #ffffff;
+  --print-ink: #16181d;
+  --print-ink-body: #33363d;
+  --print-ink-muted: #63666e;
+  --print-rule: #c9cbd0;
+  --print-head-fill: #f3f4f6;
+}
+
 /* Print styles for Competitor Notice page */
 /* These styles are applied via @media print in the component itself */
 /* This file provides additional print-specific overrides */
@@ -5,8 +15,8 @@
 @media print {
   /* Reset background and colors for print */
   body {
-    background: white !important;
-    color: black !important;
+    background: var(--print-paper) !important;
+    color: var(--print-ink) !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -35,7 +45,7 @@
   h4 {
     page-break-after: avoid;
     break-after: avoid;
-    color: black !important;
+    color: var(--print-ink) !important;
   }
 
   /* Ensure text is readable */
@@ -43,7 +53,7 @@
   li,
   td,
   span {
-    color: #333 !important;
+    color: var(--print-ink-body) !important;
   }
 
   /* Tables */
@@ -54,20 +64,20 @@
 
   th,
   td {
-    border: 1px solid #ccc !important;
+    border: 1px solid var(--print-rule) !important;
     padding: 8px !important;
     text-align: left;
   }
 
   th {
-    background-color: #f5f5f5 !important;
+    background-color: var(--print-head-fill) !important;
     font-weight: bold;
   }
 
   /* Document metadata in print */
   code,
   pre {
-    font-family: "Courier New", Courier, monospace !important;
+    font-family: var(--font-ibm-plex-mono), monospace !important;
   }
 
   /* Page margins */
@@ -86,7 +96,7 @@
   a[href^="mailto"]::after {
     content: " (" attr(href) ")";
     font-size: 0.75em;
-    color: #666 !important;
+    color: var(--print-ink-muted) !important;
   }
 }
 

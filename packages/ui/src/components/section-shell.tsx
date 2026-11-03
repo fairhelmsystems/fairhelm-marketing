@@ -5,6 +5,8 @@ import { SectionHeader } from "@fairhelm/ui/components/marketing";
 interface SectionShellProps {
   id?: string;
   eyebrow?: string;
+  /** See SectionHeader: `above` only for hash-checked legal documents. */
+  eyebrowPlacement?: "lead-in" | "above";
   title?: string;
   /**
    * Heading level for `title`. Defaults to h2, because most sections are
@@ -26,6 +28,7 @@ interface SectionShellProps {
 export function SectionShell({
   id,
   eyebrow,
+  eyebrowPlacement,
   title,
   as,
   titleSize = "section",
@@ -44,6 +47,7 @@ export function SectionShell({
       <div className="mx-auto max-w-6xl">
         <SectionHeader
           eyebrow={eyebrow}
+          eyebrowPlacement={eyebrowPlacement}
           title={title}
           as={as}
           size={titleSize}

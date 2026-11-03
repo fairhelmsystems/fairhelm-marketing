@@ -128,7 +128,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           >
             ← All posts
           </Link>
-          <div className="flex flex-wrap items-center gap-3 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
             <span className="rounded-full border border-(--line) bg-(--surface) px-3 py-1.5">
               {post.tag ?? "Update"}
             </span>
@@ -171,10 +171,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         */}
         {post.sections.length >= 5 ? (
           <nav aria-labelledby="post-contents" className="surface-quiet rounded-[1.4rem] p-6">
-            <h2
-              id="post-contents"
-              className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground"
-            >
+            <h2 id="post-contents" className="text-xs text-muted-foreground">
               In this article
             </h2>
             <ol className="mt-4 grid gap-2 sm:grid-cols-2">
@@ -217,10 +214,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         */}
         {related.length > 0 ? (
           <section aria-labelledby="related-posts" className="border-t border-(--line) pt-10">
-            <h2
-              id="related-posts"
-              className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-foreground"
-            >
+            <h2 id="related-posts" className="text-xs text-muted-foreground">
               Related reading
             </h2>
             <div className="mt-5 grid gap-4 sm:grid-cols-3">
@@ -229,15 +223,13 @@ export default async function BlogPostPage({ params }: PageProps) {
                   key={item.slug}
                   className="surface-panel group relative flex flex-col rounded-[1.3rem] p-5"
                 >
-                  <span className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground">
-                    {item.tag ?? "Update"}
-                  </span>
+                  <span className="text-xs text-muted-foreground">{item.tag ?? "Update"}</span>
                   <h3 className="mt-3 font-display text-lg leading-snug tracking-[-0.03em]">
                     <Link href={`/${item.slug}`} className="after:absolute after:inset-0">
                       {item.title}
                     </Link>
                   </h3>
-                  <span className="mt-auto pt-4 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-muted-foreground">
+                  <span className="mt-auto pt-4 text-xs text-muted-foreground">
                     {item.readingTime}
                   </span>
                 </article>
@@ -258,7 +250,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-(--line) bg-(--surface) px-3 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-muted-foreground"
+                  className="rounded-full border border-(--line) bg-(--surface) px-3 py-1.5 text-xs text-muted-foreground"
                 >
                   {tag}
                 </span>

@@ -9,10 +9,17 @@ const storageKey = "fairhelm-marketing-theme";
 type Theme = "light" | "dark";
 
 /**
- * Icon-only theme toggle, floating at the bottom-right of every page
- * (mounted once in the root layout).
+ * Icon-only theme toggle. By default it floats at the bottom-right of every
+ * page (mounted once in the root layout). `inline` renders it in flow, for
+ * the mobile menu, so phones do not carry a floating button over the copy.
  */
-export function ThemeToggle({ className }: { className?: string }) {
+export function ThemeToggle({
+  className,
+  inline = false,
+}: {
+  className?: string;
+  inline?: boolean;
+}) {
   const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
@@ -39,16 +46,17 @@ export function ThemeToggle({ className }: { className?: string }) {
       }
       onClick={() => updateTheme(theme === "dark" ? "light" : "dark")}
       className={cn(
-        "fixed bottom-5 right-5 z-50 flex size-11 items-center justify-center rounded-full border transition-all",
-        "border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] text-[color:var(--foreground)] shadow-[0_14px_36px_rgba(8,15,30,0.16)] backdrop-blur-lg",
-        "hover:scale-105 hover:border-[color:var(--line-strong)] hover:bg-[color:var(--surface)]",
+        "flex size-11 items-center justify-center rounded-full border transition-[background-color,transform] duration-150",
+        inline ? "relative" : "fixed bottom-5 right-5 z-50 shadow-(--shadow-2)",
+        "border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] text-[color:var(--foreground)]",
+        "hover:bg-[color:var(--surface)] active:scale-95",
         className
       )}
     >
       <span className="relative flex size-4.5 items-center justify-center">
         <SunMedium
           className={cn(
-            "absolute size-4.5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "absolute size-4.5 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
             mounted && theme === "dark"
               ? "rotate-90 scale-0 opacity-0"
               : "rotate-0 scale-100 opacity-100"
@@ -56,7 +64,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         />
         <MoonStar
           className={cn(
-            "absolute size-4.5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "absolute size-4.5 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
             mounted && theme === "dark"
               ? "rotate-0 scale-100 opacity-100"
               : "-rotate-90 scale-0 opacity-0"

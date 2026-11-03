@@ -26,8 +26,35 @@ export function Eyebrow({ children, className }: { children: ReactNode; classNam
   return <p className={cn("eyebrow", className)}>{children}</p>;
 }
 
+/**
+ * A section's short label set as the bold lead-in of its first paragraph
+ * ("Commercial model. One annual institutional licence…") instead of a small
+ * line floating above the heading. Same words, same order for a screen
+ * reader, but the label now reads as part of the copy rather than as
+ * decoration announcing the heading. Middle-dot joins become commas.
+ */
+export function LeadIn({ children }: { children: string }) {
+  const text = children.split(" · ").join(", ").trim();
+  const stop = /[.?!:]$/.test(text) ? "" : ".";
+  return (
+    <>
+      <span className="font-medium text-[color:var(--foreground)]">
+        {text}
+        {stop}
+      </span>{" "}
+    </>
+  );
+}
+
 type SectionHeaderProps = {
   eyebrow?: string;
+  /**
+   * Where the short label renders. `lead-in` (default) opens the first
+   * paragraph. `above` keeps it on its own line before the heading: only for
+   * documents whose rendered wording is a reviewed, hash-checked baseline
+   * (the Legal app), where the structure itself must not change.
+   */
+  eyebrowPlacement?: "lead-in" | "above";
   title?: ReactNode;
   body?: ReactNode;
   /** Heading level. Defaults to h2 — pages set `as="h1"` for the page title. */
@@ -42,6 +69,7 @@ type SectionHeaderProps = {
 
 export function SectionHeader({
   eyebrow,
+  eyebrowPlacement = "lead-in",
   title,
   body,
   as: Heading = "h2",
@@ -63,7 +91,7 @@ export function SectionHeader({
         className
       )}
     >
-      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
+      {eyebrow && (!title || eyebrowPlacement === "above") ? <Eyebrow>{eyebrow}</Eyebrow> : null}
       {title ? (
         <Heading className={size === "page" ? "type-page-title" : "type-section-title"}>
           {title}
@@ -77,8 +105,13 @@ export function SectionHeader({
             bodyClassName
           )}
         >
+          {eyebrow && title && eyebrowPlacement === "lead-in" ? <LeadIn>{eyebrow}</LeadIn> : null}
           {body}
         </p>
+      ) : eyebrow && title && eyebrowPlacement === "lead-in" ? (
+        // No paragraph to lead into: the label becomes a caption under the
+        // heading rather than a line above it.
+        <p className={cn("label", align === "center" && "mx-auto")}>{eyebrow}</p>
       ) : null}
       {children}
     </div>
@@ -212,7 +245,7 @@ export function OperationalBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.16em]",
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs",
         badgeTones[tone],
         className
       )}
@@ -234,8 +267,12 @@ export function ComparisonRow({
   className,
 }: {
   label: string;
-  /** One entry per column, keyed by the column id it belongs to. */
-  values: ReadonlyArray<{ key: string; content: ReactNode }>;
+  /**
+   * One entry per column, keyed by the column id it belongs to. `label` is
+   * the column's name; inside a `.compare-stack` table it is shown before the
+   * value when the row restacks on a phone.
+   */
+  values: ReadonlyArray<{ key: string; content: ReactNode; label?: string }>;
   className?: string;
 }) {
   return (
@@ -249,6 +286,7 @@ export function ComparisonRow({
       {values.map((value) => (
         <td
           key={value.key}
+          data-label={value.label}
           className="py-4 pr-6 align-top text-sm leading-6 text-[color:var(--muted-foreground)] last:pr-0"
         >
           {value.content}

@@ -1,39 +1,18 @@
+/* Hallmark · shape: kept · genre: modern-minimal · theme: brand · redesign: restyle · copy: verbatim · system: @fairhelm/ui/styles.css (tokens, base, Floor rules; overflow-x clip and :focus-visible live there) */
 @import "tailwindcss";
 @import "@fairhelm/ui/styles.css";
 
 /* ---------------------------------------------------------------------------
  * Homepage hero.
  *
- * The headline is the LCP candidate, so it never starts transparent: the
- * emphasised word carries a brand gradient from first paint and a single
- * sheen passes across it once. The device settles in with a short 3D tilt on
- * its wrapper (the pointer tilt lives on the child, so the two compose). The
- * AEGIS card runs a three-entry log on a 12s loop; only opacity and transform
- * move. Reduced motion: static gradient, no settle, all three entries shown.
+ * The headline is the LCP candidate and is set in one ink: `.hero-emphasis`
+ * used to paint one word in a sweeping brand gradient, which split the
+ * sentence and read as decoration. The class stays (markup and content
+ * checks are untouched); it now carries no treatment. The device settles in
+ * with a short rise; reduced motion: no settle.
  * ------------------------------------------------------------------------- */
 .hero-emphasis {
-  background: linear-gradient(
-    100deg,
-    var(--brand) 0%,
-    var(--teal) 28%,
-    var(--brand) 56%,
-    currentColor 82%
-  );
-  background-size: 260% 100%;
-  background-position: 100% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: hero-sheen 1.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
-}
-
-@keyframes hero-sheen {
-  from {
-    background-position: 100% 0;
-  }
-  to {
-    background-position: 0% 0;
-  }
+  color: inherit;
 }
 
 .hero-device {
@@ -44,7 +23,7 @@
 @keyframes hero-device-in {
   from {
     opacity: 0;
-    transform: perspective(1400px) translateY(28px) rotateX(10deg) scale(0.97);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -53,11 +32,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-emphasis {
-    animation: none;
-    background-position: 0% 0;
-  }
-
   .hero-device {
     animation: none;
   }
@@ -78,9 +52,9 @@
   --loop: 3.4s;
 }
 
-.aegis-visual [data-aegis-hub],
-.aegis-visual [data-aegis-sat],
-.aegis-visual [data-aegis-rise] {
+.js .aegis-visual [data-aegis-hub],
+.js .aegis-visual [data-aegis-sat],
+.js .aegis-visual [data-aegis-rise] {
   opacity: 0;
 }
 
@@ -137,7 +111,7 @@
   opacity: 1;
 }
 
-.aegis-packet {
+.js .aegis-packet {
   position: absolute;
   left: 50%;
   top: 0;
@@ -152,11 +126,11 @@
 }
 
 .aegis-visual.is-live .aegis-packet {
-  animation: aegis-packet var(--loop) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: aegis-packet var(--loop) cubic-bezier(0.4, 0, 0.2, 1) 3;
   animation-delay: var(--loop-d, 1.5s);
 }
 
-.aegis-port {
+.js .aegis-port {
   position: absolute;
   left: 50%;
   bottom: -3px;
@@ -173,13 +147,13 @@
 .aegis-visual.is-live .aegis-port {
   animation:
     aegis-port-in 0.5s var(--ease-out) both,
-    aegis-port-pulse var(--loop) ease-in-out infinite;
+    aegis-port-pulse var(--loop) ease-in-out 3;
   animation-delay: calc(var(--d, 0ms) + 0.35s), var(--loop-d, 1.5s);
 }
 
 /* SVG spokes (used by the services flow, which reuses this root class):
    drawn with pathLength="1" so one dash length serves every path. */
-.aegis-visual [data-aegis-line] {
+.js .aegis-visual [data-aegis-line] {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   opacity: 0;
@@ -192,12 +166,12 @@
 }
 
 /* Source dot: steady pulse once its beam is connected. */
-.aegis-visual [data-aegis-dot] {
+.js .aegis-visual [data-aegis-dot] {
   opacity: 0;
 }
 
 .aegis-visual.is-live [data-aegis-dot] {
-  animation: aegis-pulse 2.6s ease-in-out infinite;
+  animation: aegis-pulse 2.6s ease-in-out 3;
   animation-delay: var(--d, 0ms);
 }
 
@@ -213,12 +187,12 @@
   pointer-events: none;
   opacity: 0;
   -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
+    linear-gradient(var(--mask-solid) 0 0) content-box,
+    linear-gradient(var(--mask-solid) 0 0);
   -webkit-mask-composite: xor;
   mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
+    linear-gradient(var(--mask-solid) 0 0) content-box,
+    linear-gradient(var(--mask-solid) 0 0);
   mask-composite: exclude;
 }
 
@@ -243,12 +217,12 @@
 .aegis-visual.is-live .aegis-ring::before {
   animation:
     aegis-spin 1.6s var(--ease-out) 0.45s 1 both,
-    aegis-spin 11s linear 2.05s infinite;
+    aegis-spin 11s linear 2.05s 3;
 }
 
 /* Live pill dot in the hub header. */
 .aegis-visual .aegis-live-dot {
-  animation: aegis-pulse 2s ease-in-out infinite;
+  animation: aegis-pulse 2s ease-in-out 3;
 }
 
 /* Governance checks: bar fills, then "Checking" swaps to "Enforced". */
@@ -262,7 +236,7 @@
   animation-delay: var(--d, 0ms);
 }
 
-.aegis-status-done {
+.js .aegis-status-done {
   position: absolute;
   right: 0;
   top: 0;
@@ -291,10 +265,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aegis-visual [data-aegis-hub],
-  .aegis-visual [data-aegis-sat],
-  .aegis-visual [data-aegis-rise],
-  .aegis-visual [data-aegis-dot],
+  .js .aegis-visual [data-aegis-hub],
+  .js .aegis-visual [data-aegis-sat],
+  .js .aegis-visual [data-aegis-rise],
+  .js .aegis-visual [data-aegis-dot],
   .aegis-visual .aegis-port,
   .aegis-visual .aegis-ring,
   .aegis-visual .aegis-live-dot,
@@ -320,7 +294,7 @@
     display: none;
   }
 
-  .aegis-visual [data-aegis-line] {
+  .js .aegis-visual [data-aegis-line] {
     stroke-dashoffset: 0;
     opacity: 0.5;
     animation: none !important;
@@ -539,16 +513,16 @@
 
 /* Services flow visual: hub pulse, dashboard bars, packet dots. */
 .svc-flow .svc-hub-pulse {
-  animation: svc-pulse 2.4s ease-in-out infinite;
+  animation: svc-pulse 2.4s ease-in-out 3;
 }
 
 @keyframes svc-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(88, 124, 204, 0.28);
+    opacity: 1;
   }
   50% {
-    box-shadow: 0 0 0 9px rgba(88, 124, 204, 0);
+    opacity: 0.6;
   }
 }
 
@@ -629,7 +603,7 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
 
 @keyframes bar-grow {
   from {
-    width: 0%;
+    transform: scaleX(0);
   }
 }
 
@@ -680,7 +654,7 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
 
 .cite-sheen {
   transform: translateX(-140px);
-  animation: cite-sheen 3.6s 0.6s ease-in-out infinite;
+  animation: cite-sheen 3.6s 0.6s ease-in-out 3;
 }
 
 @keyframes cite-draw {

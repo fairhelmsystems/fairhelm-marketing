@@ -15,6 +15,7 @@ import { PageSchema } from "@/components/site/page-schema";
 import { Reveal } from "@fairhelm/ui/components/reveal";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { ctaLabels, siteCtas } from "@/content/site-content";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 /**
  * Evaluation criteria instead of blanket "traditional ERP vs us" claims
@@ -97,11 +98,11 @@ export default function WhyDifferentPage() {
 
       <SectionShell className="pt-12 sm:pt-16">
         <Reveal immediate className="space-y-6">
-          <p className="section-kicker">Why SquareCampus</p>
           <h1 className="max-w-4xl font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
             Not a rebranded ERP. Not a bundle of point tools.
           </h1>
           <p className="max-w-3xl text-lg leading-8 text-[color:var(--muted-foreground)]">
+            <LeadIn>{"Why SquareCampus"}</LeadIn>
             SquareCampus is school management software built as a connected School OS. Admissions,
             academics, fees and communication share one record, and the approvals, owners and audit
             history that connect them sit on that record too.
@@ -223,11 +224,11 @@ export default function WhyDifferentPage() {
         <Reveal className="surface-panel-strong rounded-[2rem] p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-center">
             <div>
-              <p className="section-kicker">See it in context</p>
               <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                 Compare the School OS model against your current stack.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
+                <LeadIn>{"See it in context"}</LeadIn>
                 The most useful demo is usually a direct comparison between your current operating
                 reality and the connected model SquareCampus is designed to provide.
               </p>

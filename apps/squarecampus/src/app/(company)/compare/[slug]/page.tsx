@@ -19,6 +19,7 @@ import {
   createPageMetadata,
   SEO_CONFIG,
 } from "@/lib/seo";
+import { cn } from "@fairhelm/ui/lib/utils";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -96,12 +97,16 @@ export default async function ComparePage({ params }: PageProps) {
 
       <SectionShell className="pt-12 sm:pt-16">
         <Reveal immediate className="max-w-3xl space-y-6">
-          <p className="section-kicker">
-            <Link href="/compare" className="hover:text-foreground">
+          <nav aria-label="Breadcrumb" className="label">
+            <Link
+              href="/compare"
+              className="underline-offset-4 hover:text-foreground hover:underline"
+            >
               Compare
-            </Link>{" "}
-            · {c.intentLabel}
-          </p>
+            </Link>
+            <span aria-hidden="true"> / </span>
+            <span aria-current="page">{c.intentLabel}</span>
+          </nav>
           <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
             SquareCampus vs {c.competitor}
           </h1>
@@ -136,17 +141,24 @@ export default async function ComparePage({ params }: PageProps) {
       <SectionShell eyebrow="Side by side" title={`SquareCampus vs ${c.competitor}, by dimension`}>
         <Reveal>
           <div className="surface-panel overflow-hidden rounded-[1.6rem]">
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[40rem] border-collapse text-left">
+            {/* Phones restack each row (.compare-stack); sm and up scroll. */}
+            <div className="p-5 sm:overflow-x-auto sm:p-0">
+              <table className="compare-stack w-full border-collapse text-left sm:min-w-[40rem]">
                 <thead>
                   <tr className="border-b border-(--line)">
-                    <th className="px-5 py-4 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground">
+                    <th scope="col" className="px-5 py-4 text-xs text-muted-foreground">
                       Dimension
                     </th>
-                    <th className="px-5 py-4 font-display text-base tracking-[-0.02em] text-(--brand)">
+                    <th
+                      scope="col"
+                      className="px-5 py-4 font-display text-base tracking-[-0.02em] text-(--brand)"
+                    >
                       SquareCampus
                     </th>
-                    <th className="px-5 py-4 font-display text-base tracking-[-0.02em] text-muted-foreground">
+                    <th
+                      scope="col"
+                      className="px-5 py-4 font-display text-base tracking-[-0.02em] text-muted-foreground"
+                    >
                       {c.competitor}
                     </th>
                   </tr>
@@ -155,15 +167,24 @@ export default async function ComparePage({ params }: PageProps) {
                   {c.rows.map((row, index) => (
                     <tr
                       key={row.dimension}
-                      className={index % 2 === 1 ? "bg-(--surface-muted)" : undefined}
+                      className={cn(
+                        "border-t border-(--line) sm:border-t-0",
+                        index % 2 === 1 && "sm:bg-(--surface-muted)"
+                      )}
                     >
-                      <th className="px-5 py-4 align-top font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-muted-foreground">
+                      <th scope="row" className="px-5 py-4 align-top text-xs text-muted-foreground">
                         {row.dimension}
                       </th>
-                      <td className="px-5 py-4 align-top text-sm leading-6 text-foreground">
+                      <td
+                        data-label="SquareCampus"
+                        className="px-5 py-4 align-top text-sm leading-6 text-foreground"
+                      >
                         {row.squarecampus}
                       </td>
-                      <td className="px-5 py-4 align-top text-sm leading-6 text-muted-foreground">
+                      <td
+                        data-label={c.competitor}
+                        className="px-5 py-4 align-top text-sm leading-6 text-muted-foreground"
+                      >
                         {row.competitor}
                       </td>
                     </tr>
@@ -249,10 +270,10 @@ export default async function ComparePage({ params }: PageProps) {
 
       <SectionShell className="pt-0">
         <Reveal className="surface-panel-strong rounded-[2rem] p-6 text-center sm:p-10">
-          <p className="section-kicker">See it on your own numbers</p>
           <h2 className="mx-auto mt-4 max-w-2xl font-display text-2xl tracking-[-0.05em] sm:text-4xl">
             The fastest way to compare is to see SquareCampus run your workflows.
           </h2>
+          <p className="label">{"See it on your own numbers"}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} variant="cta" />
             <ButtonLink href="/compare" label="See all comparisons" variant="secondary" />

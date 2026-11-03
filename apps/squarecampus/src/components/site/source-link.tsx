@@ -34,7 +34,7 @@ export function SourceLink() {
       <span
         id="site-source-note"
         role="tooltip"
-        className="pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[17rem] -translate-x-1/2 translate-y-1 rounded-[0.9rem] border border-[color:var(--line-strong)] bg-background px-3.5 py-2.5 text-xs leading-5 text-[color:var(--foreground)] opacity-0 shadow-[0_18px_44px_rgba(8,15,30,0.18)] transition-[opacity,transform] duration-150 group-focus-within/source:translate-y-0 group-focus-within/source:opacity-100 group-hover/source:translate-y-0 group-hover/source:opacity-100 motion-reduce:transition-none dark:border-[color:var(--cite-neon)]/35 dark:shadow-[0_0_28px_-10px_var(--cite-neon),0_18px_44px_rgba(0,0,0,0.5)]"
+        className="pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[17rem] -translate-x-1/2 translate-y-1 rounded-[0.9rem] border border-[color:var(--line-strong)] bg-background px-3.5 py-2.5 text-xs leading-5 text-[color:var(--foreground)] opacity-0 shadow-(--shadow-2) transition-[opacity,transform] duration-150 group-focus-within/source:translate-y-0 group-focus-within/source:opacity-100 group-hover/source:translate-y-0 group-hover/source:opacity-100 motion-reduce:transition-none dark:border-[color:var(--cite-neon)]/35 dark:shadow-[0_0_28px_-10px_var(--cite-neon),0_18px_44px_rgba(0,0,0,0.5)]"
       >
         {siteSource.tooltip}
       </span>

@@ -18,6 +18,7 @@ import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { integrationScope } from "@/content/commercial";
 import { motionAssets } from "@/content/motion-assets";
 import { ctaLabels, siteCtas } from "@/content/site-content";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 /**
  * Apps & Integrations (audit SC-021). The route stays /ecosystem/; the page
@@ -98,11 +99,11 @@ export default function EcosystemPage() {
       <SectionShell className="pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <Reveal immediate className="space-y-6">
-            <p className="section-kicker">Apps &amp; Integrations</p>
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
               An app for every role, on one school record.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-[color:var(--muted-foreground)]">
+              <LeadIn>{"Apps & Integrations"}</LeadIn>
               Parents, students, teachers, the office and leadership each get the screens their work
               needs. Everything they do lands on the same record, and the tools you keep can be
               connected as scoped work.
@@ -170,7 +171,7 @@ export default function EcosystemPage() {
               <div key={group.label} className="surface-panel rounded-[1.4rem] p-5">
                 <dt className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-sm font-medium text-foreground">{group.label}</span>
-                  <span className="rounded-full border border-(--line) px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted-foreground">
+                  <span className="rounded-full border border-(--line) px-2.5 py-1 text-xs text-muted-foreground">
                     {group.status}
                   </span>
                 </dt>
@@ -197,11 +198,11 @@ export default function EcosystemPage() {
         <Reveal className="surface-panel-strong rounded-[2rem] p-8 lg:p-10">
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="section-kicker">Next step</p>
               <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                 See the apps for the roles in your institution.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
+                <LeadIn>{"Next step"}</LeadIn>
                 Tell us which roles and tools matter most. We will show the relevant screens and map
                 which of your current tools could connect.
               </p>

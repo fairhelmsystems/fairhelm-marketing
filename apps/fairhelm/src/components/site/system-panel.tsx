@@ -63,7 +63,7 @@ export function SystemPanel() {
       <div className="panel-inner overflow-hidden">
         <div className="flex items-center justify-between gap-4 border-b border-border px-4 py-3.5 sm:px-5">
           <div>
-            <p className="eyebrow text-[0.6rem]">Fairhelm control plane</p>
+            <p className="eyebrow">Fairhelm control plane</p>
             <p className="mt-1.5 font-heading text-[0.98rem] tracking-[-0.02em] text-foreground">
               Institutional systems · today
             </p>
@@ -90,14 +90,14 @@ export function SystemPanel() {
                   {system.name}
                 </span>
                 <span className="mt-0.5 block truncate text-xs text-muted-foreground">
-                  <span className="hidden font-mono text-[0.58rem] tracking-[0.14em] uppercase sm:inline">
+                  <span className="hidden text-[0.58rem] sm:inline">
                     {system.kind}
                     <span className="mx-1.5">·</span>
                   </span>
                   {system.detail}
                 </span>
               </span>
-              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-teal/30 bg-teal/10 px-2.5 py-1 font-mono text-[0.58rem] tracking-[0.14em] text-teal uppercase">
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-teal/30 bg-teal/10 px-2.5 py-1 text-[0.58rem] text-teal">
                 <Check aria-hidden="true" className="size-3" />
                 {system.state}
               </span>
@@ -112,7 +112,7 @@ export function SystemPanel() {
         >
           {posture.map(([label, value]) => (
             <div key={label} className="min-w-0 text-center">
-              <p className="flex items-center justify-center gap-1 font-mono text-[0.58rem] tracking-[0.14em] text-muted-foreground uppercase">
+              <p className="flex items-center justify-center gap-1 text-[0.58rem] text-muted-foreground">
                 <ShieldCheck aria-hidden="true" className="size-3 text-[color:var(--brand-ink)]" />
                 {label}
               </p>

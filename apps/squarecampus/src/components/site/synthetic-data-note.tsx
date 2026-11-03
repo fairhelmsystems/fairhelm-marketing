@@ -25,7 +25,7 @@ export function SyntheticDataNote({
     return (
       <span
         className={cn(
-          "inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-[color:var(--muted-foreground)]",
+          "inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] px-2.5 py-1 text-xs text-[color:var(--muted-foreground)]",
           className
         )}
       >
@@ -38,7 +38,7 @@ export function SyntheticDataNote({
   return (
     <p
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] px-3.5 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-[color:var(--muted-foreground)]",
+        "inline-flex items-center gap-2 rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] px-3.5 py-1.5 text-xs text-[color:var(--muted-foreground)]",
         className
       )}
     >

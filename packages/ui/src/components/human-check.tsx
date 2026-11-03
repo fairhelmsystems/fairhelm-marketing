@@ -397,7 +397,7 @@ export function HumanCheck({
       {/* The modal owns focus containment/restoration, Escape and scroll lock.
           Keep its portal outside filtered form panels so it covers the viewport. */}
       <Dialog.Portal>
-        <Dialog.Popup className="fixed inset-0 z-[100] flex items-center justify-center bg-[color:var(--background)]/80 p-4 backdrop-blur-sm">
+        <Dialog.Popup className="fixed inset-0 z-[100] flex items-center justify-center bg-[color:var(--background)]/80 p-4">
           <div className="surface-panel-strong w-full max-w-[30rem] overflow-hidden rounded-[1.75rem] p-5 sm:p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -557,7 +557,7 @@ function Verified({ seconds }: { seconds: number }) {
         />
       </svg>
       <p className="mt-3 font-display text-base tracking-[-0.02em]">Verified</p>
-      <p className="mt-1 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-[color:var(--muted-foreground)]">
+      <p className="mt-1 text-xs text-[color:var(--muted-foreground)]">
         {seconds < 6
           ? `Solved in ${seconds.toFixed(1)}s — quick`
           : `Solved in ${seconds.toFixed(1)}s`}

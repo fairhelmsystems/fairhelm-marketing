@@ -21,7 +21,7 @@ export type FooterCompany = {
 function DisclosureField({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="eyebrow text-[0.6rem]">{label}</span>
+      <span className="eyebrow">{label}</span>
       <span className="text-sm leading-6 text-muted-foreground">{children}</span>
     </div>
   );
@@ -115,7 +115,7 @@ export function CompanyFooter({
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {groups.map((group) => (
               <div key={group.label} className="flex flex-col gap-3">
-                <p className="eyebrow text-[0.6rem]">{group.label}</p>
+                <p className="eyebrow">{group.label}</p>
                 {group.links.map((link) =>
                   /^https?:/.test(link.href) ? (
                     <a

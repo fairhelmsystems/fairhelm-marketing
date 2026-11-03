@@ -58,7 +58,7 @@ export function DataPipelineVisual({ className }: { className?: string }) {
       aria-label="Illustrative diagram of a data pipeline: example source systems flowing through ETL/ELT into a governed model. Sample data, not customer integrations."
       className={cn("viz-reveal", className)}
     >
-      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70 p-4 backdrop-blur sm:p-6">
+      <div className="viz-panel surface-panel rounded-[var(--radius-panel)]/70 p-4 sm:p-6">
         <div className="viz-cap" />
 
         <div className="relative aspect-800/450 w-full">
@@ -124,7 +124,7 @@ export function DataPipelineVisual({ className }: { className?: string }) {
                   top: source.top,
                 } as CSSProperties
               }
-              className="absolute left-0 flex w-fit max-w-[48%] items-center gap-1.5 whitespace-nowrap rounded-full border border-border bg-background/80 px-2.5 py-1.5 shadow-lg backdrop-blur-md sm:gap-2 sm:px-3 sm:py-2"
+              className="absolute left-0 flex w-fit max-w-[48%] items-center gap-1.5 whitespace-nowrap rounded-full border border-border bg-background/80 px-2.5 py-1.5 shadow-lg sm:gap-2 sm:px-3 sm:py-2"
             >
               <source.icon className="size-3 shrink-0 text-[color:var(--brand-ink)] sm:size-4" />
               <span className="text-[0.58rem] font-medium text-foreground sm:text-[0.72rem]">
@@ -136,27 +136,25 @@ export function DataPipelineVisual({ className }: { className?: string }) {
           <div
             data-rise
             style={{ "--d": "80ms" } as CSSProperties}
-            className="absolute left-[59%] top-1/2 z-10 flex w-[19%] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 rounded-2xl border border-primary/40 bg-card px-2 py-2.5 text-center shadow-2xl backdrop-blur-xl sm:gap-1.5 sm:py-4"
+            className="absolute left-[59%] top-1/2 z-10 flex w-[19%] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 rounded-2xl border border-primary/40 bg-card px-2 py-2.5 text-center shadow-2xl sm:gap-1.5 sm:py-4"
           >
             <span className="viz-pulse flex size-6 items-center justify-center rounded-full bg-primary/15 sm:size-9">
               <Workflow className="size-3 text-[color:var(--brand-ink)] sm:size-4.5" />
             </span>
-            <span className="font-mono text-[0.5rem] tracking-[0.14em] text-foreground uppercase sm:text-[0.6rem]">
-              ETL · ELT
-            </span>
+            <span className="text-[0.5rem] text-foreground sm:text-[0.6rem]">ETL / ELT</span>
             <span className="hidden text-[0.6rem] leading-4 text-muted-foreground sm:block">
-              Validate · reconcile
+              Validate, reconcile
             </span>
           </div>
 
           <div
             data-rise
             style={{ "--d": "600ms" } as CSSProperties}
-            className="absolute right-0 top-1/2 z-10 w-[24%] -translate-y-1/2 rounded-2xl border border-primary/40 bg-card p-2 shadow-2xl backdrop-blur-xl sm:p-3.5"
+            className="absolute right-0 top-1/2 z-10 w-[24%] -translate-y-1/2 rounded-2xl border border-primary/40 bg-card p-2 shadow-2xl sm:p-3.5"
           >
             <div className="flex items-center gap-1.5">
               <Layers className="size-3 shrink-0 text-chart-4 sm:size-4" />
-              <span className="font-mono text-[0.44rem] tracking-[0.12em] text-muted-foreground uppercase sm:text-[0.56rem]">
+              <span className="text-[0.44rem] text-muted-foreground sm:text-[0.56rem]">
                 Governed
               </span>
             </div>

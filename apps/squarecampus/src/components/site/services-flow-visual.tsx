@@ -74,8 +74,6 @@ export function ServicesFlowVisual({ className }: { className?: string }) {
   return (
     <div data-md-skip ref={ref} className={cn("aegis-visual svc-flow", className)}>
       <div className="surface-panel-strong relative overflow-hidden rounded-4xl p-4 sm:p-6">
-        <div className="pointer-events-none absolute inset-x-[20%] top-0 h-24 bg-[radial-gradient(circle_at_top,rgba(88,124,204,0.16),transparent_70%)]" />
-
         <div className="relative aspect-800/450 w-full">
           {/* Connector lines + traveling data packets */}
           <svg
@@ -135,7 +133,7 @@ export function ServicesFlowVisual({ className }: { className?: string }) {
               key={tool.label}
               data-aegis-rise
               style={{ "--d": `${120 + index * 70}ms`, top: tool.top } as React.CSSProperties}
-              className="absolute left-0 flex w-[22%] items-center gap-1.5 rounded-full border border-(--line) bg-(--surface) px-2 py-1.5 shadow-[0_10px_26px_rgba(8,15,30,0.07)] backdrop-blur-md sm:gap-2 sm:px-3 sm:py-2"
+              className="absolute left-0 flex w-[22%] items-center gap-1.5 rounded-full border border-(--line) bg-(--surface) px-2 py-1.5 shadow-(--shadow-2) sm:gap-2 sm:px-3 sm:py-2"
             >
               <tool.icon className="size-3 shrink-0 text-(--brand) sm:size-4" />
               <span className="truncate text-[0.55rem] font-medium text-foreground sm:text-[0.72rem]">
@@ -148,16 +146,16 @@ export function ServicesFlowVisual({ className }: { className?: string }) {
           <div
             data-aegis-rise
             style={{ "--d": "80ms" } as React.CSSProperties}
-            className="absolute left-1/2 top-1/2 z-10 flex w-[19%] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 rounded-[1.3rem] border border-(--line-strong) bg-(--surface-strong) px-2 py-2.5 text-center shadow-[0_20px_50px_rgba(8,15,30,0.12)] backdrop-blur-xl sm:gap-1.5 sm:py-4"
+            className="absolute left-1/2 top-1/2 z-10 flex w-[19%] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 rounded-[1.3rem] border border-(--line-strong) bg-(--surface-strong) px-2 py-2.5 text-center shadow-(--shadow-2) sm:gap-1.5 sm:py-4"
           >
             <span className="svc-hub-pulse flex size-6 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--brand-soft),transparent_70%)] sm:size-9">
               <Workflow className="size-3 text-(--brand) sm:size-4.5" />
             </span>
-            <span className="font-mono text-[0.44rem] uppercase tracking-[0.16em] text-muted-foreground sm:text-[0.56rem]">
+            <span className="text-[0.44rem] text-muted-foreground sm:text-[0.56rem]">
               ETL / ELT engine
             </span>
             <span className="hidden text-[0.62rem] leading-4 text-muted-foreground sm:block">
-              Clean · map · reconcile
+              Clean, map, reconcile
             </span>
           </div>
 
@@ -165,11 +163,11 @@ export function ServicesFlowVisual({ className }: { className?: string }) {
           <div
             data-aegis-rise
             style={{ "--d": "600ms" } as React.CSSProperties}
-            className="absolute right-0 top-1/2 z-10 w-[24%] -translate-y-1/2 rounded-[1.3rem] border border-(--line-strong) bg-(--surface-strong) p-2 shadow-[0_20px_50px_rgba(8,15,30,0.12)] backdrop-blur-xl sm:p-3.5"
+            className="absolute right-0 top-1/2 z-10 w-[24%] -translate-y-1/2 rounded-[1.3rem] border border-(--line-strong) bg-(--surface-strong) p-2 shadow-(--shadow-2) sm:p-3.5"
           >
             <div className="flex items-center gap-1.5">
               <ChartNoAxesCombined className="size-3 shrink-0 text-(--teal) sm:size-4" />
-              <span className="truncate font-mono text-[0.44rem] uppercase tracking-[0.14em] text-muted-foreground sm:text-[0.56rem]">
+              <span className="truncate text-[0.44rem] text-muted-foreground sm:text-[0.56rem]">
                 One dashboard
               </span>
             </div>
@@ -204,7 +202,7 @@ export function ServicesFlowVisual({ className }: { className?: string }) {
           <div
             data-aegis-rise
             style={{ "--d": "1100ms" } as React.CSSProperties}
-            className="absolute bottom-0 translate-x-1/2 whitespace-nowrap rounded-full border border-(--line) bg-(--surface) px-2.5 py-1 font-mono text-[0.42rem] uppercase tracking-[0.16em] text-muted-foreground sm:px-4 sm:py-2 sm:text-[0.56rem]"
+            className="absolute bottom-0 translate-x-1/2 whitespace-nowrap rounded-full border border-(--line) bg-(--surface) px-2.5 py-1 text-[0.42rem] text-muted-foreground sm:px-4 sm:py-2 sm:text-[0.56rem]"
           >
             Illustrative · each source scoped separately
           </div>

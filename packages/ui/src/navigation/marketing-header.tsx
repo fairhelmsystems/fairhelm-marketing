@@ -3,6 +3,7 @@
 import { Menu, X } from "lucide-react";
 import { type ReactNode, useEffect, useId, useState } from "react";
 import { cn } from "@fairhelm/ui/lib/utils";
+import { ThemeToggle } from "@fairhelm/ui/components/theme-toggle";
 import { DesktopNavigation, MobileNavigation } from "@fairhelm/ui/navigation/marketing-navigation";
 import { type NavigationItem, normaliseNavigationPath } from "@fairhelm/ui/navigation/types";
 
@@ -35,13 +36,13 @@ export function MarketingHeader({
     setMobileOpen(false);
   }, [pathname]);
   return (
-    <header className="sticky top-0 z-40 px-4 pt-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 px-3 pt-2 sm:px-6 sm:pt-4 lg:px-8">
       <div
         className={cn(
-          "mx-auto max-w-6xl rounded-[1.75rem] px-4 py-3 transition-all duration-300 sm:px-5",
+          "mx-auto max-w-6xl rounded-[1.75rem] border px-3 py-2 sm:px-4 sm:py-3 transition-[background-color,border-color] duration-200 sm:px-5",
           scrolled
-            ? "bg-[color:var(--surface-strong)]/90 shadow-[0_24px_60px_rgba(8,15,30,0.08)] backdrop-blur-xl dark:shadow-[0_28px_72px_rgba(0,0,0,0.38)]"
-            : "bg-transparent"
+            ? "border-[color:var(--line-strong)] bg-[color:var(--surface-strong)]"
+            : "border-transparent bg-transparent"
         )}
       >
         <div className="flex items-center justify-between gap-2 xl:gap-3">
@@ -78,6 +79,10 @@ export function MarketingHeader({
               onNavigate={() => setMobileOpen(false)}
             />
             {mobileActions ? <div className="mt-4 grid gap-2">{mobileActions}</div> : null}
+            <div className="mt-4 flex items-center justify-between border-t border-[color:var(--line)] pt-4">
+              <span className="label">Theme</span>
+              <ThemeToggle inline />
+            </div>
           </div>
         ) : null}
       </div>

@@ -21,7 +21,7 @@ export function BrandDownloads() {
         },
       ].map((asset) => (
         <ResourceCard key={asset.path} icon={<ImageIcon className="size-5" />} title={asset.name}>
-          <div className="mt-6 flex h-44 items-center justify-center rounded-2xl border border-(--line) bg-[#f4f6fa] p-8">
+          <div className="mt-6 flex h-44 items-center justify-center rounded-2xl border border-(--line) bg-(--logo-plate) p-8">
             <Image
               src={asset.path}
               alt={`${asset.name} mark`}

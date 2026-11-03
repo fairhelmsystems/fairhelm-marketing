@@ -13,7 +13,6 @@ const baseAttrs = {
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
   "aria-hidden": true,
-  role: "img",
 };
 
 export const Activity = (props: IconProps) => (

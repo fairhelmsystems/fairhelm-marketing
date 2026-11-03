@@ -36,11 +36,10 @@
     @apply py-9 sm:py-16 lg:py-24;
   }
   .panel {
-    border: 1px solid var(--line);
+    border: 1px solid var(--line-strong);
     border-radius: var(--radius-panel);
     background: var(--surface);
-    box-shadow: var(--shadow-2);
-    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow-1);
   }
 }
 :root {

@@ -30,6 +30,7 @@ import {
 } from "@/content/commercial";
 import { DISCOVERY_NOTE, pricingFaqs, proposalInputs } from "@/content/pricing";
 import { ctaLabels, siteCtas } from "@/content/site-content";
+import { MobileExpand } from "@fairhelm/ui/components/mobile-expand";
 
 const heroSignals = [
   { label: "Licence", value: "Annual, institutional" },
@@ -129,17 +130,19 @@ export default function PricingPage() {
         body="An ordinary ERP grows by adding modules. Enterprise grows by adding institutional governance: the structure, command, identity, audit and deployment controls a trust or a complex institution actually has to run on."
       >
         <Reveal>
-          <FactTable
-            caption="What Enterprise adds beyond ordinary ERP modules, by dimension."
-            columns={[
-              { key: "modules", label: "Ordinary ERP modules" },
-              { key: "enterprise", label: "SquareCampus Enterprise" },
-            ]}
-            rows={enterpriseBeyondModules.map((row) => ({
-              label: row.dimension,
-              values: [row.modules, row.enterprise],
-            }))}
-          />
+          <MobileExpand label="Compare dimension by dimension" title="What Enterprise adds">
+            <FactTable
+              caption="What Enterprise adds beyond ordinary ERP modules, by dimension."
+              columns={[
+                { key: "modules", label: "Ordinary ERP modules" },
+                { key: "enterprise", label: "SquareCampus Enterprise" },
+              ]}
+              rows={enterpriseBeyondModules.map((row) => ({
+                label: row.dimension,
+                values: [row.modules, row.enterprise],
+              }))}
+            />
+          </MobileExpand>
         </Reveal>
 
         {/* Identity by plan is stated on the plan cards, in the comparison and
@@ -267,7 +270,7 @@ export default function PricingPage() {
         title="Choose the engagement that fits your institution."
         body={launchPilot.separation}
       >
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="rail-phone grid gap-4 lg:grid-cols-3">
           {commercialProgrammes.map((programme) => (
             <article
               key={programme.name}

@@ -147,7 +147,7 @@ export function renderLlmsTxt(): string {
     "",
     `- Company: ${c.legalNameDisplay} (CIN ${c.cin}), ${c.companyType.toLowerCase()} incorporated in India on ${c.incorporationDateDisplay}. GSTIN ${c.gstin}. Registered office: ${c.address.full}.`,
     `- Positioning: ${c.positioning.is} It is not ${c.positioning.isNot.join(", ")}.`,
-    `- Flagship product: ${c.product.name}, a ${c.product.category} for ${c.product.audience}. Positioning: ${c.product.positioning} ${c.product.relationship}`,
+    `- Flagship product: ${c.product.name}, a ${c.product.category} for ${c.product.audience}. Positioning: ${c.product.positioning} ${c.product.notAnErp} ${c.product.relationship}`,
     `- Engineering work: ${c.services.summary}`,
     `- Out of scope: ${c.services.outOfScope.map((s) => s.replace(/\.$/, "")).join("; ")}.`,
     `- Evidence: Fairhelm publishes no customer counts, named customers, testimonials, uptime figures, measured outcomes, rankings, awards or certifications. Interface examples on the site use illustrative data and are labelled as such.`,

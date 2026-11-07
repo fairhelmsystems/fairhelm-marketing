@@ -38,7 +38,7 @@ import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "SquareCampus | Enterprise-grade School OS and School ERP, India",
+  title: "SquareCampus | Enterprise-grade School OS, Not a School ERP",
   description:
     "Enterprise-grade School OS, minus the enterprise headache: school management software for admissions, attendance, fees, exams and parents across campuses.",
   // Canonical plus the homepage's Markdown alternate (content/markdown-alternates.ts).

@@ -5,7 +5,8 @@
   "license": "Apache-2.0",
   "packageManager": "bun@1.4.3",
   "engines": {
-    "bun": ">=1.4.3"
+    "bun": ">=1.4.3",
+    "node": ">=24"
   },
   "workspaces": [
     "apps/*",

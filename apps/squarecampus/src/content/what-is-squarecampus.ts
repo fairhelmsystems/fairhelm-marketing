@@ -149,7 +149,7 @@ export { multiCampusContrast };
 export const entityFaqs = [
   {
     question: "Is SquareCampus an ERP?",
-    answer: `Yes, in the sense buyers usually mean. ${product.categoryRelationship} "School OS" describes how it is built: school cycles, ownership, exceptions, governance and leadership visibility share one institutional model.`,
+    answer: `No. ${product.notAnErp} "School OS" describes how it is built: school cycles, ownership, exceptions, governance and leadership visibility share one institutional model.`,
   },
   {
     question: "What is a School Operating System?",

@@ -220,6 +220,9 @@ export default function RootLayout({
                   applicationCategory: "BusinessApplication",
                   applicationSubCategory: product.category,
                   description: product.shortDescription,
+                  // Tells engines what the product is not: "school ERP" is
+                  // the query, School OS is the answer.
+                  disambiguatingDescription: product.notAnErp,
                   operatingSystem: "Web",
                   url: "https://app.squarecampus.com",
                   // The marketing pages that describe the application. The

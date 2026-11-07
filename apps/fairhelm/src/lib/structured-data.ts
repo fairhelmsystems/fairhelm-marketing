@@ -125,6 +125,7 @@ export const squareCampusSchema = {
   operatingSystem: "Web",
   url: siteConfig.product.url,
   description: siteConfig.product.description,
+  disambiguatingDescription: siteConfig.product.notAnErp,
   creator: { "@id": SCHEMA_IDS.org },
   publisher: { "@id": SCHEMA_IDS.org },
   provider: { "@id": SCHEMA_IDS.org },

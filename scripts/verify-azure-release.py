@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare a prepared site's files to its immutable Azure static-website prefix."""
+"""Compare prepared files to their immutable Azure static-website location."""
 import hashlib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -17,12 +17,15 @@ ORIGINS = {
 }
 
 
+SHARED_STATIC = 'static/_next/static'
+
+
 def verify(site_dir, site, commit):
     if site not in ORIGINS or not re.fullmatch(r'[0-9a-f]{40}', commit):
         raise ValueError('Invalid site or release commit')
     if site_dir.is_symlink() or not site_dir.is_dir():
         raise ValueError('Prepared site directory is missing or unsafe')
-    files = []
+    files = {}
     for path in site_dir.rglob('*'):
         if path.is_symlink():
             raise ValueError('Symlink in prepared site')
@@ -30,12 +33,20 @@ def verify(site_dir, site, commit):
             continue
         if not path.is_file():
             raise ValueError('Unsupported prepared site entry')
-        files.append(path)
+        files[path.relative_to(site_dir).as_posix()] = path
     if not (site_dir / 'index.html').is_file():
         raise ValueError('Prepared site is missing index.html')
-    base = f'https://{ORIGINS[site]}/releases/{commit}/'
-    def verify_file(path):
-        relative = path.relative_to(site_dir).as_posix()
+    verify_files(files, site, f'releases/{commit}')
+    print(f'Verified {len(files)} {site} files at Azure origin for {commit}')
+
+
+def verify_files(files, site, base_path):
+    """Require every {relative name: local path} to be served byte-identical under base_path."""
+    if site not in ORIGINS or (base_path != SHARED_STATIC and not re.fullmatch(r'releases/[0-9a-f]{40}', base_path)):
+        raise ValueError('Invalid site or origin path')
+    base = f'https://{ORIGINS[site]}/{base_path}/'
+    def verify_file(item):
+        relative, path = item
         expected = hashlib.sha256()
         with path.open('rb') as source:
             for chunk in iter(lambda: source.read(1024 * 1024), b''):
@@ -62,8 +73,7 @@ def verify(site_dir, site, commit):
     # serial verification while keeping origin load predictable; consuming all
     # results ensures every failure still rejects the whole release.
     with ThreadPoolExecutor(max_workers=8) as executor:
-        list(executor.map(verify_file, sorted(files)))
-    print(f'Verified {len(files)} {site} files at Azure origin for {commit}')
+        list(executor.map(verify_file, sorted(files.items())))
 
 
 if __name__ == '__main__':

@@ -83,12 +83,12 @@ export const product = {
     "India-first. The platform is hosted on Microsoft Azure in India. Enterprise private deployments are available on AWS, in a private cloud or on premises, subject to scoping.",
   /**
    * How "School OS" relates to the categories buyers search for. SquareCampus
-   * is school management software; "School OS" describes how it is built, not
-   * a claim that it belongs to a different category. Every page that explains
+   * does school management work, but it is a School OS, not an ERP: ERP terms
+   * appear only to meet search intent and then disambiguate. Every page that explains
    * the relationship (About, Home, Platform, the category pages, the ERP FAQ)
    * uses these sentences, so the answer cannot differ between pages.
    */
-  categoryDescriptor: "School management software for Indian schools and trusts",
+  categoryDescriptor: "A School OS, not an ERP, for Indian schools and trusts",
   /**
    * The positioning line. Verbatim on the home H1, the Fairhelm product page
    * and the machine-readable surfaces; `positioningSupport` says what each
@@ -100,7 +100,15 @@ export const product = {
   positioningSupport:
     "Enterprise-grade means role-based access, approval chains, audit history and multi-campus governance on one institutional record, hosted on Microsoft Azure in India. Minus the enterprise headache means implementation and support in every plan, a rollout sequenced around the academic calendar, a published pricing model and current systems kept running in parallel until the numbers are trusted.",
   categoryRelationship:
-    "SquareCampus is school management software built as a connected School OS. It covers the record-keeping and workflows schools expect from school management and ERP software, and connects them with owners, approvals and audit history on one institutional record.",
+    "SquareCampus is a School Operating System (School OS), not an ERP. It does the school management work buyers look for in school ERP software (admissions, attendance, fees, exams, parent communication) and runs it as connected workflows with owners, approvals and audit history on one institutional record.",
+  /**
+   * The canonical "not an ERP" answer. Search engines and answer engines
+   * meet "school ERP" as the category buyers type; this sentence is the one
+   * disambiguation every surface (schema `disambiguatingDescription`, the
+   * ERP FAQs, llms.txt) repeats verbatim, so no page can say "yes, it is an ERP".
+   */
+  notAnErp:
+    "SquareCampus is not an ERP. An ERP records transactions module by module; a School OS runs the institution: every cycle has an owner, every exception reaches a named desk, every override is recorded with a reason, and leadership sees what needs attention. It can replace a school ERP or run alongside one while the move is validated.",
   distinction:
     "A system of record stores what happened. SquareCampus also carries the workflows, ownership, exceptions, approvals and audit history that turn records into accountable operations, and shows leadership what requires attention, who owns it and what happens next.",
   competesOn: [

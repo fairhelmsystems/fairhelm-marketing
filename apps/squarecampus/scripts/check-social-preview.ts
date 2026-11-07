@@ -153,7 +153,7 @@ for (const userAgent of userAgents) {
       if (route.path === "/") {
         assert.ok(
           meta.head.includes(
-            "<title>SquareCampus | Enterprise-grade School OS and School ERP, India</title>"
+            "<title>SquareCampus | Enterprise-grade School OS, Not a School ERP</title>"
           )
         );
         assert.equal(

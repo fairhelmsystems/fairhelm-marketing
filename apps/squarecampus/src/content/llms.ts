@@ -323,6 +323,7 @@ export function llmsOrientation(): string[] {
   return [
     `- Positioning: ${product.positioning} ${product.positioningSupport}`,
     `- Category: ${product.categoryDescriptor}. ${product.categoryRelationship}`,
+    `- Not an ERP: ${product.notAnErp}`,
     `- Intended institutions: ${product.audiences.join("; ")}.`,
     `- Geography: ${product.geography}`,
     `- Deployment: ${deploymentSummary} Running in the institution's own cloud account (BYOC) is not offered today.`,

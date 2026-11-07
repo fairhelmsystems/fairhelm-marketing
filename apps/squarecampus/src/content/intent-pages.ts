@@ -64,11 +64,11 @@ export const intentPages: IntentPage[] = [
   {
     slug: "school-erp-software",
     keyword: "School ERP software",
-    metaTitle: "School ERP Software for Indian Schools",
+    metaTitle: "School ERP Software? Meet the School OS That Isn't One",
     metaDescription:
-      "School ERP software that connects admissions, fees, attendance, exams and communication on one governed record. Built for Indian schools and school groups.",
-    h1: "School ERP software that behaves like one system, not seven.",
-    lede: "Most school ERP software is a set of modules sold together. SquareCampus is built the other way round: one institutional record, one workflow engine, one audit trail, and the modules a school expects sitting on top of it.",
+      "Searching for school ERP software? SquareCampus is a School OS, not an ERP: admissions, fees, attendance, exams and communication on one governed record.",
+    h1: "Looking for school ERP software? Meet the School OS that isn't one.",
+    lede: "Most school ERP software is a set of modules sold together. SquareCampus is not an ERP; it is built the other way round: one institutional record, one workflow engine, one audit trail, and the modules a school expects sitting on top of it.",
     audience: ["Principals", "Trust administrators", "IT coordinators", "Finance officers"],
     definition: {
       title: "What is school ERP software?",
@@ -134,7 +134,7 @@ export const intentPages: IntentPage[] = [
     faqs: [
       {
         question: "Is SquareCampus a school ERP?",
-        answer: product.categoryRelationship,
+        answer: `No. ${product.notAnErp}`,
       },
       {
         question: "Can school ERP software run alongside the tools we already use?",

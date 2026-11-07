@@ -110,6 +110,8 @@ export const siteConfig = {
     category: "School Operating System",
     /** Product positioning, verbatim from squarecampus.com. */
     positioning: "Enterprise-grade School OS, minus the enterprise headache.",
+    /** Category disambiguation, matching squarecampus.com: a School OS, not an ERP. */
+    notAnErp: "SquareCampus is a School OS, not an ERP: it runs school cycles with owners, approvals, exceptions and audit history on one institutional record, and can replace a school ERP or run alongside one.",
     url: squareCampusUrl,
     page: "/squarecampus/",
     schemaId: `${squareCampusUrl}#software`,

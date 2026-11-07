@@ -13,7 +13,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(SEO_CONFIG.baseUrl),
   title: {
-    default: "SquareCampus | School Operating System for Indian Schools and Trusts",
+    default: "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts",
     template: "%s | SquareCampus",
   },
   description:
@@ -28,9 +28,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://squarecampus.com/",
-    title: "SquareCampus | School Operating System for Indian Schools and Trusts",
+    title: "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts",
     description:
-      "Know what requires attention today. SquareCampus connects school operations, assigns ownership to exceptions, and gives leadership a governed view of the institution.",
+      "Enterprise-grade School OS, minus the enterprise headache. SquareCampus connects school operations, gives every exception an owner and leadership one governed view.",
     siteName: "SquareCampus",
     locale: "en_IN",
     images: [SEO_CONFIG.socialImages.openGraph],
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@squarecampushq",
     creator: "@squarecampushq",
-    title: "SquareCampus | School Operating System for Indian Schools and Trusts",
+    title: "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts",
     description:
-      "A system of record stores what happened. A decision layer shows what requires attention, who owns it, and what happens next.",
+      "Enterprise-grade School OS, minus the enterprise headache. See what requires attention, who owns it, and what happens next.",
     images: [SEO_CONFIG.socialImages.twitter],
   },
   robots: {
@@ -171,7 +171,12 @@ export default function RootLayout({
                     name: "Mohit Gupta",
                   },
                   sameAs: SEO_CONFIG.sameAs,
-                  brand: { "@type": "Brand", name: "SquareCampus", logo: SEO_CONFIG.logo },
+                  brand: {
+                    "@type": "Brand",
+                    name: "SquareCampus",
+                    logo: SEO_CONFIG.logo,
+                    slogan: product.positioning,
+                  },
                   areaServed: {
                     "@type": "Country",
                     name: "India",

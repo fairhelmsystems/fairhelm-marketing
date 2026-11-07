@@ -153,28 +153,28 @@ for (const userAgent of userAgents) {
       if (route.path === "/") {
         assert.ok(
           meta.head.includes(
-            "<title>SquareCampus | School Management Software for Indian Schools and Trusts</title>"
+            "<title>SquareCampus | Enterprise-grade School OS and School ERP, India</title>"
           )
         );
         assert.equal(
           meta.one("description"),
-          "School management software built as a connected School OS: admissions, attendance, fees, exams and parent communication on one record for Indian schools."
+          "Enterprise-grade School OS, minus the enterprise headache: school management software for admissions, attendance, fees, exams and parents across campuses."
         );
         assert.equal(
           meta.one("og:title"),
-          "SquareCampus | School Operating System for Indian Schools and Trusts"
+          "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts"
         );
         assert.equal(
           meta.one("og:description"),
-          "Know what requires attention today. SquareCampus connects school operations, assigns ownership to exceptions, and gives leadership a governed view of the institution."
+          "Enterprise-grade School OS, minus the enterprise headache. SquareCampus connects school operations, gives every exception an owner and leadership one governed view."
         );
         assert.equal(
           meta.one("twitter:title"),
-          "SquareCampus | School Operating System for Indian Schools and Trusts"
+          "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts"
         );
         assert.equal(
           meta.one("twitter:description"),
-          "A system of record stores what happened. A decision layer shows what requires attention, who owns it, and what happens next."
+          "Enterprise-grade School OS, minus the enterprise headache. See what requires attention, who owns it, and what happens next."
         );
         assert.ok(!meta.head.includes("/og/home.png"), "No stale homepage override");
       }

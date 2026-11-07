@@ -38,9 +38,9 @@ import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "SquareCampus | School Management Software for Indian Schools and Trusts",
+  title: "SquareCampus | Enterprise-grade School OS and School ERP, India",
   description:
-    "School management software built as a connected School OS: admissions, attendance, fees, exams and parent communication on one record for Indian schools.",
+    "Enterprise-grade School OS, minus the enterprise headache: school management software for admissions, attendance, fees, exams and parents across campuses.",
   // Canonical plus the homepage's Markdown alternate (content/markdown-alternates.ts).
   alternates: createAlternates("/"),
 };
@@ -175,9 +175,10 @@ export default function Home() {
               immediate
               className="space-y-4 sm:space-y-5 lg:col-start-1 lg:row-start-1 lg:self-end"
             >
+              {/* Positioning line, verbatim from product.positioning. */}
               <h1 className="type-display">
-                Run daily operations. See what needs{" "}
-                <span className="hero-emphasis">attention</span>.
+                Enterprise-grade School OS,{" "}
+                <span className="hero-emphasis">minus the enterprise headache</span>.
               </h1>
               {/* Category and audience (audit SC-007) open the first sentence
                   under the headline: a first-time visitor still learns what

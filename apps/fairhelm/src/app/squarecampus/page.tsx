@@ -28,9 +28,9 @@ import { siteConfig } from "@/lib/site-config";
 import { breadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata = createPageMetadata({
-  title: "SquareCampus — School Operating System by Fairhelm Systems",
+  title: "SquareCampus — Enterprise-grade School OS by Fairhelm Systems",
   description:
-    "SquareCampus is the School Operating System developed and operated by Fairhelm Systems for schools, universities and multi-campus educational institutions in India. Product detail, security documentation and pricing live on squarecampus.com.",
+    "SquareCampus is an enterprise-grade School OS, minus the enterprise headache, built by Fairhelm Systems for schools, trusts and universities in India.",
   path: "/squarecampus/",
 });
 
@@ -173,8 +173,8 @@ export default function SquareCampusPage() {
       />
       <Hero
         eyebrow="SquareCampus · Fairhelm Systems flagship product"
-        title="The School Operating System built and operated by Fairhelm Systems."
-        highlight="School Operating System"
+        title={siteConfig.product.positioning}
+        highlight="minus the enterprise headache"
         description={siteConfig.product.description}
         primary={{
           label: "Visit squarecampus.com",

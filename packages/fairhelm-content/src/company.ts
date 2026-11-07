@@ -108,6 +108,8 @@ export const siteConfig = {
   product: {
     name: "SquareCampus",
     category: "School Operating System",
+    /** Product positioning, verbatim from squarecampus.com. */
+    positioning: "Enterprise-grade School OS, minus the enterprise headache.",
     url: squareCampusUrl,
     page: "/squarecampus/",
     schemaId: `${squareCampusUrl}#software`,

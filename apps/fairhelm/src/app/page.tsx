@@ -36,7 +36,7 @@ export const metadata = {
   ...createPageMetadata({
     title: homeTitle,
     description:
-      "Product-first technology company in Bangalore, India. Fairhelm Systems builds and operates SquareCampus, a School Operating System, and delivers governed data pipelines and operational dashboards.",
+      "Bangalore product company. Fairhelm builds SquareCampus, an enterprise-grade School OS minus the enterprise headache, and governed data pipelines.",
     path: "/",
   }),
   title: { absolute: homeTitle },
@@ -335,8 +335,8 @@ export default function HomePage() {
             <SectionHeading
               number="02"
               eyebrow="Flagship product · SquareCampus"
-              title="One School Operating System, built around the cycles schools actually govern."
-              description="Not a module list. SquareCampus connects each operating cycle to its owners, evidence, exceptions and governance context, for a single school or a multi-campus trust."
+              title={siteConfig.product.positioning}
+              description="Not a module list. SquareCampus connects each operating cycle schools actually govern to its owners, evidence, exceptions and governance context, for a single school or a multi-campus trust."
             />
             <Reveal delay={120} className="mt-7">
               <p className="eyebrow">Operating cycles</p>

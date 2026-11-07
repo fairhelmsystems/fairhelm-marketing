@@ -89,6 +89,16 @@ export const product = {
    * uses these sentences, so the answer cannot differ between pages.
    */
   categoryDescriptor: "School management software for Indian schools and trusts",
+  /**
+   * The positioning line. Verbatim on the home H1, the Fairhelm product page
+   * and the machine-readable surfaces; `positioningSupport` says what each
+   * half means so the line is never an unbacked claim. "Enterprise-grade"
+   * describes governance controls the product is designed with, never a
+   * certification, uptime figure or customer count.
+   */
+  positioning: "Enterprise-grade School OS, minus the enterprise headache.",
+  positioningSupport:
+    "Enterprise-grade means role-based access, approval chains, audit history and multi-campus governance on one institutional record, hosted on Microsoft Azure in India. Minus the enterprise headache means implementation and support in every plan, a rollout sequenced around the academic calendar, a published pricing model and current systems kept running in parallel until the numbers are trusted.",
   categoryRelationship:
     "SquareCampus is school management software built as a connected School OS. It covers the record-keeping and workflows schools expect from school management and ERP software, and connects them with owners, approvals and audit history on one institutional record.",
   distinction:

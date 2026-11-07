@@ -321,6 +321,7 @@ export const llmsOptional: LlmsSection = {
 /** Lines of the short factual orientation under the summary. */
 export function llmsOrientation(): string[] {
   return [
+    `- Positioning: ${product.positioning} ${product.positioningSupport}`,
     `- Category: ${product.categoryDescriptor}. ${product.categoryRelationship}`,
     `- Intended institutions: ${product.audiences.join("; ")}.`,
     `- Geography: ${product.geography}`,

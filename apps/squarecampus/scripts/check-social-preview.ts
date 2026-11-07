@@ -11,6 +11,7 @@ import { createServer } from "node:http";
 import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
+import { product } from "../src/content/commercial";
 import { assert, runAll, suite, test } from "../tests/harness";
 
 const SITE = "https://squarecampus.com";
@@ -136,10 +137,7 @@ for (const userAgent of userAgents) {
       assert.ok(schemas.length, "Structured data remains in raw HTML");
       for (const [, schema] of schemas) JSON.parse(schema);
       assert.ok(html.includes(`${SITE}/#org`), "Root organisation identity preserved");
-      if (
-        route.path === "/" ||
-        route.path === "/enterprise/"
-      ) {
+      if (route.path === "/" || route.path === "/enterprise/") {
         assert.equal(meta.one("og:image:width"), "1200");
         assert.equal(meta.one("og:image:height"), "630");
         assert.equal(meta.one("og:image:type"), "image/jpeg");
@@ -153,29 +151,32 @@ for (const userAgent of userAgents) {
       if (route.path === "/") {
         assert.ok(
           meta.head.includes(
-            "<title>SquareCampus | Enterprise-grade School OS, Not a School ERP</title>"
+            "<title>SquareCampus | School OS for Schools and Trusts in India</title>"
           )
         );
         assert.equal(
           meta.one("description"),
-          "Enterprise-grade School OS, minus the enterprise headache: school management software for admissions, attendance, fees, exams and parents across campuses."
+          "School management software for Indian schools and trusts. Connect admissions, attendance, fees, exams and parent communication with institution-wide oversight."
         );
         assert.equal(
           meta.one("og:title"),
-          "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts"
+          "SquareCampus | School OS for Schools and Trusts in India"
         );
         assert.equal(
           meta.one("og:description"),
-          "Enterprise-grade School OS, minus the enterprise headache. SquareCampus connects school operations, gives every exception an owner and leadership one governed view."
+          "Run every campus. Govern them as one. A School OS connecting operations, accountability and leadership for Indian schools and trusts."
         );
         assert.equal(
           meta.one("twitter:title"),
-          "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts"
+          "SquareCampus | School OS for Schools and Trusts in India"
         );
         assert.equal(
           meta.one("twitter:description"),
-          "Enterprise-grade School OS, minus the enterprise headache. See what requires attention, who owns it, and what happens next."
+          "Run every campus. Govern them as one. A School OS connecting operations, accountability and leadership for Indian schools and trusts."
         );
+        const heading = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1];
+        assert.ok(heading, "Homepage has a server-rendered heading");
+        assert.equal(decode(heading.replace(/<[^>]+>/g, "")), product.positioning);
         assert.ok(!meta.head.includes("/og/home.png"), "No stale homepage override");
       }
       if (route.path.startsWith("/blog/")) assert.equal(meta.one("og:type"), "article");

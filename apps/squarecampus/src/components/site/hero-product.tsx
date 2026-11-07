@@ -1,7 +1,7 @@
 import { LaptopDevice } from "@fairhelm/ui/components/device-frames";
+import { TiltStage } from "@fairhelm/ui/components/tilt-stage";
 import { HeroWorkflowScreen } from "./hero-workflow-screen";
 import { SyntheticDataNote } from "./synthetic-data-note";
-import { TiltStage } from "@fairhelm/ui/components/tilt-stage";
 
 /**
  * Homepage hero product composition.
@@ -36,18 +36,18 @@ import { TiltStage } from "@fairhelm/ui/components/tilt-stage";
 const annotations = [
   {
     n: "1",
-    title: "Exception queue",
-    body: "Each item has an owner and a status, so nothing waits for someone to notice it.",
+    title: "Ownership",
+    body: "An owner and status for each exception.",
   },
   {
     n: "2",
-    title: "Today's position",
-    body: "Attendance and term collections from the records campuses work in.",
+    title: "Oversight",
+    body: "Attendance and collections, in one view.",
   },
   {
     n: "3",
     title: "AEGIS",
-    body: "A leadership question answered in plain language, inside the asker's permissions.",
+    body: "Leadership answers within your permissions.",
   },
 ] as const;
 

@@ -1,4 +1,8 @@
-import { heroVocabulary } from "@/content/background";
+import { GlyphField } from "@fairhelm/ui/backgrounds/glyph-field";
+import { ButtonLink } from "@fairhelm/ui/components/button-link";
+import { MobileExpand } from "@fairhelm/ui/components/mobile-expand";
+import { Reveal } from "@fairhelm/ui/components/reveal";
+import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import {
   ArrowRightLeft,
   BellRing,
@@ -15,19 +19,14 @@ import {
 import type { Metadata } from "next";
 import { AegisIntelligenceVisual } from "@/components/site/aegis-intelligence-visual";
 import { AvailabilityNote } from "@/components/site/availability-note";
-import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { FoundingPartnerSection } from "@/components/site/founding-partner-section";
-import { GlyphField } from "@fairhelm/ui/backgrounds/glyph-field";
 import { HeroProductComposition } from "@/components/site/hero-product";
-import { MobileExpand } from "@fairhelm/ui/components/mobile-expand";
 import { PainRemedyGrid } from "@/components/site/pain-remedy";
-import { Reveal } from "@fairhelm/ui/components/reveal";
-import { SectionShell } from "@fairhelm/ui/components/section-shell";
-import { LeadIn } from "@fairhelm/ui/components/marketing";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { SyntheticDataNote } from "@/components/site/synthetic-data-note";
 import { WorkflowCards } from "@/components/site/workflow-cards";
+import { heroVocabulary } from "@/content/background";
 import { deploymentSummary, product } from "@/content/commercial";
 import {
   CANONICAL_PROMISE,
@@ -35,39 +34,39 @@ import {
   RECORD_VS_DECISION,
 } from "@/content/operational-pains";
 import { ctaLabels, siteCtas } from "@/content/site-content";
-import { createAlternates } from "@/lib/seo";
+import { createAlternates, SEO_CONFIG } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "SquareCampus | Enterprise-grade School OS, Not a School ERP",
+  title: { absolute: SEO_CONFIG.defaultTitle },
   description:
-    "Enterprise-grade School OS, minus the enterprise headache: school management software for admissions, attendance, fees, exams and parents across campuses.",
+    "School management software for Indian schools and trusts. Connect admissions, attendance, fees, exams and parent communication with institution-wide oversight.",
   // Canonical plus the homepage's Markdown alternate (content/markdown-alternates.ts).
   alternates: createAlternates("/"),
 };
 
 const heroProofPoints = [
-  "Exceptions get an owner before term end.",
-  "Current state, not stitched reports.",
-  "Every override stays auditable.",
-  "Ownership survives staff changes.",
+  "Named owners for exceptions.",
+  "Cross-campus attendance and fee visibility.",
+  "Recorded approvals and overrides.",
+  "Implementation and support included.",
 ] as const;
 
 const governanceMoves = [
   {
     title: "Set policy once",
-    body: "Fee rules, approval chains, academic calendars, and access boundaries are defined at the trust level — not re-invented per campus.",
+    body: "Define fee rules, approval chains, academic calendars and access boundaries at trust level.",
   },
   {
-    title: "Campuses execute with autonomy",
-    body: "Principals and campus teams run their day inside clear guardrails, with local variation where the institution allows it.",
+    title: "Give campuses room to operate",
+    body: "Principals and teams manage daily operations within institutional policy, with local variation where permitted.",
   },
   {
-    title: "Exceptions surface early",
-    body: "Attendance drift, fee exposure, and stalled approvals escalate to the right desk while they are still small.",
+    title: "Route exceptions to an owner",
+    body: "Attendance drift, fee exposure and stalled approvals reach the responsible team with their campus context.",
   },
   {
-    title: "Every action stays accountable",
-    body: "Approvals, overrides, and edits land on one auditable timeline — who, what, when, and in which campus context.",
+    title: "Keep the decision trail",
+    body: "Trace approvals, overrides and edits by person, time and campus on one auditable timeline.",
   },
 ] as const;
 
@@ -78,12 +77,12 @@ const sovereigntyPillars = [
     body: deploymentSummary,
   },
   {
-    title: "India-first residency posture",
+    title: "Documented data residency",
     icon: Globe2,
     body: "The platform is designed to keep institutional data in an Indian cloud region, with the posture documented in writing during evaluation.",
   },
   {
-    title: "Your data, your exit rights",
+    title: "Data ownership and exit rights",
     icon: ShieldCheck,
     body: "Role-scoped access and essential auditability across plans, with institution-owned data, supported exports and documented offboarding.",
   },
@@ -93,7 +92,7 @@ const rolloutTrust = [
   {
     title: "Guided rollout",
     icon: Globe2,
-    body: "Migration, role-based training, and go-live are sequenced around admissions, fee cycles, and exam windows — with named counterparts, not ticket queues.",
+    body: "Sequence migration, role-based training and go-live around admissions, fee cycles and exams, with named implementation counterparts.",
   },
   {
     title: "Parallel validation",
@@ -101,12 +100,12 @@ const rolloutTrust = [
     body: "Critical workflows run in parallel with your current systems until finance, academic, and admin teams trust the numbers.",
   },
   {
-    title: "Trust posture",
+    title: "Security review",
     icon: ShieldCheck,
     body: "Role-based access, encryption in transit and at rest, and audit trails are product design — and security documentation is shared in writing on request.",
   },
   {
-    title: "Operational calm",
+    title: "Review readiness",
     icon: BellRing,
     body: "The outcome that matters: fee deadlines, inspections, and board reviews handled from one system, without the end-of-term scramble.",
   },
@@ -176,18 +175,10 @@ export default function Home() {
               className="space-y-4 sm:space-y-5 lg:col-start-1 lg:row-start-1 lg:self-end"
             >
               {/* Positioning line, verbatim from product.positioning. */}
-              <h1 className="type-display">
-                Enterprise-grade School OS,{" "}
-                <span className="hero-emphasis">minus the enterprise headache</span>.
-              </h1>
-              {/* Category and audience (audit SC-007) open the first sentence
-                  under the headline: a first-time visitor still learns what
-                  this is before the actions, without a label above the H1. */}
+              <h1 className="type-display">{product.positioning}</h1>
+              {/* Category and audience stay explicit before the actions. */}
               <p className="type-body measure text-muted-foreground">
-                <LeadIn>{product.categoryDescriptor}</LeadIn>
-                Admissions, attendance, fees, exams and parent communication in one connected system
-                — with clear responsibilities for school teams and one shared view for leadership
-                across campuses.
+                A School OS for Indian schools and trusts, with institution-wide oversight.
               </p>
               {/* Stacked and full-width on phones; one row from sm up. */}
               <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:flex-wrap">
@@ -241,9 +232,8 @@ export default function Home() {
             model that connects them. Each card links to its solution page. */}
         <SectionShell
           id="workflows"
-          eyebrow="What school teams do in SquareCampus"
-          title="The daily work, from first enquiry to results"
-          body="Each workflow has an owner at every step and ends on the same school record, so nothing is re-typed between departments."
+          title="One record. Every school workflow."
+          body="Admissions, attendance, fees, exams and parent communication share one school record, with named owners at each step."
         >
           <WorkflowCards />
           <AvailabilityNote className="mt-4" />
@@ -254,9 +244,8 @@ export default function Home() {
             the story, not the module list. */}
         <SectionShell
           id="operational-pain"
-          eyebrow="What institutions actually feel"
-          title="The problem is rarely a missing feature. It is delayed visibility and unclear ownership."
-          body="Recurring school cycles break in predictable places. Each one has a hidden cost, a remedy, an accountable owner, and something a pilot can measure."
+          title="See where operations need attention."
+          body="Unreconciled fees, missed follow-ups and delayed results need a response. Trace each problem to its workflow, responsible team and next action."
         >
           {/*
             Collapsed on phones like every other content section. Measured on
@@ -294,10 +283,9 @@ export default function Home() {
 
         {/* 3 — Command centre */}
         <SectionShell
-          eyebrow="The command centre"
           compactBody
-          title="Management sees the institution the way a board expects to"
-          body="Trust-level governance with campus-level autonomy: policy is set once, campuses execute inside guardrails, and exceptions reach the right desk early."
+          title="The whole institution, in view."
+          body="Set policy at trust level. Give campuses room to operate. Review attendance, fee exposure and exceptions from the same records."
         >
           <MobileExpand label="See the command centre" title="The command centre">
             <Reveal className="grid gap-4 xl:grid-cols-[1.06fr_0.94fr]">
@@ -315,11 +303,11 @@ export default function Home() {
                   </div>
 
                   <h2 className="mt-7 max-w-2xl font-display text-3xl tracking-[-0.05em] sm:text-4xl">
-                    Attendance, fee exposure, and exceptions — before the review meeting.
+                    Attendance. Fee exposure. Decisions that need you.
                   </h2>
                   <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">
-                    Leadership reads current signals across campuses instead of waiting for stitched
-                    reports assembled after the fact.
+                    Review attendance, collections and exceptions across campuses, with the
+                    underlying records in reach.
                   </p>
 
                   <div className="mt-7 grid flex-1 items-stretch gap-4 lg:grid-cols-[1fr_1fr]">
@@ -546,17 +534,16 @@ export default function Home() {
 
         {/* 5 — Sovereignty */}
         <SectionShell
-          eyebrow="Sovereignty"
           compactBody
-          title="Your institution's data, under your institution's governance"
-          body="Sovereign means the institution stays in control: where the platform runs, who can see what, and how the data leaves if you ever want it to."
+          title="Control where your data lives and who can access it."
+          body="Review hosting, access, audit history and exit arrangements before committing. Deployment and offboarding terms are documented for your institution."
         >
           <MobileExpand label="See the sovereignty model" title="Data, deployment and exit">
             <Reveal className="grid gap-4 lg:grid-cols-[1fr_0.95fr]">
               <div className="surface-panel-strong relative overflow-hidden rounded-[1.8rem] p-8">
                 <Languages className="size-5 text-[color:var(--brand)]" />
                 <h2 className="mt-5 font-display text-3xl tracking-[-0.05em]">
-                  Sovereign does not mean rigid.
+                  Reach every family. Keep one record.
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
                   Parent-facing communication is designed to reach each family in its preferred
@@ -669,10 +656,9 @@ export default function Home() {
 
         {/* 6 — AEGIS (secondary to the OS) */}
         <SectionShell
-          eyebrow="Governed intelligence"
           compactBody
-          title="AEGIS is the governed intelligence layer inside SquareCampus"
-          body="AEGIS is the intelligence that lives inside SquareCampus, not a chatbot bolted onto an ERP. It surfaces what needs attention across the institution, inside the same permissions and audit trails as everything else."
+          title="AEGIS. Intelligence within your controls."
+          body="Ask leadership questions of your institutional records, within your role's permissions. AEGIS is read-only. Your teams decide what happens next."
         >
           <MobileExpand label="See AEGIS in action" title="AEGIS in action">
             <Reveal className="surface-panel-strong rounded-[2rem] p-8 lg:p-10">
@@ -683,12 +669,11 @@ export default function Home() {
                     AEGIS inside SquareCampus
                   </div>
                   <h2 className="mt-5 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
-                    Ask AEGIS. Don&rsquo;t chase reports.
+                    Ask the question. Trace the answer.
                   </h2>
                   <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
-                    Leaders ask in plain language; AEGIS answers from the school&rsquo;s own
-                    records, inside their permissions. It is read-only: it suggests, people decide,
-                    and every question is on the audit trail.
+                    Leaders ask in plain language. AEGIS answers from the school&rsquo;s own
+                    records, respects their permissions and logs every question for review.
                   </p>
                   <div className="mt-6 grid gap-3">
                     {[
@@ -726,10 +711,9 @@ export default function Home() {
 
         {/* 7 — Rollout & trust */}
         <SectionShell
-          eyebrow="Rollout & trust"
           compactBody
-          title="Switching systems is an institutional decision. We treat it that way."
-          body="The move is sequenced around your academic calendar, validated in parallel, and governed by the same trust posture the platform runs on."
+          title="A rollout your institution can govern."
+          body="Plan migration, training and parallel validation around your academic calendar, with named counterparts and agreed scope."
         >
           <MobileExpand label="See rollout and trust" title="Rollout and trust">
             <Reveal staggerChildren className="grid gap-4 md:grid-cols-2">
@@ -775,12 +759,11 @@ export default function Home() {
             <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-center">
               <div>
                 <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
-                  See whether SquareCampus can govern your institution.
+                  See how SquareCampus would run your workflows.
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
-                  <LeadIn>{"Next move"}</LeadIn>
-                  Bring your current stack. We will map it against the governed operating model and
-                  walk through rollout, controls, and institutional fit.
+                  Bring your current systems and one operational priority. We will walk through the
+                  workflow, the controls and a scoped rollout.
                 </p>
               </div>
               <div className="grid gap-3">

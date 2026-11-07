@@ -90,15 +90,13 @@ export const product = {
    */
   categoryDescriptor: "A School OS, not an ERP, for Indian schools and trusts",
   /**
-   * The positioning line. Verbatim on the home H1, the Fairhelm product page
-   * and the machine-readable surfaces; `positioningSupport` says what each
-   * half means so the line is never an unbacked claim. "Enterprise-grade"
-   * describes governance controls the product is designed with, never a
-   * certification, uptime figure or customer count.
+   * The positioning line for the home H1 and machine-readable surfaces.
+   * `positioningSupport` grounds the
+   * operating model in product capabilities and documented deployment scope.
    */
-  positioning: "Enterprise-grade School OS, minus the enterprise headache.",
+  positioning: "Run every campus. Govern them as one.",
   positioningSupport:
-    "Enterprise-grade means role-based access, approval chains, audit history and multi-campus governance on one institutional record, hosted on Microsoft Azure in India. Minus the enterprise headache means implementation and support in every plan, a rollout sequenced around the academic calendar, a published pricing model and current systems kept running in parallel until the numbers are trusted.",
+    "School teams run admissions, attendance, fees, exams and parent communication on one institutional record. Leadership sets policy, reviews exceptions and traces approvals across campuses, with role-based access and audit history. Governance and deployment scope are agreed in writing. Standard implementation and support are included in every plan, with rollout sequenced around the academic calendar and critical workflows validated in parallel.",
   categoryRelationship:
     "SquareCampus is a School Operating System (School OS), not an ERP. It does the school management work buyers look for in school ERP software (admissions, attendance, fees, exams, parent communication) and runs it as connected workflows with owners, approvals and audit history on one institutional record.",
   /**

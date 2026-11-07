@@ -195,7 +195,7 @@ export const plans: readonly Plan[] = [
 export const enterpriseForSmallerInstitutions = {
   heading: "Enterprise control is not reserved for large institutions.",
   body: "Enterprise is selected by governance requirement, not merely by enrolment. A standalone school may require institution-managed identity, advanced approvals, executive visibility, stricter auditability or governed intelligence even without operating a large campus network.",
-  compact: "Small institution. Enterprise-grade control.",
+  compact: "Enterprise governance for a single school.",
   /** Reasons a smaller institution legitimately lands on Enterprise. */
   triggers: [
     "Identity governance beyond single sign-on: enforcement, group-to-role mappings, lifecycle",

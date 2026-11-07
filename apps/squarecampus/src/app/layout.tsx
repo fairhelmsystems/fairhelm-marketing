@@ -1,10 +1,10 @@
 import { SkipLink } from "@fairhelm/ui/components/skip-link";
 import type { Metadata, Viewport } from "next";
 import "@fairhelm/ui/fonts.css";
-import type { ReactNode } from "react";
-import { ScrollToTop } from "@/components/scroll-to-top";
 import { ThemeScript } from "@fairhelm/ui/components/theme-script";
 import { ThemeToggle } from "@fairhelm/ui/components/theme-toggle";
+import type { ReactNode } from "react";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import { product } from "@/content/commercial";
 import { company } from "@/content/company";
 import { SCHEMA_IDS, SEO_CONFIG } from "@/lib/seo";
@@ -13,11 +13,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(SEO_CONFIG.baseUrl),
   title: {
-    default: "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts",
+    default: SEO_CONFIG.defaultTitle,
     template: "%s | SquareCampus",
   },
-  description:
-    "SquareCampus connects school operations, workflow ownership, institutional visibility and governed intelligence in one School Operating System for schools and educational trusts.",
+  description: SEO_CONFIG.defaultDescription,
   // Only the canonical here. The homepage's Markdown alternate is declared in
   // app/page.tsx: a root-layout `alternates.types` would be inherited by every
   // route without its own metadata (404, /hello), advertising the homepage's
@@ -28,9 +27,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://squarecampus.com/",
-    title: "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts",
-    description:
-      "Enterprise-grade School OS, minus the enterprise headache. SquareCampus connects school operations, gives every exception an owner and leadership one governed view.",
+    title: SEO_CONFIG.defaultTitle,
+    description: SEO_CONFIG.defaultDescription,
     siteName: "SquareCampus",
     locale: "en_IN",
     images: [SEO_CONFIG.socialImages.openGraph],
@@ -39,9 +37,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@squarecampushq",
     creator: "@squarecampushq",
-    title: "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts",
-    description:
-      "Enterprise-grade School OS, minus the enterprise headache. See what requires attention, who owns it, and what happens next.",
+    title: SEO_CONFIG.defaultTitle,
+    description: SEO_CONFIG.defaultDescription,
     images: [SEO_CONFIG.socialImages.twitter],
   },
   robots: {

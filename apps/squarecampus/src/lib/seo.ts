@@ -64,9 +64,9 @@ export const SEO_CONFIG = {
   // layer. ERP and "school management system" terminology is deliberately
   // confined to search-intent routes (/school-management-system, /compare,
   // /school-erp-alternative) so the brand pages resolve to the right category.
-  defaultTitle: "SquareCampus | Enterprise-grade School OS for Indian Schools and Trusts",
+  defaultTitle: "SquareCampus | School OS for Schools and Trusts in India",
   defaultDescription:
-    "Enterprise-grade School OS, minus the enterprise headache. SquareCampus connects operations, ownership and governed intelligence for schools and trusts.",
+    "Run every campus. Govern them as one. A School OS connecting operations, accountability and leadership for Indian schools and trusts.",
   language: "en-IN",
   openGraphLocale: "en_IN",
   /** Company account; attribution for Twitter/X cards. */

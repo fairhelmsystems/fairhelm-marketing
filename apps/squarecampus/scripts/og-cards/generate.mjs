@@ -303,9 +303,9 @@ export const CARDS = {
   },
   pricing: {
     label: "PRICING",
-    headline: "Priced by the institution, not by software complexity.",
+    headline: "Your school. Your scale. Your price.",
     subhead:
-      "One annual institutional licence, calculated on student-volume bands and scoped to operational depth. Modules and mobile apps included.",
+      "Public annual INR rates and progressive student slabs. Every generally available feature is accessible on every plan. Calculate your subscription online.",
     path: "pricing",
   },
   "what-is-squarecampus": {

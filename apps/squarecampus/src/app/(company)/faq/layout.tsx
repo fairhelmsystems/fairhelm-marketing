@@ -9,14 +9,14 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Frequently Asked Questions | SquareCampus School Operating System",
+  title: "SquareCampus FAQ | Enterprise School OS",
   description:
-    "Answers to common questions about SquareCampus, the School Operating System for Indian schools and trusts: core-platform plans, multi-campus operations, optional enhancements, security, data ownership and the selected 90-day complimentary launch pilot.",
+    "Answers about SquareCampus's Enterprise School OS for Indian schools and trusts, including plans, governance, rollout, security and data ownership.",
   path: "/faq",
   ogImage: "https://squarecampus.com/og/faq.png",
-  ogTitle: "FAQ | SquareCampus School Operating System",
+  ogTitle: "SquareCampus FAQ | Enterprise School OS",
   ogDescription:
-    "Answers to common questions about SquareCampus — a school management system for admissions, academics, fees, and operations in India.",
+    "The Enterprise School OS for Indian schools and trusts. Answers on plans, governance, implementation, security and data ownership.",
 });
 
 // Server-side structured data for FAQ page
@@ -24,9 +24,9 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     createWebPageSchema({
-      name: "Frequently Asked Questions | SquareCampus",
+      name: "SquareCampus FAQ | Enterprise School OS",
       description:
-        "Answers to common questions about SquareCampus: getting started, features, security and identity, pricing and implementation.",
+        "Answers about SquareCampus's Enterprise School OS, including getting started, features, security and identity, pricing and implementation.",
       url: `${SEO_CONFIG.baseUrl}/faq`,
     }),
     createBreadcrumbSchema([

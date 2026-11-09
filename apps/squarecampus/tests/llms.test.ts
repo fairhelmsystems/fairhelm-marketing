@@ -15,7 +15,7 @@ const sitemapRoutes = new Set(
 test("starts with the H1 and a one-paragraph blockquote summary", () => {
   assert.equal(lines[0], "# SquareCampus");
   assert.equal(lines[1], "");
-  assert.match(lines[2], /^> SquareCampus is a School Operating System/);
+  assert.match(lines[2], /^> SquareCampus is an Enterprise School Operating System/);
 });
 
 test("has the agreed sections in order", () => {
@@ -86,11 +86,11 @@ test("states the canonical facts an evaluator needs", () => {
     "exactly two Founding Institutional Partner positions",
     "closes permanently",
     "40%",
-    "model is published on the pricing page",
-    "written proposal after institutional discovery",
+    "Annual INR subscription rates and progressive student slabs are public on the pricing page",
+    "additional usage and custom services are separate",
     "SquareCampus-managed sign-in",
     "90-day complimentary pilot",
-    "Starter, Pro and Enterprise support multi-campus operations",
+    "Starter, Growth and Enterprise support multi-campus operations",
     "optional single sign-on with Microsoft Entra ID",
     "identity governance",
     "publishes no customer counts",

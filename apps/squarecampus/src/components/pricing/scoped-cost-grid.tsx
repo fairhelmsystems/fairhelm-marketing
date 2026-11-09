@@ -8,8 +8,8 @@ const icons = [KeyRound, Smartphone, Gauge, BarChart3, Server, LifeBuoy] as cons
 export function ScopedCostGrid() {
   return (
     <div>
-      <section className="surface-panel-strong mb-6 rounded-[var(--radius-panel-lg)] p-6 sm:p-8">
-        <h3 className="type-card-title">In every licence</h3>
+      <div className="surface-panel-strong mb-6 rounded-[var(--radius-panel-lg)] p-6 sm:p-8">
+        <h3 className="type-card-title">Subscription inclusions</h3>
         <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {licenceIncludes.map((item) => (
             <li key={item.id}>
@@ -22,7 +22,7 @@ export function ScopedCostGrid() {
           ))}
         </ul>
         <p className="type-support mt-5">{WHITE_LABEL_NOTE}</p>
-      </section>
+      </div>
       <div className="rail-phone grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {optionalEnhancements.map((enhancement, index) => {
           const Icon = icons[index];

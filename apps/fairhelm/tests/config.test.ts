@@ -1,3 +1,4 @@
+import { product as squareCampusProduct } from "@fairhelm/squarecampus-content/commercial";
 import { siteConfig, squareCampusUrl } from "../src/lib/site-config";
 import { assert, suite, test } from "./harness";
 import { findStaleClaims } from "./stale-claims";
@@ -40,8 +41,16 @@ test("SquareCampus is canonical at squarecampus.com with a stable entity id", ()
   assert.equal(siteConfig.product.url, "https://squarecampus.com/");
   assert.equal(squareCampusUrl, siteConfig.product.url);
   assert.equal(siteConfig.product.schemaId, "https://squarecampus.com/#software");
-  assert.equal(siteConfig.product.category, "School Operating System");
   assert.match(siteConfig.product.relationship, /develops and operates SquareCampus/);
+});
+
+test("SquareCampus identity and positioning match the canonical product source", () => {
+  assert.equal(siteConfig.product.name, squareCampusProduct.name);
+  assert.equal(siteConfig.product.url, squareCampusProduct.urls.site);
+  assert.equal(siteConfig.product.category, squareCampusProduct.category);
+  assert.equal(siteConfig.product.positioning, squareCampusProduct.positioning);
+  assert.equal(siteConfig.product.description, squareCampusProduct.shortDescription);
+  assert.equal(siteConfig.product.notAnErp, squareCampusProduct.notAnErp);
 });
 
 test("the services surface is bounded and the exclusions are explicit", () => {

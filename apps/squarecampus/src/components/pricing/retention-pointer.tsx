@@ -5,7 +5,7 @@ import { cn } from "@fairhelm/ui/lib/utils";
 
 /**
  * The shared retention pointer. Every plan presentation renders this one
- * component, so the statement cannot differ between Starter, Pro and
+ * component, so the statement cannot differ between Starter, Growth and
  * Enterprise — the point is that it does not depend on the plan at all.
  */
 export function RetentionPointer({ className }: { className?: string }) {

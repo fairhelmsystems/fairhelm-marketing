@@ -120,12 +120,12 @@ export default function SecurityPage() {
       >
         {/* The three tiers of identity, stated as facts a review team can
             check against the pricing page: credentials everywhere, optional
-            separately quoted institutional SSO across plans, identity governance under Enterprise. */}
+            annually billed institutional SSO and generally available governance across plans. */}
         <Reveal staggerChildren className="grid gap-4 md:grid-cols-3">
           {[
             { step: "All plans", ...identity.baseline },
             { step: "Available separately", ...identity.sso },
-            { step: "Enterprise", ...identity.enterprise },
+            { step: "All plans", ...identity.enterprise },
           ].map((tier) => (
             <article
               key={tier.name}

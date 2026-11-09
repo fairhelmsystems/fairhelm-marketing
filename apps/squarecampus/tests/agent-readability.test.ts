@@ -24,7 +24,19 @@ const corpus = [
 const fixture: ReadonlyArray<{ question: string; expect: string[] }> = [
   {
     question: "What is SquareCampus?",
-    expect: ["School Operating System", "institutional governance", "operational visibility"],
+    expect: [
+      "Enterprise School Operating System",
+      "institutional governance",
+      "operational visibility",
+    ],
+  },
+  {
+    question: "What does minus the enterprise pain mean?",
+    expect: [
+      "standard implementation and support included in every plan",
+      "rollout sequenced around the academic calendar",
+      "critical workflows validated in parallel",
+    ],
   },
   {
     question: "Who is it designed for?",
@@ -33,8 +45,8 @@ const fixture: ReadonlyArray<{ question: string; expect: string[] }> = [
   {
     question: "Is pricing public?",
     expect: [
-      "model is published on the pricing page",
-      "written proposal after institutional discovery",
+      "Annual INR subscription rates and progressive student slabs are public on the pricing page",
+      "additional usage and custom services are separate",
     ],
   },
   {
@@ -46,7 +58,7 @@ const fixture: ReadonlyArray<{ question: string; expect: string[] }> = [
     ],
   },
   {
-    question: "Does Pro support institutional SSO?",
+    question: "Does Growth support institutional SSO?",
     expect: ["optional single sign-on with Microsoft Entra ID"],
   },
   {
@@ -70,7 +82,7 @@ const fixture: ReadonlyArray<{ question: string; expect: string[] }> = [
   },
   {
     question: "Does Starter support multi-campus institutions?",
-    expect: ["Starter, Pro and Enterprise support multi-campus operations"],
+    expect: ["Starter, Growth and Enterprise support multi-campus operations"],
   },
   {
     question: "What does the selected complimentary pilot include?",
@@ -83,7 +95,7 @@ const fixture: ReadonlyArray<{ question: string; expect: string[] }> = [
   },
   {
     question: "Can Starter request Entra separately?",
-    expect: ["Starter, Pro or Enterprise", "separately quoted enhancement"],
+    expect: ["Starter, Growth or Enterprise", "Integration and maintenance cost"],
   },
   {
     question: "Is SSO mandatory?",

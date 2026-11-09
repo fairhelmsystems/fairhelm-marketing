@@ -6,9 +6,8 @@
  * commercial statement is written once and cannot drift between pages.
  *
  * RULES OF THIS FILE
- * - Facts only. No rupee amounts, rates, "starting from" figures or
- *   discounts other than the Founding Partner term stated below; the rate
- *   card lives in the proposal and the order form (see content/pricing.ts).
+ * - Public rates derive from pricing-policy.json, approved in the owner's
+ *   2026-11-09 Pricing Studio brief. Unresolved usage tariffs stay unresolved.
  * - No capability is described as available unless the platform implements
  *   it or it is explicitly approved for launch. Identity wording is checked
  *   against the platform's authentication implementation before it changes;
@@ -18,28 +17,80 @@
  */
 
 import { company } from "./company";
+import pricingPolicy from "./pricing-policy.json";
+
+const money = (paise: number) => new Intl.NumberFormat("en-IN", {
+  style: "currency", currency: "INR", minimumFractionDigits: 0, maximumFractionDigits: 2,
+}).format(paise / 100);
 
 const SITE = "https://squarecampus.com";
 
+export const mobileAppPublishing =
+  `Standard and white-label mobile apps are published through publisher accounts owned by ${company.legalNameDisplay}.`;
+
 export type PlanId = "starter" | "pro" | "enterprise";
+
+export const aicCommercial = {
+  purchases: `Choose any whole prepaid quantity from ${pricingPolicy.aic.minimumPurchaseCredits.toLocaleString("en-IN")} AIC for ${money(pricingPolicy.aic.minimumPurchaseCredits * pricingPolicy.aic.volumeBands[0].unitPricePaise)}, plus GST. Each purchase uses graduated rates, from ${money(pricingPolicy.aic.volumeBands[0].unitPricePaise)}/AIC for the first 5,000 to ${money(pricingPolicy.aic.volumeBands[5].unitPricePaise)}/AIC above 2,50,000. Only credits inside a band receive its rate. Every plan uses the same purchase rates.`,
+  wallet: "Included AIC expires at each monthly cycle boundary. Unused purchased AIC carries forward. Included credits are used first. All authorized staff share the institution's balance. Purchased-credit validity and cancellation terms require confirmation.",
+  operations: `One accepted analytical objective receives a scoped, versioned quote before execution. Routine operations use approximately ${pricingPolicy.aic.routineOperationMilliAic.minimum / 1000}–${pricingPolicy.aic.routineOperationMilliAic.maximum / 1000} AIC and supported complex operations use at most ${pricingPolicy.aic.maximumOperationMilliAic / 1000} AIC. Charts, tables, the summary and first render belong to that operation. Exact workflow tariffs are confirmed before execution. Access denial, platform failure and reopening an existing result have no AIC charge.`,
+  forecast: `Forecasts use the inherited flat monthly pools of ${pricingPolicy.plans.starter.monthlyIncludedMilliAic / 1000} AIC on Starter, ${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} on Growth and ${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} on Enterprise. That working allocation requires confirmation. Estimates simulate monthly included expiry and purchased carry-forward, assume no purchased expiry within the forecast and make no purchase automatically.`,
+} as const;
 
 /** Packaging policy, not a claim that every planned module has shipped. */
 export const corePlatform = {
+  accessLabel: "Every core feature, every plan",
+  promise: "No module or feature is gated behind a plan.",
   included:
-    "Every plan includes the complete generally available core operational platform. Essential school operations are not unlocked by upgrading from Starter to Pro or Enterprise.",
+    "Every generally available core SquareCampus module is accessible on every plan. Choose your included capacity, AI allowance and service depth. Entra SSO is optional on every plan and included in the Enterprise price. White-label apps start with Growth. Metered usage and optional services are charged separately.",
   availability:
     "Available modules, workflows and deployment scope are confirmed before activation. A plan entitlement does not imply that an unreleased capability is available.",
   multiCampus:
-    "Starter, Pro and Enterprise support multi-campus operations with campus-level administration and role-aware workflows. Advanced centralised institutional governance is a separate dimension; campus count alone does not require an upgrade.",
+    "Starter, Growth and Enterprise support multi-campus operations, institutional governance and role-aware workflows. Aggregate enrolled students within the same billed institutional subscription; aggregation across unrelated subscriptions or legal entities requires an agreed policy.",
   differentiation:
-    "Plans differ in agreed messaging and AI allowances, analytics depth, workflow sophistication, identity and integration options, customisation and advanced governance. Standard implementation and support remain included in every plan; any custom SLA is separately agreed. Specific inclusions and consumption limits are documented in the proposal.",
+    "Plans share the same generally available core modules, analytics, workflows and governance. Included AEGIS AI Credits and migration services differ. Standard implementation and support are included in every plan. Additional quantities and custom service commitments require a written scope; no unpublished capacity limits are implied.",
+} as const;
+
+const apiAnnualPrices = pricingPolicy.addOns.annualDataEventsApiPaise;
+const apiWindows = pricingPolicy.dataEventsApi.slidingWindows;
+const apiPricingSummary =
+  `Starter ${money(apiAnnualPrices.starter)}/year at ${apiWindows.starter.requests.toLocaleString("en-IN")} TPM, ` +
+  `Growth ${money(apiAnnualPrices.pro)}/year at ${apiWindows.pro.requests.toLocaleString("en-IN")} TPM, ` +
+  `and Enterprise ${money(apiAnnualPrices.enterprise)}/year at ${apiWindows.enterprise.requests.toLocaleString("en-IN")} TPM.`;
+
+/** Owner-approved annual fees, throughput and activation readiness, 9 November 2026. */
+const optionalServicesNotice = "Optional services cost extra.";
+
+export const dataEventsApi = {
+  name: "Data & Events API",
+  principle: "One School OS. Open by design.",
+  pricing: apiPricingSummary,
+  overview:
+    `Optional annual add-on, available on every plan. ${apiPricingSummary} TPM counts requests in a rolling ${apiWindows.starter.windowSeconds}-second window. Plans share supported resources and events. Exports and first-party apps are independent. Throttling incurs no API overage. SSO is optional.`,
+  optionalServicesNotice,
+  qualification:
+    `${optionalServicesNotice} Data & Events API starts at ${money(apiAnnualPrices.starter)}/year on every plan. Optional Entra SSO is included in Enterprise and chargeable on Starter and Growth. White-label apps start with Growth.`,
+  summary:
+    "Export your records without an additional export fee. Connect external systems through the Data & Events API, with an annual institutional fee based on your plan and the same supported resources and events across Starter, Growth and Enterprise.",
+  catalogue:
+    "The service covers supported read-only resources, event-history queries and WebSocket live subscriptions. Resource, campus and field permissions govern access on every plan.",
+  exports:
+    "Authorized self-service exports of supported datasets and retained audit records are included on every plan. They require no external API add-on, export-unlock fee, AIC or communication-credit debit. Permissions, retention and bounded export jobs apply.",
+  nativeWorkflows:
+    "Native workflows, standard apps, eligible white-label Android and iOS apps, internal services and callbacks needed for native payments or messaging operate independently of the external API add-on and its throughput allowance. Normal security, messaging and AI rules apply.",
+  throughput:
+    `${apiPricingSummary} TPM means external API requests per minute in a sliding ${apiWindows.starter.windowSeconds}-second window. Limits apply across the billed institution's external clients. Throttling creates no API overage charge or automatic upgrade. Stream bounds and replay retention are confirmed during onboarding.`,
+  identity:
+    "API integration credentials use their own governed authorization. Entra SSO is optional on every plan and is not a prerequisite for external API access.",
+  availability:
+    "Available for activation with authorized integration credentials. Prices exclude GST. Integration scope, stream bounds, replay retention and mid-term billing terms are confirmed during onboarding.",
 } as const;
 
 export const securityBaseline =
   "Tenant isolation, secure authentication, role-based authorisation, protection of institutional records, essential security logging and privacy safeguards are baseline requirements in every plan. Advanced identity governance and expanded audit controls are separately scoped; fundamental security is not a premium feature.";
 
 export const dataPortability =
-  "The institution owns its institutional data in every plan. We earn continued adoption through operational value, with supported data exports and documented offboarding rather than artificial lock-in. Export scope, available formats, access arrangements and assistance are confirmed for the deployment; retention and deletion follow the agreement, the DPA and applicable obligations. Export formats and timing are established before commitment.";
+  "The institution owns its institutional data in every plan. Authorized self-service exports of supported datasets and retained audit records are included independently of the external API add-on. Export scope, available formats, access arrangements and assistance are confirmed for the deployment; retention and deletion follow the agreement, the DPA and applicable obligations. Export formats and timing are established before commitment.";
 
 export const launchPilot = {
   name: "Selected Institutional Launch Pilot",
@@ -65,14 +116,14 @@ export const launchPilot = {
 /** Stable public product facts, for machine-readable contexts and listings. */
 export const product = {
   name: "SquareCampus",
-  category: "School Operating System",
+  category: "Enterprise School Operating System",
   /**
    * The one canonical short description. Every machine-readable context —
    * SoftwareApplication JSON-LD, the llms.txt summary, listing copy — uses
    * this sentence verbatim; natural page copy may paraphrase it.
    */
   shortDescription:
-    "SquareCampus is a School Operating System for schools, educational trusts, multi-campus school groups and higher-education institutions in India, focused on connected operations, institutional governance, accountability and operational visibility.",
+    "SquareCampus is an Enterprise School Operating System (School OS) for schools, educational trusts, multi-campus school groups and higher-education institutions in India, connecting school operations with institutional governance, workflow accountability and operational visibility.",
   audiences: [
     "Standalone schools with governance, identity or audit requirements",
     "Educational trusts and multi-campus school groups",
@@ -80,15 +131,15 @@ export const product = {
     "Private universities and multi-school higher-education groups, as a governed operating layer over the systems they already run",
   ],
   geography:
-    "India-first. The platform is hosted on Microsoft Azure in India. Enterprise private deployments are available on AWS, in a private cloud or on premises, subject to scoping.",
+    "India-first. The platform is hosted on Microsoft Azure in India. Private deployments on AWS, in a private cloud or on premises are separately scoped services.",
   /**
-   * How "School OS" relates to the categories buyers search for. SquareCampus
-   * does school management work, but it is a School OS, not an ERP: ERP terms
-   * appear only to meet search intent and then disambiguate. Every page that explains
-   * the relationship (About, Home, Platform, the category pages, the ERP FAQ)
-   * uses these sentences, so the answer cannot differ between pages.
+   * Product identity and its relationship to the categories buyers search for.
+   * Search-intent pages explain school management systems and ERP alternatives
+   * while identifying SquareCampus by the same Enterprise School OS category.
+   * This category describes the product. Plan entitlements remain defined by
+   * corePlatform and planHierarchy.
    */
-  categoryDescriptor: "A School OS, not an ERP, for Indian schools and trusts",
+  categoryDescriptor: "The Enterprise School OS for Indian schools and trusts",
   /**
    * The positioning line for the home H1 and machine-readable surfaces.
    * `positioningSupport` grounds the
@@ -96,9 +147,9 @@ export const product = {
    */
   positioning: "Run every campus. Govern them as one.",
   positioningSupport:
-    "School teams run admissions, attendance, fees, exams and parent communication on one institutional record. Leadership sets policy, reviews exceptions and traces approvals across campuses, with role-based access and audit history. Governance and deployment scope are agreed in writing. Standard implementation and support are included in every plan, with rollout sequenced around the academic calendar and critical workflows validated in parallel.",
+    "Minus the enterprise pain means standard implementation and support included in every plan, rollout sequenced around the academic calendar and critical workflows validated in parallel. Institutional governance connects policies, roles, approvals, exceptions and audit history on one record. Governance and deployment scope are agreed in writing.",
   categoryRelationship:
-    "SquareCampus is a School Operating System (School OS), not an ERP. It does the school management work buyers look for in school ERP software (admissions, attendance, fees, exams, parent communication) and runs it as connected workflows with owners, approvals and audit history on one institutional record.",
+    "SquareCampus is an Enterprise School Operating System (School OS). It covers the admissions, attendance, fees, exams and parent communication people seek in a school management system, with connected workflows, named owners, approvals, audit history and institution-wide oversight.",
   /**
    * The canonical "not an ERP" answer. Search engines and answer engines
    * meet "school ERP" as the category buyers type; this sentence is the one
@@ -106,7 +157,7 @@ export const product = {
    * ERP FAQs, llms.txt) repeats verbatim, so no page can say "yes, it is an ERP".
    */
   notAnErp:
-    "SquareCampus is not an ERP. An ERP records transactions module by module; a School OS runs the institution: every cycle has an owner, every exception reaches a named desk, every override is recorded with a reason, and leadership sees what needs attention. It can replace a school ERP or run alongside one while the move is validated.",
+    "SquareCampus is an Enterprise School Operating System (School OS), not an ERP. Its operating model connects school records, workflows, ownership, exceptions, approvals, audit history and leadership oversight. It can replace an existing school ERP or run alongside one while the move is validated.",
   distinction:
     "A system of record stores what happened. SquareCampus also carries the workflows, ownership, exceptions, approvals and audit history that turn records into accountable operations, and shows leadership what requires attention, who owns it and what happens next.",
   competesOn: [
@@ -154,8 +205,8 @@ export const product = {
  * Deployment state is deliberately not described here or anywhere public.
  */
 export const availability = {
-  note: "This is how SquareCampus is designed to work. Your written proposal confirms what your institution gets, and when.",
-  short: "Your written proposal confirms which modules, apps, languages and integrations you get.",
+  note: "Generally available features are eligible on every plan. Your written proposal confirms deployment readiness, rollout timing and separately scoped services; unavailable or preview functionality requires explicit confirmation.",
+  short: "Your written proposal confirms deployment readiness, rollout timing, languages and integration scope.",
   languages:
     "Designed to reach each family in its own language; your proposal confirms which languages.",
 } as const;
@@ -177,9 +228,9 @@ export const deploymentOptions = [
   },
   {
     id: "private",
-    title: "Enterprise private deployment",
+    title: "Private deployment",
     status: "Scoped service" as OfferStatus,
-    body: "A dedicated SquareCampus environment on AWS, in a private cloud or on premises, for institutions with strict segregation requirements. Enterprise only; scope, responsibilities and charges are agreed in writing.",
+    body: "A dedicated SquareCampus environment on AWS, in a private cloud or on premises is a separately scoped service. Responsibilities, eligibility and charges are agreed in writing.",
   },
   {
     id: "byoc",
@@ -191,7 +242,7 @@ export const deploymentOptions = [
 
 /** One sentence for surfaces that name deployment without the full list. */
 export const deploymentSummary =
-  "Managed cloud on Microsoft Azure in India by default; Enterprise private deployment on AWS, in a private cloud or on premises as a scoped service.";
+  "Managed cloud on Microsoft Azure in India by default; private deployment on AWS, in a private cloud or on premises as a separately scoped service.";
 
 /**
  * Integration scope. SquareCampus publishes no catalogue of pre-built
@@ -199,7 +250,7 @@ export const deploymentSummary =
  */
 export const integrationScope = {
   summary:
-    "SquareCampus does not publish a catalogue of pre-built connectors. Connecting another system is scoped work: we assess each tool during discovery, and what connects, in which direction, how often and at what cost is confirmed in writing before any build.",
+    "SquareCampus does not publish a catalogue of pre-built connectors. External data access is available through the optional annual Data & Events API on every plan. Bespoke connectors and engineering are scoped separately, with direction, frequency and responsibilities confirmed before any build.",
   prerequisites: [
     "The other system must offer a documented API or a data export the institution is licensed to use.",
     "Vendor access, vendor-side charges and the vendor's own limits remain the institution's.",
@@ -208,9 +259,9 @@ export const integrationScope = {
   groups: [
     {
       label: "Sign-in",
-      status: "By plan",
+      status: "Optional SSO on every plan",
       detail:
-        "SquareCampus-managed credentials in every plan; Microsoft Entra ID single sign-on from Pro, subject to technical onboarding.",
+        "SquareCampus-managed credentials in every plan. Optional Microsoft Entra ID single sign-on on every plan, subject to technical onboarding. Enterprise includes integration and maintenance in its licence; Starter and Growth pay the annual add-on fee. The institution supplies its own Entra tenant and Microsoft licences.",
     },
     {
       label: "Payment gateway, SMS and WhatsApp",
@@ -225,69 +276,68 @@ export const integrationScope = {
         "Assessed tool by tool. There is no pre-built connector; each one is scoped, quoted and confirmed in writing.",
     },
     {
-      label: "Development APIs for the institution's own apps",
-      status: "Scoped service",
-      detail:
-        "Scoped per institution and granted after a compliance review, inside the same role-based permissions and audit trail.",
+      label: dataEventsApi.name,
+      status: "Optional annual add-on on every plan",
+      detail: `${dataEventsApi.catalogue} ${dataEventsApi.throughput} ${dataEventsApi.availability}`,
     },
   ],
 } as const;
 
-/** The three plans as a hierarchy of institutional depth, not feature bundles. */
+/** Stable identifiers are retained. Growth is the public name of the existing pro plan. */
 export const planHierarchy = [
   {
     id: "starter",
     name: "Starter",
     summary:
-      "The complete generally available core platform, including multi-campus operations, with essential dashboards and campus-level administration.",
+      "Every generally available feature, multi-campus operations, implementation and support, with the lowest annual subscription.",
     suitedFor:
-      "Schools replacing fragmented spreadsheets and disconnected tools, and institutions that need reliable core workflows before anything else.",
+      "Institutions starting with the lowest fixed commitment and choosing additional usage as needed.",
   },
   {
     id: "pro",
-    name: "Pro",
+    name: pricingPolicy.plans.pro.name,
     summary:
-      "The same complete core platform and multi-campus operations, with enhanced analytics, allowances and workflow sophistication.",
+      `Every generally available feature, with included migration and a draft tenant-wide monthly pool of ${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
     suitedFor:
-      "Growing schools taking on more operational complexity, and institutions introducing management dashboards, workflow governance and cross-functional accountability.",
+      "Institutions comparing included migration and AI consumption against their expected use.",
   },
   {
     id: "enterprise",
     name: "Enterprise",
     summary:
-      "Institutional governance, cross-campus command, advanced controls, deeper integration, identity governance and advanced auditability for larger or more complex institutions.",
+      `Every generally available feature, including institutional governance, with optional Entra SSO included in the licence, best-effort migration and a draft tenant-wide monthly pool of ${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
     suitedFor:
-      "Educational trusts, multi-campus groups and standalone institutions whose governance, identity or audit requirements sit above Pro. Enterprise is selected by governance requirement, not by enrolment.",
+      "Institutions choosing the largest included AI pool, best-effort migration and optional Entra SSO included in the annual licence.",
   },
 ] as const;
 
 /**
  * Pricing availability, stated once.
  *
- * The model is public; the figures are not, because the licence depends on
- * enrolment, plan depth, institutional complexity and deployment profile.
+ * The owner-approved 2026-11-09 schedule replaces proposal-only numerical pricing.
+ * Custom services and incomplete usage tariffs remain separate.
  * Every page that touches pricing says exactly this, in these terms.
  */
 export const pricingAvailability = {
   short:
-    "The licensing model is published on the pricing page; figures are issued in a written proposal after institutional discovery.",
+    "Annual INR subscription rates and progressive student slabs are public on the pricing page. Calculate the standard managed-cloud subscription without a sales call; additional usage and custom services are separate.",
   model:
-    "One annual institutional licence, calculated on progressive student-volume bands and shaped by the plan (Starter, Pro or Enterprise), the institution's complexity and its deployment profile.",
+    "One annual institutional licence with a minimum of 100 enrolled students, calculated on progressive student-volume bands for Starter, Growth or Enterprise. Only students inside each slab receive that slab's rate. Optional services and specialised deployment are separate lines.",
   volume:
     "Billable enrolment is the active enrolled students agreed in the order form. The per-student rate falls as enrolment moves up through the volume bands; growth is reconciled through an agreed true-up, and reductions are normally considered at renewal.",
-  included: `${corePlatform.included} The licence covers the plan's platform capability, the standard SquareCampus parent and staff mobile apps, self-serve reporting, implementation and support, and a monthly usage allowance. Pro and Enterprise also include data migration.`,
+  included: `${corePlatform.included} Standard SquareCampus apps for staff, parents and students have no additional app licence fee. Staff accounts have no separate per-staff licence charge. Implementation, support and one shared communication credit per enrolled student each month are included. Growth and Enterprise also include best-effort data migration.`,
   scopedSeparately:
     "Migration on Starter, custom integrations and engineering, fixed-format documents made for one institution, private-cloud or on-premises deployment, a custom SLA and usage beyond the allowance are quoted as their own lines, not folded into the licence.",
   positioning:
     "SquareCampus is priced for institutions that want governance, workflow ownership, exception management, visibility and auditability. To one that needs only the cheapest attendance, fees and report-card product it will look expensive — and that reading is correct.",
   taxes:
-    "Quoted commercial figures are exclusive of applicable taxes unless the proposal states otherwise.",
+    `Published base prices exclude GST. The calculator separately shows estimated domestic GST at ${pricingPolicy.tax.basisPoints / 100}% and tax-inclusive totals. Final tax treatment and the CGST/SGST or IGST split follow the billing details on the order form and tax invoice.`,
 } as const;
 
 /**
  * What the licence absorbs, so the price does not grow after signature.
  *
- * Owner-confirmed 2026-09-30: migration is included in Pro and Enterprise on a
+ * Owner-confirmed 2026-09-30: migration is included in Growth and Enterprise on a
  * best-effort basis (quoted on Starter); Enterprise includes implementation and
  * support, with only a custom SLA quoted; every plan carries a monthly usage
  * allowance with prepaid top-ups; payments run on the institution's own gateway
@@ -303,7 +353,7 @@ export const pricingAvailability = {
  * (Campus visits are currently free, but that is deliberately not published.)
  */
 export const commercialScope = {
-  migration: "Data migration is included in Pro and Enterprise, and quoted on Starter.",
+  migration: "Data migration is included in Growth and Enterprise, and quoted on Starter.",
   migrationLimit:
     "We move everything your current system can export in usable form. If it lacks data SquareCampus needs, or is too fragmented to reconcile, we show you what cannot move before go-live instead of guessing.",
   migrationShort:
@@ -313,7 +363,7 @@ export const commercialScope = {
   implementation:
     "Implementation and support are included in every plan, and every institution gets the same rollout: there is no paid fast track. SquareCampus is designed to need little or no training. Only a custom SLA, such as 24×7 cover or guaranteed response times, is quoted.",
   allowance:
-    "Every plan includes a monthly allowance for SMS, WhatsApp and storage, and for AEGIS where the plan includes it. Usage beyond it is bought in advance at the rates in your proposal, so there is never a bill after the fact.",
+    `Every plan includes one shared communication credit per enrolled student each month. Included communication credits reset monthly without rollover; purchased credits cost ${money(pricingPolicy.communication.purchasedCreditPaise)} each and carry forward. AEGIS AI Credits are a separate wallet with draft tenant-wide monthly allowances. Usage tariffs and storage scope are confirmed before activation; paid automatic overage requires administrator opt-in and a spend cap.`,
   paymentGateway:
     "Fee payments run through your institution's own payment-gateway account. SquareCampus never handles the money; the gateway's fees are between you and the gateway.",
   noSurprises:
@@ -338,11 +388,11 @@ export const identity = {
   },
   sso: {
     name: "Institutional single sign-on",
-    body: "Institutions on Starter, Pro or Enterprise may request optional single sign-on with Microsoft Entra ID as a separately quoted enhancement, subject to technical onboarding. Once configured, staff use their institutional accounts under the institution's own MFA, Conditional Access and user-assignment policies, while SquareCampus governs authorisation. Availability and commercial terms are confirmed before activation.",
+    body: `Every plan offers optional single sign-on with Microsoft Entra ID. Integration and maintenance cost ${money(pricingPolicy.addOns.entraSsoAnnualPaise.starter)}/year on Starter and Growth. Enterprise includes it, activated or not. Supply your Entra tenant and Microsoft licences. Your MFA, Conditional Access and user assignments apply at sign-in. SquareCampus governs authorisation. Technical onboarding applies.`,
   },
   enterprise: {
     name: "Identity governance",
-    body: "Enterprise is differentiated by identity governance rather than by having SSO. Identity requirements across several campuses or directories, directory-group to role mappings, SSO enforcement policy, joiner-mover-leaver lifecycle controls, identity migration and identity audit controls are scoped as Enterprise requirements during technical discovery.",
+    body: "Generally available identity governance is eligible on every plan. Multi-directory configurations, directory-group to role mappings, SSO enforcement, lifecycle automation and identity audit requirements are assessed against implemented capabilities during technical onboarding. Unavailable or preview functionality is excluded from the generally available feature promise; bespoke configuration and engineering require a separate scope.",
   },
   /** The institution chooses the mode; SSO is never mandatory because it exists. */
   modes: [
@@ -353,7 +403,7 @@ export const identity = {
   notes: [
     "Single sign-on is optional. An institution is not required to adopt it, and is not required to move between Google Workspace and Microsoft to use SquareCampus.",
     "Standard sign-in authenticates identity only. It does not require access to email, files, Teams, SharePoint or other Microsoft 365 data.",
-    "Single sign-on authenticates users; it does not create or remove them. Automated provisioning and deprovisioning are a lifecycle requirement scoped under Enterprise.",
+    "Single sign-on authenticates users; automated provisioning and deprovisioning require separately validated lifecycle support. Availability is confirmed during technical onboarding.",
     "Where institution-enforced single sign-on is configured, SquareCampus credentials are designed not to act as an ordinary alternative route around the institution's identity policy.",
   ],
   byPlan: [
@@ -365,27 +415,27 @@ export const identity = {
     },
     {
       capability: "Microsoft Entra ID single sign-on for the institution's own tenant",
-      starter: "Available separately, subject to quotation and technical onboarding",
-      pro: "Available separately, subject to quotation and technical onboarding",
-      enterprise: "Available separately, subject to quotation and technical onboarding",
+      starter: `Optional, ${money(pricingPolicy.addOns.entraSsoAnnualPaise.starter)}/year, technical onboarding required`,
+      pro: `Optional, ${money(pricingPolicy.addOns.entraSsoAnnualPaise.pro)}/year, technical onboarding required`,
+      enterprise: "Optional, included in the annual licence, technical onboarding required",
     },
     {
       capability: "Sign-in mode chosen by the institution (credentials, both, or enforced SSO)",
       starter: "Supported modes agreed during onboarding",
       pro: "Supported modes agreed during onboarding",
-      enterprise: "Institution's choice, with enforcement policy scoped",
+      enterprise: "Supported modes agreed during onboarding",
     },
     {
       capability: "Multi-campus and multi-directory identity governance",
-      starter: "Not included",
-      pro: "Not included",
-      enterprise: "Scoped as an Enterprise requirement",
+      starter: "Scoped against implemented capabilities on every plan",
+      pro: "Scoped against implemented capabilities on every plan",
+      enterprise: "Scoped against implemented capabilities on every plan",
     },
     {
       capability: "Directory-group to role mappings, lifecycle controls, identity audit",
-      starter: "Not included",
-      pro: "Not included",
-      enterprise: "Scoped as an Enterprise requirement",
+      starter: "Scoped against implemented capabilities on every plan",
+      pro: "Scoped against implemented capabilities on every plan",
+      enterprise: "Scoped against implemented capabilities on every plan",
     },
     {
       capability: "Authorisation: membership, campus scope, roles, records, workflows",
@@ -478,23 +528,23 @@ export const optionalEnhancements = [
   },
   {
     name: "White-labelled mobile apps",
-    treatment: "Separately quoted enhancement",
-    body: "Institution-branded parent and staff apps and store listings are quoted separately. The existing single charge covers the agreed term; founding-partner treatment follows its separate agreement. Delivery readiness is confirmed during scoping.",
+    treatment: "Combined one-time branding and setup",
+    body: `White-label Android and iOS branding costs ${money(pricingPolicy.addOns.whiteLabelAndroidAndIosOncePaise)} once, combined, on Growth and Enterprise. ${mobileAppPublishing} App-store fees and maintenance scope require confirmation before purchase. Subscription-backed functions require an active subscription. Founding-partner treatment follows its separate agreement.`,
   },
   {
     name: "Messaging and consumption",
     treatment: "Allowances and usage charges",
-    body: "Every plan includes the agreed monthly SMS, WhatsApp and storage allowances, and AEGIS where included. Usage beyond the allowance is prepaid at proposal rates, never billed after the fact. Email and other external-service scope are confirmed separately; no universal quotas or unlimited-use entitlements are published.",
+    body: commercialScope.allowance,
   },
   {
-    name: "Analytics, branding and identity lifecycle",
+    name: "Bespoke configuration and additional AI usage",
     treatment: "Contact sales to assess requirements",
-    body: "Discuss advanced analytics, additional AI credits, extended branding, provisioning and federation requirements. Product availability, plan eligibility and commercial treatment require confirmation; confirm the supported scope with sales before commitment.",
+    body: `Generally available analytics and governance have the same plan eligibility. Bespoke configuration, provisioning and federation require a written scope. ${aicCommercial.purchases} Actual purchase activation requires confirmed checkout and validity terms.`,
   },
   {
     name: "Custom integrations and migration",
     treatment: "Custom-quoted professional services",
-    body: "Data migration is included in Pro and Enterprise and quoted on Starter, on a best-effort basis against usable source exports. Custom integrations and engineering are quoted as project work. Consumption beyond agreed allowances is prepaid.",
+    body: "Data migration is included in Growth and Enterprise and quoted on Starter, on a best-effort basis against usable source exports. Custom integrations and engineering are quoted as project work. Consumption beyond agreed allowances is prepaid.",
   },
   {
     name: "Enhanced support and deployment",
@@ -608,92 +658,68 @@ type MatrixRow = {
   enterprise: string;
 };
 
+function sharedRow(label: string, value: string): MatrixRow {
+  return { label, starter: value, pro: value, enterprise: value };
+}
+
 export const planComparisonRows: readonly MatrixRow[] = [
   {
-    label: "Operational scope",
-    starter: "Complete generally available core platform",
-    pro: "Complete generally available core platform",
-    enterprise: "Complete generally available core platform",
+    label: "Authorized data and audit exports",
+    starter: "Included, independently of the external API add-on",
+    pro: "Included, independently of the external API add-on",
+    enterprise: "Included, independently of the external API add-on",
   },
   {
-    label: "Leadership visibility",
-    starter: "Standard operational dashboards",
-    pro: "Owner command views and richer analytics",
-    enterprise: "Advanced analytics and trust-level command requirements",
+    label: "Data & Events API",
+    starter: `${money(apiAnnualPrices.starter)}/year, optional`,
+    pro: `${money(apiAnnualPrices.pro)}/year, optional`,
+    enterprise: `${money(apiAnnualPrices.enterprise)}/year, optional`,
   },
   {
-    label: "Accountability model",
-    starter: "Role-based access and audit history",
-    pro: "Enhanced routing and operational audit requirements, scoped",
-    enterprise: "Advanced governance and policy requirements, scoped",
+    label: "Supported API resources and events",
+    starter: "Same supported catalogue, subject to authorization and release",
+    pro: "Same supported catalogue, subject to authorization and release",
+    enterprise: "Same supported catalogue, subject to authorization and release",
   },
   {
-    label: "Institutional structure",
-    starter: "Multi-campus operations with campus-level administration",
-    pro: "Multi-campus operations with enhanced workflows",
-    enterprise: "Multi-campus operations with advanced central governance",
+    label: "External API sliding-window throughput",
+    starter: `${apiWindows.starter.requests.toLocaleString("en-IN")} requests per rolling ${apiWindows.starter.windowSeconds}-second window`,
+    pro: `${apiWindows.pro.requests.toLocaleString("en-IN")} requests per rolling ${apiWindows.pro.windowSeconds}-second window`,
+    enterprise: `${apiWindows.enterprise.requests.toLocaleString("en-IN")} requests per rolling ${apiWindows.enterprise.windowSeconds}-second window`,
   },
+  {
+    label: "Native workflows and first-party apps",
+    starter: "Standard and white-label apps require no external API add-on",
+    pro: "Standard and white-label apps require no external API add-on",
+    enterprise: "Standard and white-label apps require no external API add-on",
+  },
+  sharedRow("Operational scope", "Every generally available module and feature"),
+  sharedRow("Institutional structure", "Multi-campus operations and institutional governance"),
+  sharedRow("Analytics and workflows", "Same generally available analytics, reports and workflow capabilities"),
   {
     label: "Sign-in and identity",
-    starter: "Optional Entra SSO, separately quoted",
-    pro: "Optional Entra SSO, separately quoted",
-    enterprise:
-      "Identity governance: multi-directory, group-to-role mappings, enforcement policy, lifecycle (scoped)",
+    starter: `Optional Entra SSO ${money(pricingPolicy.addOns.entraSsoAnnualPaise.starter)}/year. Bring your own Microsoft licences.`,
+    pro: `Optional Entra SSO ${money(pricingPolicy.addOns.entraSsoAnnualPaise.pro)}/year. Bring your own Microsoft licences.`,
+    enterprise: "Optional Entra SSO included in the licence. Enterprise costs the same with or without activation. Bring your own Microsoft licences.",
   },
   {
-    label: "Integrations",
-    starter: "Standard configuration",
-    pro: "Standard integration requirements confirmed during discovery",
-    enterprise: "Enterprise and custom integration requirements scoped",
+    label: "White-label Android and iOS apps",
+    starter: "Available from Growth",
+    pro: `${money(pricingPolicy.addOns.whiteLabelAndroidAndIosOncePaise)} once, combined`,
+    enterprise: `${money(pricingPolicy.addOns.whiteLabelAndroidAndIosOncePaise)} once, combined`,
   },
+  sharedRow("Mobile apps", "Standard apps for staff, parents and students; no additional app licence fee"),
+  sharedRow("Staff accounts", "No separate per-staff licence charge; role permissions apply"),
+  sharedRow("Baseline security", securityBaseline),
+  sharedRow("Institution-owned data and supported exports", "Documented for every deployment"),
+  sharedRow("SMS, WhatsApp and email allowances", "One shared communication credit per enrolled student each month"),
   {
-    label: "Mobile apps",
-    starter: "Parent and staff apps included",
-    pro: "Parent and staff apps included",
-    enterprise: "Parent and staff apps included",
+    label: "Draft included AEGIS AI Credits each month",
+    starter: `${pricingPolicy.plans.starter.monthlyIncludedMilliAic / 1000} AIC proposed. Custom prepaid quantities start at ${pricingPolicy.aic.minimumPurchaseCredits.toLocaleString("en-IN")} AIC.`,
+    pro: `${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} AIC in a shared tenant pool, pending confirmation`,
+    enterprise: `${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AIC in a shared tenant pool, pending confirmation`,
   },
-  {
-    label: "AEGIS intelligence",
-    starter: "Scope and additional usage assessed separately",
-    pro: "Controlled access and allowances agreed in proposal",
-    enterprise: "Governed access within an agreed allowance",
-  },
-  {
-    label: "Baseline security",
-    starter:
-      "Tenant isolation, secure authentication, role-based access and essential auditability",
-    pro: "Tenant isolation, secure authentication, role-based access and essential auditability",
-    enterprise:
-      "Tenant isolation, secure authentication, role-based access and essential auditability",
-  },
-  {
-    label: "SMS, WhatsApp and email allowances",
-    starter: "Inclusions and usage boundaries specified in proposal",
-    pro: "Inclusions and usage boundaries specified in proposal",
-    enterprise: "Inclusions and usage boundaries specified in proposal",
-  },
-  {
-    label: "Institution-owned data and supported exports",
-    starter: "Documented for every deployment",
-    pro: "Documented for every deployment",
-    enterprise: "Documented for every deployment",
-  },
-  {
-    label: "Chosen because",
-    starter: "The core needs to work as one system",
-    pro: "Leadership needs visibility and accountability",
-    enterprise: "Governance, identity or audit requirements — at any enrolment",
-  },
-  {
-    label: "Deployment",
-    starter: "Managed SquareCampus Cloud",
-    pro: "Managed SquareCampus Cloud",
-    enterprise: "Managed, private-cloud or on-premises eligibility",
-  },
-  {
-    label: "Implementation and support",
-    starter: "Standard onboarding and support",
-    pro: "Implementation and support included, with best-effort data migration",
-    enterprise: "Implementation and support included; a custom SLA is quoted separately",
-  },
-] as const;
+  { label: "Best-effort data migration", starter: "Separately scoped and quoted", pro: "Included against usable source exports", enterprise: "Included against usable source exports" },
+  sharedRow("Implementation and support", "Standard implementation and support included; custom SLA separately quoted"),
+  sharedRow("Standard deployment", "Managed cloud on Microsoft Azure in India"),
+];

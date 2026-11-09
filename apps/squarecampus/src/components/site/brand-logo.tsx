@@ -1,6 +1,6 @@
+import { cn } from "@fairhelm/ui/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { cn } from "@fairhelm/ui/lib/utils";
 
 interface BrandLogoProps {
   className?: string;
@@ -13,7 +13,7 @@ interface BrandLogoProps {
 
 export function BrandLogo({
   className,
-  subtitle = "School OS for India",
+  subtitle = "Enterprise School OS",
   subtitleClassName,
   iconSize = 44,
   framed = false,

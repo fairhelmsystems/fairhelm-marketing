@@ -17,6 +17,7 @@
     "@fairhelm/typescript-config": "workspace:*"
   },
   "dependencies": {
-    "@fairhelm/config": "workspace:*"
+    "@fairhelm/config": "workspace:*",
+    "@fairhelm/squarecampus-content": "workspace:*"
   }
 }

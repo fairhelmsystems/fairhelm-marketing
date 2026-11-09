@@ -130,7 +130,7 @@ export default function RootLayout({
                   "@id": SCHEMA_IDS.org,
                   name: "SquareCampus",
                   legalName: company.legalName,
-                  description: `${company.legalNameDisplay} operates SquareCampus, a School Operating System for schools, educational trusts and multi-campus groups in India.`,
+                  description: `${company.legalNameDisplay} develops and operates ${product.name}. ${product.shortDescription}`,
                   url: "https://squarecampus.com/",
                   logo: SEO_CONFIG.logo,
                   foundingDate: company.incorporationDate,
@@ -208,7 +208,7 @@ export default function RootLayout({
                   // administrators and leadership, not a learning application
                   // — "EducationalApplication" would describe the customer's
                   // domain, not what the software does. The sub-category
-                  // carries the canonical wording, School Operating System —
+                  // carries the canonical wording, Enterprise School Operating System —
                   // NOT "school ERP" or "school management software".
                   // `description` is the one canonical short description from
                   // content/commercial.ts. No offers, price, ratings or

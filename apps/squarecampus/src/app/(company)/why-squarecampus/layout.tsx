@@ -6,17 +6,17 @@ import { createPageMetadata } from "@/lib/seo";
 // No invented rank, counts, or testimonials — the argument is structural.
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Why SquareCampus | School OS vs Traditional School ERPs",
+  title: "Why SquareCampus | Enterprise School OS vs School ERP",
   description:
-    "Why school groups choose a School OS over stitched ERP modules and point tools: one governed system of record, connected workflows, live visibility, and clear accountability.",
+    "Compare SquareCampus's Enterprise School OS with school ERP software. Evaluate workflow ownership, campus oversight, approvals, audit history and guided rollout.",
   path: "/why-squarecampus",
   ogImage: "https://squarecampus.com/og/why-squarecampus.png",
-  ogTitle: "Why SquareCampus | School OS vs Traditional ERPs",
+  ogTitle: "Why SquareCampus | Enterprise School OS vs School ERP",
   ogDescription:
     "One governed system of record instead of stitched modules and point tools. See the structural difference and decide for your institution.",
-  twitterTitle: "Why SquareCampus | School ERP Comparison",
+  twitterTitle: "SquareCampus Enterprise School OS vs School ERP",
   twitterDescription:
-    "Compare the School OS model against traditional school ERPs and point tools — architecture, daily work, reporting, and accountability.",
+    "Evaluate SquareCampus's Enterprise School OS against school ERP software, from connected records and accountable workflows to governance and guided rollout.",
 });
 
 export default function WhyDifferentLayout({ children }: { children: ReactNode }) {

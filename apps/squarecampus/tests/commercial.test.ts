@@ -1,8 +1,10 @@
 import {
   enterpriseBeyondModules,
+  corePlatform,
   fit,
   foundingProgramme,
   identity,
+  mobileAppPublishing,
   planHierarchy,
   pricingAvailability,
   product,
@@ -10,13 +12,21 @@ import {
 import { company } from "../src/content/company";
 import { faqs } from "../src/content/faq";
 import { foundingPartners, higherEducationPartners } from "../src/content/founding-partners";
-import { plans, pricingFaqs } from "../src/content/pricing";
+import { plans, pricingFaqs, WHITE_LABEL_NOTE } from "../src/content/pricing";
+import { pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import { securityFaqs } from "../src/content/security-faq";
-import { entityFaqs } from "../src/content/what-is-squarecampus";
+import { CANONICAL_DEFINITION, entityFaqs } from "../src/content/what-is-squarecampus";
 import { assert, suite, test } from "./harness";
 import { findStaleClaims } from "./stale-claims";
 
 suite("commercial facts");
+
+test("Fairhelm owns the publisher accounts for standard and white-label mobile apps", () => {
+  assert.equal(pricingPolicy.whiteLabel.publisherAccountScope, "fairhelm_systems");
+  assert.match(mobileAppPublishing, /Standard and white-label mobile apps/);
+  assert.ok(mobileAppPublishing.includes(company.legalNameDisplay));
+  assert.ok(WHITE_LABEL_NOTE.includes(mobileAppPublishing));
+});
 
 test("exactly two Founding Institutional Partner positions, one school and one university", () => {
   assert.equal(foundingProgramme.positions, 2);
@@ -55,30 +65,32 @@ test("roadmap influence is bounded: no veto, control or IP ownership", () => {
   );
 });
 
-test("the plan hierarchy keeps Enterprise as governance, not more modules", () => {
+test("stable plan identifiers expose Growth and equal generally available feature eligibility", () => {
   assert.deepEqual(
     planHierarchy.map((p) => p.id),
     ["starter", "pro", "enterprise"]
   );
   assert.match(planHierarchy[2].summary, /governance/i);
-  assert.match(planHierarchy[2].summary, /identity governance/i);
+  assert.equal(planHierarchy[1].name, "Growth");
+  assert.match(corePlatform.promise, /No module or feature is gated/);
+  assert.deepEqual(plans[0].capabilities, plans[1].capabilities);
+  assert.deepEqual(plans[1].capabilities, plans[2].capabilities);
   assert.ok(enterpriseBeyondModules.length >= 5);
-  assert.match(plans[2].spotlight?.note ?? "", /not Pro with more modules/);
+  assert.match(corePlatform.differentiation, /same generally available/);
 });
 
-test("identity doctrine: common security baseline, separately quoted SSO across plans, scoped governance", () => {
+test("identity doctrine preserves common security with optional SSO on every plan and included Enterprise activation", () => {
   assert.match(identity.baseline.body, /baseline requirements in every plan/);
   assert.match(identity.baseline.body, /deployment readiness are confirmed before activation/);
   assert.match(identity.sso.body, /optional single sign-on with Microsoft Entra ID/);
-  assert.match(identity.enterprise.body, /identity governance rather than by having SSO/);
+  assert.match(identity.enterprise.body, /identity governance is eligible on every plan/);
   assert.equal(identity.modes.length, 3);
   assert.match(identity.principle, /never derived from an email address or domain alone/);
   const sso = identity.byPlan.find((row) => /Entra ID single sign-on/.test(row.capability));
   assert.ok(sso);
-  assert.match(sso.starter, /Available separately/);
   assert.equal(sso.starter, sso.pro);
-  assert.equal(sso.pro, sso.enterprise);
-  assert.match(sso.starter, /quotation and technical onboarding/);
+  assert.match(sso.enterprise, /included in the annual licence/);
+  assert.match(sso.pro, /technical onboarding required/);
   // Nothing unimplemented is described as available.
   const text = JSON.stringify(identity);
   assert.doesNotMatch(text, /Google Workspace (SSO|single sign-on)/);
@@ -88,16 +100,19 @@ test("identity doctrine: common security baseline, separately quoted SSO across 
 
 test("pricing availability is stated once and reused verbatim by every FAQ surface", () => {
   const short = pricingAvailability.short;
-  assert.match(short, /model is published/i);
+  assert.match(short, /Annual INR subscription rates.*public/i);
   const pricingAnswer = pricingFaqs.find((f) => f.question === "Is pricing public?")?.answer ?? "";
   const siteAnswer = faqs.find((f) => f.question === "Is pricing public?")?.answer ?? "";
   assert.ok(pricingAnswer.includes(short), "pricing FAQ must quote pricingAvailability.short");
   assert.ok(siteAnswer.includes(short), "site FAQ must quote pricingAvailability.short");
 });
 
-test("no rupee amounts or rates anywhere in commercial content", () => {
-  const text = JSON.stringify([pricingAvailability, plans, pricingFaqs, faqs, foundingProgramme]);
-  assert.doesNotMatch(text, /₹|\bRs\.?\s?\d|\bINR\b|per student per (year|month)/);
+test("published pricing is explicit and unconfigured AIC tariffs are never advertised", () => {
+  assert.match(pricingAvailability.short, /Annual INR subscription rates/);
+  assert.match(identity.sso.body, /₹2,500/);
+  assert.match(pricingFaqs.find((faq) => faq.question === "How is AEGIS usage handled?")?.answer ?? "", /Purchased-credit validity and cancellation terms require confirmation/);
+  const text = JSON.stringify([pricingAvailability, plans, pricingFaqs, faqs]);
+  assert.doesNotMatch(text, /150 (questions|prompts)|unlimited AI|₹0\.25\s*(per |\/)AIC|5.credit WhatsApp/i);
 });
 
 test("fit guidance names who SquareCampus is not for", () => {
@@ -107,10 +122,23 @@ test("fit guidance names who SquareCampus is not for", () => {
 });
 
 test("the canonical short description is one sentence in the agreed semantic territory", () => {
-  assert.match(product.shortDescription, /^SquareCampus is a School Operating System/);
+  assert.equal(product.category, "Enterprise School Operating System");
+  assert.match(product.shortDescription, /^SquareCampus is an Enterprise School Operating System/);
   for (const term of ["governance", "accountability", "operational visibility", "India"]) {
     assert.ok(product.shortDescription.includes(term), `missing "${term}"`);
   }
+});
+
+test("branded definitions and the enterprise-pain answer reuse canonical product facts", () => {
+  assert.equal(CANONICAL_DEFINITION, product.shortDescription);
+  assert.equal(
+    entityFaqs.find((faq) => faq.question === "What is SquareCampus?")?.answer,
+    product.shortDescription
+  );
+  assert.equal(
+    entityFaqs.find((faq) => faq.question === "What does minus the enterprise pain mean?")?.answer,
+    product.positioningSupport
+  );
 });
 
 test("no stale commercial claims in any FAQ array", () => {

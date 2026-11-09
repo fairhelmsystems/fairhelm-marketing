@@ -1,10 +1,10 @@
-import { BadgeCheck, Building2, CalendarClock, FileSpreadsheet, UsersRound } from "lucide-react";
-import type { Metadata } from "next";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
-import { ContactForm } from "@/components/site/contact-form";
-import { PageSchema } from "@/components/site/page-schema";
 import { Reveal } from "@fairhelm/ui/components/reveal";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
+import { BadgeCheck, Building2, CalendarClock, FileSpreadsheet, UsersRound } from "lucide-react";
+import type { Metadata } from "next";
+import { ContactForm } from "@/components/site/contact-form";
+import { PageSchema } from "@/components/site/page-schema";
 import {
   demoPage,
   FOUNDING_PARTNER_FORM_HREF,
@@ -22,9 +22,9 @@ import { createPageMetadata } from "@/lib/seo";
  * /demo/?intent=founding-partner links are forwarded before first paint.
  */
 export const metadata: Metadata = createPageMetadata({
-  title: "Book a School Management Software Demo",
+  title: "Book a SquareCampus Enterprise School OS Demo",
   description:
-    "Book a guided SquareCampus demo and see how the School OS maps to admissions, academics, finance, communication, and institutional operations.",
+    "Book a guided SquareCampus Enterprise School OS demo. Explore admissions, academics, finance, communication and governance against your institution's workflows.",
   path: "/demo",
   ogImage: "https://squarecampus.com/og/demo.png",
 });
@@ -61,8 +61,8 @@ export default function DemoPage() {
       <script dangerouslySetInnerHTML={{ __html: legacyIntentRedirectScript }} />
 
       <PageSchema
-        name="Book a School Management Software Demo"
-        description="Request a guided SquareCampus walkthrough mapped to the institution's own admissions, academics, finance, communication and governance workflows."
+        name="Book a SquareCampus Enterprise School OS Demo"
+        description="Request a guided demonstration of SquareCampus's Enterprise School OS, mapped to the institution's admissions, academics, finance, communication and governance workflows."
         path="/demo"
       />
 

@@ -1,11 +1,13 @@
 import {
   corePlatform,
+  dataEventsApi,
   dataPortability,
   foundingProgramme,
   identity,
   integrationScope,
   launchPilot,
   pricingAvailability,
+  product,
   securityBaseline,
 } from "./commercial";
 import { retentionReuse } from "./retention";
@@ -28,6 +30,11 @@ export const faqCategories: Array<{ id: FaqCategoryId | "all"; name: string }> =
 
 export const faqs: FaqItem[] = [
   // Getting started
+  {
+    question: "What is SquareCampus?",
+    answer: product.shortDescription,
+    category: "getting-started",
+  },
   {
     question: "What does SquareCampus actually replace?",
     answer:
@@ -55,7 +62,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What data can be migrated from our existing systems?",
     answer:
-      "We support migration of student records, fee history, attendance data, academic records, staff information, and communication history. Our team works with you to map your existing data structure to SquareCampus and validates the migration with a parallel run before go-live. Migration is included in Pro and Enterprise. If your current system lacks data SquareCampus needs, or it is too fragmented to reconcile, we show you what cannot move before go-live.",
+      "We support migration of student records, fee history, attendance data, academic records, staff information, and communication history. Our team works with you to map your existing data structure to SquareCampus and validates the migration with a parallel run before go-live. Migration is included in Growth and Enterprise. If your current system lacks data SquareCampus needs, or it is too fragmented to reconcile, we show you what cannot move before go-live.",
     category: "getting-started",
   },
 
@@ -72,14 +79,13 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "Can we build our own frontend or mobile apps on SquareCampus?",
-    answer:
-      "Development API access and supported interfaces are assessed during discovery. Authorisation, compliance review, commercial eligibility and delivery scope are agreed before development; a complete API surface for every workflow is not assumed.",
+    answer: `${dataEventsApi.qualification} ${dataEventsApi.catalogue} ${dataEventsApi.nativeWorkflows} ${dataEventsApi.identity}`,
     category: "features",
   },
   {
     question: "Do you have mobile apps?",
     answer:
-      "Standard SquareCampus parent and staff mobile-app access is included in every plan at no additional charge. Supported app workflows, devices, languages and delivery readiness are confirmed before activation. White-labelled apps are a separately quoted enhancement, with founding-partner treatment governed by its own agreement.",
+      "Standard SquareCampus parent and staff mobile-app access is included in every plan at no additional charge. Supported app workflows, devices, languages and delivery readiness are confirmed before activation. White-labelled apps are an optional enhancement on Growth and Enterprise, with founding-partner treatment governed by its own agreement.",
     category: "features",
   },
   {
@@ -133,7 +139,7 @@ export const faqs: FaqItem[] = [
     category: "security",
   },
   {
-    question: "Does Pro support institutional single sign-on?",
+    question: "Does Growth support institutional single sign-on?",
     answer: `${identity.sso.body} The institution chooses the sign-in mode: ${identity.modes.join("; ")}.`,
     category: "security",
   },
@@ -146,11 +152,11 @@ export const faqs: FaqItem[] = [
   {
     question: "Does single sign-on automatically create and remove users?",
     answer:
-      "No. Single sign-on authenticates users. Automated provisioning, deprovisioning and joiner-mover-leaver lifecycle controls are identity governance requirements scoped under Enterprise rather than part of SSO.",
+      "Single sign-on authenticates users. Automated provisioning, deprovisioning and lifecycle controls require separately validated support, confirmed during technical onboarding.",
     category: "security",
   },
   {
-    question: "What identity governance does Enterprise add?",
+    question: "What identity governance is available?",
     answer: `${identity.enterprise.body} ${identity.principle}`,
     category: "security",
   },
@@ -200,7 +206,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Is the mobile app charged separately?",
     answer:
-      "No. The SquareCampus parent and staff mobile apps are included in every plan at no additional charge. A white-labelled Android and iOS build, published under your institution's own branding and store listings, carries a single charge that covers the entire agreed term, whether that is one year or many. Founding Institutional Partners receive the white-labelled build without the standard white-label charge.",
+      "Standard SquareCampus parent and staff mobile apps are included in every plan at no additional charge. White-labelled Android and iOS apps are available on Growth and Enterprise for one combined ₹25,000 branding charge. Existing branding is carried across ordinary renewals and eligible plan changes. Founding Institutional Partner treatment follows the executed agreement.",
     category: "pricing",
   },
   {

@@ -26,6 +26,8 @@ export const markdownAlternatePaths = [
   "/launch-partners",
   "/launch-partners/higher-education",
   "/school-management-system",
+  "/school-management-software-for-cbse-schools",
+  "/school-management-software-for-icse-schools",
   "/school-erp-software",
   "/multi-campus-school-management-software",
   "/compare",

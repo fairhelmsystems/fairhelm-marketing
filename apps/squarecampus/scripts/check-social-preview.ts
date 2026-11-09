@@ -149,30 +149,20 @@ for (const userAgent of userAgents) {
         assert.equal(meta.one("og:url"), `${SITE}${route.path}`);
       }
       if (route.path === "/") {
-        assert.ok(
-          meta.head.includes(
-            "<title>SquareCampus | School OS for Schools and Trusts in India</title>"
-          )
-        );
+        assert.ok(meta.head.includes("<title>SquareCampus | Enterprise School OS</title>"));
         assert.equal(
           meta.one("description"),
-          "School management software for Indian schools and trusts. Connect admissions, attendance, fees, exams and parent communication with institution-wide oversight."
+          "Enterprise School OS, minus the enterprise pain. SquareCampus connects school operations, governance and accountability for Indian schools and trusts."
         );
-        assert.equal(
-          meta.one("og:title"),
-          "SquareCampus | School OS for Schools and Trusts in India"
-        );
+        assert.equal(meta.one("og:title"), "SquareCampus | Enterprise School OS");
         assert.equal(
           meta.one("og:description"),
-          "Run every campus. Govern them as one. A School OS connecting operations, accountability and leadership for Indian schools and trusts."
+          "Enterprise School OS, minus the enterprise pain. SquareCampus connects school operations, governance and accountability for Indian schools and trusts."
         );
-        assert.equal(
-          meta.one("twitter:title"),
-          "SquareCampus | School OS for Schools and Trusts in India"
-        );
+        assert.equal(meta.one("twitter:title"), "SquareCampus | Enterprise School OS");
         assert.equal(
           meta.one("twitter:description"),
-          "Run every campus. Govern them as one. A School OS connecting operations, accountability and leadership for Indian schools and trusts."
+          "Enterprise School OS, minus the enterprise pain. SquareCampus connects school operations, governance and accountability for Indian schools and trusts."
         );
         const heading = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1];
         assert.ok(heading, "Homepage has a server-rendered heading");

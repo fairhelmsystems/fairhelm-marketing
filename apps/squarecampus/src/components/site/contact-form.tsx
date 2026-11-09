@@ -7,6 +7,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { enquiryTypes, type FormIntent, formCopy, sourceTags } from "@/content/demo-intents";
 import { buildEnquiryPayload, foundingPartnerFields } from "@/lib/demo-enquiry";
+import { decodeEstimate, estimateEnquiryMessage } from "@/lib/pricing-estimate";
 import { cn } from "@fairhelm/ui/lib/utils";
 import { HumanCheck, type HumanCheckResult } from "@fairhelm/ui/components/human-check";
 import { HoneypotField } from "@fairhelm/ui/components/honeypot-field";
@@ -384,6 +385,13 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
   const ids = useId();
   const isFoundingPartner = state.enquiryType === FOUNDING_PARTNER_ENQUIRY;
   const intentCopy = formCopy[intent];
+
+  useEffect(() => {
+    const estimate = decodeEstimate(new URLSearchParams(window.location.search));
+    if (!estimate.state) return;
+    const message = estimateEnquiryMessage(estimate.state);
+    if (message) setState((current) => current.message ? current : { ...current, message });
+  }, []);
 
   useEffect(() => {
     mountedRef.current = true;

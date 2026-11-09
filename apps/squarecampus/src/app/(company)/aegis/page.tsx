@@ -1,3 +1,4 @@
+import { ResponsiveDisclosure } from "@fairhelm/ui/components/responsive-disclosure";
 import {
   BellRing,
   Building2,
@@ -145,7 +146,7 @@ export default function AegisPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <SectionShell className="pt-12 sm:pt-16">
+      <SectionShell className="key-page-hero pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <Reveal immediate className="space-y-6">
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-[4.4rem]">
@@ -179,16 +180,16 @@ export default function AegisPage() {
 
           {/* Above the fold: `immediate`, so the console paints complete on the
               first frame instead of waiting for hydration (audit SC-018). */}
-          <Reveal immediate delay={120}>
+<ResponsiveDisclosure label="See an AEGIS answer" className="hero-visual-disclosure">          <Reveal immediate delay={120}>
             <AegisConsole />
-          </Reveal>
+          </Reveal></ResponsiveDisclosure>
         </div>
       </SectionShell>
 
       {/* The boundary, stated once in content/what-is-squarecampus.ts and
           shown here beside the demo, so no illustration on this page can be
           read as AEGIS acting on the institution's behalf. */}
-      <SectionShell
+      <SectionShell mobileDisclosure="What AEGIS can do"
         id="boundaries"
         eyebrow="What AEGIS does, and does not do"
         title="Answers and suggestions. People decide and act."
@@ -211,7 +212,7 @@ export default function AegisPage() {
         />
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Example questions and answers"
         id="examples"
         eyebrow="Three example questions"
         title="What an answer is drawn from, and where AEGIS stops"
@@ -250,7 +251,7 @@ export default function AegisPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Permissions and governance"
         eyebrow="Governance first"
         title="Intelligence that strengthens control instead of leaking it"
         body="AEGIS is designed governance-first: the permission check happens before an answer exists, not after it."
@@ -281,7 +282,7 @@ export default function AegisPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="The records behind an answer"
         eyebrow="Context is the moat"
         title="AEGIS works because the operating system underneath is connected"
         body="AEGIS is designed to work from the records your institution already runs on in SquareCampus — who may see what, timelines, fee state and communication history — rather than guessing."
@@ -291,7 +292,7 @@ export default function AegisPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Compare reporting workflows"
         eyebrow="Before and after"
         title="The report-chasing era is over"
         body="If your current ERP's answer to every leadership question is 'we'll prepare a report', the comparison below will feel familiar."
@@ -312,7 +313,7 @@ export default function AegisPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell eyebrow="What AEGIS helps with" title="From data to defensible decisions">
+      <SectionShell mobileDisclosure="Leadership use cases" eyebrow="What AEGIS helps with" title="From data to defensible decisions">
         <Reveal staggerChildren className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {[
             {
@@ -348,7 +349,7 @@ export default function AegisPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell className="pb-22 pt-0">
+      <SectionShell className="key-page-close pb-22 pt-0">
         <Reveal className="surface-panel-strong relative overflow-hidden rounded-[2rem] p-8 lg:p-12">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[linear-gradient(180deg,var(--brand-tint),transparent)]" />
           <div className="relative grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-center">

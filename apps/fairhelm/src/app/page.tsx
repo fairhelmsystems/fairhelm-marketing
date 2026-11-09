@@ -1,3 +1,5 @@
+import { buttonVariants } from "@fairhelm/ui/components/button";
+import { cn } from "@fairhelm/ui/lib/utils";
 import {
   BarChart3,
   Building2,
@@ -23,20 +25,17 @@ import { RelatedInsights } from "@/components/site/related-insights";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { SystemPanel } from "@/components/site/system-panel";
-import { buttonVariants } from "@fairhelm/ui/components/button";
 import { companyFaq } from "@/content/faq";
 import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 import { faqSchema } from "@/lib/structured-data";
-import { cn } from "@fairhelm/ui/lib/utils";
 
 const homeTitle = "Fairhelm Systems | Software Product & Data Engineering Company, Bangalore";
 
 export const metadata = {
   ...createPageMetadata({
     title: homeTitle,
-    description:
-      "Bangalore product company. Fairhelm builds SquareCampus, an enterprise-grade School OS minus the enterprise headache, and governed data pipelines.",
+    description: `Bangalore product company. Fairhelm builds ${siteConfig.product.name}, an ${siteConfig.product.category}, and governed data pipelines.`,
     path: "/",
   }),
   title: { absolute: homeTitle },

@@ -60,13 +60,11 @@ export function canonicalUrl(path: string) {
 export const SEO_CONFIG = {
   baseUrl,
   siteName: "SquareCampus",
-  // Canonical category: School Operating System / institutional decision
-  // layer. ERP and "school management system" terminology is deliberately
-  // confined to search-intent routes (/school-management-system, /compare,
-  // /school-erp-alternative) so the brand pages resolve to the right category.
-  defaultTitle: "SquareCampus | School OS for Schools and Trusts in India",
+  // Brand pages identify the Enterprise School OS. Search-intent pages answer
+  // school management system and ERP queries while retaining that identity.
+  defaultTitle: "SquareCampus | Enterprise School OS",
   defaultDescription:
-    "Run every campus. Govern them as one. A School OS connecting operations, accountability and leadership for Indian schools and trusts.",
+    "Enterprise School OS, minus the enterprise pain. SquareCampus connects school operations, governance and accountability for Indian schools and trusts.",
   language: "en-IN",
   openGraphLocale: "en_IN",
   /** Company account; attribution for Twitter/X cards. */

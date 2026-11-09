@@ -1,17 +1,18 @@
-import { ArrowUpRight, Check, CircleHelp, MapPinned, Workflow } from "lucide-react";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { AvailabilityNote } from "@/components/site/availability-note";
-import { ButtonLink } from "@fairhelm/ui/components/button-link";
-import { FactTable } from "@/components/site/fact-table";
-import { Reveal } from "@fairhelm/ui/components/reveal";
-import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@fairhelm/ui/components/accordion";
+import { ButtonLink } from "@fairhelm/ui/components/button-link";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
+import { Reveal } from "@fairhelm/ui/components/reveal";
+import { SectionShell } from "@fairhelm/ui/components/section-shell";
+import { ArrowUpRight, Check, CircleHelp, MapPinned, Workflow } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { AvailabilityNote } from "@/components/site/availability-note";
+import { FactTable } from "@/components/site/fact-table";
 import { product } from "@/content/commercial";
 import { intentPageBySlug, intentPages } from "@/content/intent-pages";
 import { ctaLabels, siteCtas } from "@/content/site-content";
@@ -20,9 +21,9 @@ import {
   createAlternates,
   createBreadcrumbSchema,
   createPageMetadata,
+  createWebPageSchema,
   SEO_CONFIG,
 } from "@/lib/seo";
-import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 /**
  * Search-intent pages, one per query cluster, rendered from
@@ -69,15 +70,11 @@ export default async function IntentPage({ params }: PageProps) {
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "WebPage",
-        "@id": `${SEO_CONFIG.baseUrl}${path}#webpage`,
+      createWebPageSchema({
         name: page.metaTitle,
         description: page.metaDescription,
         url: canonicalUrl(path),
-        inLanguage: SEO_CONFIG.language,
-        isPartOf: { "@id": `${SEO_CONFIG.baseUrl}/#website` },
-      },
+      }),
       createBreadcrumbSchema([
         { name: "Home", url: SEO_CONFIG.baseUrl },
         { name: "School Management System", url: canonicalUrl("/school-management-system") },
@@ -85,7 +82,7 @@ export default async function IntentPage({ params }: PageProps) {
       ]),
       {
         "@type": "FAQPage",
-        "@id": `${SEO_CONFIG.baseUrl}${path}#faq`,
+        "@id": `${canonicalUrl(path)}#faq`,
         mainEntity: page.faqs.map((faq) => ({
           "@type": "Question",
           name: faq.question,
@@ -363,7 +360,7 @@ export default async function IntentPage({ params }: PageProps) {
             <Link href="/about/" className="text-foreground underline-offset-4 hover:underline">
               founder-led team
             </Link>
-            . The licensing model is published; figures follow a written proposal.
+            . Annual INR rates and progressive student slabs are public, with a live calculator.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} variant="cta" />

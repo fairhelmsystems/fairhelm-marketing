@@ -1,3 +1,4 @@
+import { ResponsiveDisclosure } from "@fairhelm/ui/components/responsive-disclosure";
 import {
   Building2,
   Fingerprint,
@@ -48,7 +49,7 @@ export default function EnterprisePage() {
   return (
     <main tabIndex={-1} id="main-content">
       <PageSchema name="SquareCampus Enterprise" description={description} path="/enterprise" />
-      <SectionShell className="pt-12 sm:pt-16">
+      <SectionShell className="key-page-hero pt-12 sm:pt-16">
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           <Reveal immediate className="space-y-6">
             <OperationalBadge tone="brand" icon={Building2}>
@@ -70,7 +71,7 @@ export default function EnterprisePage() {
             </CTAGroup>
             <p className="type-caption">{pricingAvailability.short}</p>
           </Reveal>
-          <Reveal delay={100}>
+<ResponsiveDisclosure label="See the governance model" className="hero-visual-disclosure">          <Reveal delay={100}>
             <FeaturePanel tone="strong" className="relative overflow-hidden">
               <Eyebrow>Institutional governance</Eyebrow>
               <div className="mt-7 rounded-[var(--radius-panel)] border border-[color:var(--brand)]/35 bg-[color:var(--brand-tint)] px-5 py-5">
@@ -99,15 +100,15 @@ export default function EnterprisePage() {
                 deployment scope.
               </p>
             </FeaturePanel>
-          </Reveal>
+          </Reveal></ResponsiveDisclosure>
         </div>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Institutional governance"
         id="governance"
         eyebrow="The Enterprise dimension"
         title="Institutional governance, across the operating model."
-        body="Enterprise is selected for the governance requirement. Discovery establishes the available capabilities, institutional boundaries and delivery scope for each dimension."
+        body="Every plan is eligible for generally available institutional governance. Discovery establishes implemented capabilities, institutional boundaries, optional services and delivery scope for each dimension."
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {enterpriseBeyondModules.map((dimension, index) => {
@@ -127,7 +128,7 @@ export default function EnterprisePage() {
         <AvailabilityNote className="mt-6" />
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Sign-in and access"
         id="identity"
         eyebrow="Identity and authority"
         title="Institutional sign-in. SquareCampus-governed access."
@@ -148,7 +149,7 @@ export default function EnterprisePage() {
         </div>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Plans at any enrolment"
         id="fit"
         eyebrow="Chosen by requirement"
         title={enterpriseForSmallerInstitutions.heading}
@@ -168,7 +169,7 @@ export default function EnterprisePage() {
         <p className="type-support mt-6">{enterpriseForSmallerInstitutions.counterNote}</p>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Security and data ownership"
         id="foundations"
         eyebrow="The shared foundations"
         title="A complete core. A common security baseline."
@@ -189,7 +190,7 @@ export default function EnterprisePage() {
         </div>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell className="key-page-close"
         id="discovery"
         eyebrow="Define the operating scope"
         title="Bring the governance question."

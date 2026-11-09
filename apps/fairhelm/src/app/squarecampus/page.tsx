@@ -28,9 +28,8 @@ import { siteConfig } from "@/lib/site-config";
 import { breadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata = createPageMetadata({
-  title: "SquareCampus — Enterprise-grade School OS by Fairhelm Systems",
-  description:
-    "SquareCampus is an enterprise-grade School OS, minus the enterprise headache, built by Fairhelm Systems for schools, trusts and universities in India.",
+  title: `${siteConfig.product.name} — ${siteConfig.product.category} by ${siteConfig.name}`,
+  description: `${siteConfig.product.name} is an ${siteConfig.product.category} by ${siteConfig.name} for schools, trusts and multi-campus groups in India.`,
   path: "/squarecampus/",
 });
 
@@ -58,7 +57,7 @@ const canonicalProductPages = [
   [
     "Pricing model",
     "pricing/",
-    "How the licence is structured and what a written proposal follows. No figures are published on fairhelmsystems.com.",
+    "Public annual INR rates, progressive student slabs and a live calculator on the product site. Custom services are scoped separately.",
   ],
   [
     "Rollout",
@@ -174,7 +173,6 @@ export default function SquareCampusPage() {
       <Hero
         eyebrow="SquareCampus · Fairhelm Systems flagship product"
         title={siteConfig.product.positioning}
-        highlight="minus the enterprise headache"
         description={siteConfig.product.description}
         primary={{
           label: "Visit squarecampus.com",

@@ -3,6 +3,7 @@
 import { Drawer } from "@base-ui/react/drawer";
 import { X } from "lucide-react";
 import type { ReactNode } from "react";
+import { cn } from "@fairhelm/ui/lib/utils";
 
 /**
  * The phone "know more" pattern, site-wide: a draggable bottom sheet
@@ -20,19 +21,26 @@ export default function BottomSheet({
   title,
   children,
   closeLabel = "Close",
+  className,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
   children: ReactNode;
   closeLabel?: string;
+  className?: string;
 }) {
   return (
     <Drawer.Root open={open} onOpenChange={onOpenChange} swipeDirection="down">
       <Drawer.Portal>
-        <Drawer.Backdrop className="fixed inset-0 z-50 bg-black/45 transition-opacity duration-300 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0" />
-        <Drawer.Viewport className="fixed inset-0 z-50 flex items-end justify-center">
-          <Drawer.Popup className="bottom-sheet relative flex max-h-[88dvh] w-full flex-col rounded-t-[1.75rem] border border-b-0 border-[color:var(--line-strong)] bg-background shadow-(--shadow-3) outline-none">
+        <Drawer.Backdrop className="bottom-sheet-backdrop fixed inset-0 z-50 bg-black/45 transition-opacity duration-300 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0" />
+        <Drawer.Viewport className="bottom-sheet-viewport fixed inset-0 z-50 flex items-end justify-center">
+          <Drawer.Popup
+            className={cn(
+              "bottom-sheet relative flex max-h-[88dvh] w-full flex-col rounded-t-[1.75rem] border border-b-0 border-[color:var(--line-strong)] bg-background shadow-(--shadow-3) outline-none",
+              className
+            )}
+          >
             {/* Drag handle: the popup itself is swipeable; this is the affordance. */}
             <span
               aria-hidden

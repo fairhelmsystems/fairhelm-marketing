@@ -1,3 +1,14 @@
+import { ResponsiveDisclosure } from "@fairhelm/ui/components/responsive-disclosure";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@fairhelm/ui/components/accordion";
+import { ButtonLink } from "@fairhelm/ui/components/button-link";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
+import { Reveal } from "@fairhelm/ui/components/reveal";
+import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import {
   ArrowRightLeft,
   BadgeCheck,
@@ -14,20 +25,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { AvailabilityNote } from "@/components/site/availability-note";
-import { ButtonLink } from "@fairhelm/ui/components/button-link";
-import { Reveal } from "@fairhelm/ui/components/reveal";
-import { SectionShell } from "@fairhelm/ui/components/section-shell";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@fairhelm/ui/components/accordion";
-import { identity, pricingAvailability } from "@/content/commercial";
+import { identity, pricingAvailability, product } from "@/content/commercial";
 import { intentPages } from "@/content/intent-pages";
 import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createBreadcrumbSchema, createWebPageSchema, SEO_CONFIG } from "@/lib/seo";
-import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 const securityPackMailto =
   "mailto:security@squarecampus.com?subject=Security%20%26%20Compliance%20Pack%20Request%20-%20%5BSchool%20Name%5D&body=Hello%20SquareCampus%20Security%20Team%2C%0A%0AWe%20would%20like%20to%20request%20your%20Security%20%26%20Compliance%20Pack.%0A%0ASchool%20name%3A%20%5BYour%20School%20Name%5D%0AContact%20name%3A%20%5BYour%20Name%5D%0ARole%3A%20%5BTitle%20%2F%20Department%5D%0AEmail%3A%20%5BWork%20Email%5D%0APhone%3A%20%5BPhone%20Number%5D%0AStudent%20count%3A%20%5BApproximate%5D%0ACampuses%3A%20%5BNumber%20of%20Campuses%5D%0ASpecific%20requirements%3A%20%5BOptional%5D%0A%0AThank%20you%2C%0A%5BYour%20Name%5D";
@@ -36,12 +37,15 @@ const faqItems = [
   {
     question: "What is a school management system?",
     answer:
-      "A school management system is a unified platform that runs daily operations like admissions, attendance, fees, exams, communication, and compliance. SquareCampus is a school management system designed specifically for Indian schools so every stakeholder works from one source of truth.",
+      "A school management system coordinates admissions, attendance, fees, exams, communication and administrative records. Buyers use the term for the daily operational work they need software to support.",
   },
   {
-    question: "How is SquareCampus different from legacy school ERPs?",
-    answer:
-      "Legacy ERPs bolt modules together and feel like separate products. SquareCampus is architected as one operating system: a unified institutional data model, consistent workflows, and human support included.",
+    question: "What is SquareCampus?",
+    answer: product.shortDescription,
+  },
+  {
+    question: "How does SquareCampus relate to school management software and ERPs?",
+    answer: product.categoryRelationship,
   },
   {
     question: "Does SquareCampus handle Indian fee structures and compliance?",
@@ -167,8 +171,7 @@ export default function SchoolManagementSystemPage() {
 
   const webPageSchema = createWebPageSchema({
     name: "School Management System for Indian Schools",
-    description:
-      "SquareCampus is a school management system built for Indian schools-fees, attendance, exams, communication, and compliance in one unified School OS.",
+    description: product.shortDescription,
     url: pageUrl,
   });
 
@@ -179,18 +182,17 @@ export default function SchoolManagementSystemPage() {
 
   return (
     <main tabIndex={-1} id="main-content">
-      <SectionShell className="pt-12 sm:pt-16">
+      <SectionShell className="key-page-hero pt-12 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
           <Reveal immediate className="space-y-6">
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
-              School management system built for Indian schools.
+              School management system for Indian schools.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-muted-foreground">
-              <LeadIn>{"School management system"}</LeadIn>A school management system should be the
-              operating manual of your campus — not a stack of disconnected tools. Sometimes labeled
-              school ERP software, SquareCampus is a School OS built for India: admissions,
-              attendance, fees, exams, communication, transport, and compliance stay connected so
-              nothing slips.
+              <LeadIn>{product.categoryDescriptor}</LeadIn>
+              SquareCampus connects admissions, attendance, fees, exams and parent communication
+              with named owners, approvals and institutional oversight. Implementation and support
+              are included, with rollout sequenced around your academic calendar.
             </p>
             <div className="flex flex-wrap gap-2">
               {["Guided rollout", "One governed record", "Audit-ready by design"].map((item) => (
@@ -212,7 +214,7 @@ export default function SchoolManagementSystemPage() {
             </div>
           </Reveal>
 
-          <Reveal immediate delay={120} className="surface-panel-strong rounded-[2rem] p-5 lg:p-6">
+<ResponsiveDisclosure label="Preview the school workspace" className="hero-visual-disclosure">          <Reveal immediate delay={120} className="surface-panel-strong rounded-[2rem] p-5 lg:p-6">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>One view, zero chaos</span>
               <span className="inline-flex items-center gap-2">
@@ -248,11 +250,11 @@ export default function SchoolManagementSystemPage() {
                 </div>
               ))}
             </div>
-          </Reveal>
+          </Reveal></ResponsiveDisclosure>
         </div>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="What a school system does"
         eyebrow="Definition"
         title="What is a school management system?"
         body="It is the operating core that coordinates academics, finance, and communication. In India, you might also hear it called school ERP software or school management software. A true school management system connects attendance with fees, ties assessments to promotion decisions, and keeps parents and staff aligned without duplicate data entry. SquareCampus treats this definition as engineering spec, not marketing copy."
@@ -279,7 +281,7 @@ export default function SchoolManagementSystemPage() {
               ))}
             </div>
             <p className="mt-5 rounded-[1.2rem] bg-(--surface-muted) px-4 py-3 text-sm leading-6 text-foreground">
-              When one workflow moves, the rest follow automatically — no re-entry, no drift.
+              {product.categoryRelationship}
             </p>
           </div>
 
@@ -316,7 +318,7 @@ export default function SchoolManagementSystemPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Find your school workflow"
         eyebrow="Solutions by need"
         title="Start from the question you actually have"
         body="Each page opens with a direct answer, then the workflow as it runs, the India-specific realities, and what to check in any vendor."
@@ -346,7 +348,7 @@ export default function SchoolManagementSystemPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Connected modules"
         eyebrow="Modules as workflows"
         title="Modules inside SquareCampus, explained as workflows"
         body="Feature lists hide the real question: does the work actually connect? Here is how each module is designed to connect."
@@ -367,7 +369,7 @@ export default function SchoolManagementSystemPage() {
         <AvailabilityNote className="mt-4" />
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Security and compliance"
         eyebrow="India-first"
         title="Built for Indian schools: fees, compliance, multi-campus"
       >
@@ -427,7 +429,7 @@ export default function SchoolManagementSystemPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Implementation and pricing"
         eyebrow="Rollout & pricing"
         title="A launch that respects the academic calendar"
       >
@@ -458,10 +460,10 @@ export default function SchoolManagementSystemPage() {
             <ul className="mt-5 grid gap-2.5">
               {[
                 "One annual institutional licence — no per-module surprises.",
-                "Standard parent and staff mobile apps included; no hidden 'parent app' fees.",
+                "Standard apps for staff, parents and students included, with no additional app licence fee.",
                 "Calculated on active enrolled students in progressive volume bands, not usage penalties.",
-                "Data migration included from Pro; optional lines are priced before signature.",
-                "The model is published on the pricing page; figures follow a written proposal after discovery.",
+                "Data migration included from Growth; optional lines are priced before signature.",
+                "Annual INR rates and progressive student slabs are public, with a live pricing calculator.",
               ].map((item) => (
                 <li
                   key={item}
@@ -476,7 +478,7 @@ export default function SchoolManagementSystemPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Compare the operating model"
         eyebrow="The comparison"
         title="SquareCampus vs legacy school ERPs"
         body="Choose architecture, not nostalgia. This is the difference between one OS and stitched-together software."
@@ -513,7 +515,7 @@ export default function SchoolManagementSystemPage() {
         </div>
       </SectionShell>
 
-      <SectionShell eyebrow="FAQs" title="Questions procurement teams ask">
+      <SectionShell mobileDisclosure="School system questions" eyebrow="FAQs" title="Questions procurement teams ask">
         <Reveal>
           <Accordion className="surface-panel rounded-[1.6rem] px-6">
             {faqItems.map((faq) => (
@@ -530,7 +532,7 @@ export default function SchoolManagementSystemPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell className="pb-22 pt-0">
+      <SectionShell className="key-page-close pb-22 pt-0">
         <Reveal className="surface-panel-strong rounded-[2rem] p-8 text-center lg:p-12">
           <h2 className="mx-auto mt-4 max-w-2xl font-display text-3xl tracking-[-0.05em] sm:text-4xl">
             Ready to run every campus day from one operating system?

@@ -1,3 +1,4 @@
+import { product as squareCampusProduct } from "@fairhelm/squarecampus-content/commercial";
 import { siteConfig } from "../src/lib/site-config";
 import {
   organizationSchema,
@@ -49,7 +50,9 @@ test("SquareCampus is one canonical entity, created/published/provided by Fairhe
   assert.equal(squareCampusSchema["@id"], SCHEMA_IDS.product);
   assert.equal(squareCampusSchema.url, "https://squarecampus.com/");
   assert.equal(squareCampusSchema.mainEntityOfPage, "https://squarecampus.com/");
-  assert.equal(squareCampusSchema.applicationSubCategory, "School Operating System");
+  assert.equal(squareCampusSchema.applicationSubCategory, squareCampusProduct.category);
+  assert.equal(squareCampusSchema.description, squareCampusProduct.shortDescription);
+  assert.equal(squareCampusSchema.disambiguatingDescription, squareCampusProduct.notAnErp);
   for (const rel of ["creator", "publisher", "provider"] as const) {
     assert.deepEqual(squareCampusSchema[rel], { "@id": SCHEMA_IDS.org });
   }

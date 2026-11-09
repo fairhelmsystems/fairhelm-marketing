@@ -1,4 +1,5 @@
 import { blogHref } from "@fairhelm/config/urls";
+import { product as squareCampusProduct } from "@fairhelm/squarecampus-content/commercial";
 /**
  * Canonical company facts.
  *
@@ -10,7 +11,7 @@ import { blogHref } from "@fairhelm/config/urls";
 
 /** The canonical SquareCampus product site. Product detail, pricing and
  * commercial programmes live there, never here. */
-export const squareCampusUrl = "https://squarecampus.com/";
+export const squareCampusUrl = squareCampusProduct.urls.site;
 
 export const siteConfig = {
   name: "Fairhelm Systems",
@@ -106,17 +107,16 @@ export const siteConfig = {
    * published on squarecampus.com, so both sites describe one entity.
    */
   product: {
-    name: "SquareCampus",
-    category: "School Operating System",
+    name: squareCampusProduct.name,
+    category: squareCampusProduct.category,
     /** Product positioning, verbatim from squarecampus.com. */
-    positioning: "Enterprise-grade School OS, minus the enterprise headache.",
+    positioning: squareCampusProduct.positioning,
     /** Category disambiguation, matching squarecampus.com: a School OS, not an ERP. */
-    notAnErp: "SquareCampus is a School OS, not an ERP: it runs school cycles with owners, approvals, exceptions and audit history on one institutional record, and can replace a school ERP or run alongside one.",
+    notAnErp: squareCampusProduct.notAnErp,
     url: squareCampusUrl,
     page: "/squarecampus/",
     schemaId: `${squareCampusUrl}#software`,
-    description:
-      "SquareCampus is a School Operating System for schools, universities and multi-campus educational institutions, focused on connected operations, institutional governance, accountability and operational visibility. It is developed and operated by Fairhelm Systems.",
+    description: squareCampusProduct.shortDescription,
     audience: "schools, universities and multi-campus educational institutions",
     relationship:
       "Fairhelm Systems develops and operates SquareCampus. Detailed product, security and commercial information is published on squarecampus.com.",

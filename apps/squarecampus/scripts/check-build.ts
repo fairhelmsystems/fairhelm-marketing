@@ -22,12 +22,13 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { corePlatform, launchPilot } from "../src/content/commercial";
+import { corePlatform, launchPilot, product } from "../src/content/commercial";
 import { faqs } from "../src/content/faq";
 import { llmsLinks, llmsRoute, renderLlmsTxt } from "../src/content/llms";
 import { renderLlmsFullTxt } from "../src/content/llms-full";
 import { markdownAlternatePath, markdownAlternatePaths } from "../src/content/markdown-alternates";
 import { plans, pricingFaqs } from "../src/content/pricing";
+import { pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import {
   publicRetentionSchedule,
   RETENTION_PATH,
@@ -36,9 +37,11 @@ import {
   retentionPointer,
 } from "../src/content/retention";
 import { securityFaqs } from "../src/content/security-faq";
+import { entityFaqs } from "../src/content/what-is-squarecampus";
 import { retentionCopyProblems } from "../tests/retention-guards";
 import { findStaleClaims } from "../tests/stale-claims";
 import { publishedLegalCopyStatus } from "./legal-copy-baselines";
+import { emptyEmphasisPattern } from "./markdown-quality";
 import { fullContextDocuments } from "./llms-full";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -59,6 +62,8 @@ const CRITICAL = [
   "/launch-partners",
   "/launch-partners/higher-education",
   "/school-management-system",
+  "/school-management-software-for-cbse-schools",
+  "/school-management-software-for-icse-schools",
   "/multi-campus-school-management-software",
   "/faq",
   "/about",
@@ -136,6 +141,7 @@ if (/Disallow:\s*\/\s*$/m.test(robots)) fail("robots.txt: a blanket Disallow: / 
 
 // --- critical pages ---------------------------------------------------------
 const faqSources: Record<string, ReadonlyArray<{ question: string; answer: string }>> = {
+  "/what-is-squarecampus": entityFaqs,
   "/pricing": pricingFaqs,
   "/faq": faqs,
   "/security": securityFaqs,
@@ -178,11 +184,30 @@ for (const route of CRITICAL) {
   const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
   if (blocks.length === 0) fail(`${route}: no JSON-LD`);
   const faqNodes: Array<{ mainEntity: unknown }> = [];
+  let productNodes = 0;
+  let linkedWebPage = false;
   for (const [, json] of blocks) {
     try {
       const parsed = JSON.parse(json);
       for (const node of parsed["@graph"] ?? [parsed]) {
         if (node["@type"] === "FAQPage") faqNodes.push(node);
+        if (node["@type"] === "SoftwareApplication" && node["@id"] === `${SITE}/#software`) {
+          productNodes += 1;
+          if (node.applicationSubCategory !== product.category)
+            fail(
+              `${route}: product schema category differs from the canonical Enterprise identity`
+            );
+          if (node.description !== product.shortDescription)
+            fail(`${route}: product schema description differs from the canonical definition`);
+          if (node.disambiguatingDescription !== product.notAnErp)
+            fail(`${route}: product schema ERP disambiguation differs from the canonical answer`);
+        }
+        if (
+          node["@type"] === "WebPage" &&
+          node["@id"] === `${canonical}#webpage` &&
+          node.about?.["@id"] === `${SITE}/#software`
+        )
+          linkedWebPage = true;
       }
     } catch (error) {
       fail(`${route}: JSON-LD does not parse (${String(error)})`);
@@ -191,6 +216,8 @@ for (const route of CRITICAL) {
     if (/"@type":\s*"Offer"/.test(json) && /"price"/.test(json))
       fail(`${route}: JSON-LD carries a priced Offer`);
   }
+  if (productNodes !== 1)
+    fail(`${route}: expected one canonical SoftwareApplication node, found ${productNodes}`);
   const graph = blocks.map((b) => b[1]).join("\n");
   for (const id of [`${SITE}/#org`, `${SITE}/#website`, `${SITE}/#software`]) {
     if (!graph.includes(`"@id":"${id}"`)) fail(`${route}: root entity ${id} missing from JSON-LD`);
@@ -202,6 +229,28 @@ for (const route of CRITICAL) {
   for (const hit of findStaleClaims(text))
     fail(`${route}: stale claim ${hit.pattern} (${hit.reason})`);
   const visibleText = normaliseText(text.replace(/<[^>]*>/g, " "));
+  if (route === "/what-is-squarecampus" && !visibleText.includes(product.shortDescription))
+    fail(`${route}: canonical product definition is absent from visible text`);
+  const board = route.match(/^\/school-management-software-for-(cbse|icse)-schools$/)?.[1];
+  if (board) {
+    const title = normaliseText(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "");
+    const heading = normaliseText(
+      (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "").replace(/<[^>]*>/g, " ")
+    );
+    for (const [label, value] of [
+      ["title", title],
+      ["H1", heading],
+    ]) {
+      if (
+        !/school management (system|software)/i.test(value) ||
+        !value.toLowerCase().includes(board)
+      )
+        fail(`${route}: ${label} is missing its board-specific school-management query`);
+    }
+    if (!linkedWebPage) fail(`${route}: WebPage schema is not linked to the canonical product`);
+    if (!visibleText.includes(product.categoryRelationship))
+      fail(`${route}: visible search answer omits the canonical product relationship`);
+  }
   const expectedFaqs = faqSources[route];
   if (expectedFaqs) {
     const expected = expectedFaqs.map((faq) => ({
@@ -245,8 +294,19 @@ for (const route of CRITICAL) {
     }
     if (!html.includes(`href="${launchPilot.enquiryHref}"`))
       fail("/pricing: launch-pilot enquiry CTA missing");
+    if (/\bPro\b/.test(visibleText)) fail("/pricing: the public pro plan name must be Growth");
+    for (const text of [corePlatform.promise, "Automatically recommend a plan", "Purchase-year fixed subtotal", "Annual subscription estimate excluding additional usage", "One School OS. Open by design.", "Data & Events API", "₹2,500/year", "₹5,000/year", "₹10,000/year", "250 TPM", "500 TPM", "2,000 TPM"])
+      if (!visibleText.includes(normaliseText(text))) fail(`/pricing: missing calculator contract: ${text}`);
+    for (const slab of pricingPolicy.studentSlabs)
+      for (const amount of Object.values(slab.ratesPaise))
+        if (!visibleText.includes(`₹${amount / 100}`)) fail(`/pricing: missing published student rate ${amount}`);
   }
 }
+
+const exportedPricingPolicy = join(OUT, "pricing-policy.json");
+if (!existsSync(exportedPricingPolicy)) fail("/pricing-policy.json: missing canonical public policy export");
+else if (JSON.stringify(JSON.parse(readFileSync(exportedPricingPolicy, "utf8"))) !== JSON.stringify(pricingPolicy))
+  fail("/pricing-policy.json: public response differs from the calculator's canonical policy");
 
 // --- every HTML page: describedby pointer and resolvable Markdown alternate ---
 function walkHtml(dir: string, out: string[] = []): string[] {
@@ -303,7 +363,7 @@ for (const route of markdownAlternatePaths) {
   // in table headers, or a heading marker with no text.
   for (const [pattern, reason] of [
     [/\[[^\]\n]*\]\s*(?:\n|$)/m, "link text without a target"],
-    [/\*\* \*\*|\*\*\s+\*\*/, "empty emphasis"],
+    [emptyEmphasisPattern, "empty emphasis"],
     [/\| \d{2}[A-Z]/, "ordinal fused into a table header"],
     [/^#{1,6}\s*$/m, "heading marker with no text"],
     [/\S \*\*$/m, "space before closing emphasis"],
@@ -344,7 +404,6 @@ for (const route of markdownAlternatePaths) {
     fail("/pricing: a retention pointer does not carry the shared wording");
   if (!pricing.includes(`href="${retentionPointer.href}"`))
     fail(`/pricing: retention pointer does not link to ${retentionPointer.href}`);
-
 }
 
 // --- report -----------------------------------------------------------------

@@ -13,6 +13,7 @@ import {
 import { BrandLogo } from "./brand-logo";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { MobileExpand } from "@fairhelm/ui/components/mobile-expand";
+import { ResponsiveDisclosure } from "@fairhelm/ui/components/responsive-disclosure";
 import { SourceLink } from "./source-link";
 
 const socialIconPaths: Record<(typeof socialLinks)[number]["icon"], string> = {
@@ -51,7 +52,7 @@ function DisclosureField({ label, children }: { label: string; children: ReactNo
  */
 function CompanyDisclosure() {
   return (
-    <address className="grid gap-6 not-italic py-6 sm:grid-cols-[1.7fr_1fr]">
+    <address className="company-disclosure grid gap-6 not-italic py-6 sm:grid-cols-[1.7fr_1fr]">
       {/* Contact sits directly under the registered office: both answer
           "where do I reach the company", so they read as one block. */}
       <div className="flex flex-col gap-6">
@@ -94,7 +95,7 @@ function CompanyDisclosure() {
 
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-[color:var(--line)] px-4 pb-10 pt-16 sm:px-6 lg:px-8 lg:pt-20">
+    <footer className="squarecampus-footer relative overflow-hidden border-t border-[color:var(--line)] px-4 pb-10 pt-16 sm:px-6 lg:px-8 lg:pt-20">
       <FooterBackground />
 
       <div className="relative z-10 mx-auto max-w-6xl">
@@ -105,6 +106,7 @@ export function SiteFooter() {
         <div className="grid gap-8 border-b border-[color:var(--line)] pb-8 sm:gap-10 sm:pb-10 lg:grid-cols-[1fr_1.95fr] lg:gap-12">
           <div className="space-y-5">
             <BrandLogo subtitle="One login. One timeline. One truth." />
+            <ResponsiveDisclosure label="Contact and social links" className="footer-contact-options">
             <div className="flex flex-wrap items-center gap-2">
               <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} variant="secondary" />
               <ButtonLink href={siteCtas.loginHref} label="Sign in" external variant="ghost" />
@@ -140,6 +142,7 @@ export function SiteFooter() {
                 </a>
               ))}
             </div>
+            </ResponsiveDisclosure>
           </div>
 
           <MobileExpand label="Explore all pages" title="All pages">
@@ -180,7 +183,7 @@ export function SiteFooter() {
         <CompanyDisclosure />
 
         <div className="flex flex-col gap-4 border-t border-[color:var(--line)] pt-6 text-sm text-[color:var(--muted-foreground)] sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
+          <div className="hidden space-y-1 sm:block">
             <p className="text-xs text-[color:var(--muted-foreground)]">Built with ❤️ in Bharath</p>
             <p>For institutions that cannot afford operational drift.</p>
           </div>

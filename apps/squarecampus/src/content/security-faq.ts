@@ -37,7 +37,7 @@ export const securityFaqs = [
     answer: identity.sso.body,
   },
   {
-    question: "What identity options does Enterprise add?",
+    question: "What identity governance is available?",
     answer: identity.enterprise.body,
   },
   {

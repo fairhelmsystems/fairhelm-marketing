@@ -1,6 +1,7 @@
 import type { ElementType, ReactNode } from "react";
 import { cn } from "@fairhelm/ui/lib/utils";
 import { SectionHeader } from "@fairhelm/ui/components/marketing";
+import { ResponsiveDisclosure } from "@fairhelm/ui/components/responsive-disclosure";
 
 interface SectionShellProps {
   id?: string;
@@ -23,6 +24,8 @@ interface SectionShellProps {
   children: ReactNode;
   className?: string;
   contentClassName?: string;
+  /** Phone summary for a whole secondary section; full content remains in one DOM tree. */
+  mobileDisclosure?: string;
 }
 
 export function SectionShell({
@@ -38,25 +41,39 @@ export function SectionShell({
   children,
   className,
   contentClassName,
+  mobileDisclosure,
 }: SectionShellProps) {
+  const content = (
+    <>
+      <SectionHeader
+        eyebrow={eyebrow}
+        eyebrowPlacement={eyebrowPlacement}
+        title={title}
+        as={as}
+        size={titleSize}
+        body={body}
+        align={align}
+        className="mb-6 sm:mb-10 lg:mb-14"
+        bodyClassName={cn(compactBody && "hidden sm:block")}
+      />
+      <div className={contentClassName}>{children}</div>
+    </>
+  );
   return (
     <section
       id={id}
-      className={cn("relative px-4 py-9 sm:px-6 sm:py-16 lg:px-8 lg:py-24", className)}
+      className={cn(
+        "relative px-4 py-9 sm:px-6 sm:py-16 lg:px-8 lg:py-24",
+        mobileDisclosure && "responsive-section",
+        className
+      )}
     >
       <div className="mx-auto max-w-6xl">
-        <SectionHeader
-          eyebrow={eyebrow}
-          eyebrowPlacement={eyebrowPlacement}
-          title={title}
-          as={as}
-          size={titleSize}
-          body={body}
-          align={align}
-          className="mb-6 sm:mb-10 lg:mb-14"
-          bodyClassName={cn(compactBody && "hidden sm:block")}
-        />
-        <div className={contentClassName}>{children}</div>
+        {mobileDisclosure ? (
+          <ResponsiveDisclosure label={mobileDisclosure}>{content}</ResponsiveDisclosure>
+        ) : (
+          content
+        )}
       </div>
     </section>
   );

@@ -10,8 +10,7 @@
 
 import { multiCampusContrast, product } from "./commercial";
 
-export const CANONICAL_DEFINITION =
-  "SquareCampus is a School Operating System and institutional decision layer for schools, educational trusts and multi-campus groups in India. It includes the operational systems of record institutions expect, but its primary purpose is to connect recurring school cycles to ownership, exception handling, auditability and leadership decisions.";
+export const CANONICAL_DEFINITION = product.shortDescription;
 
 /**
  * The four layers the platform is organised around.
@@ -56,7 +55,7 @@ export const systemLayers = [
       "Trust and campus hierarchy",
       "Approval and governance chains",
       "Audit history and advanced audit exports",
-      "Institutional identity: SquareCampus-managed sign-in, separately quoted Microsoft Entra ID single sign-on across plans, identity governance under Enterprise",
+      "Institutional identity: SquareCampus-managed sign-in and core governance on every plan, with optional annually billed Microsoft Entra ID single sign-on from Growth",
     ],
   },
   {
@@ -113,7 +112,7 @@ export const aegisBoundaries = [
  */
 export const glossary = [
   {
-    term: "School Operating System (School OS)",
+    term: "Enterprise School Operating System (School OS)",
     definition:
       "The connected backbone an institution runs on. It holds the records a school expects, and it also carries the workflows, ownership, approvals, exceptions and audit history that turn those records into accountable day-to-day operations. The distinction from an ERP is factual: every cycle has stages, an owner and a deadline; every exception is routed to a named desk; every override is recorded with a reason.",
   },
@@ -147,6 +146,19 @@ export const glossary = [
 export { multiCampusContrast };
 
 export const entityFaqs = [
+  {
+    question: "What is SquareCampus?",
+    answer: product.shortDescription,
+  },
+  {
+    question: "What makes SquareCampus an Enterprise School OS?",
+    answer:
+      "SquareCampus connects institutional records, accountable workflows, role-based access, approval chains, audit history and leadership visibility across campuses. Enterprise School OS describes the product's operating model. Starter, Growth and Enterprise share the same generally available feature eligibility, including governance and identity capabilities. Plans differ in included allowances and migration services; bespoke work and unavailable functionality require confirmation.",
+  },
+  {
+    question: "What does minus the enterprise pain mean?",
+    answer: product.positioningSupport,
+  },
   {
     question: "Is SquareCampus an ERP?",
     answer: `No. ${product.notAnErp} "School OS" describes how it is built: school cycles, ownership, exceptions, governance and leadership visibility share one institutional model.`,

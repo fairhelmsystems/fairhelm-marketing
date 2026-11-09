@@ -1,0 +1,87 @@
+{
+  "pricingVersion": "2026-11-09.8",
+  "currency": "INR",
+  "amountUnit": "paise",
+  "annualLicence": [
+    {
+      "students": 100,
+      "starter": 1750000,
+      "pro": 2250000,
+      "enterprise": 3500000
+    },
+    {
+      "students": 1000,
+      "starter": 17500000,
+      "pro": 22500000,
+      "enterprise": 35000000
+    },
+    {
+      "students": 1001,
+      "starter": 17515000,
+      "pro": 22519000,
+      "enterprise": 35025000
+    },
+    {
+      "students": 1200,
+      "starter": 20500000,
+      "pro": 26300000,
+      "enterprise": 40000000
+    },
+    {
+      "students": 5000,
+      "starter": 77500000,
+      "pro": 98500000,
+      "enterprise": 135000000
+    },
+    {
+      "students": 5001,
+      "starter": 77511000,
+      "pro": 98515000,
+      "enterprise": 135020000
+    },
+    {
+      "students": 10000,
+      "starter": 132500000,
+      "pro": 173500000,
+      "enterprise": 235000000
+    },
+    {
+      "students": 5000000,
+      "starter": 55022500000,
+      "pro": 75023500000,
+      "enterprise": 100035000000
+    }
+  ],
+  "enterpriseWithNewBrandingAndSso": {
+    "students": 1200,
+    "firstYearFixedPaise": 42500000,
+    "renewalFixedPaise": 40000000,
+    "monthlyCommunicationCredits": 1200
+  },
+  "syntheticDataEventsApi": {
+    "isSyntheticTestOnly": true,
+    "annualDataEventsApiPaise": {
+      "starter": 1234500,
+      "pro": 1234500,
+      "enterprise": 1234500
+    },
+    "slidingWindows": {
+      "starter": {
+        "requests": 10,
+        "windowSeconds": 60
+      },
+      "pro": {
+        "requests": 20,
+        "windowSeconds": 60
+      },
+      "enterprise": {
+        "requests": 30,
+        "windowSeconds": 60
+      }
+    },
+    "enterprise1200WithNewBrandingAndSso": {
+      "purchaseYearKnownPaise": 43734500,
+      "comparableRenewalKnownPaise": 41234500
+    }
+  }
+}

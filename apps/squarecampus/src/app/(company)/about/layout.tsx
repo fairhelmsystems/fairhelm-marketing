@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { product } from "@/content/commercial";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "About SquareCampus | Building the Operating System for Indian Education",
-  description:
-    "SquareCampus is a School Operating System for schools, educational trusts and multi-campus groups in India, built by Fairhelm Systems (OPC) Private Limited. Founder-led, focused on connected operations, governance and accountability.",
+  title: "About SquareCampus | Enterprise School OS for India",
+  description: `SquareCampus is an ${product.category} for Indian schools and trusts, developed and operated by Fairhelm Systems. Meet the founder-led team.`,
   path: "/about",
   ogImage: "https://squarecampus.com/og/about.png",
-  ogTitle: "About SquareCampus | The Team Behind the School OS",
+  ogTitle: "About SquareCampus | The Team Behind the Enterprise School OS",
   ogDescription:
     "Meet the team building operational infrastructure for Indian education: one governed system of record for admissions, academics, finance, and compliance.",
   twitterDescription:
-    "Building operational infrastructure for Indian schools and colleges. Founder-led, product-first, and focused on institutional operating command.",
+    "The team behind SquareCampus's Enterprise School OS for Indian schools and trusts. Founder-led and focused on institutional operating command.",
 });
 
 type AboutLayoutProps = {

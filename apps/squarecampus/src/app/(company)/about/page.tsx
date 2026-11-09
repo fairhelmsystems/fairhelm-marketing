@@ -1,12 +1,12 @@
-import { Activity, Compass, Landmark, ShieldCheck, Sparkles, Target } from "lucide-react";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
-import { PageSchema } from "@/components/site/page-schema";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
 import { Reveal } from "@fairhelm/ui/components/reveal";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
+import { Activity, Compass, Landmark, ShieldCheck, Sparkles, Target } from "lucide-react";
+import { PageSchema } from "@/components/site/page-schema";
 import { product } from "@/content/commercial";
 import { company } from "@/content/company";
 import { ctaLabels, siteCtas } from "@/content/site-content";
-import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 const values = [
   {
@@ -77,7 +77,7 @@ export default function AboutPage() {
     <main tabIndex={-1} id="main-content">
       <PageSchema
         name="About SquareCampus"
-        description="SquareCampus is built by Fairhelm Systems OPC for Indian schools, school groups and education trusts that need one governed operating system."
+        description={`${product.shortDescription} Developed and operated by ${company.legalNameDisplay}.`}
         path="/about"
       />
 
@@ -89,9 +89,10 @@ export default function AboutPage() {
             </h1>
             <p className="max-w-xl text-lg leading-8 text-muted-foreground">
               <LeadIn>{"About SquareCampus"}</LeadIn>
-              SquareCampus is built by {company.legalNameDisplay}, in Bangalore. It exists to put
-              admissions, academics, fees and communication on one record, with a clear owner for
-              every exception — for standalone schools, school groups and education trusts.
+              SquareCampus is an {product.category}, built by {company.legalNameDisplay} in
+              Bangalore. It connects admissions, academics, fees and communication on one record,
+              with a clear owner for every exception, for standalone schools, school groups and
+              education trusts.
             </p>
             <div className="flex flex-wrap gap-3">
               <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} />

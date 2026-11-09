@@ -9,22 +9,22 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "SquareCampus Pricing | School OS Plans for Schools and Trusts",
+  title: "SquareCampus Pricing | Annual INR Plans & Calculator",
   description:
-    "Explore Starter, Pro and Enterprise plans for SquareCampus. Every plan includes the generally available core platform and multi-campus operations. Review optional enhancements and the selected 90-day complimentary launch pilot.",
+    "Calculate SquareCampus pricing in INR. Compare annual Starter, Growth and Enterprise subscriptions, progressive student rates, shared features and optional services.",
   path: "/pricing",
   ogImage: "https://squarecampus.com/og/pricing.png",
-  ogTitle: "SquareCampus Pricing | Plans for Schools, Trusts and Multi-Campus Groups",
+  ogTitle: "Your school. Your scale. Your price. | SquareCampus",
   ogDescription:
-    "Annual institutional licensing calculated through student-volume bands and shaped by the plan chosen (Starter, Pro or Enterprise), governance needs and deployment. Tailored proposal after institutional discovery.",
+    "Public annual INR rates, progressive student slabs and a live estimate. Every generally available feature is eligible on every plan. Additional usage and GST are separate.",
 });
 
 /**
  * Structured data for /pricing.
  *
- * Deliberately NO Product/Offer schema: this page publishes no prices, and
- * emitting an Offer without a real price (or with an invented one) would be
- * both an SEO error and a commercial claim the order form does not support.
+ * The page describes a progressive schedule, not a universal institutional
+ * checkout amount. FAQ answers and the downloadable policy expose the real
+ * pricing basis without inventing a fixed all-in Offer price.
  *
  * The FAQPage entries are generated from the same `pricingFaqs` array the page
  * renders, so the markup and the visible answers are guaranteed identical.
@@ -33,9 +33,9 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     createWebPageSchema({
-      name: "SquareCampus Pricing | School OS Plans for Schools and Trusts",
+      name: "SquareCampus Pricing | Annual INR Plans & Calculator",
       description:
-        "How SquareCampus is licensed: annual institutional licensing calculated through student-volume bands and shaped by the plan chosen (Starter, Pro or Enterprise), governance needs and deployment profile.",
+        "Public annual INR pricing for Starter, Growth and Enterprise. A deterministic calculator applies progressive student slabs and separates recurring services, one-time branding, GST and additional usage.",
       url: `${SEO_CONFIG.baseUrl}/pricing`,
     }),
     createBreadcrumbSchema([

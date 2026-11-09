@@ -56,7 +56,7 @@ test("comparison preserves equal core, security, ownership and consumption discl
   assert.match(html, /aria-label="Plan comparison, scroll horizontally on smaller screens"/);
 });
 
-test("enhancements identify their commercial treatment without numeric offers", () => {
+test("enhancements disclose approved fixed prices and keep custom services separately scoped", () => {
   const html = renderToStaticMarkup(createElement(ScopedCostGrid));
   for (const item of optionalEnhancements) {
     assert.ok(html.includes(item.name));
@@ -66,10 +66,13 @@ test("enhancements identify their commercial treatment without numeric offers", 
   assert.match(html, /usage charges/);
   assert.match(html, /professional services/);
   assert.match(html, /require confirmation|requirement|confirmed/);
-  assert.doesNotMatch(html, /₹|\bINR\b|unlimited ordinary-use/);
+  assert.match(html, /₹2,500/);
+  assert.match(html, /₹25,000/);
+  assert.doesNotMatch(html, /unlimited ordinary-use/);
   for (const row of identity.byPlan.filter((item) => /Entra ID/.test(item.capability))) {
-    for (const plan of plans)
-      assert.match(row[plan.id], /Available separately.*technical onboarding/);
+    assert.equal(row.starter, row.pro);
+    assert.match(row.pro, /Optional.*technical onboarding/);
+    assert.match(row.enterprise, /Optional, included/);
   }
 });
 

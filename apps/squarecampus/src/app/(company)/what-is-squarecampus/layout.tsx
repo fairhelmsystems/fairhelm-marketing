@@ -9,21 +9,18 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "What is SquareCampus? | School Operating System and Decision Layer",
-  description:
-    "SquareCampus is a School Operating System and institutional decision layer for Indian schools and educational trusts, connecting school cycles to ownership, exceptions, auditability and leadership decisions.",
+  title: "What is SquareCampus? | Enterprise School OS",
+  description: CANONICAL_DEFINITION,
   path: "/what-is-squarecampus",
   ogImage: "https://squarecampus.com/og/what-is-squarecampus.png",
-  ogTitle: "What is SquareCampus? | School Operating System for Schools and Trusts",
-  ogDescription:
-    "A system of record stores what happened. A decision layer shows what requires attention, why it matters, who owns it, and what happens next.",
+  ogTitle: "What is SquareCampus? | Enterprise School OS",
+  ogDescription: CANONICAL_DEFINITION,
 });
 
 /**
  * This route is the canonical entity answer for "what is SquareCampus". The
  * `DefinedTerm` node states the category explicitly so search engines and
- * language models resolve the brand to School Operating System rather than to
- * ERP software.
+ * language models can resolve the brand to its Enterprise School OS category.
  *
  * The FAQPage entries are generated from the same `entityFaqs` array the page
  * renders, so the markup and the visible answers cannot drift apart.
@@ -32,7 +29,7 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     createWebPageSchema({
-      name: "What is SquareCampus? | School Operating System and Decision Layer",
+      name: "What is SquareCampus? | Enterprise School OS",
       description: CANONICAL_DEFINITION,
       url: `${SEO_CONFIG.baseUrl}/what-is-squarecampus`,
     }),

@@ -89,7 +89,7 @@ export const comparisons: Comparison[] = [
       {
         dimension: "Pricing",
         squarecampus:
-          "Model published: annual licence on student-volume bands, modules and standard apps included; figures by written proposal after discovery.",
+          "Public annual INR rates and progressive student slabs, with a live calculator. Every generally available feature and standard staff, parent and student apps are included. Additional usage and optional services are separate.",
         competitor: "Not publicly listed; quote on request.",
       },
       {
@@ -248,7 +248,7 @@ export const comparisons: Comparison[] = [
       {
         dimension: "Pricing",
         squarecampus:
-          "Model published: annual licence on student-volume bands, modules and standard apps included; figures by written proposal after discovery.",
+          "Public annual INR rates and progressive student slabs, with a live calculator. Every generally available feature and standard staff, parent and student apps are included. Additional usage and optional services are separate.",
         competitor: "Quote-based.",
       },
       {

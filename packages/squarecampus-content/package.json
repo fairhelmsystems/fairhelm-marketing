@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "exports": {
+    "./aic-cost": "./src/aic-cost.ts",
+    "./pricing": "./src/pricing.ts",
+    "./pricing-policy.json": "./src/pricing-policy.json",
+    "./pricing-fixtures.json": "./src/pricing-fixtures.json",
     "./commercial": "./src/commercial.ts",
     "./company": "./src/company.ts",
     "./blog/posts": "./src/blog/posts.ts",

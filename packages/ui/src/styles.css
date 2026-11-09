@@ -1106,3 +1106,75 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* Secondary sections stay inline on wide screens and use one native phone disclosure. */
+.responsive-disclosure > summary {
+  min-height: 2.75rem;
+  padding-block: 0.875rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.responsive-disclosure[data-inline="true"] > summary { display: none; }
+.responsive-disclosure > summary:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+.info-popover {
+  min-width: 0;
+}
+.info-popover-trigger {
+  anchor-name: var(--info-popover-anchor);
+  min-height: 2.75rem;
+  height: auto;
+  padding-inline: 0;
+  white-space: nowrap;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.info-popover-trigger:focus-visible,
+.info-popover-panel button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  transition: none;
+}
+.info-popover-panel {
+  width: min(28rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 1.5rem;
+  overflow: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: var(--shadow-3);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.info-popover-panel p + p {
+  margin-top: 1rem;
+}
+.info-popover-panel > button:last-child {
+  margin-top: 1rem;
+}
+@supports (top: anchor(bottom)) {
+  @media (min-width: 40rem) and (min-height: 44rem) {
+    .info-popover-panel {
+      position-anchor: var(--info-popover-anchor);
+      position-try-fallbacks: flip-block, flip-inline;
+      inset: anchor(bottom) auto auto anchor(left);
+      margin: 0.5rem 0 0;
+    }
+  }
+}
+.responsive-disclosure[open]:not([data-inline="true"]) > [data-md-include] { padding-block: 1rem; }
+@media (max-width: 39.99rem) {
+  .responsive-section { padding-block: 0.25rem; }
+  .responsive-section .responsive-disclosure > summary { border-top: 1px solid var(--line-strong); }
+}
+
+@media print {
+  .info-popover-trigger,
+  .info-popover-panel {
+    display: none !important;
+  }
+}

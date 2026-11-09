@@ -129,7 +129,7 @@ export const intentPages: IntentPage[] = [
       "Modules, apps and languages for your rollout are confirmed in writing in your proposal.",
       "Board-specific report formats and fee rules are set up as configuration during implementation.",
       "Integrations with tools you keep are scoped work with stated prerequisites; nothing connects automatically.",
-      "Data migration is included from Pro (quoted on Starter) and validated in a parallel run before the old system is retired.",
+      "Data migration is included from Growth (quoted on Starter) and validated in a parallel run before the old system is retired.",
     ],
     faqs: [
       {
@@ -144,7 +144,7 @@ export const intentPages: IntentPage[] = [
       {
         question: "How is pricing structured?",
         answer:
-          "One annual institutional licence calculated on student-volume bands, with the platform's modules and the standard parent and staff mobile apps included. The model is published on the pricing page; figures are issued in a written proposal after discovery, implementation and support are included, and custom integrations are scoped as their own lines.",
+          "One annual institutional licence calculated on published progressive student slabs, with every generally available feature and the standard staff, parent and student apps included. Calculate annual INR prices on the pricing page. Implementation and support are included; custom integrations and additional usage are separate.",
       },
       {
         question: "What does implementation involve?",
@@ -239,7 +239,7 @@ export const intentPages: IntentPage[] = [
       "Fee heads, instalments, concessions and late-fee rules are configured from your current structure during implementation.",
       "Payments run through your institution's own gateway account; SquareCampus never handles the money, and gateway fees are between you and the gateway.",
       "Connections to accounting software are scoped integration work, assessed per package; there is no pre-built connector.",
-      "Historical dues and receipts are migrated from Pro and validated in a parallel run; anything the old records cannot support is flagged before go-live.",
+      "Historical dues and receipts are migrated from Growth and validated in a parallel run; anything the old records cannot support is flagged before go-live.",
     ],
     faqs: [
       {
@@ -582,11 +582,10 @@ export const intentPages: IntentPage[] = [
   {
     slug: "school-management-software-for-cbse-schools",
     keyword: "School management software for CBSE schools",
-    metaTitle: "School Management Software for CBSE Schools",
-    metaDescription:
-      "School management software for CBSE schools: grading templates, attendance registers, report formats and the records CBSE affiliation and inspections expect.",
-    h1: "Built around the CBSE calendar, not adapted to it.",
-    lede: "A CBSE school runs on the board's rhythm: registration, internal assessment, term reports, board exam records and the documentation an affiliation inspection asks for. SquareCampus carries those formats and cycles as configuration, so the office is not maintaining them in spreadsheets on the side. ICSE and state-board schools run on the same platform with their own configuration.",
+    metaTitle: "School Management System for CBSE Schools | SquareCampus",
+    metaDescription: `School management software for CBSE schools. SquareCampus is an ${product.category} for assessments, fees and campus oversight.`,
+    h1: "School management system for CBSE schools.",
+    lede: `SquareCampus is an ${product.category} for CBSE schools and trusts. Internal assessment, term reports, board-registration records and attendance share one institutional record, with academic configuration per class and session. ICSE and state-board campuses can use their own configuration within the same trust. Your proposal confirms available workflows and rollout scope.`,
     audience: [
       "CBSE school principals",
       "Examination in-charges",
@@ -878,11 +877,10 @@ export const intentPages: IntentPage[] = [
   {
     slug: "school-management-software-for-icse-schools",
     keyword: "School management software for ICSE schools",
-    metaTitle: "School Management Software for ICSE Schools",
-    metaDescription:
-      "School management software for ICSE and ISC schools: CISCE-aligned assessment, internal marks, report cards, registers and the records affiliation expects.",
-    h1: "Configured for CISCE, from internal assessment to ISC.",
-    lede: "ICSE and ISC schools carry a heavier internal-assessment load than most boards, with project work, practicals and continuous evaluation feeding the final record. SquareCampus holds the CISCE structure as configuration, so marks, moderation and report cards follow the board's shape without a spreadsheet beside them.",
+    metaTitle: "School Management System for ICSE Schools | SquareCampus",
+    metaDescription: `School management software for ICSE and ISC schools. SquareCampus is an ${product.category} for internal assessment, records and oversight.`,
+    h1: "School management system for ICSE schools.",
+    lede: `SquareCampus is an ${product.category} for ICSE and ISC schools. Internal assessment, project work, practical marks and written papers share one record, with CISCE-aligned formats configured per class and session. Workflow availability and deployment scope are confirmed in your proposal.`,
     audience: [
       "ICSE school principals",
       "Examination in-charges",

@@ -23,6 +23,7 @@ import { blogPosts } from "./blog/posts";
 import {
   availability,
   corePlatform,
+  dataEventsApi,
   dataPortability,
   deploymentSummary,
   foundingProgramme,
@@ -85,7 +86,7 @@ export const llmsSections: LlmsSection[] = [
       {
         path: "/pricing",
         title: "Pricing",
-        description: `How the licence is structured (${pricingAvailability.model.replace(/\.$/, "").replace(/^One/, "one")}), what is included versus separately scoped, what Enterprise adds beyond ERP modules, identity options by plan, and who it is not the right fit for. ${pricingAvailability.short}`,
+        description: `${pricingAvailability.short} A live estimator separates recurring services, one-time branding and additional usage. All plans share generally available feature access.`,
       },
       {
         path: "/enterprise",
@@ -103,7 +104,7 @@ export const llmsSections: LlmsSection[] = [
         path: "/security",
         title: "Security and identity",
         description:
-          "Design posture for encryption, role-based access, auditability and India-first hosting; sign-in options by plan and why authorisation stays inside SquareCampus. Documentation is shared through the security review process",
+          "Design posture for encryption, role-based access, auditability and India-first hosting; all-plan sign-in eligibility and why authorisation stays inside SquareCampus. Documentation is shared through the security review process",
       },
       {
         path: "/rollout",
@@ -333,11 +334,12 @@ export function llmsOrientation(): string[] {
     `- Plans: ${planHierarchy.map((p) => `${p.name} — ${p.summary}`).join(" ")}`,
     `- Core platform: ${corePlatform.included} ${corePlatform.multiCampus}`,
     `- Security baseline: ${securityBaseline}`,
-    `- Data ownership: ${dataPortability} ${retentionPointer.text}`,
+    `- Data ownership: ${dataPortability}`,
+    `- Data & Events API: ${dataEventsApi.overview}`,
     `- Launch pilot: ${launchPilot.pricing} ${launchPilot.geography}`,
     `- Pricing availability: ${pricingAvailability.short}`,
     `- Retention: ${retentionPointer.text}`,
-    `- Identity: ${identity.baseline.body} ${identity.sso.body} ${identity.enterprise.body} ${identity.notes[0]}`,
+    `- Identity: ${identity.baseline.body} ${identity.sso.body} Generally available identity governance has equal plan eligibility. ${identity.notes[0]}`,
     `- ${foundingProgramme.name}: ${foundingProgramme.positionsStatement}`,
     `- Deployment: a bounded deployment can run alongside the institution's current ERP, LMS, payment portal and identity provider, which stay authoritative; consolidation is a later choice and never a precondition of starting.`,
     `- Evidence: ${product.evidenceNote} Product screenshots use synthetic data and are labelled as such.`,

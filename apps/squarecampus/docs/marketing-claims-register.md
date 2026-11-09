@@ -1,8 +1,6 @@
 # Marketing Claims Register
 
-Last updated: 2026-10-22 (core-platform packaging, multi-campus entitlements,
-separately quoted Starter Entra SSO, selected 90-day complimentary launch pilot,
-data portability and programme separation). The current commercial source is
+Last updated: 2026-11-09 (public rates, Growth display name, all-plan feature eligibility and explicit draft usage policies). The current commercial source is
 `src/content/commercial.ts`; dated earlier decisions below are superseded where
 explicitly identified by this alignment pass.
 
@@ -15,6 +13,16 @@ Every security, infrastructure, AI, rollout, customer, and compliance claim that
 - **NEEDS LEGAL REVIEW** — commitment or legal statement that counsel must sign off.
 - **REMOVE** — removed from the site in this change; must not return (enforced by
   `scripts/check-claims.sh`, which runs on every build).
+
+## Current pricing policy, 9 November 2026
+
+The owner’s Pricing Studio brief supersedes the proposal-only rate-card decision and earlier plan-exclusive feature positioning. The canonical public schedule is `packages/squarecampus-content/src/pricing-policy.json`. Growth is the display name of the stable `pro` identifier.
+
+Every generally available feature has equal plan eligibility, including multi-campus operations, governance, analytics, integrations and AEGIS. Optional Entra SSO integration/maintenance and combined Android/iOS branding follow the same published terms on all plans. Security and authorisation checks retain their independent purpose. Availability qualifications continue to exclude preview or unimplemented functionality.
+
+The 150/250 AIC figures are explicitly draft tenant-wide monthly pools. Starter zero AIC remains proposed. AIC denomination, retail top-ups, expiry, WhatsApp category weights, quantitative depth entitlements, business tax configuration and white-label publisher/store/maintenance scope remain unresolved. Missing tariffs never imply free usage.
+
+This checkout contains marketing source and calculation references. Product feature enforcement and the billing ledger must be reviewed in their owning product repository before publishing the revised commercial promise. Pure arithmetic tests establish no production entitlement or wallet behaviour. The dated historical entries below are superseded where they conflict with this section. See `docs/pricing-studio.md` for the complete calculation and integration contract.
 
 ## Customer, ranking, and testimonial claims
 
@@ -98,7 +106,7 @@ Every security, infrastructure, AI, rollout, customer, and compliance claim that
 | Mobile apps for parents/students (iOS + Android) included | faq.ts, comparisons | **NEEDS BACKEND EVIDENCE** (product capability; verify app-store presence before strengthening) |
 | Pre-built integrations (payment gateways, government portals), REST APIs, webhooks | faq.ts, /services | **NEEDS BACKEND EVIDENCE** |
 | "Headcount-based" / "student + staff" pricing, "implementation and training included" | /school-management-system, comparisons, intent pages, blog (old) | **REMOVE** (contradicted /pricing/: the licence is on active enrolled students in volume bands and implementation is scoped separately; both phrases are forbidden by `check-claims.sh`) |
-| "No prices are published" / "no figures are published" | llms.txt, plan matrix, sitemap comment (old) | **REMOVE** as wording (replaced by `pricingAvailability.short` in `content/commercial.ts`: the model is published, figures follow a written proposal after discovery). **Public rate cards are intentionally out of scope** (decision 2026-09-10): this is deliberate enterprise positioning, not an incomplete page. No surface may imply that public numeric pricing is expected or missing, and no figure may be added. |
+| "No prices are published" / "no figures are published" | llms.txt, plan matrix, sitemap comment (old) | **REMOVE** as wording (replaced by `pricingAvailability.short` in `content/commercial.ts`: the model is published, figures follow a written proposal after discovery). **SUPERSEDED 2026-11-09** by the owner-approved public INR schedule and Pricing Studio calculator. The earlier decision of 2026-09-10 is historical. New numerical facts derive from the canonical policy; undecided usage tariffs remain unpublished. |
 | Included vs separately scoped (licence covers plan capability, standard apps, self-serve reporting, implementation and support in every plan, a monthly usage allowance; data migration from Pro. Quoted: Starter migration, custom integrations/engineering, fixed-format documents made for one institution, private/on-prem deployment, a custom SLA, usage beyond the allowance) | /pricing, /faq, /school-management-system, llms.txt | **NEEDS LEGAL REVIEW** (commercial policy; must match the proposal and order form). Inclusions **confirmed by the owner on 2026-09-30** (`commercialScope` in `content/commercial.ts`), including: no premium or paid implementation tier, the same rollout for everyone (no paid fast track), designed to need little or no training |
 | Data migration included in Pro and Enterprise, best effort: gaps in the old system's data are flagged before go-live, never guaranteed complete | /pricing, /faq, /rollout, intent pages, comparisons | **VERIFIED** as owner policy (2026-09-30); **NEEDS LEGAL REVIEW** so the order form states the same limit. `check-claims.sh` blocks "nothing is lost" / "zero data loss" |
 | Monthly allowance for SMS, WhatsApp, storage (and AEGIS where included); usage beyond it prepaid, "never a bill after the fact"; "the proposal you sign is the bill you get" | /pricing, /faq | **VERIFIED** as owner policy (2026-09-30); **NEEDS LEGAL REVIEW** (the order form must carry prepaid top-ups and no post-paid usage). Allowance sizes and rates are never published |
@@ -341,3 +349,65 @@ that an unreleased product capability is available.
 - Existing legal retention wording and publication gates remain unchanged. Historical
   deployment receipts from the saved patch were excluded because this integration
   cannot establish that they describe the current live deployment.
+
+## 9 November 2026, Data & Events API addendum v2
+
+The owner's v2 addendum supersedes earlier free external API baselines, capacity packs,
+per-request pricing and standalone paid-webhook directions. The current implementation
+contained discovery-scoped API copy, which now identifies the planned Data & Events API.
+
+- One optional fixed annual institutional fee applies to Starter, Growth and Enterprise.
+  Its amount is unconfigured. All three plans have the same supported resource and event
+  eligibility. Sliding-window throughput differs by plan, with numerical limits unconfigured.
+- Authorized self-service exports of supported datasets and retained audit records are
+  included. Native workflows, standard and branded apps, internal service traffic and
+  required provider callbacks are independent of the external API purchase and quota.
+- The release status is **planned**. The marketing checkout supplies no verified deployed
+  external resource catalogue, event-history service or live streaming service.
+- Throttling creates no automatic API overage charge, credit debit or forced upgrade.
+  Entra SSO is optional and independent of integration credentials.
+- Public estimates record API interest as an explicitly unpriced component. The API fee
+  recurs in both purchase-year and comparable renewal figures when configured. A valid
+  existing branding entitlement carries across ordinary renewal and plan changes.
+- Policy `2026-11-09.2` retains the student rates, minimum enrolment, SSO price, combined
+  branding charge and draft AIC/communication rules. Earlier shared estimates are marked
+  stale. Their historical commercial terms are governed by their original records.
+
+Backend acceptance specifications and dependency order are in `docs/data-events-api.md`.
+
+### Subsequent 9 November enrolment ceiling
+
+The owner set a maximum of 50 lakh enrolled students for this calculator. Policy
+`2026-11-09.3` admits 50,00,000 and rejects larger counts. Numeric editing, slider
+expansion, shared estimates and exact-price tests use that same bound. This is a
+calculator boundary; throughput and deployment capacity follow their own approved
+policies.
+
+### Subsequent 9 November API pricing and activation approval
+
+The owner approved ₹2,500/year and 250 TPM on Starter, ₹5,000/year and 500 TPM on Growth, and ₹10,000/year and 2,000 TPM on Enterprise. The owner explicitly confirmed that the API is ready for activation. This supersedes the earlier single unconfigured annual price and planned status above. Policy `2026-11-09.4` publishes the approved per-plan amounts and limits.
+
+TPM is represented as external API transactions/requests in a sliding 60-second window, consistent with the existing request-based contract. The supported catalogue is shared across plans. All three annual fees exclude GST. Stream/query bounds, replay retention and mid-term terms still need configuration. The marketing calculator adds the chosen plan’s API fee once to both purchase-year and comparable renewal totals. It preserves manual selection and reports unmet or unassessed throughput. Backend enforcement remains in its owning workstream.
+
+### Subsequent 9 November SSO and white-label eligibility
+
+The owner restricted optional Microsoft Entra SSO and white-label Android/iOS apps to Growth and Enterprise. This supersedes earlier statements that those add-ons were available on Starter. Their approved prices remain ₹2,500/year for Entra integration and maintenance, and ₹25,000 once for combined app branding. API access retains equal plan eligibility.
+
+Policy `2026-11-09.5` applies eligibility in the shared estimator and automatic recommendation. Manual incompatible selections retain user inputs and show a correction, with enquiry, sharing and printing blocked. Public comparison rows, FAQs, identity descriptions and machine-readable content use the same eligibility. Existing branding is not purchased again on an eligible renewal or plan change.
+
+### Catalogue v3 AIC revision, 9 November 2026
+
+The owner supplied the commercial catalogue v3 Markdown and JSON as an incremental AIC update. Six fixed prepaid packs now cover 1,000 through 2,50,000 AIC, with unit rates from ₹5 to ₹1 and a minimum ₹5,000 purchase. The ₹1 rate is specific to the ₹2,50,000 bulk pack. All packs have equal plan eligibility. Monthly included credits expire, purchased credits carry, and the inherited 0/150/250 institution-wide allocation remains explicitly conditional.
+
+Customer debiting now uses accepted, versioned operation tariffs, with the supported 10-AIC cap. Provider cost telemetry is separate. The exact workflow tariff map, purchased validity/cancellation terms and actual checkout status remain unconfigured. Public UI creates estimates and hypothetical pack suggestions. It activates no purchases.
+
+The attachment’s older all-plan SSO/branding and unconfigured uniform API defaults were not imported. The user’s current Growth/Enterprise add-on eligibility and approved plan-specific API prices and 60-second limits were preserved. See `aic-catalogue-v3.md` for implementation evidence and unexecuted backend acceptance work.
+
+
+## 9 November 2026, graduated AIC and optional Enterprise SSO
+
+The owner approved replacing fixed prepaid AIC packs with custom whole-credit purchases and graduated rates under policy `2026-11-09.8`, catalogue `2026-11-09.v4`. The existing minimum is 1,000 AIC. Marginal bands are ₹5 through 5,000, ₹4 through 10,000, ₹3 through 50,000, ₹2 through 1,00,000, ₹1.50 through 2,50,000 and ₹1 thereafter. Discounts apply only to credits within each band of the same purchase.
+
+The owner also approved optional Microsoft Entra SSO on every plan. Starter and Growth cost ₹2,500/year when selected. Enterprise includes SSO in its annual licence, with no price difference when activation is declined. This supersedes the earlier Growth/Enterprise SSO eligibility restriction. White-label app eligibility retains its existing separate policy. Institution-owned Microsoft licences, tenant configuration and technical onboarding still apply.
+
+The former GHE pricing page was inspected for positioning context. Current Enterprise copy highlights its real included SSO, migration and draft AI allowance. Generally available core features remain eligible on every plan.

@@ -49,6 +49,7 @@
         "react-dom": "catalog:",
       },
       "devDependencies": {
+        "@fairhelm/squarecampus-content": "workspace:*",
         "@fairhelm/typescript-config": "workspace:*",
         "@tailwindcss/postcss": "catalog:",
         "@types/bun": "^1.3.0",
@@ -161,6 +162,7 @@
       "version": "0.1.0",
       "dependencies": {
         "@fairhelm/config": "workspace:*",
+        "@fairhelm/squarecampus-content": "workspace:*",
       },
       "devDependencies": {
         "@fairhelm/typescript-config": "workspace:*",

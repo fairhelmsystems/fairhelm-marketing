@@ -1,3 +1,8 @@
+import { ResponsiveDisclosure } from "@fairhelm/ui/components/responsive-disclosure";
+import { ButtonLink } from "@fairhelm/ui/components/button-link";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
+import { Reveal } from "@fairhelm/ui/components/reveal";
+import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import {
   ArrowRightLeft,
   BellRing,
@@ -16,23 +21,19 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import { AvailabilityNote } from "@/components/site/availability-note";
-import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { PlatformMockupRow } from "@/components/site/mockups";
 import { MotionFigure } from "@/components/site/motion-figure";
 import { PageSchema } from "@/components/site/page-schema";
-import { Reveal } from "@fairhelm/ui/components/reveal";
-import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { SystemLayerGrid } from "@/components/site/system-layers";
 import { WorkflowCards } from "@/components/site/workflow-cards";
 import { motionAssets } from "@/content/motion-assets";
 import { ctaLabels, siteCtas } from "@/content/site-content";
 import { createPageMetadata } from "@/lib/seo";
-import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "School Management Platform",
+  title: "Enterprise School OS Platform",
   description:
-    "The SquareCampus school management platform: admissions, attendance, fees, exams and parent communication as connected workflows on one record, and the four layers underneath.",
+    "Explore SquareCampus's Enterprise School OS. School workflows share one institutional record, with ownership, approvals, governance and audit history.",
   path: "/platform",
   ogImage: "https://squarecampus.com/og/platform.png",
 });
@@ -113,18 +114,18 @@ export default function PlatformPage() {
   return (
     <main tabIndex={-1} id="main-content">
       <PageSchema
-        name="School Management Platform"
-        description="The SquareCampus school management platform: connected workflows for admissions, attendance, fees, exams and communication, the four layers underneath, and the shared core behind every surface."
+        name="SquareCampus Enterprise School OS Platform"
+        description="The SquareCampus Enterprise School OS connects admissions, attendance, fees, exams and communication through four layers of record, workflow, governance and intelligence."
         path="/platform"
       />
 
-      <SectionShell className="pt-12 sm:pt-16">
+      <SectionShell className="key-page-hero pt-12 sm:pt-16">
         <Reveal immediate className="mx-auto max-w-3xl space-y-6 text-center">
           <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-6xl">
             Every school workflow on one shared record.
           </h1>
           <p className="mx-auto max-w-xl text-lg leading-8 text-muted-foreground">
-            <LeadIn>{"School management platform"}</LeadIn>
+            <LeadIn>{"Enterprise School OS"}</LeadIn>
             Admissions, attendance, fees, exams and parent communication run as connected workflows.
             What staff do in one reaches the others without re-typing, and every step has an owner.
           </p>
@@ -134,11 +135,11 @@ export default function PlatformPage() {
           </div>
         </Reveal>
 
-        <Reveal delay={120} className="mt-14">
+<ResponsiveDisclosure label="Preview the platform" className="hero-visual-disclosure">        <Reveal delay={120} className="mt-14">
           <PlatformMockupRow />
-        </Reveal>
+        </Reveal></ResponsiveDisclosure>
 
-        <Reveal delay={200} className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+<ResponsiveDisclosure label="Platform foundations" className="hero-visual-disclosure">        <Reveal delay={200} className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {operatingClaims.map((item) => (
             <div
               key={item}
@@ -147,12 +148,12 @@ export default function PlatformPage() {
               {item}
             </div>
           ))}
-        </Reveal>
+        </Reveal></ResponsiveDisclosure>
       </SectionShell>
 
       {/* Workflows first (audit SC-011): what staff do and what they get,
           before the architecture that makes it possible. */}
-      <SectionShell
+      <SectionShell mobileDisclosure="School workflows"
         id="workflows"
         eyebrow="Supported workflows"
         title="What staff do, and what they get"
@@ -165,7 +166,7 @@ export default function PlatformPage() {
       {/* The four layers, outcome first. This replaces the old domain-area
           grid so the page is organised by what each layer changes about the
           institution, not by which modules exist. */}
-      <SectionShell
+      <SectionShell mobileDisclosure="Records, workflows and governance"
         id="layers"
         eyebrow="Underneath the workflows"
         title="Four layers make the workflows connect"
@@ -176,7 +177,7 @@ export default function PlatformPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Operating domains"
         eyebrow="Operating domains"
         title="The cycles the backbone has to carry"
         body="The school cycles each record passes through, from first enquiry to fees, results and campus services."
@@ -196,7 +197,7 @@ export default function PlatformPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="The shared platform core"
         eyebrow="Shared core"
         title="The system underneath the UI matters"
         body="Every surface works from one identity, data and workflow core, so a change made once reaches the rest without an export, a sync job or a second copy of the record."
@@ -225,7 +226,7 @@ export default function PlatformPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell
+      <SectionShell mobileDisclosure="Apps for every audience"
         eyebrow="Product surfaces"
         title="Designed for the people who actually run the institution"
         body="SquareCampus is not just an admin layer. Each audience gets a purpose-built surface, but the institution still runs on one connected operational model."
@@ -250,7 +251,7 @@ export default function PlatformPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell className="pb-22">
+      <SectionShell className="key-page-close pb-22">
         <Reveal className="surface-panel-strong rounded-4xl p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
             <div>

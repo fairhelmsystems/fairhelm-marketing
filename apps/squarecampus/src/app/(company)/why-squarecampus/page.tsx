@@ -1,3 +1,7 @@
+import { ButtonLink } from "@fairhelm/ui/components/button-link";
+import { LeadIn } from "@fairhelm/ui/components/marketing";
+import { Reveal } from "@fairhelm/ui/components/reveal";
+import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import {
   ArrowRightLeft,
   CircleCheckBig,
@@ -9,13 +13,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { FactTable } from "@/components/site/fact-table";
 import { PageSchema } from "@/components/site/page-schema";
-import { Reveal } from "@fairhelm/ui/components/reveal";
-import { SectionShell } from "@fairhelm/ui/components/section-shell";
+import { product } from "@/content/commercial";
 import { ctaLabels, siteCtas } from "@/content/site-content";
-import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 /**
  * Evaluation criteria instead of blanket "traditional ERP vs us" claims
@@ -91,8 +92,8 @@ export default function WhyDifferentPage() {
   return (
     <main tabIndex={-1} id="main-content">
       <PageSchema
-        name="Why SquareCampus"
-        description="Why institutions choose a School Operating System over a conventional school ERP: ownership, exception handling, auditability and leadership visibility."
+        name="Why SquareCampus Enterprise School OS"
+        description={product.categoryRelationship}
         path="/why-squarecampus"
       />
 
@@ -103,9 +104,7 @@ export default function WhyDifferentPage() {
           </h1>
           <p className="max-w-3xl text-lg leading-8 text-[color:var(--muted-foreground)]">
             <LeadIn>{"Why SquareCampus"}</LeadIn>
-            SquareCampus is school management software built as a connected School OS. Admissions,
-            academics, fees and communication share one record, and the approvals, owners and audit
-            history that connect them sit on that record too.
+            {product.categoryRelationship}
           </p>
           <div className="flex flex-wrap gap-3">
             <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} />

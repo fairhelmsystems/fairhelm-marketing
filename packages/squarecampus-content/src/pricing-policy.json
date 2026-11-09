@@ -1,0 +1,179 @@
+{
+  "version": "2026-11-09.8",
+  "currency": "INR",
+  "billingPeriod": "annual",
+  "deployment": "standard_managed_cloud",
+  "studentSlabs": [
+    {
+      "upTo": 1000,
+      "ratesPaise": {
+        "starter": 17500,
+        "pro": 22500,
+        "enterprise": 35000
+      }
+    },
+    {
+      "upTo": 5000,
+      "ratesPaise": {
+        "starter": 15000,
+        "pro": 19000,
+        "enterprise": 25000
+      }
+    },
+    {
+      "upTo": null,
+      "ratesPaise": {
+        "starter": 11000,
+        "pro": 15000,
+        "enterprise": 20000
+      }
+    }
+  ],
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "monthlyIncludedMilliAic": 0
+    },
+    "pro": {
+      "name": "Growth",
+      "monthlyIncludedMilliAic": 150000
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "monthlyIncludedMilliAic": 250000
+    }
+  },
+  "addOns": {
+    "entraSsoAnnualPaise": {
+      "starter": 250000,
+      "pro": 250000,
+      "enterprise": 0
+    },
+    "entraSsoEligiblePlans": [
+      "starter",
+      "pro",
+      "enterprise"
+    ],
+    "annualDataEventsApiPaise": {
+      "starter": 250000,
+      "pro": 500000,
+      "enterprise": 1000000
+    },
+    "whiteLabelAndroidAndIosOncePaise": 2500000,
+    "whiteLabelEligiblePlans": [
+      "pro",
+      "enterprise"
+    ]
+  },
+  "dataEventsApi": {
+    "releaseStatus": "available",
+    "eligiblePlans": [
+      "starter",
+      "pro",
+      "enterprise"
+    ],
+    "catalogue": "same_supported_resources_and_events",
+    "rateLimitAlgorithm": "sliding_window",
+    "rateLimitScope": "billed_institution",
+    "slidingWindows": {
+      "starter": {
+        "requests": 250,
+        "windowSeconds": 60
+      },
+      "pro": {
+        "requests": 500,
+        "windowSeconds": 60
+      },
+      "enterprise": {
+        "requests": 2000,
+        "windowSeconds": 60
+      }
+    },
+    "streamAndQueryLimits": null,
+    "replayRetention": null,
+    "midTermAndRenewalTerms": null,
+    "automaticOverageCharges": false,
+    "authorizedSelfServiceExportsIncluded": true,
+    "nativeClientsRequireApiAddOn": false
+  },
+  "communication": {
+    "monthlyCreditsPerStudent": 1,
+    "subcreditsPerCredit": 3,
+    "smsRecipientSegmentSubcredits": 3,
+    "recipientEmailSubcredits": 1,
+    "purchasedCreditPaise": 25,
+    "includedRollover": false,
+    "purchasedBalanceCarriesForward": true,
+    "whatsappWeightsSubcredits": {}
+  },
+  "aic": {
+    "allocationMode": "tenant_monthly_pool",
+    "allowancesApproved": false,
+    "allowanceStatus": "draft_pool_interpretation_and_proposed_starter_zero",
+    "staffMultiplierEnabled": false,
+    "includedRollover": false,
+    "purchasedExpiryPolicy": null,
+    "catalogueVersion": "2026-11-09.v4",
+    "eligiblePlans": [
+      "starter",
+      "pro",
+      "enterprise"
+    ],
+    "purchaseType": "one_time_prepaid",
+    "purchasedBalanceCarriesForward": true,
+    "cancellationRefundTransferPolicy": null,
+    "checkoutStatus": null,
+    "operationTariffVersion": null,
+    "operationTariffs": null,
+    "routineOperationMilliAic": {
+      "minimum": 1000,
+      "maximum": 3000
+    },
+    "maximumOperationMilliAic": 10000,
+    "customerChargeMethod": "accepted_versioned_operation_quote",
+    "purchasePricing": "graduated_per_purchase",
+    "minimumPurchaseCredits": 1000,
+    "volumeBands": [
+      {
+        "upTo": 5000,
+        "unitPricePaise": 500
+      },
+      {
+        "upTo": 10000,
+        "unitPricePaise": 400
+      },
+      {
+        "upTo": 50000,
+        "unitPricePaise": 300
+      },
+      {
+        "upTo": 100000,
+        "unitPricePaise": 200
+      },
+      {
+        "upTo": 250000,
+        "unitPricePaise": 150
+      },
+      {
+        "upTo": null,
+        "unitPricePaise": 100
+      }
+    ]
+  },
+  "tax": {
+    "basisPoints": 1800,
+    "rounding": "half_up_per_line",
+    "scope": "domestic_estimate",
+    "pricesExcludeGst": true
+  },
+  "validation": {
+    "maxStudents": 5000000,
+    "maxMonthlyQuantity": 1000000000,
+    "minStudents": 100
+  },
+  "whiteLabel": {
+    "publisherAccountScope": "fairhelm_systems",
+    "storeFeeScope": null,
+    "maintenanceScope": null
+  }
+}

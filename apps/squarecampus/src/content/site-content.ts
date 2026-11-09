@@ -97,7 +97,7 @@ export const primaryNavigation: readonly (NavGroup | NavLink)[] = [
       {
         href: "/pricing/#plans",
         label: "Plans & comparison",
-        description: "Starter, Pro and Enterprise",
+        description: "Starter, Growth and Enterprise",
       },
       {
         href: "/pricing/#model",

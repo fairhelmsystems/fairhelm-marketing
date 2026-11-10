@@ -286,3 +286,10 @@ Policy `2026-11-10.2` supersedes `2026-11-10.1` on the owner's direction. Enterp
 Renewal rates are sent in writing at least 30 days before the renewal date and confirmed on a renewal order form. On-premises deployment is removed from public copy; private deployment on AWS or in a private cloud stays a scoped service, and running inside the institution's own cloud account is not offered. Draft wording ("proposed", "pending", "require confirmation") is removed from the public page. The pricing page now shows what the Enterprise premium buys in rupees at 1,200 students (`enterprise-value.tsx`), derived from the rate card and valued at list rates. At that enrolment Enterprise costs ₹1,37,000 more than Growth and includes ₹1,43,300 of first-year list-rate value and ₹1,18,300 of recurring list-rate value, conditional on using the additional pools. The first-year figure includes ₹25,000 of one-time branding value. Optional API fees are quoted separately.
 
 Future generally available standard features are included in every plan at the existing licence entitlement. PTM is an illustrative future feature. Its release carries no feature fee, compulsory upgrade or feature-based licence repricing. The versioned `featureAccess` policy and shared FAQs encode this rule. Contracted-term rates and the minimum 30-day renewal notice are separately represented in `renewal`.
+
+
+## 2026-11-10 plan-summary refinement
+
+Policy `2026-11-10.3` supersedes `.2` to include institution-specific custom AEGIS dashboards in Enterprise. Requirements and delivery scope are agreed during onboarding, with no separate dashboard setup charge. Analytical operations use the AIC wallet. Standard analytics and self-service reporting retain equal plan eligibility.
+
+Plan summaries show price, purpose and labelled monthly allowances. Optional Entra SSO has an inclusion badge on Enterprise, independent of the selected-plan state. Full inclusions appear once in the comparison table. Scope, monthly-pool and retention notes share an aligned layout below it.

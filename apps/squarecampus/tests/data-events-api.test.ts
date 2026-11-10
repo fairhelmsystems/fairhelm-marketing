@@ -89,7 +89,7 @@ const unconfiguredApi: DataEventsApiPricing = {
 };
 
 test("the public API policy keeps price, limits and release state explicit", () => {
-  assert.equal(pricingPolicy.version, "2026-11-10.2");
+  assert.equal(pricingPolicy.version, "2026-11-10.3");
   assert.deepEqual(publicDataEventsApiPricing.annualDataEventsApiPaise, {
     starter: 250000,
     pro: 500000,

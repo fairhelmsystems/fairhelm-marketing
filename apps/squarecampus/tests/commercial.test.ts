@@ -7,6 +7,7 @@ import {
   commercialScope,
   mobileAppPublishing,
   planHierarchy,
+  planComparisonRows,
   pricingAvailability,
   product,
 } from "../src/content/commercial";
@@ -74,8 +75,10 @@ test("stable plan identifiers expose Growth and equal generally available featur
   assert.match(planHierarchy[2].summary, /governance/i);
   assert.equal(planHierarchy[1].name, "Growth");
   assert.match(corePlatform.promise, /No module or feature is gated/);
-  assert.deepEqual(plans[0].capabilities, plans[1].capabilities);
-  assert.deepEqual(plans[1].capabilities, plans[2].capabilities);
+  const core = planComparisonRows.find((row) => row.label === "Operational scope");
+  assert.ok(core);
+  assert.equal(core.starter, core.pro);
+  assert.equal(core.pro, core.enterprise);
   assert.ok(enterpriseBeyondModules.length >= 5);
   assert.match(corePlatform.differentiation, /same generally available/);
 });
@@ -183,7 +186,7 @@ test("the GST FAQ names the invoicing entity and its GSTIN", () => {
 });
 
 test("future standard features share every plan's licence without feature-based repricing", () => {
-  assert.equal(pricingPolicy.version, "2026-11-10.2");
+  assert.equal(pricingPolicy.version, "2026-11-10.3");
   assert.deepEqual(pricingPolicy.featureAccess.eligiblePlans, ["starter", "pro", "enterprise"]);
   assert.equal(pricingPolicy.featureAccess.futureFeaturesIncluded, true);
   assert.equal(pricingPolicy.featureAccess.featureAdditionSurchargePaise, 0);
@@ -211,4 +214,17 @@ test("finance onboarding has explicit plan entitlements and institution-owned se
   assert.match(commercialScope.paymentGateway, /Settlement goes to the institution’s bank account/);
   assert.ok(pricingFaqs.some((faq) => faq.answer === commercialScope.tallyExport));
   assert.ok(pricingFaqs.some((faq) => faq.answer === commercialScope.paymentGateway));
+});
+
+
+test("custom AEGIS dashboards are an included Enterprise service", () => {
+  assert.deepEqual(pricingPolicy.includedServices.customAegisDashboardPlans, ["enterprise"]);
+  assert.match(commercialScope.customAegisDashboards, /included in Enterprise/);
+  assert.match(commercialScope.customAegisDashboards, /agreed during onboarding/);
+  assert.match(commercialScope.customAegisDashboards, /AIC wallet/);
+  const row = planComparisonRows.find((item) => item.label === "Custom AEGIS dashboards");
+  assert.ok(row);
+  assert.equal(row.enterprise, commercialScope.customAegisDashboards);
+  assert.equal(pricingFaqs.find((faq) => faq.question === "Are custom AEGIS dashboards included?")?.answer, row.enterprise);
+  assert.doesNotMatch(planHierarchy[2].summary, /optional custom|scoped and quoted/);
 });

@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-10.2",
+  "version": "2026-11-10.3",
   "currency": "INR",
   "billingPeriod": "annual",
   "deployment": "standard_managed_cloud",
@@ -206,6 +206,9 @@
     "institutionOwnedRazorpaySetupPlans": [
       "starter",
       "pro",
+      "enterprise"
+    ],
+    "customAegisDashboardPlans": [
       "enterprise"
     ]
   }

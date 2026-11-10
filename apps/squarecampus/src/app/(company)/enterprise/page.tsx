@@ -165,6 +165,7 @@ export default function EnterprisePage() {
             <p className="type-support mt-4">{corePlatform.multiCampus}</p>
             <p className="type-support mt-4">{corePlatform.futureFeatures}</p>
             <p className="type-support mt-4">{commercialScope.implementation}</p>
+            <p className="type-support mt-4">{commercialScope.customAegisDashboards}</p>
             <p className="type-support mt-4">{commercialScope.tallyExport}</p>
             <p className="type-support mt-4">{commercialScope.paymentGateway}</p>
           </FeaturePanel>

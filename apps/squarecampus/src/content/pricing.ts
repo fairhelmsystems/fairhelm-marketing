@@ -30,25 +30,14 @@ export type { PlanId } from "./commercial";
 export type Plan = {
   id: PlanId;
   name: string;
-  capabilities: readonly string[];
   suitedFor: string;
   cta: { label: string; href: string };
 };
-
-const commonCapabilities = [
-  "Every generally available SquareCampus module and feature",
-  "Multi-campus operations, governance and role-scoped workflows",
-  "Analytics, self-serve reporting and supported data exports",
-  "Standard apps for staff, parents and students",
-  "AEGIS access with separately accounted AI consumption",
-  "Standard implementation and support",
-] as const;
 
 export const plans: readonly Plan[] = planHierarchy.map((plan) => ({
   id: plan.id,
   name: plan.name,
   suitedFor: plan.suitedFor,
-  capabilities: commonCapabilities,
   cta: { label: `Discuss ${plan.name}`, href: "/demo/" },
 }));
 
@@ -65,8 +54,6 @@ export const enterpriseForSmallerInstitutions = {
   counterNote:
     "Campus count, institutional identity and governance requirements do not force an upgrade. Unavailable or preview functionality and bespoke engineering require a confirmed scope.",
 } as const;
-
-export const SCOPE_NOTE = `${corePlatform.multiCampus} ${corePlatform.availability}`;
 
 /**
  * What the licence already covers, drawn from `pricingAvailability.included`
@@ -138,6 +125,7 @@ export const WHITE_LABEL_NOTE = `White-label Android and iOS branding is include
  * data cannot drift apart.
  */
 export const pricingFaqs = [
+  { question: "Are custom AEGIS dashboards included?", answer: commercialScope.customAegisDashboards },
   { question: "Is Tally export setup included?", answer: commercialScope.tallyExport },
   { question: "Who receives fee payments?", answer: commercialScope.paymentGateway },
   { question: "Which Indian fee rules are supported?", answer: commercialScope.indianFeeOperations },
@@ -171,7 +159,7 @@ export const pricingFaqs = [
   },
   {
     question: "What does Enterprise add beyond ordinary ERP modules?",
-    answer: `Nothing is locked behind Enterprise: every plan has the same generally available features, including governance, analytics and multi-campus operations. Enterprise adds a larger included AIC pool (${aicPerMonth("enterprise")} against ${aicPerMonth("pro")} AIC a month on Growth), more shared communication credits (${creditsPerStudent.enterprise} against ${creditsPerStudent.pro} per student a month), white-label Android and iOS apps and Entra SSO included in the licence, the option of custom AEGIS dashboards scoped and quoted for your institution, and a higher Data & Events API limit (${apiRpm.enterprise.requests.toLocaleString("en-IN")} against ${apiRpm.pro.requests.toLocaleString("en-IN")} requests per minute). Migration is included in Growth too. Custom services remain separately scoped. ${dataPortability}`,
+    answer: `Nothing is locked behind Enterprise: every plan has the same generally available features, including governance, analytics and multi-campus operations. Enterprise adds a larger included AIC pool (${aicPerMonth("enterprise")} against ${aicPerMonth("pro")} AIC a month on Growth), more shared communication credits (${creditsPerStudent.enterprise} against ${creditsPerStudent.pro} per student a month), white-label Android and iOS apps and Entra SSO included in the licence, included institution-specific custom AEGIS dashboards, and a higher Data & Events API limit (${apiRpm.enterprise.requests.toLocaleString("en-IN")} against ${apiRpm.pro.requests.toLocaleString("en-IN")} requests per minute). Migration is included in Growth too. Custom services remain separately scoped. ${dataPortability}`,
   },
   {
     question: "Is SquareCampus appropriate if we only need attendance and fees?",

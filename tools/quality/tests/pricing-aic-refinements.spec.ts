@@ -349,3 +349,56 @@ test("Enterprise includes branding and presents conditional first-year and recur
   await page.keyboard.press("Escape");
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
 });
+
+test("plan summaries separate selection from included SSO and align their facts", async ({
+  page,
+}, info) => {
+  await page.goto(`${origin}/pricing/`);
+  if ((page.viewportSize()?.width ?? 0) < 640)
+    await page.getByText("Compare the three plans", { exact: true }).click();
+  const bands = page.locator(".pricing-plan");
+  await expect(bands).toHaveCount(3);
+  await expect(bands.locator("details")).toHaveCount(0);
+  await expect(bands.locator(".pricing-plan-selected")).toHaveCount(1);
+  const enterprise = page.locator("#plan-enterprise");
+  const badge = enterprise.locator('[data-slot="badge"]');
+  await expect(badge).toHaveText("SSO included");
+  await expect(enterprise).toHaveAttribute("data-selected", "false");
+  await enterprise.getByRole("button", { name: "Choose Enterprise", exact: true }).click();
+  await expect(enterprise).toHaveAttribute("data-selected", "true");
+  await expect(enterprise.locator(".pricing-plan-selected")).toHaveText("Selected");
+  await expect(badge).toHaveText("SSO included");
+  await expect(bands.locator(".pricing-plan-facts dt")).toHaveCount(9);
+  if ((page.viewportSize()?.width ?? 0) < 640)
+    await page.getByText("Plan inclusions", { exact: true }).click();
+  const matrix = page.locator("#model");
+  const dashboard = matrix.getByRole("row").filter({ hasText: "Custom AEGIS dashboards" });
+  await expect(dashboard).toContainText("included in Enterprise");
+  await expect(dashboard).not.toContainText("scoped and quoted");
+  const noteSections = matrix.locator(".pricing-plan-notes > section");
+  await expect(noteSections).toHaveCount(2);
+  for (const section of await noteSections.all()) await expect(section).toBeVisible();
+  if ((page.viewportSize()?.width ?? 0) >= 1024) {
+    for (const selector of [
+      ".pricing-plan-cost",
+      ".pricing-plan-purpose",
+      ".pricing-plan-facts",
+      "button",
+    ]) {
+      const tops = await bands
+        .locator(selector)
+        .evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().top));
+      expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(2);
+    }
+    const notes = await noteSections.evaluateAll((elements) =>
+      elements.map((element) => element.getBoundingClientRect().top)
+    );
+    expect(Math.abs(notes[0] - notes[1])).toBeLessThan(2);
+  }
+  await page.evaluate(() => {
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  });
+  await page.screenshot({ path: info.outputPath("plans-and-notes-expanded.png"), fullPage: true });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+});

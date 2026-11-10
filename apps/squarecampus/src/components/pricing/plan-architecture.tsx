@@ -7,6 +7,7 @@ import {
 } from "@fairhelm/squarecampus-content/pricing";
 import { Button } from "@fairhelm/ui/components/button";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
+import { Badge } from "@fairhelm/ui/components/badge";
 import { planIcons } from "@/components/pricing/plan-icons";
 import type { PlanId } from "@/content/commercial";
 import { plans } from "@/content/pricing";
@@ -43,56 +44,58 @@ export function PlanArchitecture({
                 {plan.name}
               </h3>
               {selectedPlan === plan.id ? (
-                <span>Selected</span>
-              ) : plan.id === "enterprise" ? (
-                <span>SSO included</span>
+                <span className="pricing-plan-selected">Selected</span>
               ) : null}
             </div>
-            <p className="pricing-plan-price">
-              {licence ? formatInr(licence.annualLicencePaise) : "Enter a valid count"}
-            </p>
-            <p className="type-support">
-              {licence && students
-                ? `${formatInrRatio(licence.annualLicencePaise, students)} per student/year. Billed annually.`
-                : "Annual licence, excluding GST."}
-            </p>
-            <p className="type-support">
-              {(
-                Math.max(0, students ?? 0) *
-                pricingPolicy.communication.monthlyCreditsPerStudent[plan.id]
-              ).toLocaleString("en-IN")}{" "}
-              communication credits/month
-            </p>
-            <p className="pricing-plan-pool">
-              {plan.id === "starter"
-                ? "No included AIC; buy prepaid AIC"
-                : `${formatAic(pricingPolicy.plans[plan.id].monthlyIncludedMilliAic)} AIC/month`}
-            </p>
-            <p className="type-support pricing-plan-sso">
-              {plan.id === "enterprise"
-                ? "Microsoft Entra SSO included. Activate it if your institution needs it."
-                : `Optional Microsoft Entra SSO ${formatInr(pricingPolicy.addOns.entraSsoAnnualPaise[plan.id])}/year.`}
-            </p>
-            <p className="type-support">{plan.suitedFor}</p>
-            {projection && (
-              <div className="type-support" data-testid={`projection-${plan.id}`}>
-                <p>
-                  Purchase-year estimate{" "}
-                  <strong>
+            <div className="pricing-plan-cost">
+              <p className="pricing-plan-price">
+                {licence ? formatInr(licence.annualLicencePaise) : "Enter a valid count"}
+              </p>
+              <p className="type-support">
+                {licence && students
+                  ? `${formatInrRatio(licence.annualLicencePaise, students)} per student/year. Billed annually.`
+                  : "Annual licence, excluding GST."}
+              </p>
+            </div>
+            <p className="type-support pricing-plan-purpose">{plan.suitedFor}</p>
+            <dl className="pricing-plan-facts">
+              <div>
+                <dt>AIC each month</dt>
+                <dd>{formatAic(pricingPolicy.plans[plan.id].monthlyIncludedMilliAic)}</dd>
+              </div>
+              <div>
+                <dt>Communication credits/month</dt>
+                <dd>
+                  {students === null
+                    ? "—"
+                    : (
+                        students * pricingPolicy.communication.monthlyCreditsPerStudent[plan.id]
+                      ).toLocaleString("en-IN")}
+                </dd>
+              </div>
+              <div>
+                <dt>Optional Entra SSO</dt>
+                <dd>
+                  {plan.id === "enterprise" ? (
+                    <Badge variant="secondary">SSO included</Badge>
+                  ) : (
+                    `${formatInr(pricingPolicy.addOns.entraSsoAnnualPaise[plan.id])}/year`
+                  )}
+                </dd>
+              </div>
+              {projection && (
+                <div data-testid={`projection-${plan.id}`}>
+                  <dt>Purchase-year estimate</dt>
+                  <dd>
                     {!projection.fixed.eligible
                       ? "Selected services unavailable"
                       : projection.firstYearExpectedPaise === null
                         ? "Incomplete price"
                         : formatInr(projection.firstYearExpectedPaise)}
-                  </strong>
-                </p>
-              </div>
-            )}
-            <p className="type-support pricing-plan-scope">
-              {plan.id === "starter"
-                ? "No included AIC. Migration is separately quoted."
-                : "Shared tenant AI pool. Migration and Tally-ready export setup included."}
-            </p>
+                  </dd>
+                </div>
+              )}
+            </dl>
             {onSelect ? (
               <Button
                 type="button"
@@ -105,16 +108,6 @@ export function PlanArchitecture({
             ) : (
               <ButtonLink href={plan.cta.href} label={plan.cta.label} variant="secondary" />
             )}
-            <details data-md-include>
-              <summary>Included in {plan.name}</summary>
-              <section aria-label={`${plan.name} plan details`}>
-                <ul>
-                  {plan.capabilities.map((capability) => (
-                    <li key={capability}>{capability}</li>
-                  ))}
-                </ul>
-              </section>
-            </details>
           </article>
         );
       })}

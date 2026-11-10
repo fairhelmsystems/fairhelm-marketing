@@ -24,13 +24,22 @@ import { assert, suite, test } from "./harness";
 
 suite("packaging and launch-pilot regression");
 
-test("each rendered plan lists the same capabilities, and the core entitlement is stated once in the matrix", () => {
-  const html = renderToStaticMarkup(createElement(PlanArchitecture));
+test("plan summaries use labelled allowances and keep full inclusions in the matrix", () => {
+  const html = renderToStaticMarkup(createElement(PlanArchitecture, { selectedPlan: "starter" }));
+  assert.doesNotMatch(html, /<details|Included in (Starter|Growth|Enterprise)/);
+  assert.equal(html.split('class="pricing-plan-selected"').length - 1, 1);
   for (const plan of plans) {
-    const band =
-      html.split(`aria-label="${plan.name} plan details"`)[1]?.split("</section>")[0] ?? "";
-    for (const capability of plan.capabilities) assert.ok(band.includes(capability), plan.id);
+    const band = html.split(`id="plan-${plan.id}"`)[1]?.split("</article>")[0] ?? "";
+    assert.ok(band.includes(plan.suitedFor), plan.id);
+    assert.match(band, /<dl class="pricing-plan-facts"/);
+    for (const label of ["AIC each month", "Communication credits/month", "Optional Entra SSO"])
+      assert.ok(band.includes(label), `${plan.id} ${label}`);
     assert.ok(!band.includes(corePlatform.included), `${plan.id} must not repeat the shared note`);
+    if (plan.id === "enterprise") {
+      assert.match(band, /data-slot="badge"/);
+      assert.match(band, /SSO included/);
+      assert.doesNotMatch(band, /pricing-plan-selected/);
+    }
   }
 });
 
@@ -149,4 +158,5 @@ test("Enterprise value distinguishes first-time branding from recurring allowanc
   assert.match(html, /optional Data.*Events API/);
   assert.match(html, /4,000/);
   assert.match(html, /One-time setup included/);
+  assert.match(html.replace(/<[^>]*>/g, "").replace(/\s+/g, " "), /RPM\. Institution-specific/);
 });

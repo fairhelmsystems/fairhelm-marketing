@@ -497,7 +497,7 @@ test("customer charges come from accepted quotes independently of internal spend
 });
 
 test("Enterprise packaging quotes use a new policy version", () => {
-  assert.equal(pricingPolicy.version, "2026-11-10.2");
+  assert.equal(pricingPolicy.version, "2026-11-10.3");
   assert.throws(
     () => calculateFixedEstimate("enterprise", 1200, noAddOns, "2026-11-10.1"),
     /Unsupported pricing version/

@@ -294,7 +294,7 @@ export const planHierarchy = [
     summary:
       "Every generally available feature, multi-campus operations, implementation and support, with the lowest annual subscription.",
     suitedFor:
-      "Institutions starting with the lowest fixed commitment and choosing additional usage as needed.",
+      "A lower fixed commitment, with prepaid usage as you need it.",
   },
   {
     id: "pro",
@@ -302,15 +302,15 @@ export const planHierarchy = [
     summary:
       `Every generally available feature, with included migration, Tally-ready export setup and a tenant-wide monthly pool of ${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
     suitedFor:
-      "Institutions comparing included migration and AI consumption against their expected use.",
+      "Included migration and Tally-ready exports for a smoother finance handoff.",
   },
   {
     id: "enterprise",
     name: "Enterprise",
     summary:
-      `Every generally available feature, including institutional governance, with white-label apps, Entra SSO and Tally-ready export setup included, optional custom dashboards and a tenant-wide monthly pool of ${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
+      `Every generally available feature, including institutional governance, with white-label apps, Entra SSO, Tally-ready export setup and custom AEGIS dashboards included, plus a tenant-wide monthly pool of ${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
     suitedFor:
-      "AI-led institutions wanting the largest AI pool, with white-label apps and Entra SSO included.",
+      "Custom AEGIS dashboards and branded apps for institution-wide AI use.",
   },
 ] as const;
 
@@ -363,6 +363,8 @@ export const commercialScope = {
     "We move everything your current system can export in usable form. If it lacks data SquareCampus needs, or is too fragmented to reconcile, we show you what cannot move before go-live instead of guessing.",
   migrationShort:
     "Everything your current system can export in usable form. Anything that cannot move is shown before go-live.",
+  customAegisDashboards:
+    "Institution-specific custom AEGIS dashboards are included in Enterprise. Requirements and delivery scope are agreed during onboarding. AEGIS analysis uses the institution’s AIC wallet.",
   tallyExport:
     "Growth and Enterprise include Tally-ready accounting export setup and finance handoff. Ledger and voucher mapping, the target Tally version and a sample import are agreed during onboarding. Standard self-service exports remain available on every plan. File exports require no external API add-on.",
   indianFeeOperations:
@@ -739,7 +741,7 @@ export const planComparisonRows: readonly MatrixRow[] = [
     label: "Custom AEGIS dashboards",
     starter: "Not offered",
     pro: "Not offered",
-    enterprise: "Optional. Scoped and quoted before any work starts.",
+    enterprise: commercialScope.customAegisDashboards,
   },
   { label: "Best-effort data migration", starter: "Separately scoped and quoted", pro: "Included against usable source exports", enterprise: "Included against usable source exports" },
   {

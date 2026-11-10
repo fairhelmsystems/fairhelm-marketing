@@ -1,5 +1,5 @@
 ---
-policy_version: "2026-11-10.2"
+policy_version: "2026-11-10.3"
 as_of: "2026-11-10"
 currency: INR
 billing_period: annual
@@ -9,7 +9,7 @@ canonical_policy: packages/squarecampus-content/src/pricing-policy.json
 
 # SquareCampus backend pricing handoff
 
-Import policy `2026-11-10.2` as a versioned record. Store its version on every quote, purchase and subscription. The tables below use the canonical JSON field names and stable plan IDs. Earlier pricing briefs are historical references. The linked policy and current commercial facts define this handoff. [Canonical policy](../../../packages/squarecampus-content/src/pricing-policy.json) [Commercial facts](../../../packages/squarecampus-content/src/commercial.ts)
+Import policy `2026-11-10.3` as a versioned record. Store its version on every quote, purchase and subscription. The tables below use the canonical JSON field names and stable plan IDs. Earlier pricing briefs are historical references. The linked policy and current commercial facts define this handoff. [Canonical policy](../../../packages/squarecampus-content/src/pricing-policy.json) [Commercial facts](../../../packages/squarecampus-content/src/commercial.ts)
 
 ## 1. Units and plan identity
 
@@ -61,6 +61,10 @@ Standard mobile apps have no additional app licence fee. White-label setup is ch
 | `enterprise` | 4000 | 60 |
 
 Use one rolling/sliding window per billed institution across keys, campuses, clients and replicas. The supported catalogue is the same on every plan, subject to authorization. `automaticOverageCharges = false`. Native workflows, first-party apps and authorized self-service exports operate independently of this external API add-on.
+
+### Included Enterprise dashboards
+
+`includedServices.customAegisDashboardPlans = ["enterprise"]`. Institution-specific custom AEGIS dashboards are included in the Enterprise licence with no separate dashboard setup charge. Agree requirements and delivery scope during onboarding. AEGIS analytical operations use the institution’s AIC wallet under the accepted operation quote. Standard self-service reporting and analytics remain eligible on every plan.
 
 ### Included finance onboarding
 

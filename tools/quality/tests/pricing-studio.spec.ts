@@ -113,7 +113,7 @@ test("the prepaid purchase counts once and stays printable without a burn foreca
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=enterprise&auto=0&students=1200&sso=1&whiteLabel=1&prepaidAicCredits=10000&monthlyAic=400"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.3&plan=enterprise&auto=0&students=1200&sso=1&whiteLabel=1&prepaidAicCredits=10000&monthlyAic=400"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
@@ -130,7 +130,7 @@ test("legacy monthly burn fields do not add hypothetical purchases or restrict p
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=starter&auto=1&students=1000&prepaidAicCredits=250000&monthlyAic=999999999"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.3&plan=starter&auto=1&students=1000&prepaidAicCredits=250000&monthlyAic=999999999"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
@@ -209,7 +209,7 @@ test("malformed shared estimates recover valid selections and still produce a pr
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=enterprise&auto=0&students=2400&sso=1&monthlyAic=400&smsSegments=oops&pack_aic_1000=2&pack_aic_10000=bad"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.3&plan=enterprise&auto=0&students=2400&sso=1&monthlyAic=400&smsSegments=oops&pack_aic_1000=2&pack_aic_10000=bad"
   );
   await expect(page.getByText(/Saved selections were adapted/)).toBeVisible();
   await expect(page.getByRole("button", { name: "Edit enrolled students, 2,400" })).toBeVisible();
@@ -345,7 +345,7 @@ test("Enterprise SSO is optional at the same price with either activation choice
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=enterprise&auto=0&students=1200"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.3&plan=enterprise&auto=0&students=1200"
   );
   if ((page.viewportSize()?.width ?? 0) < 640) {
     await page.getByText("Add optional services", { exact: true }).click();
@@ -371,7 +371,7 @@ test("restored incompatible Starter estimates display the eligibility correction
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=starter&auto=0&students=1200&sso=1&whiteLabel=1"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.3&plan=starter&auto=0&students=1200&sso=1&whiteLabel=1"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
@@ -437,7 +437,7 @@ test("student input sits beside the slider and keeps exact typed and keyboard va
     page.getByRole("button", { name: "Copy estimate link", exact: true })
   ).toBeDisabled();
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=starter&auto=0&students=105000"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.3&plan=starter&auto=0&students=105000"
   );
   await expect(count).toHaveText("1,05,000");
   await expect(slider).toHaveValue("105000");
@@ -492,7 +492,7 @@ test("legacy API peaks recover to the current manual plan and published service 
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=pro&auto=1&students=1200&dataEventsApi=1&apiPeakRequests=501&apiPeakWindowSeconds=60"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.3&plan=pro&auto=1&students=1200&dataEventsApi=1&apiPeakRequests=501&apiPeakWindowSeconds=60"
   );
   await expect(page.getByRole("button", { name: "Growth", exact: true })).toHaveAttribute(
     "data-pressed",
@@ -561,7 +561,7 @@ test("all usage quantities have sliders with exact editable values and optional 
 
 test("usage sliders restore exact shared quantities and expand their domains", async ({ page }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=starter&auto=0&students=1200&dataEventsApi=1&apiPeakRequests=7500&apiPeakWindowSeconds=60&monthlyAic=123.456&smsSegments=105000&recipientEmails=1000000000&whatsappMessages=2"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.3&plan=starter&auto=0&students=1200&dataEventsApi=1&apiPeakRequests=7500&apiPeakWindowSeconds=60&monthlyAic=123.456&smsSegments=105000&recipientEmails=1000000000&whatsappMessages=2"
   );
   await page.getByText("Add usage and prepaid AIC", { exact: true }).click();
   for (const [id, value, displayed, maximum] of [

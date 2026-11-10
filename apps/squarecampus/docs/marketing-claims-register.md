@@ -428,7 +428,7 @@ The final owner direction removes all monthly AIC burn forecasting from the mark
 |---|---|---|
 | Enterprise includes white-label Android and iOS apps; Growth pays ₹25,000 once | /pricing, comparison table, FAQ, llms.txt | **VERIFIED** (owner direction, 2026-11-10); store fees and maintenance scope still need confirmation |
 | Enterprise includes 4,000 AIC a month and a 4,000 RPM Data & Events API limit | /pricing, comparison table, FAQ | **VERIFIED** (owner direction, 2026-11-10) |
-| Custom AEGIS dashboards are an optional Enterprise service, scoped and quoted | /pricing comparison table, Enterprise FAQ | **VERIFIED** as a scoped service only; never describe as a shipped feature |
+| Institution-specific custom AEGIS dashboards are included in Enterprise | /pricing comparison table, Enterprise FAQ | **VERIFIED** under policy `2026-11-10.3`; requirements and delivery scope agreed during onboarding |
 | Renewal rates are sent in writing at least 30 days before renewal | /pricing FAQ, calculator assumptions | **VERIFIED** (owner direction, 2026-11-10); no rate cap is promised |
 | At 1,200 students, the annual Enterprise premium is ₹1,37,000. Conditional included list-rate value is ₹1,43,300 in the first year and ₹1,18,300 recurring | /pricing "What Enterprise adds, in rupees" | **VERIFIED** as arithmetic on the rate card; AIC and communication value assumes use of the additional monthly grants; one-time branding appears only in first-year value |
 | On-premises deployment | all public copy | **REMOVED**. Private deployment on AWS or in a private cloud remains a scoped service |
@@ -449,3 +449,8 @@ The Fedena comparison was rechecked against its official pricing, feature tour, 
 Owner-approved offering. Growth and Enterprise include Tally-ready accounting export setup and finance handoff. Target Tally version, ledger/voucher mapping and sample-import acceptance are onboarding requirements. This service entitlement preserves every plan’s standard self-service export access. Continuous accounting sync is separately scoped.
 
 Every plan includes fee-payment setup using the institution’s own Razorpay account. Settlement belongs to the institution and provider charges follow its agreement with Razorpay. SquareCampus supports payment records and reconciliation. Existing published Indian fee-model claims cover term plans, instalments, concessions, partial payments and GST-aware receipts for taxable components. The marketing repository records these offers and onboarding requirements. Runtime activation requires the product’s technical validation.
+
+
+### 10 November 2026 included Enterprise dashboards
+
+The owner superseded the separately quoted custom AEGIS dashboard treatment. Institution-specific custom AEGIS dashboards are included in Enterprise under policy `2026-11-10.3`. Requirements and delivery scope are agreed during onboarding. AEGIS analysis draws from the institution’s AIC wallet. No dashboard count, unlimited-development entitlement or new delivery deadline is asserted. Standard reporting and analytics remain eligible on every plan.

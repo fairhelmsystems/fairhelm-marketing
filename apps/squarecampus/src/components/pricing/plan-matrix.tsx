@@ -1,8 +1,8 @@
 import { RetentionPointer } from "@/components/pricing/retention-pointer";
 import { ComparisonRow } from "@fairhelm/ui/components/marketing";
 
-import { planComparisonRows } from "@/content/commercial";
-import { plans, SCOPE_NOTE } from "@/content/pricing";
+import { corePlatform, planComparisonRows } from "@/content/commercial";
+import { plans } from "@/content/pricing";
 
 /**
  * At-a-glance comparison for procurement readers.
@@ -64,8 +64,20 @@ export function PlanMatrix() {
         </table>
       </section>
 
-      <p className="type-caption mt-4">{SCOPE_NOTE}</p>
-      <RetentionPointer className="mt-3" />
+      <div className="pricing-plan-notes">
+        <section aria-labelledby="pricing-plan-scope-heading">
+          <h4 id="pricing-plan-scope-heading">Plan scope</h4>
+          <p className="type-support">{corePlatform.multiCampus}</p>
+          <p className="type-support">{corePlatform.availability}</p>
+        </section>
+        <section aria-labelledby="pricing-plan-retention-heading">
+          <h4 id="pricing-plan-retention-heading">Shared usage and retention</h4>
+          <p className="type-support">
+            AIC allowances are tenant-wide monthly pools shared by all authorised staff.
+          </p>
+          <RetentionPointer />
+        </section>
+      </div>
     </div>
   );
 }

@@ -69,9 +69,6 @@ export default function PricingPage() {
         title="Same access. Clear allowances."
       >
         <PlanMatrix />
-        <p className="type-support mt-6">
-          AIC allowances are tenant-wide monthly pools shared by all authorised staff.
-        </p>
         <EnterpriseValue />
       </SectionShell>
       <SectionShell

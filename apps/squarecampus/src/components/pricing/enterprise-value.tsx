@@ -5,6 +5,7 @@ import {
   noAddOns,
   pricingPolicy,
 } from "@fairhelm/squarecampus-content/pricing";
+import { commercialScope } from "@/content/commercial";
 import { formatInr } from "@/lib/pricing-estimate";
 
 const STUDENTS = 1200;
@@ -95,9 +96,9 @@ export function EnterpriseValue() {
         {formatInr(addOns.annualDataEventsApiPaise.enterprise)}/year on Enterprise at{" "}
         {pricingPolicy.dataEventsApi.slidingWindows.enterprise.requests.toLocaleString("en-IN")}{" "}
         RPM, and {formatInr(addOns.annualDataEventsApiPaise.pro)}/year on Growth at{" "}
-        {pricingPolicy.dataEventsApi.slidingWindows.pro.requests.toLocaleString("en-IN")} RPM.
-        Custom AEGIS dashboards are an optional, separately scoped service. Included AIC expires
-        each month, so its value depends on use.
+        {pricingPolicy.dataEventsApi.slidingWindows.pro.requests.toLocaleString("en-IN")} RPM.{" "}
+        {commercialScope.customAegisDashboards} Included AIC expires each month, so its value
+        depends on use.
       </p>
     </div>
   );

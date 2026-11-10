@@ -4,7 +4,7 @@ Owner decision dated 9 November 2026. This replaces the earlier Data & Events ad
 
 ## Commercial and release state
 
-The canonical policy is `packages/squarecampus-content/src/pricing-policy.json`, version `2026-11-10.2`. The owner's subsequent decisions approve plan-specific annual API fees and request limits (RPM; Enterprise doubled to 4,000 on 2026-11-10) and confirm readiness for activation. They supersede v2's single unconfigured fee and unknown request limits. The calculator maximum is 50,00,000 students.
+The canonical policy is `packages/squarecampus-content/src/pricing-policy.json`, version `2026-11-10.3`. The owner's subsequent decisions approve plan-specific annual API fees and request limits (RPM; Enterprise doubled to 4,000 on 2026-11-10) and confirm readiness for activation. They supersede v2's single unconfigured fee and unknown request limits. The calculator maximum is 50,00,000 students.
 
 | Dimension | Current state |
 | --- | --- |

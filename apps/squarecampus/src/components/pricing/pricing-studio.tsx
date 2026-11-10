@@ -28,7 +28,8 @@ import { AicPurchasePicker } from "@/components/pricing/aic-pack-picker";
 import { QuantityField } from "@/components/pricing/quantity-field";
 import { EstimateAssumptions } from "@/components/pricing/estimate-assumptions";
 import { planIcons } from "@/components/pricing/plan-icons";
-import { mobileAppPublishing, type PlanId } from "@/content/commercial";
+import type { PlanId } from "@/content/commercial";
+import { WHITE_LABEL_NOTE } from "@/content/pricing";
 import {
   decodeEstimate,
   encodeEstimate,
@@ -269,11 +270,13 @@ export function PricingStudio() {
                         <span id="pricing-branding-label" className="pricing-service-name">
                           White-label Android and iOS apps
                           <span className="pricing-option-price">
-                            {formatInr(pricingPolicy.addOns.whiteLabelAndroidAndIosOncePaise)} once
+                            {pricingPolicy.addOns.whiteLabelIncludedPlans.includes(selectedPlan)
+                              ? "Included"
+                              : `${formatInr(pricingPolicy.addOns.whiteLabelAndroidAndIosOncePaise)} once`}
                           </span>
                         </span>
                         <span id="pricing-branding-help" className="pricing-service-description">
-                          Available on Growth and Enterprise.
+                          Included in Enterprise. Available on Growth.
                         </span>
                       </span>
                     </FieldLabel>
@@ -290,11 +293,7 @@ export function PricingStudio() {
                     Enterprise licence, with the same Enterprise price either way. Bring your own
                     Entra tenant and Microsoft licences. Technical onboarding applies.
                   </p>
-                  <p>
-                    <strong>White-label apps.</strong> Available on Growth and Enterprise. One
-                    combined branding/setup charge. {mobileAppPublishing} Store fees and maintenance
-                    scope need confirmation before purchase.
-                  </p>
+                  <p>{WHITE_LABEL_NOTE}</p>
                 </InfoPopover>
               </FieldSet>
             </ResponsiveDisclosure>
@@ -546,11 +545,7 @@ export function PricingStudio() {
                     <dd>{selected.fixed.monthlyCommunicationCredits.toLocaleString("en-IN")}</dd>
                   </div>
                   <div>
-                    <dt>
-                      {selectedPlan === "starter"
-                        ? "Proposed monthly included AIC"
-                        : "Monthly included AIC"}
-                    </dt>
+                    <dt>Monthly included AIC</dt>
                     <dd>{formatAic(selected.fixed.monthlyIncludedMilliAic)} AIC</dd>
                   </div>
                 </dl>

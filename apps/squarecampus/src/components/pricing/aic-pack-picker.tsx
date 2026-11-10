@@ -106,8 +106,8 @@ export function AicPurchasePicker({
         </table>
         <p>
           Minimum purchase {pricingPolicy.aic.minimumPurchaseCredits.toLocaleString("en-IN")} AIC.
-          Included credits expire monthly. Purchased credits carry forward. Purchase validity and
-          cancellation terms require confirmation.
+          Included credits expire monthly. Purchased credits carry forward. Validity and
+          cancellation terms are on your order form.
         </p>
       </InfoPopover>
       <a className="aic-examples-link" href="#aic-examples">

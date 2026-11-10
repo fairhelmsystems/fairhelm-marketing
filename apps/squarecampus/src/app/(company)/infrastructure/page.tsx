@@ -120,7 +120,7 @@ const capabilities = [
   {
     icon: Lock,
     title: "India residency posture",
-    body: "The platform is designed to keep institutional data in Microsoft Azure regions in India. Enterprise private deployments on AWS, in a private cloud or on premises are scoped with the same residency expectations.",
+    body: "The platform is designed to keep institutional data in Microsoft Azure regions in India. Enterprise private deployments on AWS or in a private cloud are scoped with the same residency expectations.",
   },
   {
     icon: Network,
@@ -133,7 +133,7 @@ const faqData = [
   {
     question: "Why a hyperscale cloud instead of “own servers”?",
     answer:
-      "Data residency is defined by where data physically sits and how access is governed — not by who owns the racks. Microsoft Azure in India gives us mature managed services, availability zones within an Indian region, and independently certified facilities, which is a stronger foundation than self-managed hardware for a platform schools depend on daily. Institutions that need their own boundary can scope an Enterprise private deployment on AWS, in a private cloud or on premises.",
+      "Data residency is defined by where data physically sits and how access is governed — not by who owns the racks. Microsoft Azure in India gives us mature managed services, availability zones within an Indian region, and independently certified facilities, which is a stronger foundation than self-managed hardware for a platform schools depend on daily. Institutions that need their own boundary can scope an Enterprise private deployment on AWS or in a private cloud.",
   },
   {
     question: "How do we verify where our data is hosted?",

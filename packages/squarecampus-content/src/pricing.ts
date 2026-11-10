@@ -198,7 +198,9 @@ export function calculateFixedEstimate(
       ? [{ component: "data_events_api" as const, billingPeriod: "annual" as const }]
       : [];
   const newBrandingPaise =
-    addOns.whiteLabel && !addOns.brandingAlreadyPurchased
+    addOns.whiteLabel &&
+    !addOns.brandingAlreadyPurchased &&
+    !pricingPolicy.addOns.whiteLabelIncludedPlans.includes(plan)
       ? pricingPolicy.addOns.whiteLabelAndroidAndIosOncePaise
       : 0;
   const recurringFixedPaise = safeMoney(

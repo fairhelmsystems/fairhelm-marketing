@@ -4,7 +4,7 @@ Owner decision dated 9 November 2026. This replaces the earlier Data & Events ad
 
 ## Commercial and release state
 
-The canonical policy is `packages/squarecampus-content/src/pricing-policy.json`, version `2026-11-09.5`. The owner's subsequent decisions approve plan-specific annual API fees and TPM limits and confirm readiness for activation. They supersede v2's single unconfigured fee and unknown request limits. The calculator maximum is 50,00,000 students.
+The canonical policy is `packages/squarecampus-content/src/pricing-policy.json`, version `2026-11-10.2`. The owner's subsequent decisions approve plan-specific annual API fees and request limits (RPM; Enterprise doubled to 4,000 on 2026-11-10) and confirm readiness for activation. They supersede v2's single unconfigured fee and unknown request limits. The calculator maximum is 50,00,000 students.
 
 | Dimension | Current state |
 | --- | --- |
@@ -12,14 +12,14 @@ The canonical policy is `packages/squarecampus-content/src/pricing-policy.json`,
 | Eligible plans | Starter, Growth and Enterprise |
 | Catalogue | Same supported read-only resources, event-history queries and WebSocket subscriptions |
 | Price | `annualDataEventsApiPaise` maps Starter to ₹2,500, Growth to ₹5,000 and Enterprise to ₹10,000 per year |
-| Throughput | Starter 250, Growth 500 and Enterprise 2,000 external API requests per sliding 60-second window |
+| Throughput | Starter 250, Growth 500 and Enterprise 4,000 external API requests per sliding 60-second window |
 | Aggregation | One billed institution across keys, campuses, clients and replicas |
 | Stream/query bounds | Unconfigured |
 | Replay retention | Unconfigured, independent of audit/business retention |
 | Mid-term, renewal and cancellation terms | Require approved billing policy |
 | Included exports | Authorized supported datasets and retained audit records |
 | Native workflow/app traffic | Independent of API purchase and external throughput |
-| SSO | Independent optional annual service on Growth and Enterprise |
+| SSO | Optional on every plan, with activation included in Enterprise |
 
 External throttling has no automatic overage fee, forced upgrade, AIC debit or communication-credit debit. Internal module communication, required payment/messaging callbacks, standard apps and branded apps continue through native platform controls. External access expiry affects the integration entitlement. Core workflows, retained audit records and included exports have their own authorization and lifecycle rules.
 
@@ -35,7 +35,7 @@ purchase-year subtotal = recurring subtotal + newly purchased combined branding
 comparable renewal subtotal = recurring subtotal
 ```
 
-At 1,200 students on Enterprise with API, SSO and new branding, the purchase-year fixed subtotal is ₹4,37,500. Comparable renewal is ₹4,12,500, including the ₹10,000 annual Enterprise API fee. Their difference is ₹25,000 before tax. The first branding purchase can occur in a later subscription year. Existing valid branding adds zero setup cost on ordinary renewal or a platform-plan change. Formal quotes must derive paid entitlement from trusted billing records.
+At 1,200 students on Enterprise with API and SSO, the purchase-year fixed subtotal and comparable renewal are both ₹4,10,000, including the ₹10,000 annual Enterprise API fee; white-label apps are included in Enterprise. On Growth, new branding adds ₹25,000 once. The first branding purchase can occur in a later subscription year. Existing valid branding adds zero setup cost on ordinary renewal or a platform-plan change. Formal quotes must derive paid entitlement from trusted billing records.
 
 The public policy owns the approved plan-specific annual fees and limits. The shared golden fixtures retain a separately labelled synthetic uniform fee and limits to exercise configurable arithmetic. Tests also cover the approved public fees and exact purchase/renewal results for all plans. A missing plan fee still produces an explicit incomplete subtotal and suppresses a total-price recommendation. Selected unknown API price keeps tax-inclusive totals unknown, even when a test tax policy is supplied.
 

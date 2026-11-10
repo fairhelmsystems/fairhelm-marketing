@@ -20,7 +20,7 @@ The owner’s Pricing Studio brief supersedes the proposal-only rate-card decisi
 
 Every generally available feature has equal plan eligibility, including multi-campus operations, governance, analytics, integrations and AEGIS. Optional Entra SSO integration/maintenance and combined Android/iOS branding follow the same published terms on all plans. Security and authorisation checks retain their independent purpose. Availability qualifications continue to exclude preview or unimplemented functionality.
 
-The 150/250 AIC figures are explicitly draft tenant-wide monthly pools. Starter zero AIC remains proposed. AIC denomination, retail top-ups, expiry, WhatsApp category weights, quantitative depth entitlements, business tax configuration and white-label publisher/store/maintenance scope remain unresolved. Missing tariffs never imply free usage.
+The Growth 1,500 and Enterprise 4,000 AIC figures are confirmed tenant-wide monthly pools. Starter includes no AIC. AIC denomination, retail top-ups, expiry, WhatsApp category weights, quantitative depth entitlements, business tax configuration and white-label publisher/store/maintenance scope remain unresolved. Missing tariffs never imply free usage.
 
 This checkout contains marketing source and calculation references. Product feature enforcement and the billing ledger must be reviewed in their owning product repository before publishing the revised commercial promise. Pure arithmetic tests establish no production entitlement or wallet behaviour. The dated historical entries below are superseded where they conflict with this section. See `docs/pricing-studio.md` for the complete calculation and integration contract.
 
@@ -45,7 +45,7 @@ This checkout contains marketing source and calculation references. Product feat
 | Claim | Where | Status |
 | --- | --- | --- |
 | The platform is hosted on Microsoft Azure in India | /infrastructure, /services, homepage, comparisons, blog, llms.txt, `commercial.ts` | **VERIFIED** (company confirmation, 2026-09-28). Specific regions are named in writing during evaluation, not on the site. |
-| Enterprise private deployments on AWS, in a private cloud or on premises | /infrastructure, /services, homepage, comparisons, `commercial.ts` | **VERIFIED** as a commercial offer (company confirmation, 2026-09-28); scoped per engagement |
+| Enterprise private deployments on AWS or in a private cloud | /infrastructure, /services, homepage, comparisons, `commercial.ts` | **VERIFIED** as a commercial offer (company confirmation, 2026-09-28); scoped per engagement |
 | Availability, backup and recovery design "documented in writing during security review" | /infrastructure, faq.ts, /data-retention | **VERIFIED** as an offer to document; no specific availability, backup or recovery property is stated publicly |
 | Runs on AWS Mumbai (ap-south-1) | /infrastructure, /services, comparisons, blog, llms.txt (old) | **REMOVE** (removed 2026-09-28: the platform is hosted on Microsoft Azure in India; the marketing website itself is separately hosted on AWS). Forbidden by `check-claims.sh`. |
 | Multi-AZ architecture / "multi-AZ design" | /infrastructure, /services, blog, llms.txt (old) | **REMOVE** (removed 2026-09-28; replaced by the offer to document availability design). Forbidden by `check-claims.sh`. |
@@ -179,7 +179,7 @@ an institution receives, and when, is confirmed in its proposal.
 | "Ten Indian languages" across apps, circulars and notifications | homepage, category pages, FAQ, llms.txt, blog | **REMOVE** (no language count is published; languages are confirmed per institution in the proposal). Forbidden by `check-claims.sh` |
 | Parent and student apps "iOS and Android" | FAQ | **REMOVE** as a store-availability statement; the licence-inclusion of the standard apps (commercial policy) stays |
 | BYOC "coming soon" / "early-access list" | homepage, services, ecosystem, comparisons | **REMOVE**. BYOC is listed as "Not offered today" in `deploymentOptions`; no early-access list exists |
-| Enterprise private deployment on AWS, private cloud or on premises | services, homepage, comparisons, llms.txt | **VERIFIED** as a scoped Enterprise service (status "Scoped service") |
+| Enterprise private deployment on AWS or private cloud | services, homepage, comparisons, llms.txt | **VERIFIED** as a scoped Enterprise service (status "Scoped service") |
 | Pre-built integrations, "webhooks for real-time sync", "API & WebSocket connectors", tools that "talk to each other — automatically" | FAQ, services, ecosystem, School Management System FAQ | **REMOVE**. Integrations are scoped work with stated prerequisites (`integrationScope`); no connector catalogue is published |
 | Named third-party tools (Tally, WhatsApp, biometric devices) as connected systems | services visual, AEGIS visual, ecosystem metadata | **REMOVE** as connection claims; named only as tools an institution may ask to scope |
 | "In seconds", "instantly", "in real time", "live sync" | AEGIS, About, Platform, services, category pages | **REMOVE** as speed/freshness assurances; replaced by "current records" |
@@ -385,7 +385,7 @@ policies.
 
 ### Subsequent 9 November API pricing and activation approval
 
-The owner approved ₹2,500/year and 250 TPM on Starter, ₹5,000/year and 500 TPM on Growth, and ₹10,000/year and 2,000 TPM on Enterprise. The owner explicitly confirmed that the API is ready for activation. This supersedes the earlier single unconfigured annual price and planned status above. Policy `2026-11-09.4` publishes the approved per-plan amounts and limits.
+The owner approved ₹2,500/year and 250 TPM on Starter, ₹5,000/year and 500 TPM on Growth, and ₹10,000/year and 4,000 RPM on Enterprise (doubled from 2,000 on 2026-11-10). The owner explicitly confirmed that the API is ready for activation. This supersedes the earlier single unconfigured annual price and planned status above. Policy `2026-11-09.4` publishes the approved per-plan amounts and limits.
 
 TPM is represented as external API transactions/requests in a sliding 60-second window, consistent with the existing request-based contract. The supported catalogue is shared across plans. All three annual fees exclude GST. Stream/query bounds, replay retention and mid-term terms still need configuration. The marketing calculator adds the chosen plan’s API fee once to both purchase-year and comparable renewal totals. It preserves manual selection and reports unmet or unassessed throughput. Backend enforcement remains in its owning workstream.
 
@@ -420,4 +420,32 @@ The owner approved monthly shared communication credits of enrolled students × 
 The AEGIS walkthrough uses authored sample records and policies. Its three operation tariffs remain unapproved and appear as quote placeholders. A separate conditional 2-AIC example explains that one accepted quote covers the complete operation. The walkthrough performs local calculations and preserves the access, scope, policy and single-charge boundaries.
 
 
-The final owner direction removes all monthly AIC burn forecasting from the marketing calculator. Prepaid AIC is a once-only quantity purchase. Growth’s institution-wide monthly included pool is 1,500 AIC and Enterprise’s is 2,500 AIC. These quantities are confirmed. Starter’s zero monthly grant retains its proposed status. Purchased validity and cancellation terms remain separately defined, with purchased carry-forward preserved.
+The final owner direction removes all monthly AIC burn forecasting from the marketing calculator. Prepaid AIC is a once-only quantity purchase. Growth’s institution-wide monthly included pool is 1,500 AIC and Enterprise’s is 4,000 AIC (raised from 2,500 on 2026-11-10). These quantities are confirmed. Starter includes no monthly AIC. Purchased validity and cancellation terms remain separately defined, with purchased carry-forward preserved.
+
+### 2026-11-10 Enterprise packaging and renewal terms
+
+| Claim | Where | Status |
+|---|---|---|
+| Enterprise includes white-label Android and iOS apps; Growth pays ₹25,000 once | /pricing, comparison table, FAQ, llms.txt | **VERIFIED** (owner direction, 2026-11-10); store fees and maintenance scope still need confirmation |
+| Enterprise includes 4,000 AIC a month and a 4,000 RPM Data & Events API limit | /pricing, comparison table, FAQ | **VERIFIED** (owner direction, 2026-11-10) |
+| Custom AEGIS dashboards are an optional Enterprise service, scoped and quoted | /pricing comparison table, Enterprise FAQ | **VERIFIED** as a scoped service only; never describe as a shipped feature |
+| Renewal rates are sent in writing at least 30 days before renewal | /pricing FAQ, calculator assumptions | **VERIFIED** (owner direction, 2026-11-10); no rate cap is promised |
+| At 1,200 students, the annual Enterprise premium is ₹1,37,000. Conditional included list-rate value is ₹1,43,300 in the first year and ₹1,18,300 recurring | /pricing "What Enterprise adds, in rupees" | **VERIFIED** as arithmetic on the rate card; AIC and communication value assumes use of the additional monthly grants; one-time branding appears only in first-year value |
+| On-premises deployment | all public copy | **REMOVED**. Private deployment on AWS or in a private cloud remains a scoped service |
+
+
+### 10 November 2026 future standard-feature inclusion
+
+The owner confirmed that future generally available standard SquareCampus features are included in every plan's existing licence entitlement, including PTM when released. A feature launch carries no additional feature fee, compulsory plan upgrade or feature-based licence repricing. Published metered usage and separately agreed institution-specific services follow their existing terms. Policy `2026-11-10.2` records this rule and the minimum 30-day written renewal notice, alongside included Enterprise branding and the 4,000 AIC / 4,000 RPM allowances.
+
+### 10 November 2026 operating-system positioning and Fedena refresh
+
+The homepage now uses “Enterprise School OS. Minus enterprise pain.” Standard implementation, support and parallel workflow validation ground the promise. The category applies to every plan. Enterprise plan copy highlights its included allowances and optional services. AEGIS remains read-only and quoted before execution. Demonstrations use explicitly labelled sample data.
+
+The Fedena comparison was rechecked against its official pricing, feature tour, FAQ and multi-school pages on 10 November 2026. Fedena advertises hosted packages, unlimited students/courses, plan-specific module bundles, implementation, support and mobile packages. India-rendered annual web prices are ₹50,000/₹75,000/₹1,00,000 and web-plus-mobile prices are ₹90,000/₹1,15,000/₹1,40,000, plus GST. Confirm campus and consumable scope with the vendor. The reviewed public pages did not specify a comparable AI analyst. This bounded observation does not establish the absence of any Fedena AI capability. Primary sources appear on the comparison page.
+
+### 10 November 2026 India finance onboarding
+
+Owner-approved offering. Growth and Enterprise include Tally-ready accounting export setup and finance handoff. Target Tally version, ledger/voucher mapping and sample-import acceptance are onboarding requirements. This service entitlement preserves every plan’s standard self-service export access. Continuous accounting sync is separately scoped.
+
+Every plan includes fee-payment setup using the institution’s own Razorpay account. Settlement belongs to the institution and provider charges follow its agreement with Razorpay. SquareCampus supports payment records and reconciliation. Existing published Indian fee-model claims cover term plans, instalments, concessions, partial payments and GST-aware receipts for taxable components. The marketing repository records these offers and onboarding requirements. Runtime activation requires the product’s technical validation.

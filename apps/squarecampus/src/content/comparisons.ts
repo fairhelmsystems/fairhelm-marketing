@@ -1,3 +1,5 @@
+import { corePlatform } from "./commercial";
+
 /**
  * Competitor comparison content.
  *
@@ -24,6 +26,8 @@ export type Comparison = {
   competitor: string;
   competitorShort: string;
   competitorUrl: string;
+  verifiedAt?: string;
+  sources?: readonly { title: string; url: string }[];
   metaTitle: string;
   metaDescription: string;
   intentLabel: string;
@@ -39,11 +43,11 @@ export type Comparison = {
 
 const sharedDifferentiators = [
   {
-    title: "One unified institutional data model, not stitched modules",
+    title: "Follow one institutional record",
     body: "Every SquareCampus module reads and writes the same institutional record. An admission confirmed flows into academics, fees, and communication automatically — no connectors to maintain between separate products.",
   },
   {
-    title: "AEGIS — governed intelligence, not a bolt-on chatbot",
+    title: "Ask AEGIS within your controls",
     body: "AEGIS answers operational questions inside the same RBAC scopes and audit trails as the rest of the platform. Leadership asks; the system answers from live records, and every query is logged.",
   },
   {
@@ -52,7 +56,7 @@ const sharedDifferentiators = [
   },
   {
     title: "A published licensing model",
-    body: "Like most vendors, we issue figures after scoping — but the model is published up front: one annual institutional licence on student-volume bands with the platform's modules and the standard parent and staff apps included, no per-module upsells and no hidden 'parent app' fees. Implementation and support are included; custom integrations are scoped as their own lines.",
+    body: `Calculate the annual licence from published INR rates and progressive student slabs. Standard apps, implementation and support are included. ${corePlatform.futureFeatures} Additional usage and optional services have separate charges.`,
   },
 ] as const;
 
@@ -101,7 +105,7 @@ export const comparisons: Comparison[] = [
       {
         dimension: "Deployment",
         squarecampus:
-          "Managed cloud (Microsoft Azure, India) by default; Enterprise private deployment on AWS, a private cloud or on premises as a scoped service.",
+          "Managed cloud (Microsoft Azure, India) by default; Enterprise private deployment on AWS or a private cloud as a scoped service.",
         competitor: "Cloud (SaaS).",
       },
       {
@@ -139,75 +143,104 @@ export const comparisons: Comparison[] = [
     competitor: "Fedena",
     competitorShort: "Fedena",
     competitorUrl: "https://fedena.com/",
-    metaTitle: "SquareCampus vs Fedena — School Management Software Comparison",
+    verifiedAt: "10 November 2026",
+    sources: [
+      { title: "Fedena prices", url: "https://fedena.com/pricing-and-plans" },
+      { title: "Fedena features", url: "https://fedena.com/feature-tour" },
+      { title: "Fedena FAQ", url: "https://fedena.com/faq" },
+      { title: "Fedena multi-school", url: "https://fedena.com/multi_school" },
+    ],
+    metaTitle: "SquareCampus vs Fedena | Plans, AI and School Operations",
     metaDescription:
-      "SquareCampus vs Fedena: managed School OS versus open-source, plugin-based ERP. Architecture, AI, deployment and pricing compared honestly for schools.",
+      "Compare Fedena’s fixed annual packages with SquareCampus’s Enterprise School OS, published student-volume pricing, shared feature access and governed AEGIS intelligence.",
     intentLabel: "Fedena alternative",
-    lede: "Fedena is a widely used, plugin-extensible school ERP with an open-source core. The real choice between Fedena and SquareCampus is about who runs the system — you, or us. Here's the honest comparison.",
+    lede: "Fedena offers hosted school management software with fixed annual packages and an extensive module catalogue. SquareCampus brings records, workflow ownership, institutional governance and AEGIS into one Enterprise School OS. Compare the operating experience and the full commercial scope alongside the licence price.",
     competitorStrengths: [
-      "An open-source core (Apache 2.0) you can self-host and modify.",
-      "A large global install base and a wide catalogue of modules and plugins.",
-      "A free starting point, with Fedena Pro for paid features and support.",
+      "Published annual packages with unlimited students and courses advertised on its feature tour.",
+      "Hosting, updates, training and support included. Its FAQ also lists implementation as included.",
+      "An established school-management catalogue, mobile-app packages and a multi-school offering.",
     ],
     rows: [
       {
-        dimension: "Architecture",
+        dimension: "Licence model",
         squarecampus:
-          "One unified institutional data model — modules are one system, not separately configured plugins.",
+          "Annual licence calculated from progressive student-volume slabs. Published INR rates and a live calculator show your total before GST.",
         competitor:
-          "Modular, plugin-extensible core; capabilities added via plugins and integrations.",
+          "India web-only annual packages list Standard ₹50,000, Premium ₹75,000 and Ultimate ₹1,00,000, plus GST. Unlimited students and courses are advertised. Confirm campus and subscription scope.",
       },
       {
-        dimension: "Intelligence layer",
+        dimension: "Standard feature access",
         squarecampus:
-          "AEGIS — governed, role-scoped answers and exception detection with audit trails.",
-        competitor: "Reporting dashboards and configurable dashlets.",
-      },
-      {
-        dimension: "Who runs it",
-        squarecampus: "Fully managed by us (or your cloud with our playbooks).",
+          "Every generally available standard feature is eligible on Starter, Growth and Enterprise. Future standard features are included without feature fees or compulsory upgrades.",
         competitor:
-          "Self-hosted (open-source) means your team owns hosting, security, and upgrades.",
+          "Module bundles vary by package. The published comparison places audit among Ultimate features.",
       },
       {
-        dimension: "Pricing",
+        dimension: "Institutional operations",
         squarecampus:
-          "Model published: annual licence on student-volume bands, modules and standard apps included; figures by proposal.",
-        competitor: "Free open-source core; Fedena Pro is paid / plan-based.",
+          "Connected records, named workflow owners, exceptions, approvals and audit history. Multi-campus governance is eligible on every plan.",
+        competitor:
+          "Publishes role-based access, workflows, reporting and a multi-school offering. Confirm the applicable package and campus scope.",
       },
       {
-        dimension: "Deployment",
+        dimension: "Intelligence and analysis",
         squarecampus:
-          "Managed cloud (Microsoft Azure, India) by default; Enterprise private deployment on AWS, a private cloud or on premises as a scoped service.",
-        competitor: "Cloud or self-hosted.",
+          "AEGIS is designed for role-scoped questions against institutional records, with sources, an audit trail and an AIC quote before analysis. People decide and act.",
+        competitor:
+          "Advertises reports, dashboards and analytics. The reviewed product and pricing pages do not specify an AI analyst or its usage terms. Ask for a demonstrated workflow.",
       },
       {
-        dimension: "Infrastructure transparency",
-        squarecampus: "Region and residency posture published — because we run it.",
-        competitor: "Depends on your own hosting when self-hosted.",
+        dimension: "Mobile apps",
+        squarecampus:
+          "Standard staff, parent and student apps included on every plan. White-label Android and iOS setup is included in Enterprise and ₹25,000 once on Growth.",
+        competitor:
+          "India web-plus-mobile annual packages list ₹90,000, ₹1,15,000 and ₹1,40,000, plus GST. Confirm branding and publishing scope.",
+      },
+      {
+        dimension: "Implementation and hosting",
+        squarecampus:
+          "Standard implementation and support included. Managed cloud on Microsoft Azure in India. Private deployment is a separately scoped service.",
+        competitor:
+          "Hosted packages include hosting, updates, training and support. Implementation is included according to the FAQ.",
+      },
+      {
+        dimension: "Usage and complete cost",
+        squarecampus:
+          "Monthly AIC and communication allowances are published by plan. Additional quantities are prepaid. Optional API access and scoped services are separate.",
+        competitor:
+          "Compare messaging, integration, branding and multi-campus requirements in a matched quote. The headline annual fee alone does not establish those allowances.",
       },
     ],
     differentiators: [...sharedDifferentiators],
     theyFitWhen: [
-      "You have in-house IT and want open-source control or full self-hosting.",
-      "You want a free starting point and are comfortable owning maintenance and security.",
-      "You need to fork and customize the source code for a very specific workflow.",
+      "A fixed annual package with advertised unlimited students fits your enrolment and required module bundle.",
+      "Your teams prefer Fedena’s demonstrated workflows and mobile experience.",
+      "Its written campus, integration and consumption terms fit the institution’s needs.",
     ],
     weFitWhen: [
-      "You want the operating system run for you, with security and upgrades handled.",
-      "You want a governed AI layer and one connected model instead of assembling plugins.",
-      "You want predictable pricing and a fast, guided go-live rather than a self-managed build.",
+      "You want to evaluate records, ownership, approvals and leadership oversight as one operating experience.",
+      "You want to inspect a role-scoped AEGIS answer, its sources and the quote before execution.",
+      "You value shared standard-feature access, including future additions, with published allowances and optional charges.",
     ],
     faqs: [
       {
-        question: "Is SquareCampus a good Fedena alternative?",
+        question: "Why the price difference?",
         answer:
-          "If you want a fully managed School OS rather than a self-hosted, plugin-based system, SquareCampus is a strong Fedena alternative. You get one unified institutional data model, the AEGIS intelligence layer, managed infrastructure, and included mobile apps — without owning hosting, security, and upgrades yourself.",
+          "Fedena’s published fixed packages can be attractive at higher enrolment. SquareCampus publishes a student-volume licence with every generally available standard feature eligible on every plan. Compare a real workflow from record to owner, approval and AEGIS insight, then match campus scope, apps, usage, migration and optional services in writing. The operating fit and complete cost should guide the decision.",
       },
       {
-        question: "Does SquareCampus offer self-hosting like Fedena's open source?",
+        question: "Does Fedena offer AI?",
         answer:
-          "No. SquareCampus is delivered as a managed platform on our Microsoft Azure infrastructure in India. Institutions that need their own boundary can scope an Enterprise private deployment on AWS, in a private cloud or on premises. Running it in the institution's own cloud account (BYOC) is not offered today, and there is no open-source self-hosting.",
+          "Fedena’s reviewed feature-tour and pricing pages advertise reporting and analytics without specifying an AI analyst comparable to AEGIS. This describes those public pages as reviewed on 10 November 2026. Ask Fedena to demonstrate any current AI capability, including its permissions, sources, action boundaries and usage charges.",
+      },
+      {
+        question: "Future features?",
+        answer: corePlatform.futureFeatures,
+      },
+      {
+        question: "Moving from Fedena?",
+        answer:
+          "Migration is included in Growth and Enterprise. Confirm source exports, record mapping, reconciliation and parallel validation before go-live. Bespoke integrations and exceptional service requirements are scoped separately.",
       },
     ],
   },
@@ -260,7 +293,7 @@ export const comparisons: Comparison[] = [
       {
         dimension: "Deployment",
         squarecampus:
-          "Managed cloud (Microsoft Azure, India) by default; Enterprise private deployment on AWS, a private cloud or on premises as a scoped service.",
+          "Managed cloud (Microsoft Azure, India) by default; Enterprise private deployment on AWS or a private cloud as a scoped service.",
         competitor: "Cloud (SaaS).",
       },
     ],

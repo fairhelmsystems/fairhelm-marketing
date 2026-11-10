@@ -15,7 +15,7 @@
  *   - a stale commercial claim survives in rendered HTML or Markdown;
  *   - /data-retention/ renders an unreviewed period, a deadline, money or an
  *     overclaim, or its metadata drifts from the visible wording; the pricing
- *     retention pointer is missing from a plan; or a retention link is absent.
+ *     shared retention pointer is missing or differs from reviewed copy; or a retention link is absent.
  *
  *   bun scripts/check-build.ts   (also part of `bun run build`)
  */
@@ -27,10 +27,9 @@ import { faqs } from "../src/content/faq";
 import { llmsLinks, llmsRoute, renderLlmsTxt } from "../src/content/llms";
 import { renderLlmsFullTxt } from "../src/content/llms-full";
 import { markdownAlternatePath, markdownAlternatePaths } from "../src/content/markdown-alternates";
-import { plans, pricingFaqs } from "../src/content/pricing";
+import { pricingFaqs } from "../src/content/pricing";
 import { calculateLicence, planIds, pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import {
-  publicRetentionSchedule,
   RETENTION_PATH,
   retentionContentReview,
   retentionPage,
@@ -38,7 +37,6 @@ import {
 } from "../src/content/retention";
 import { securityFaqs } from "../src/content/security-faq";
 import { entityFaqs } from "../src/content/what-is-squarecampus";
-import { retentionCopyProblems } from "../tests/retention-guards";
 import { findStaleClaims } from "../tests/stale-claims";
 import { publishedLegalCopyStatus } from "./legal-copy-baselines";
 import { emptyEmphasisPattern } from "./markdown-quality";
@@ -295,7 +293,7 @@ for (const route of CRITICAL) {
     if (!html.includes(`href="${launchPilot.enquiryHref}"`))
       fail("/pricing: launch-pilot enquiry CTA missing");
     if (/\bPro\b/.test(visibleText)) fail("/pricing: the public pro plan name must be Growth");
-    for (const text of [corePlatform.promise, "Choose a plan", "Purchase-year fixed subtotal", "Annual subscription estimate excluding additional usage", "One School OS. Open by design.", "Data & Events API", "₹2,500/year", "₹5,000/year", "₹10,000/year", "250 TPM", "500 TPM", "2,000 TPM"])
+    for (const text of [corePlatform.promise, "Choose a plan", "Purchase-year fixed subtotal", "Annual subscription estimate excluding additional usage", "One School OS. Open by design.", "Data & Events API", "₹2,500/year", "₹5,000/year", "₹10,000/year", "250 RPM", "500 RPM", "4,000 RPM"])
       if (!visibleText.includes(normaliseText(text))) fail(`/pricing: missing calculator contract: ${text}`);
     for (const plan of planIds) {
       const annual = calculateLicence(plan, 1200).annualLicencePaise / 100;
@@ -393,7 +391,7 @@ for (const route of markdownAlternatePaths) {
 
 // Pricing keeps the reviewed retention wording and destination.
 {
-  // One pointer per plan band, plus the comparison table.
+  // One shared pointer applies to all plans beside the comparison table.
   // Count rendered markup only: the RSC payload in <script> repeats every string.
   const pricingFile = htmlFile("/pricing");
   const pricing = (existsSync(pricingFile) ? readFileSync(pricingFile, "utf8") : "").replace(
@@ -401,8 +399,8 @@ for (const route of markdownAlternatePaths) {
     ""
   );
   const pointers = pricing.split('data-retention-pointer="true"').length - 1;
-  if (pointers !== plans.length + 1)
-    fail(`/pricing: expected ${plans.length + 1} retention pointers, found ${pointers}`);
+  if (pointers !== 1)
+    fail(`/pricing: expected one shared retention pointer, found ${pointers}`);
   if (pricing.split(retentionPointer.text).length - 1 !== pointers)
     fail("/pricing: a retention pointer does not carry the shared wording");
   if (!pricing.includes(`href="${retentionPointer.href}"`))

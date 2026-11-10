@@ -1,5 +1,5 @@
 {
-  "pricingVersion": "2026-11-10.1",
+  "pricingVersion": "2026-11-10.2",
   "currency": "INR",
   "amountUnit": "paise",
   "annualLicence": [
@@ -54,7 +54,7 @@
   ],
   "enterpriseWithNewBrandingAndSso": {
     "students": 1200,
-    "firstYearFixedPaise": 42500000,
+    "firstYearFixedPaise": 40000000,
     "renewalFixedPaise": 40000000,
     "monthlyCommunicationCredits": 10800
   },
@@ -80,7 +80,7 @@
       }
     },
     "enterprise1200WithNewBrandingAndSso": {
-      "purchaseYearKnownPaise": 43734500,
+      "purchaseYearKnownPaise": 41234500,
       "comparableRenewalKnownPaise": 41234500
     }
   }

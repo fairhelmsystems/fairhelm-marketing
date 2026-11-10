@@ -17,7 +17,13 @@ import {
   planHierarchy,
   securityBaseline,
 } from "./commercial";
+import { pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import { company } from "./company";
+
+const aicPerMonth = (plan: PlanId) =>
+  (pricingPolicy.plans[plan].monthlyIncludedMilliAic / 1000).toLocaleString("en-IN");
+const creditsPerStudent = pricingPolicy.communication.monthlyCreditsPerStudent;
+const apiRpm = pricingPolicy.dataEventsApi.slidingWindows;
 
 export type { PlanId } from "./commercial";
 
@@ -60,7 +66,7 @@ export const enterpriseForSmallerInstitutions = {
     "Campus count, institutional identity and governance requirements do not force an upgrade. Unavailable or preview functionality and bespoke engineering require a confirmed scope.",
 } as const;
 
-export const SCOPE_NOTE = `${corePlatform.included} ${corePlatform.availability}`;
+export const SCOPE_NOTE = `${corePlatform.multiCampus} ${corePlatform.availability}`;
 
 /**
  * What the licence already covers, drawn from `pricingAvailability.included`
@@ -70,7 +76,7 @@ export const SCOPE_NOTE = `${corePlatform.included} ${corePlatform.availability}
  * availability line, and the proposal confirms what an institution gets.
  */
 export const licenceIncludes: ReadonlyArray<{
-  id: "platform" | "apps" | "reports" | "support" | "allowance" | "migration";
+  id: "platform" | "apps" | "reports" | "support" | "allowance" | "migration" | "tally" | "payments";
   title: string;
   detail: string;
   plans?: string;
@@ -102,6 +108,17 @@ export const licenceIncludes: ReadonlyArray<{
     detail: commercialScope.allowance,
   },
   {
+    id: "tally",
+    title: "Tally-ready export setup",
+    detail: commercialScope.tallyExport,
+    plans: "Growth and Enterprise",
+  },
+  {
+    id: "payments",
+    title: "Your Razorpay account",
+    detail: commercialScope.paymentGateway,
+  },
+  {
     id: "migration",
     title: "Data migration",
     detail: commercialScope.migrationShort,
@@ -113,8 +130,7 @@ export const licenceIncludes: ReadonlyArray<{
  * The combined one-time branding charge is separate from the active subscription.
  * Fairhelm owns publisher accounts. Store fees and maintenance need confirmation.
  */
-export const WHITE_LABEL_NOTE =
-  `White-label Android and iOS branding is available on Growth and Enterprise for ₹25,000 once, combined, in the year first purchased. A valid existing branding entitlement is not charged again on ordinary renewal or a plan change. Native branded apps require no external API add-on. ${mobileAppPublishing} Store fees and maintenance scope must be confirmed before purchase. Subscription-backed functions require an active subscription. Founding Institutional Partner treatment follows the executed agreement.`;
+export const WHITE_LABEL_NOTE = `White-label Android and iOS branding is included in Enterprise. On Growth it costs ₹25,000 once, combined, in the year first purchased. A valid existing branding entitlement is not charged again on ordinary renewal or a plan change. Native branded apps require no external API add-on. ${mobileAppPublishing} Store fees and maintenance scope must be confirmed before purchase. Subscription-backed functions require an active subscription. Founding Institutional Partner treatment follows the executed agreement.`;
 
 /**
  * Procurement FAQ. This array is the single source for both the rendered
@@ -122,6 +138,13 @@ export const WHITE_LABEL_NOTE =
  * data cannot drift apart.
  */
 export const pricingFaqs = [
+  { question: "Is Tally export setup included?", answer: commercialScope.tallyExport },
+  { question: "Who receives fee payments?", answer: commercialScope.paymentGateway },
+  { question: "Which Indian fee rules are supported?", answer: commercialScope.indianFeeOperations },
+  {
+    question: "Will new standard features increase my price?",
+    answer: corePlatform.futureFeatures,
+  },
   { question: "Are data and audit exports included?", answer: dataEventsApi.exports },
   {
     question: "How is the Data & Events API priced?",
@@ -129,9 +152,13 @@ export const pricingFaqs = [
   },
   {
     question: "Do API resources or events differ by plan?",
-    answer: `${dataEventsApi.catalogue} ${dataEventsApi.throughput}`,
+    answer: `No. ${dataEventsApi.catalogue} Only the request limit differs: ${apiRpm.starter.requests.toLocaleString("en-IN")}, ${apiRpm.pro.requests.toLocaleString("en-IN")} and ${apiRpm.enterprise.requests.toLocaleString("en-IN")} requests per minute on Starter, Growth and Enterprise.`,
   },
-  { question: "Do API rate limits create overage charges?", answer: dataEventsApi.throughput },
+  {
+    question: "Do API rate limits create overage charges?",
+    answer:
+      "No. Requests above your limit are throttled, with no overage charge and no automatic upgrade. Limits are counted in a sliding 60-second window across the institution's external clients. Stream bounds and replay retention are confirmed during onboarding.",
+  },
   {
     question: "Do native or white-label apps need the API add-on?",
     answer: dataEventsApi.nativeWorkflows,
@@ -144,7 +171,7 @@ export const pricingFaqs = [
   },
   {
     question: "What does Enterprise add beyond ordinary ERP modules?",
-    answer: `Enterprise School OS describes the product. Every subscription plan includes the same generally available feature access, including governance, analytics and multi-campus operations. The Enterprise plan has a larger included AIC pool and included best-effort migration. Custom services remain separately scoped. ${dataPortability}`,
+    answer: `Nothing is locked behind Enterprise: every plan has the same generally available features, including governance, analytics and multi-campus operations. Enterprise adds a larger included AIC pool (${aicPerMonth("enterprise")} against ${aicPerMonth("pro")} AIC a month on Growth), more shared communication credits (${creditsPerStudent.enterprise} against ${creditsPerStudent.pro} per student a month), white-label Android and iOS apps and Entra SSO included in the licence, the option of custom AEGIS dashboards scoped and quoted for your institution, and a higher Data & Events API limit (${apiRpm.enterprise.requests.toLocaleString("en-IN")} against ${apiRpm.pro.requests.toLocaleString("en-IN")} requests per minute). Migration is included in Growth too. Custom services remain separately scoped. ${dataPortability}`,
   },
   {
     question: "Is SquareCampus appropriate if we only need attendance and fees?",
@@ -169,12 +196,12 @@ export const pricingFaqs = [
   },
   {
     question: "Can the price grow after we sign?",
-    answer: `Not by surprise. ${commercialScope.noSurprises} Enrolment growth is reconciled through the agreed true-up.`,
+    answer: `Not by surprise. ${commercialScope.noSurprises} ${commercialScope.renewal}`,
   },
   {
     question: "Can SquareCampus run in our own cloud account?",
     answer:
-      "Not today. Enterprise can scope a dedicated deployment on AWS, in a private cloud or on premises, with responsibilities set out before implementation.",
+      "Not today. SquareCampus runs as managed cloud on Microsoft Azure in India. If your governance requires something different, raise it during scoping and we will tell you plainly whether we can support it.",
   },
   {
     question: "Which sign-in options does each plan have?",
@@ -199,10 +226,15 @@ export const pricingFaqs = [
     answer: `${aicCommercial.purchases} ${aicCommercial.wallet}`,
   },
   { question: "How much AIC does one analytical answer use?", answer: aicCommercial.operations },
-  { question: "Does purchased AIC repeat at renewal?", answer: "Prepaid AIC is a separate purchase in the quantity you choose, priced using graduated volume bands. It enters the purchase-year estimate once. Renewal does not automatically buy credits again." },
+  {
+    question: "Does purchased AIC repeat at renewal?",
+    answer:
+      "Prepaid AIC is a separate purchase in the quantity you choose, priced using graduated volume bands. It enters the purchase-year estimate once. Renewal does not automatically buy credits again.",
+  },
   {
     question: "Can a trust contract cover multiple campuses?",
-    answer: `${corePlatform.multiCampus} A trust-level agreement can cover agreed campuses within the same billed subscription. Specialised configuration and services are scoped separately.`,
+    answer:
+      "Yes. A trust-level agreement can cover agreed campuses within the same billed subscription. Specialised configuration and services are scoped separately.",
   },
   {
     question: "How many Founding Institutional Partner positions exist?",
@@ -210,7 +242,7 @@ export const pricingFaqs = [
   },
   {
     question: "Do all plans include the core platform and multi-campus operations?",
-    answer: `${corePlatform.included} ${corePlatform.multiCampus} ${corePlatform.availability}`,
+    answer: `Yes. ${corePlatform.promise} Plans differ only in included allowances and services, and campuses in the same billed institutional subscription count together for enrolment. ${corePlatform.availability}`,
   },
   {
     question: "Can Starter request Microsoft Entra single sign-on separately?",
@@ -230,6 +262,6 @@ export const pricingFaqs = [
   },
   {
     question: "Can we buy one enhancement without changing our whole plan?",
-    answer: `Optional services follow their plan eligibility and technical readiness. Data & Events API is available on every plan. Entra SSO is optional on every plan and included in Enterprise. White-label apps require Growth or Enterprise. ${identity.sso.body} Other enhancements, consumption and professional services are assessed and quoted separately; their availability is not implied by appearing in a scoping discussion.`,
+    answer: `Optional services follow their plan eligibility and technical readiness. Data & Events API is available on every plan. Entra SSO is optional on every plan and included in Enterprise. White-label apps are included in Enterprise and a ₹25,000 one-time charge on Growth. ${identity.sso.body} Other enhancements, consumption and professional services are assessed and quoted separately; their availability is not implied by appearing in a scoping discussion.`,
   },
 ] as const;

@@ -170,7 +170,7 @@ test("Enterprise at 1200 with SSO and new combined app branding matches the brie
   );
   assert.equal(quote.renewalFixedPaise, fixtures.enterpriseWithNewBrandingAndSso.renewalFixedPaise);
   assert.equal(quote.monthlyCommunicationCredits, 10800);
-  assert.equal(quote.newBrandingPaise, 2500000);
+  assert.equal(quote.newBrandingPaise, 0); // white-label is included in Enterprise
   assert.equal(quote.annualSsoPaise, 0);
   assert.equal(quote.firstYearTaxPaise, null);
   assert.equal(quote.firstYearIncludingTaxPaise, null);
@@ -278,7 +278,7 @@ test("no entered workload gets the lowest subscription without a best-fit claim"
 test("AIC forecasts use working flat pools while unknown communication tariffs stay incomplete", () => {
   assert.equal(pricingPolicy.aic.staffMultiplierEnabled, false);
   assert.equal(pricingPolicy.plans.pro.monthlyIncludedMilliAic, 1500000);
-  assert.equal(pricingPolicy.plans.enterprise.monthlyIncludedMilliAic, 2500000);
+  assert.equal(pricingPolicy.plans.enterprise.monthlyIncludedMilliAic, 4000000);
   assert.equal(projectAic("pro", 200000).annualPaise, 0);
   assert.equal(projectAic("enterprise", 0).annualPaise, 0);
   assert.equal(
@@ -494,4 +494,15 @@ test("customer charges come from accepted quotes independently of internal spend
       .debitMilliAic,
     null
   );
+});
+
+test("Enterprise packaging quotes use a new policy version", () => {
+  assert.equal(pricingPolicy.version, "2026-11-10.2");
+  assert.throws(
+    () => calculateFixedEstimate("enterprise", 1200, noAddOns, "2026-11-10.1"),
+    /Unsupported pricing version/
+  );
+  const quote = calculateFixedEstimate("enterprise", 1200, { ...noAddOns, whiteLabel: true });
+  assert.equal(quote.newBrandingPaise, 0);
+  assert.equal(quote.monthlyIncludedMilliAic, 4000000);
 });

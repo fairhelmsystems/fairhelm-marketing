@@ -330,7 +330,7 @@ export function llmsOrientation(): string[] {
     `- Deployment: ${deploymentSummary} Running in the institution's own cloud account (BYOC) is not offered today.`,
     `- Availability: ${availability.note}`,
     `- Core distinction: ${product.distinction}`,
-    `- Competes on: ${product.competesOn.map((c) => c.toLowerCase()).join(", ")}. It is not designed to be the cheapest attendance, fees and report-card product, and will look expensive to an institution that needs only that.`,
+    `- Competes on: ${product.competesOn.map((c) => c.toLowerCase()).join(", ")}.`,
     `- Plans: ${planHierarchy.map((p) => `${p.name} — ${p.summary}`).join(" ")}`,
     `- Core platform: ${corePlatform.included} ${corePlatform.multiCampus}`,
     `- Security baseline: ${securityBaseline}`,

@@ -27,7 +27,7 @@ import { SiteHeader } from "@/components/site/site-header";
 import { SyntheticDataNote } from "@/components/site/synthetic-data-note";
 import { WorkflowCards } from "@/components/site/workflow-cards";
 import { heroVocabulary } from "@/content/background";
-import { deploymentSummary, product } from "@/content/commercial";
+import { corePlatform, deploymentSummary, product } from "@/content/commercial";
 import {
   CANONICAL_PROMISE,
   homepagePainIds,
@@ -177,7 +177,7 @@ export default function Home() {
               <h1 className="type-display">{product.positioning}</h1>
               {/* Category and audience stay explicit before the actions. */}
               <p className="type-body measure text-muted-foreground">
-                {product.categoryDescriptor}.
+                Connected records, accountable workflows and governed intelligence for every campus.
               </p>
               {/* Stacked and full-width on phones; one row from sm up. */}
               <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:flex-wrap">
@@ -332,7 +332,7 @@ export default function Home() {
                         ["Grade 6", 97],
                       ].map(([label, value]) => (
                         <div key={label as string} className="flex items-center gap-3">
-                          <span className="w-16 shrink-0 text-right font-mono text-[0.6875rem] text-muted-foreground">
+                          <span className="w-16 shrink-0 text-right font-mono text-xs text-muted-foreground">
                             {label as string}
                           </span>
                           <div className="relative h-5 flex-1 overflow-hidden rounded-full bg-(--surface-muted)">
@@ -345,7 +345,7 @@ export default function Home() {
                               }}
                             />
                           </div>
-                          <span className="w-8 shrink-0 font-mono text-[0.6875rem] font-medium text-foreground">
+                          <span className="w-8 shrink-0 font-mono text-xs font-medium text-foreground">
                             {value as number}%
                           </span>
                         </div>
@@ -401,7 +401,7 @@ export default function Home() {
                             strokeWidth="18"
                             strokeDasharray={`${(0.72 - 0.008) * 2 * Math.PI * 62} ${2 * Math.PI * 62}`}
                             strokeLinecap="butt"
-                            className="animate-[doughnut-draw_1.4s_ease-out_both]"
+                            className="motion-reduce:animate-none animate-[doughnut-draw_1.4s_ease-out_both]"
                           />
                           {/* Pending: 20% — light step of the brand hue */}
                           <circle
@@ -414,7 +414,7 @@ export default function Home() {
                             strokeDasharray={`${(0.2 - 0.008) * 2 * Math.PI * 62} ${2 * Math.PI * 62}`}
                             strokeDashoffset={`${-0.72 * 2 * Math.PI * 62}`}
                             strokeLinecap="butt"
-                            className="animate-[doughnut-draw_1.4s_ease-out_0.2s_both]"
+                            className="motion-reduce:animate-none animate-[doughnut-draw_1.4s_ease-out_0.2s_both]"
                           />
                           {/* Overdue: 8% — warning status */}
                           <circle
@@ -427,7 +427,7 @@ export default function Home() {
                             strokeDasharray={`${(0.08 - 0.008) * 2 * Math.PI * 62} ${2 * Math.PI * 62}`}
                             strokeDashoffset={`${-0.92 * 2 * Math.PI * 62}`}
                             strokeLinecap="butt"
-                            className="animate-[doughnut-draw_1.4s_ease-out_0.4s_both]"
+                            className="motion-reduce:animate-none animate-[doughnut-draw_1.4s_ease-out_0.4s_both]"
                           />
                         </svg>
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -598,7 +598,7 @@ export default function Home() {
                   <EditorialGeometryOverlay variant="warm" />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,var(--photo-scrim-top),var(--photo-scrim))]" />
 
-                  <div className="absolute right-4 top-4 max-w-[16rem] rounded-[1.35rem] border border-white/14 bg-(--photo-chip-light) p-4 text-[color:var(--foreground)] shadow-(--shadow-2) dark:border-white/10 dark:bg-[rgba(12,20,32,0.72)] dark:text-white dark:shadow-[0_18px_50px_rgba(0,0,0,0.4)]">
+                  <div className="absolute right-4 top-4 max-w-[16rem] rounded-[1.35rem] border border-white/14 bg-(--photo-chip-light) p-4 text-[color:var(--foreground)] shadow-(--shadow-2) dark:border-white/10 dark:bg-(--photo-chip) dark:text-white dark:shadow-(--shadow-2)">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-xs text-[color:var(--muted-foreground)] dark:text-white/60">
                         Circular delivery
@@ -615,7 +615,7 @@ export default function Home() {
                       </div>
                     </div>
                     <p className="mt-3 font-display text-xl tracking-[-0.04em]">
-                      Fee reminder queued in the family's language
+                      Fee reminder queued in the family’s language
                     </p>
                     <p className="mt-3 text-sm leading-6 text-[color:var(--muted-foreground)] dark:text-white/60">
                       Same due date, same receipt trail, same operator view. Language adapts without
@@ -715,7 +715,7 @@ export default function Home() {
           mobileDisclosure="Rollout and implementation"
           compactBody
           title="A rollout your institution can govern."
-          body="Plan migration, training and parallel validation around your academic calendar, with named counterparts and agreed scope."
+          body="Standard implementation and support are included in every plan. Sequence migration, training and parallel validation around your academic calendar."
         >
           <Reveal staggerChildren className="grid gap-4 md:grid-cols-2">
             {rolloutTrust.map((item) => (
@@ -760,21 +760,22 @@ export default function Home() {
         {/* 9 — Final CTA */}
         <SectionShell className="key-page-close pb-12 sm:pb-22">
           <Reveal className="surface-panel-strong rounded-[2rem] p-5 sm:p-8 lg:p-10">
+            <p className="type-support mb-6">{corePlatform.futureFeatures}</p>
             <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-center">
               <div>
                 <h2 className="mt-4 font-display text-3xl tracking-[-0.05em] sm:text-4xl">
                   See how SquareCampus would run your workflows.
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--muted-foreground)]">
-                  Bring your current systems and one operational priority. We will walk through the
-                  workflow, the controls and a scoped rollout.
+                  Bring one workflow you want to run better. Follow its records, ownership, approvals
+                  and AEGIS insight through a guided demonstration.
                 </p>
               </div>
               <div className="grid gap-3">
                 <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} />
                 <ButtonLink
-                  href={siteCtas.platformHref}
-                  label="View platform architecture"
+                  href="/pricing/"
+                  label="Calculate your price"
                   variant="secondary"
                 />
               </div>

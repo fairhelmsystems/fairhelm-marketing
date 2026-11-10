@@ -282,8 +282,19 @@ export default async function ComparePage({ params }: PageProps) {
       </SectionShell>
 
       <SectionShell className="pb-12 pt-0 sm:pb-16">
-        <p className="mx-auto max-w-3xl text-center text-xs leading-6 text-muted-foreground">
-          Comparison based on publicly available information as of {COMPARISON_AS_OF}.{" "}
+        {c.sources && (
+          <ul className="mb-6 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm">
+            {c.sources.map((source) => (
+              <li key={source.url}>
+                <Link href={source.url} target="_blank" rel="noreferrer noopener nofollow" className="underline underline-offset-4">
+                  {source.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className="mx-auto max-w-[70ch] text-center text-xs leading-6 text-muted-foreground">
+          Comparison based on publicly available information as of {c.verifiedAt ?? COMPARISON_AS_OF}.{" "}
           <Link
             href={c.competitorUrl}
             target="_blank"

@@ -1,10 +1,6 @@
-/* Hallmark · shape: pricing workbench (/pricing), kept (other routes) · genre: modern-minimal · theme: brand · brand: SquareCampus (repository tokens 2026-11-09) · redesign: full (/pricing) · copy: owner-approved AIC and SSO update with recorded hero edit · hero: Banner · nav: shared grouped navigation · footer: shared company disclosure · signature: a live INR receipt beside enrolment and annual plan prices · posture: restrained · system: @fairhelm/ui/styles.css and tokens.css */
+/* Hallmark · shape: pricing workbench (/pricing), kept (other routes) · genre: modern-minimal · theme: brand · brand: SquareCampus (repository tokens 2026-11-09) · redesign: polish (positioning and pricing integration) · copy: owner-approved AIC and SSO update with recorded hero edit · hero: Banner · nav: shared grouped navigation · footer: shared company disclosure · signature: a live INR receipt beside enrolment and annual plan prices · posture: restrained · system: @fairhelm/ui/styles.css and tokens.css */
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, retained the shared brand shell and brought annual plan prices into the live controls */
-/* Hallmark · waive 44c · pricing calculator begins within the first screen at desktop widths · the brief requires prices close to the top, so the hero ends before the workbench */
 /* Hallmark · waive 81 · the reported field data-slots contain working pricing inputs and accessible labels · pricing field slots identify the live calculator controls */
-/* Hallmark · waive 24b · the retained 3.5px port offset centres an existing 7px AEGIS connection marker · this pricing stylesheet also carries the optically aligned AEGIS connection marker */
-/* Hallmark · waive 59 · the dense pricing workbench separates its hero and controls with a full-width rule and inverse estimate surface · the short opening gap keeps the annual price in the first pricing screen */
-/* Hallmark · waive 77 · pilot terms use full-width disclosure rows and the closing action spans the container · pricing evaluation ends with one direct demo action and readable commercial terms */
 /* Hallmark · answered F18 · small field-label data-slots are semantic calculator labels, with full-width controls, rather than collapsed image slots */
 /* Hallmark · dismissed 25 · the pricing workbench's short explanatory caption has a 32ch measure and contains a single sentence */
 /* Hallmark · answered F25 · the phone view keeps the price and controls visible, with full pricing terms in keyboard-accessible native disclosures and concise helper copy */
@@ -12,7 +8,11 @@
 /* Hallmark · scaffold: brand scaffold generated for comparison; existing @fairhelm/ui tokens and base rules supply the shared system */
 /* Hallmark · hero-review: subagent, ship, zero findings · finish-review: subagent, fix, 1 finding resolved by retaining the visible optional-service cost notice */
 /* Hallmark · owner follow-up: native access popover, graduated AIC catalogue v4, optional Enterprise SSO included · finish-review: subagent, fix, 2 findings resolved with aggregate-capacity regression coverage and current purchase wording */
-/* Hallmark · owner refinement 2026-11-10: manual plans, prepaid AIC opt-in, 3/6/9 communication grants and 1,500/2,500 monthly AIC pools, and three sample SVG walkthroughs · finish-review: subagent, fix, 1 label-in-name finding resolved with full visible scenario labels */
+/* Hallmark · owner refinement 2026-11-10: manual plans, prepaid AIC opt-in, 3/6/9 communication grants and 1,500/4,000 monthly AIC pools, and three sample SVG walkthroughs · finish-review: subagent, fix, 1 label-in-name finding resolved with full visible scenario labels */
+/* Hallmark · positioning polish 2026-11-10: shared Enterprise School OS promise, Enterprise allowance receipt, AEGIS operation terms and sourced Fedena comparison · kept brand, routes, navigation and mobile disclosures */
+/* Hallmark · waive 80 · labelled synthetic product charts and record-flow diagrams accompany readable equivalent data · AEGIS demonstrates the attendance and fee records in its table and chart */
+/* Hallmark · finish-review 2026-11-10: fresh-context subagent, ship, zero actionable findings across pricing and positioning polish · retained mobile disclosures and synthetic-data labels */
+/* Hallmark · answered F20: AEGIS sample follow-up labels wrap as readable complete phrases · answered F26: comparison headings remain balanced and readable on phones · dismissed 28a: editorial photographs are below the synthetic product hero */
 @import "tailwindcss";
 @import "@fairhelm/ui/styles.css";
 
@@ -1074,6 +1074,9 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
   gap: 1rem;
 }
 .pricing-line-items dt {
+  color: inherit;
+}
+.pricing-estimate .pricing-line-items dt {
   color: var(--surface-inverse-muted);
 }
 .pricing-line-items dd {
@@ -2272,8 +2275,8 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
 .aic-boundary-message {
   margin-block: 1rem;
   color: var(--foreground);
-  border-left: 3px solid var(--brand);
-  padding-left: 1rem;
+  border: 1px solid var(--line-strong);
+  padding: 1rem;
 }
 .aic-operation-receipt {
   display: flex;

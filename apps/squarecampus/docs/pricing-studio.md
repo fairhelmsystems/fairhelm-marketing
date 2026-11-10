@@ -4,11 +4,11 @@ The owner’s Pricing Studio brief dated 9 November 2026 supplies the annual rat
 
 ## Commercial source and stable identifiers
 
-The canonical public policy is `packages/squarecampus-content/src/pricing-policy.json`, version `2026-11-09.8`. The browser and static `/pricing-policy.json` response import the same file. Amounts use integer paise. `pricing-fixtures.json` supplies shared golden examples for a future Java implementation. The Data & Events API v2 delta is documented in `data-events-api.md` and supersedes the earlier API addendum. The owner's subsequent calculator maximum is 50,00,000 students. Version .4 adds approved plan-specific API fees, 60-second sliding-window limits and owner-confirmed activation readiness.
+The canonical public policy is `packages/squarecampus-content/src/pricing-policy.json`, version `2026-11-10.2`. The browser and static `/pricing-policy.json` response import the same file. Amounts use integer paise. `pricing-fixtures.json` supplies shared golden examples for a future Java implementation. The Data & Events API v2 delta is documented in `data-events-api.md` and supersedes the earlier API addendum. The owner's subsequent calculator maximum is 50,00,000 students. Version .4 adds approved plan-specific API fees, 60-second sliding-window limits and owner-confirmed activation readiness.
 
 The public plan names are Starter, Growth and Enterprise. The stable identifiers remain `starter`, `pro` and `enterprise`. Historical `pro` records need no migration for this display-name change.
 
-Every generally available module and feature has equal subscription-plan eligibility. Campus count, core governance, analytics and API interest do not require an upgrade. Entra SSO is optional on every plan and included in the Enterprise licence. White-label apps require Growth or Enterprise. A declared API peak can affect suitability when approved sliding-window limits establish capacity. Permissions, institutional scope, tenant isolation, consent, approvals and usage controls still apply. Preview or unavailable capabilities require explicit confirmation.
+Every generally available module and feature has equal subscription-plan eligibility. Campus count, core governance, analytics and API interest do not require an upgrade. Entra SSO is optional on every plan and included in the Enterprise licence. White-label apps are included in Enterprise and cost ₹25,000 once on Growth. A declared API peak can affect suitability when approved sliding-window limits establish capacity. Permissions, institutional scope, tenant isolation, consent, approvals and usage controls still apply. Preview or unavailable capabilities require explicit confirmation.
 
 Standard implementation and support remain included. Best-effort migration against usable source exports remains included on Growth and Enterprise and separately quoted on Starter. A migration requirement therefore needs a scoped comparison before its total cost can be ranked. The calculator’s custom-service checkbox makes this uncertainty explicit.
 
@@ -22,9 +22,9 @@ Standard implementation and support remain included. Best-effort migration again
 
 The owner’s follow-up sets a minimum of 100 enrolled students per billed subscription. Inputs below that minimum are rejected. At the minimum, annual licences are ₹17,500 Starter, ₹22,500 Growth and ₹35,000 Enterprise, before GST and optional services. All figures are per student per year and exclude applicable GST. Only students within a slab receive its rate. Student counts aggregate within the same billed institutional subscription. Aggregation across unrelated subscriptions or legal entities requires an agreed policy.
 
-Data & Events API access costs ₹2,500/year on Starter at 250 requests per rolling minute, ₹5,000/year on Growth at 500, and ₹10,000/year on Enterprise at 2,000. The selected fee recurs in purchase-year and comparable renewal totals. API access alone cannot require a plan upgrade, while a declared peak above a plan’s throughput can affect suitability.
+Data & Events API access costs ₹2,500/year on Starter at 250 requests per rolling minute, ₹5,000/year on Growth at 500, and ₹10,000/year on Enterprise at 4,000. The selected fee recurs in purchase-year and comparable renewal totals. API access alone cannot require a plan upgrade, while a declared peak above a plan’s throughput can affect suitability.
 
-Microsoft Entra SSO integration and maintenance costs ₹2,500 each year on Starter and Growth. Enterprise includes optional SSO in its licence, with the same price whether the customer activates it or not. The institution supplies its own Entra tenant and Microsoft licences. White-label Android and iOS branding has one combined ₹25,000 setup charge on Growth and Enterprise. Previously purchased branding is not charged again. Renewal excludes new one-time branding and assumes unchanged enrolment, plan, rates, services and tax treatment.
+Microsoft Entra SSO integration and maintenance costs ₹2,500 each year on Starter and Growth. Enterprise includes optional SSO in its licence, with the same price whether the customer activates it or not. The institution supplies its own Entra tenant and Microsoft licences. White-label Android and iOS branding costs ₹25,000 once on Growth and is included in Enterprise. Previously purchased branding is not charged again. Renewal excludes new one-time branding and assumes unchanged enrolment, plan, rates, services and tax treatment.
 
 Standard apps for staff, parents and students have no additional app licence fee. Staff accounts have no separate per-staff licence charge. Subscription-backed functionality requires an active subscription. Fairhelm Systems owns the publisher accounts for standard and white-label mobile apps. Store fees and white-label maintenance scope require confirmation before purchase.
 
@@ -32,7 +32,7 @@ Standard apps for staff, parents and students have no additional app licence fee
 
 | Field | Implementation treatment |
 | --- | --- |
-| Growth 150 / Enterprise 250 monthly AIC | Draft flat tenant pools, explicitly labelled pending confirmation |
+| Growth 1,500 / Enterprise 4,000 monthly AIC | Confirmed flat tenant pools. Starter includes none |
 | Starter zero included AIC | Proposed default, with generally available AEGIS eligibility and future paid usage |
 | Per-staff multiplication | Disabled |
 | Customer operation tariff map | Unconfigured, a versioned accepted quote is required |
@@ -242,7 +242,7 @@ Current share links use `prepaidAicCredits`. Legacy `pack_aic_*` selections conv
 
 The feature-access explanation uses the shared native `InfoPopover`. Its content remains in exported HTML and Markdown. Click, touch, keyboard, Escape, light-dismiss and the close button use browser popover behaviour. CSS anchor positioning attaches it to its trigger where supported. The fallback is a viewport-centred popover. Opening it does not change the calculator's document position or page height.
 
-The previous GHE pricing page was reviewed from `origin/main`. Its institutional-fit emphasis informs the current plan descriptions. Enterprise is highlighted with its largest draft AI allowance, best-effort migration and included optional SSO. Common feature eligibility remains explicit, and automatic recommendations retain cost-based ranking.
+The previous GHE pricing page was reviewed from `origin/main`. Its institutional-fit emphasis informs the current plan descriptions. Enterprise is highlighted with its largest AI allowance, included white-label apps and included optional SSO. Common feature eligibility remains explicit, and automatic recommendations retain cost-based ranking.
 
 
 ## Prepaid AIC and analytical walkthrough, 10 November 2026
@@ -264,7 +264,7 @@ The standalone published student-rate table is removed. The public versioned pri
 
 The monthly AIC burn input, top-up forecast, monthly projection and forecast assumptions are removed from the pricing page. An AIC purchase is solely the selected whole prepaid quantity, charged once using the existing graduated bands and minimum of 1,000. Saved monthly-burn fields are ignored with a recovery notice and excluded from new shared estimates. The analytical walkthroughs remain.
 
-Growth includes a shared tenant-wide pool of 1,500 AIC per month and Enterprise 2,500 AIC per month. Starter’s zero included AIC retains its proposed status. Included grants expire monthly and purchased balances carry forward. The policy-wide all-allowances-approved flag remains false while Starter’s grant is proposed, with the status explicitly identifying the confirmed Growth and Enterprise pools.
+Growth includes a shared tenant-wide pool of 1,500 AIC per month and Enterprise 4,000 AIC per month (raised from 2,500 on 2026-11-10). Starter includes no AIC and the public page says so. Included grants expire monthly and purchased balances carry forward. The policy-wide all-allowances-approved flag remains false while Starter’s grant is proposed, with the status explicitly identifying the confirmed Growth and Enterprise pools.
 
 The standalone student-rate table and its former component are removed. The public policy remains linked, active student slabs stay on the estimate, and the existing pricing anchors are preserved. Communication grants remain 3/6/9 credits per enrolled student for Starter/Growth/Enterprise.
 
@@ -278,3 +278,11 @@ Production-preview browser coverage passed 35 focused cases across 360, 390, 768
 The rendered Hallmark sweep reported zero Floor failures and zero warnings, with the pre-existing recorded waiver retained. Fresh-context finish review found a label-in-name mismatch in compact scenario controls. Using full visible scenario names resolved it, with accessible-name equality and 320px overflow checks confirming the fix. Default Starter captures were corrected after a nested query-containment issue was fixed and focus/scroll were cleared for screenshots.
 
 The production-edge preview is available at `http://localhost:3100/pricing/`. Existing lint warnings are retained. The scenario operation tariffs remain unapproved, so their quote placeholders are intentional.
+
+## 2026-11-10 pricing page revision
+
+Policy `2026-11-10.2` supersedes `2026-11-10.1` on the owner's direction. Enterprise now includes white-label Android and iOS apps (`addOns.whiteLabelIncludedPlans`), so the calculator adds no branding charge on Enterprise; Growth still pays ₹25,000 once. The Enterprise monthly AIC pool is 4,000 and its Data & Events API limit is 4,000 RPM (RPM replaces TPM in public copy). Custom AEGIS dashboards are an optional Enterprise service, scoped and quoted, and are not described as a shipped feature.
+
+Renewal rates are sent in writing at least 30 days before the renewal date and confirmed on a renewal order form. On-premises deployment is removed from public copy; private deployment on AWS or in a private cloud stays a scoped service, and running inside the institution's own cloud account is not offered. Draft wording ("proposed", "pending", "require confirmation") is removed from the public page. The pricing page now shows what the Enterprise premium buys in rupees at 1,200 students (`enterprise-value.tsx`), derived from the rate card and valued at list rates. At that enrolment Enterprise costs ₹1,37,000 more than Growth and includes ₹1,43,300 of first-year list-rate value and ₹1,18,300 of recurring list-rate value, conditional on using the additional pools. The first-year figure includes ₹25,000 of one-time branding value. Optional API fees are quoted separately.
+
+Future generally available standard features are included in every plan at the existing licence entitlement. PTM is an illustrative future feature. Its release carries no feature fee, compulsory upgrade or feature-based licence repricing. The versioned `featureAccess` policy and shared FAQs encode this rule. Contracted-term rates and the minimum 30-day renewal notice are separately represented in `renewal`.

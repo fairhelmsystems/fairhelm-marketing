@@ -190,7 +190,7 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
 
             <div className="relative grid gap-6 @xl:grid-cols-[1.05fr_0.95fr] @xl:gap-8">
               <div>
-                <p className="flex items-center gap-2 text-[0.6875rem] text-muted-foreground">
+                <p className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--brand-soft),transparent_70%)]">
                     <Radar className="size-3 text-(--brand)" />
                   </span>
@@ -215,7 +215,7 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
                       key={item}
                       data-aegis-rise
                       style={{ "--d": `${T.chip + index * T.chipStep}ms` } as Vars}
-                      className="rounded-full border border-(--line) bg-(--surface) px-3 py-1.5 text-[0.6875rem] text-muted-foreground"
+                      className="rounded-full border border-(--line) bg-(--surface) px-3 py-1.5 text-xs text-muted-foreground"
                     >
                       {item}
                     </span>
@@ -225,8 +225,8 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
 
               <div className="flex flex-col rounded-[1.2rem] border border-(--line) bg-(--surface-sunken) p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-[0.6875rem] text-muted-foreground">Governance checks</p>
-                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-(--line) bg-(--surface) px-2.5 py-1 text-[0.6875rem] text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">Governance checks</p>
+                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-(--line) bg-(--surface) px-2.5 py-1 text-xs text-muted-foreground">
                     Illustrative
                   </span>
                 </div>
@@ -235,9 +235,9 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
                     const delay = `${T.check + index * T.checkStep}ms`;
                     return (
                       <div key={check.label} data-aegis-check style={{ "--d": delay } as Vars}>
-                        <div className="mb-1.5 flex items-center justify-between gap-3 text-[0.68rem]">
+                        <div className="mb-1.5 flex items-center justify-between gap-3 text-xs">
                           <span className="text-foreground">{check.label}</span>
-                          <span className="aegis-status relative text-[0.6875rem]">
+                          <span className="aegis-status relative text-xs">
                             <span className="aegis-status-pending text-muted-foreground">
                               Checking
                             </span>
@@ -259,7 +259,7 @@ export function AegisIntelligenceVisual({ className }: { className?: string }) {
                   })}
                 </div>
 
-                <p className="mt-auto border-t border-(--line) pt-3.5 text-[0.68rem] leading-5 text-muted-foreground">
+                <p className="mt-auto border-t border-(--line) pt-3.5 text-xs leading-5 text-muted-foreground">
                   How AEGIS is designed to answer. Not a measurement of any institution.
                 </p>
               </div>

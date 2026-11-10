@@ -1,5 +1,6 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { EnterpriseValue } from "../src/components/pricing/enterprise-value";
 import { PlanArchitecture } from "../src/components/pricing/plan-architecture";
 import { PlanMatrix } from "../src/components/pricing/plan-matrix";
 import { ScopedCostGrid } from "../src/components/pricing/scoped-cost-grid";
@@ -23,13 +24,13 @@ import { assert, suite, test } from "./harness";
 
 suite("packaging and launch-pilot regression");
 
-test("each rendered plan carries the same core and multi-campus entitlement", () => {
+test("each rendered plan lists the same capabilities, and the core entitlement is stated once in the matrix", () => {
   const html = renderToStaticMarkup(createElement(PlanArchitecture));
   for (const plan of plans) {
     const band =
       html.split(`aria-label="${plan.name} plan details"`)[1]?.split("</section>")[0] ?? "";
-    assert.ok(band.includes(corePlatform.included), plan.id);
-    assert.ok(band.includes(corePlatform.multiCampus), plan.id);
+    for (const capability of plan.capabilities) assert.ok(band.includes(capability), plan.id);
+    assert.ok(!band.includes(corePlatform.included), `${plan.id} must not repeat the shared note`);
   }
 });
 
@@ -137,4 +138,15 @@ test("security and exit answers share baseline policy without invented delivery 
   assert.match(dataPortability, /institution owns/i);
   assert.match(dataPortability, /retention and deletion/);
   assert.doesNotMatch(dataPortability, /within \d+ days|CSV|JSON|free exports/);
+});
+
+test("Enterprise value distinguishes first-time branding from recurring allowances", () => {
+  const html = renderToStaticMarkup(createElement(EnterpriseValue));
+  assert.match(html, /First-year included value at list rates/);
+  assert.match(html, /Recurring included value at list rates/);
+  for (const amount of ["₹1,37,000", "₹1,43,300", "₹1,18,300"])
+    assert.ok(html.includes(amount), amount);
+  assert.match(html, /optional Data.*Events API/);
+  assert.match(html, /4,000/);
+  assert.match(html, /One-time setup included/);
 });

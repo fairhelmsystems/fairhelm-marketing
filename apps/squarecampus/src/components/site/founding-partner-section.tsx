@@ -4,7 +4,6 @@ import { CTAGroup, Eyebrow, TrustNote } from "@fairhelm/ui/components/marketing"
 import { Reveal } from "@fairhelm/ui/components/reveal";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { FOUNDING_PARTNER_DEMO_HREF, foundingPartners } from "@/content/founding-partners";
-import { ctaLabels } from "@/content/site-content";
 
 const { home } = foundingPartners;
 
@@ -36,13 +35,13 @@ export function FoundingPartnerSection() {
             <CTAGroup className="lg:flex-col lg:items-stretch">
               <ButtonLink
                 href={foundingPartners.href}
-                label="See the programme terms"
+                label="Programme terms"
                 variant="secondary"
                 className="w-full justify-center sm:w-auto"
               />
               <ButtonLink
                 href={FOUNDING_PARTNER_DEMO_HREF}
-                label={ctaLabels.foundingPartner}
+                label="Discuss partnership"
                 variant="ghost"
                 className="w-full justify-center sm:w-auto"
               />

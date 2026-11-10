@@ -89,7 +89,7 @@ const unconfiguredApi: DataEventsApiPricing = {
 };
 
 test("the public API policy keeps price, limits and release state explicit", () => {
-  assert.equal(pricingPolicy.version, "2026-11-10.1");
+  assert.equal(pricingPolicy.version, "2026-11-10.2");
   assert.deepEqual(publicDataEventsApiPricing.annualDataEventsApiPaise, {
     starter: 250000,
     pro: 500000,
@@ -103,7 +103,7 @@ test("the public API policy keeps price, limits and release state explicit", () 
   assert.deepEqual(publicDataEventsApiPricing.slidingWindows, {
     starter: { requests: 250, windowSeconds: 60 },
     pro: { requests: 500, windowSeconds: 60 },
-    enterprise: { requests: 2000, windowSeconds: 60 },
+    enterprise: { requests: 4000, windowSeconds: 60 },
   });
   assert.equal(pricingPolicy.dataEventsApi.streamAndQueryLimits, null);
   assert.equal(pricingPolicy.dataEventsApi.replayRetention, null);
@@ -122,7 +122,7 @@ test("API unselected preserves all original monetary amounts", () => {
 test("approved plan fees recur annually and branding remains a one-time purchase", () => {
   for (const [plan, apiFee, purchaseYear, renewal] of [
     ["pro", 500000, 29550000, 27050000],
-    ["enterprise", 1000000, 43500000, 41000000],
+    ["enterprise", 1000000, 41000000, 41000000],
   ] as const) {
     const quote = calculateFixedEstimate(plan, 1200, {
       ...selectedApi,
@@ -178,7 +178,7 @@ test("API throughput is evaluated within the plans supporting the selected add-o
     [250, "starter"],
     [500, "pro"],
     [501, "enterprise"],
-    [2001, null],
+    [4001, null],
   ] as const) {
     assert.equal(
       recommendPlan(1200, addOns, { apiPeak: { requests, windowSeconds: 60 } }).plan,
@@ -234,8 +234,8 @@ test("approved sliding-minute boundaries select the lowest-priced suitable plan"
     [251, "pro"],
     [500, "pro"],
     [501, "enterprise"],
-    [2000, "enterprise"],
-    [2001, null],
+    [4000, "enterprise"],
+    [4001, null],
   ] as const) {
     const result = recommendPlan(1200, selectedApi, {
       apiPeak: { requests, windowSeconds: 60 },
@@ -286,7 +286,7 @@ test("a selected configured annual API fee is applied once to purchase and renew
     result.renewalFixedPaise,
     synthetic.enterprise1200WithNewBrandingAndSso.comparableRenewalKnownPaise
   );
-  assert.equal(result.firstYearFixedPaise - result.renewalFixedPaise, 2500000);
+  assert.equal(result.firstYearFixedPaise - result.renewalFixedPaise, 0); // Enterprise includes white-label
   assert.equal(result.complete, true);
 });
 
@@ -303,7 +303,7 @@ test("an unknown selected API price returns known subtotals and a structured mis
     null,
     unconfiguredApi
   );
-  assert.equal(quote.firstYearFixedPaise, 42500000);
+  assert.equal(quote.firstYearFixedPaise, 40000000);
   assert.equal(quote.renewalFixedPaise, 40000000);
   assert.equal(quote.annualDataEventsApiPaise, null);
   assert.equal(quote.complete, false);
@@ -340,7 +340,7 @@ test("configured tax reconciles API, SSO and one-time branding as separate lines
     synthetic.annualDataEventsApiPaise.enterprise,
   ].reduce((total, amount) => total + taxPaise(amount, tax), 0);
   assert.equal(quote.recurringTaxPaise, recurringTax);
-  assert.equal(quote.firstYearTaxPaise, recurringTax + taxPaise(2500000, tax));
+  assert.equal(quote.firstYearTaxPaise, recurringTax + taxPaise(0, tax));
   const unknown = calculateFixedEstimate(
     "starter",
     100,
@@ -382,7 +382,7 @@ test("existing branding survives every plan change and ordinary renewal", () => 
       null,
       api
     );
-    assert.equal(laterFirstPurchase.firstYearFixedPaise - owned.firstYearFixedPaise, 2500000);
+    assert.equal(laterFirstPurchase.firstYearFixedPaise - owned.firstYearFixedPaise, plan === "enterprise" ? 0 : 2500000);
   }
 });
 
@@ -552,9 +552,9 @@ test("public copy preserves exports and first-party independence with equal cata
   assert.match(html, /₹2,500\/year/);
   assert.match(html, /₹5,000\/year/);
   assert.match(html, /₹10,000\/year/);
-  assert.match(html, /250 TPM/);
-  assert.match(html, /500 TPM/);
-  assert.match(html, /2,000 TPM/);
+  assert.match(html, /250 RPM/);
+  assert.match(html, /500 RPM/);
+  assert.match(html, /4,000 RPM/);
   assert.doesNotMatch(html, /Annual price pending|Planned optional|price unconfigured/);
   assert.doesNotMatch(html, /₹12,345|capacity packs|free API baseline|per.request charge/i);
   assert.doesNotMatch(html, /id="pricing-api-peak"/);

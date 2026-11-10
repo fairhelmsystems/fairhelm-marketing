@@ -7,9 +7,8 @@ import {
 } from "@fairhelm/squarecampus-content/pricing";
 import { Button } from "@fairhelm/ui/components/button";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
-import { RetentionPointer } from "@/components/pricing/retention-pointer";
 import { planIcons } from "@/components/pricing/plan-icons";
-import { corePlatform, type PlanId } from "@/content/commercial";
+import type { PlanId } from "@/content/commercial";
 import { plans } from "@/content/pricing";
 import { formatAic, formatInr, formatInrRatio } from "@/lib/pricing-estimate";
 
@@ -65,8 +64,9 @@ export function PlanArchitecture({
               communication credits/month
             </p>
             <p className="pricing-plan-pool">
-              {formatAic(pricingPolicy.plans[plan.id].monthlyIncludedMilliAic)} AIC/month
-              {plan.id === "starter" ? ", proposed" : ""}
+              {plan.id === "starter"
+                ? "No included AIC; buy prepaid AIC"
+                : `${formatAic(pricingPolicy.plans[plan.id].monthlyIncludedMilliAic)} AIC/month`}
             </p>
             <p className="type-support pricing-plan-sso">
               {plan.id === "enterprise"
@@ -90,8 +90,8 @@ export function PlanArchitecture({
             )}
             <p className="type-support pricing-plan-scope">
               {plan.id === "starter"
-                ? "Zero included AIC is proposed. Migration is separately quoted."
-                : "Shared tenant AI pool. Best-effort migration included."}
+                ? "No included AIC. Migration is separately quoted."
+                : "Shared tenant AI pool. Migration and Tally-ready export setup included."}
             </p>
             {onSelect ? (
               <Button
@@ -108,15 +108,11 @@ export function PlanArchitecture({
             <details data-md-include>
               <summary>Included in {plan.name}</summary>
               <section aria-label={`${plan.name} plan details`}>
-                <p>{corePlatform.included}</p>
-                <p>{corePlatform.multiCampus}</p>
                 <ul>
                   {plan.capabilities.map((capability) => (
                     <li key={capability}>{capability}</li>
                   ))}
                 </ul>
-                <p>{corePlatform.availability}</p>
-                <RetentionPointer />
               </section>
             </details>
           </article>

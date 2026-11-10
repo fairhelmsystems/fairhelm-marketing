@@ -4,6 +4,7 @@ import {
   fit,
   foundingProgramme,
   identity,
+  commercialScope,
   mobileAppPublishing,
   planHierarchy,
   pricingAvailability,
@@ -110,9 +111,15 @@ test("pricing availability is stated once and reused verbatim by every FAQ surfa
 test("published pricing is explicit and unconfigured AIC tariffs are never advertised", () => {
   assert.match(pricingAvailability.short, /Annual INR subscription rates/);
   assert.match(identity.sso.body, /₹2,500/);
-  assert.match(pricingFaqs.find((faq) => faq.question === "How is AEGIS usage handled?")?.answer ?? "", /Purchased-credit validity and cancellation terms require confirmation/);
+  assert.match(
+    pricingFaqs.find((faq) => faq.question === "How is AEGIS usage handled?")?.answer ?? "",
+    /Purchased-AIC validity and cancellation terms are on your order form/
+  );
   const text = JSON.stringify([pricingAvailability, plans, pricingFaqs, faqs]);
-  assert.doesNotMatch(text, /150 (questions|prompts)|unlimited AI|₹0\.25\s*(per |\/)AIC|5.credit WhatsApp/i);
+  assert.doesNotMatch(
+    text,
+    /150 (questions|prompts)|unlimited AI|₹0\.25\s*(per |\/)AIC|5.credit WhatsApp/i
+  );
 });
 
 test("fit guidance names who SquareCampus is not for", () => {
@@ -173,4 +180,35 @@ test("the GST FAQ names the invoicing entity and its GSTIN", () => {
   const answer = pricingFaqs.find((f) => f.question === "Is GST included?")?.answer ?? "";
   assert.ok(answer.includes(company.gstin), "GST FAQ must quote company.gstin");
   assert.ok(answer.includes(company.legalNameDisplay));
+});
+
+test("future standard features share every plan's licence without feature-based repricing", () => {
+  assert.equal(pricingPolicy.version, "2026-11-10.2");
+  assert.deepEqual(pricingPolicy.featureAccess.eligiblePlans, ["starter", "pro", "enterprise"]);
+  assert.equal(pricingPolicy.featureAccess.futureFeaturesIncluded, true);
+  assert.equal(pricingPolicy.featureAccess.featureAdditionSurchargePaise, 0);
+  assert.equal(pricingPolicy.featureAccess.featureAdditionsTriggerRepricing, false);
+  for (const source of [pricingFaqs, faqs]) {
+    assert.equal(
+      source.find((faq) => faq.question === "Will new standard features increase my price?")
+        ?.answer,
+      corePlatform.futureFeatures
+    );
+  }
+  assert.match(corePlatform.futureFeatures, /PTM when released/);
+  assert.equal(pricingPolicy.renewal.ratesFixedDuringTerm, true);
+  assert.equal(pricingPolicy.renewal.minimumNoticeDays, 30);
+  assert.match(commercialScope.renewal, /at least 30 days/);
+});
+
+
+test("finance onboarding has explicit plan entitlements and institution-owned settlement", () => {
+  assert.deepEqual(pricingPolicy.includedServices.tallyReadyExportSetupPlans, ["pro", "enterprise"]);
+  assert.deepEqual(pricingPolicy.includedServices.institutionOwnedRazorpaySetupPlans, ["starter", "pro", "enterprise"]);
+  assert.match(commercialScope.tallyExport, /Standard self-service exports remain available on every plan/);
+  assert.match(commercialScope.tallyExport, /sample import/);
+  assert.match(commercialScope.paymentGateway, /institution’s own Razorpay account/);
+  assert.match(commercialScope.paymentGateway, /Settlement goes to the institution’s bank account/);
+  assert.ok(pricingFaqs.some((faq) => faq.answer === commercialScope.tallyExport));
+  assert.ok(pricingFaqs.some((faq) => faq.answer === commercialScope.paymentGateway));
 });

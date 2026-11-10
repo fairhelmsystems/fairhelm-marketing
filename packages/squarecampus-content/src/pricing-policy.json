@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-10.1",
+  "version": "2026-11-10.2",
   "currency": "INR",
   "billingPeriod": "annual",
   "deployment": "standard_managed_cloud",
@@ -40,7 +40,7 @@
     },
     "enterprise": {
       "name": "Enterprise",
-      "monthlyIncludedMilliAic": 2500000
+      "monthlyIncludedMilliAic": 4000000
     }
   },
   "addOns": {
@@ -60,6 +60,9 @@
       "enterprise": 1000000
     },
     "whiteLabelAndroidAndIosOncePaise": 2500000,
+    "whiteLabelIncludedPlans": [
+      "enterprise"
+    ],
     "whiteLabelEligiblePlans": [
       "pro",
       "enterprise"
@@ -85,7 +88,7 @@
         "windowSeconds": 60
       },
       "enterprise": {
-        "requests": 2000,
+        "requests": 4000,
         "windowSeconds": 60
       }
     },
@@ -179,5 +182,31 @@
     "publisherAccountScope": "fairhelm_systems",
     "storeFeeScope": null,
     "maintenanceScope": null
+  },
+  "featureAccess": {
+    "scope": "generally_available_standard_product_features",
+    "eligiblePlans": [
+      "starter",
+      "pro",
+      "enterprise"
+    ],
+    "futureFeaturesIncluded": true,
+    "featureAdditionSurchargePaise": 0,
+    "featureAdditionsTriggerRepricing": false
+  },
+  "renewal": {
+    "ratesFixedDuringTerm": true,
+    "minimumNoticeDays": 30
+  },
+  "includedServices": {
+    "tallyReadyExportSetupPlans": [
+      "pro",
+      "enterprise"
+    ],
+    "institutionOwnedRazorpaySetupPlans": [
+      "starter",
+      "pro",
+      "enterprise"
+    ]
   }
 }

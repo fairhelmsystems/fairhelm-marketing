@@ -113,11 +113,11 @@ test("the prepaid purchase counts once and stays printable without a burn foreca
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=enterprise&auto=0&students=1200&sso=1&whiteLabel=1&prepaidAicCredits=10000&monthlyAic=400"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=enterprise&auto=0&students=1200&sso=1&whiteLabel=1&prepaidAicCredits=10000&monthlyAic=400"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
-  await expect(page.getByTestId("first-year-total")).toHaveText("₹4,70,000");
+  await expect(page.getByTestId("first-year-total")).toHaveText("₹4,45,000");
   await expect(page.getByTestId("renewal-total")).toHaveText("₹4,00,000");
   await expect(page.locator(".pricing-aic-forecast, #pricing-aic")).toHaveCount(0);
   await page.emulateMedia({ media: "print" });
@@ -130,7 +130,7 @@ test("legacy monthly burn fields do not add hypothetical purchases or restrict p
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=starter&auto=1&students=1000&prepaidAicCredits=250000&monthlyAic=999999999"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=starter&auto=1&students=1000&prepaidAicCredits=250000&monthlyAic=999999999"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
@@ -209,7 +209,7 @@ test("malformed shared estimates recover valid selections and still produce a pr
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=enterprise&auto=0&students=2400&sso=1&monthlyAic=400&smsSegments=oops&pack_aic_1000=2&pack_aic_10000=bad"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=enterprise&auto=0&students=2400&sso=1&monthlyAic=400&smsSegments=oops&pack_aic_1000=2&pack_aic_10000=bad"
   );
   await expect(page.getByText(/Saved selections were adapted/)).toBeVisible();
   await expect(page.getByRole("button", { name: "Edit enrolled students, 2,400" })).toBeVisible();
@@ -267,7 +267,7 @@ test("API fees follow manual plan selection in purchase and renewal totals", asy
     })
     .check();
   await page
-    .getByRole("checkbox", { name: "White-label Android and iOS apps ₹25,000 once", exact: true })
+    .getByRole("checkbox", { name: "White-label Android and iOS apps Included", exact: true })
     .check();
   await expect(page.getByRole("button", { name: "Enterprise", exact: true })).toHaveAttribute(
     "data-pressed",
@@ -277,7 +277,7 @@ test("API fees follow manual plan selection in purchase and renewal totals", asy
   if ((page.viewportSize()?.width ?? 0) < 640) await breakdown.click();
   for (const [plan, fee, purchaseYear, renewal, capacity] of [
     ["Growth", "₹5,000", "₹2,95,500", "₹2,70,500", "500"],
-    ["Enterprise", "₹10,000", "₹4,35,000", "₹4,10,000", "2,000"],
+    ["Enterprise", "₹10,000", "₹4,10,000", "₹4,10,000", "4,000"],
   ]) {
     await page.getByRole("button", { name: plan, exact: true }).click();
     await expect(page.getByTestId("first-year-total")).toHaveText(purchaseYear);
@@ -297,7 +297,7 @@ test("API fees follow manual plan selection in purchase and renewal totals", asy
   if ((page.viewportSize()?.width ?? 0) < 640) await breakdown.click();
   await page.emulateMedia({ media: "print" });
   await expect(page.getByTestId("api-annual-price")).toBeVisible();
-  await expect(page.getByTestId("first-year-total")).toHaveText("₹4,35,000");
+  await expect(page.getByTestId("first-year-total")).toHaveText("₹4,10,000");
   await expect(page.getByTestId("renewal-total")).toHaveText("₹4,10,000");
   await page.emulateMedia({ media: "screen" });
 });
@@ -345,7 +345,7 @@ test("Enterprise SSO is optional at the same price with either activation choice
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=enterprise&auto=0&students=1200"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=enterprise&auto=0&students=1200"
   );
   if ((page.viewportSize()?.width ?? 0) < 640) {
     await page.getByText("Add optional services", { exact: true }).click();
@@ -371,7 +371,7 @@ test("restored incompatible Starter estimates display the eligibility correction
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=starter&auto=0&students=1200&sso=1&whiteLabel=1"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=starter&auto=0&students=1200&sso=1&whiteLabel=1"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
@@ -437,7 +437,7 @@ test("student input sits beside the slider and keeps exact typed and keyboard va
     page.getByRole("button", { name: "Copy estimate link", exact: true })
   ).toBeDisabled();
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=starter&auto=0&students=105000"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=starter&auto=0&students=105000"
   );
   await expect(count).toHaveText("1,05,000");
   await expect(slider).toHaveValue("105000");
@@ -492,7 +492,7 @@ test("legacy API peaks recover to the current manual plan and published service 
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=pro&auto=1&students=1200&dataEventsApi=1&apiPeakRequests=501&apiPeakWindowSeconds=60"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=pro&auto=1&students=1200&dataEventsApi=1&apiPeakRequests=501&apiPeakWindowSeconds=60"
   );
   await expect(page.getByRole("button", { name: "Growth", exact: true })).toHaveAttribute(
     "data-pressed",
@@ -512,7 +512,7 @@ test("legacy API peaks recover to the current manual plan and published service 
   );
   await page.getByRole("button", { name: "Enterprise", exact: true }).click();
   await expect(page.locator("#pricing-api-help")).toContainText(
-    "2,000 requests per rolling 60-second window"
+    "4,000 requests per rolling 60-second window"
   );
 });
 
@@ -561,7 +561,7 @@ test("all usage quantities have sliders with exact editable values and optional 
 
 test("usage sliders restore exact shared quantities and expand their domains", async ({ page }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=starter&auto=0&students=1200&dataEventsApi=1&apiPeakRequests=7500&apiPeakWindowSeconds=60&monthlyAic=123.456&smsSegments=105000&recipientEmails=1000000000&whatsappMessages=2"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.2&plan=starter&auto=0&students=1200&dataEventsApi=1&apiPeakRequests=7500&apiPeakWindowSeconds=60&monthlyAic=123.456&smsSegments=105000&recipientEmails=1000000000&whatsappMessages=2"
   );
   await page.getByText("Add usage and prepaid AIC", { exact: true }).click();
   for (const [id, value, displayed, maximum] of [

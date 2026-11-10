@@ -181,7 +181,7 @@ test("manual plans, compact services and approved monthly grants stay coherent",
       .filter({ hasText: /^Monthly included AIC$/ })
       .locator("..")
       .locator("dd")
-  ).toHaveText("2,500 AIC");
+  ).toHaveText("4,000 AIC");
   expect(consoleErrors).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
@@ -314,4 +314,38 @@ test("reduced motion and no-script preserve readable sample evidence", async ({
   ).toBeVisible();
   await expect(staticPage.locator(".aic-static-examples")).toContainText("₹4,80,000");
   await context.close();
+});
+
+test("Enterprise includes branding and presents conditional first-year and recurring value", async ({
+  page,
+}) => {
+  await page.goto(`${origin}/pricing/`);
+  await page.getByRole("button", { name: "Enterprise", exact: true }).click();
+  if ((page.viewportSize()?.width ?? 0) < 640) {
+    await page.getByText("Add optional services", { exact: true }).click();
+    await page.getByText("Full estimate breakdown", { exact: true }).click();
+  }
+  const branding = page.getByRole("checkbox", {
+    name: "White-label Android and iOS apps Included",
+    exact: true,
+  });
+  await branding.check();
+  await expect(page.getByTestId("first-year-total")).toHaveText("₹4,00,000");
+  await branding.uncheck();
+  await expect(page.getByTestId("first-year-total")).toHaveText("₹4,00,000");
+  if ((page.viewportSize()?.width ?? 0) < 640)
+    await page.getByText("Plan inclusions", { exact: true }).click();
+  await expect(page.getByTestId("enterprise-first-year-value")).toHaveText("₹1,43,300");
+  await expect(page.getByTestId("enterprise-recurring-value")).toHaveText("₹1,18,300");
+  const contrast = await page.locator(".enterprise-value").evaluate((element) => ({
+    surface: getComputedStyle(element).color,
+    label: getComputedStyle(element.querySelector("dt")!).color,
+  }));
+  expect(contrast.label).toBe(contrast.surface);
+  await page.getByRole("button", { name: "Every core feature, every plan", exact: true }).click();
+  const promise = page.getByRole("dialog", { name: "Every core feature, every plan", exact: true });
+  await expect(promise).toContainText("PTM when released");
+  await expect(promise).toContainText("no extra feature fee");
+  await page.keyboard.press("Escape");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
 });

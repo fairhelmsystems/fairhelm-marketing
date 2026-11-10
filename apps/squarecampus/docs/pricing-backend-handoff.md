@@ -1,5 +1,5 @@
 ---
-policy_version: "2026-11-10.1"
+policy_version: "2026-11-10.2"
 as_of: "2026-11-10"
 currency: INR
 billing_period: annual
@@ -9,7 +9,7 @@ canonical_policy: packages/squarecampus-content/src/pricing-policy.json
 
 # SquareCampus backend pricing handoff
 
-Import policy `2026-11-10.1` as a versioned record. Store its version on every quote, purchase and subscription. The tables below use the canonical JSON field names and stable plan IDs. Earlier pricing briefs are historical references. The linked policy and current commercial facts define this handoff. [Canonical policy](../../../packages/squarecampus-content/src/pricing-policy.json) [Commercial facts](../../../packages/squarecampus-content/src/commercial.ts)
+Import policy `2026-11-10.2` as a versioned record. Store its version on every quote, purchase and subscription. The tables below use the canonical JSON field names and stable plan IDs. Earlier pricing briefs are historical references. The linked policy and current commercial facts define this handoff. [Canonical policy](../../../packages/squarecampus-content/src/pricing-policy.json) [Commercial facts](../../../packages/squarecampus-content/src/commercial.ts)
 
 ## 1. Units and plan identity
 
@@ -19,6 +19,8 @@ Import policy `2026-11-10.1` as a versioned record. Store its version on every q
 - Stable IDs are `starter`, `pro` and `enterprise`. The public name of `pro` is **Growth**.
 - Standard subscriptions are billed annually. The minimum is 100 enrolled students. The estimator supports up to 5000000 students and enforces safe-integer arithmetic.
 - Every plan includes generally available core modules, multi-campus eligibility, baseline security, standard apps and supported self-service exports. Staff accounts have no separate per-staff licence fee. Permissions and release availability apply.
+
+`featureAccess` covers every plan and all future generally available standard features. `futureFeaturesIncluded = true`, `featureAdditionSurchargePaise = 0` and `featureAdditionsTriggerRepricing = false`. A standard feature launch, including PTM when released, uses the existing licence entitlement. Institution-specific professional services and metered consumption follow their agreed terms.
 
 ## 2. Annual student licence
 
@@ -44,11 +46,11 @@ All monetary values in this table are integer paise.
 | --- | --- | --- | --- | --- |
 | `addOns.entraSsoAnnualPaise` | Annual, selected optionally | 250000 | 250000 | 0 |
 | `addOns.annualDataEventsApiPaise` | Annual, selected optionally | 250000 | 500000 | 1000000 |
-| `addOns.whiteLabelAndroidAndIosOncePaise` | Combined Android + iOS setup, once | Ineligible | 2500000 | 2500000 |
+| `addOns.whiteLabelAndroidAndIosOncePaise` | Combined Android + iOS setup, once | Ineligible | 2500000 | Included (`whiteLabelIncludedPlans`) |
 
 Microsoft Entra SSO is optional on every plan. Enterprise has the same price with activation selected or declined. Customers supply their Entra tenant and Microsoft licences. Technical onboarding applies.
 
-Standard mobile apps have no additional app licence fee. White-label setup is charged once, with prior ownership derived from trusted billing history. Branding survives ordinary renewals and plan changes. Fairhelm owns the publisher accounts. Store fees and maintenance terms require confirmation.
+Standard mobile apps have no additional app licence fee. White-label setup is charged once on Growth and is included in Enterprise, with prior ownership derived from trusted billing history. Branding survives ordinary renewals and plan changes. Fairhelm owns the publisher accounts. Store fees and maintenance terms require confirmation.
 
 ### Data & Events API limits
 
@@ -56,9 +58,17 @@ Standard mobile apps have no additional app licence fee. White-label setup is ch
 | --- | --- | --- |
 | `starter` | 250 | 60 |
 | `pro` | 500 | 60 |
-| `enterprise` | 2000 | 60 |
+| `enterprise` | 4000 | 60 |
 
 Use one rolling/sliding window per billed institution across keys, campuses, clients and replicas. The supported catalogue is the same on every plan, subject to authorization. `automaticOverageCharges = false`. Native workflows, first-party apps and authorized self-service exports operate independently of this external API add-on.
+
+### Included finance onboarding
+
+`includedServices.tallyReadyExportSetupPlans = ["pro", "enterprise"]`. Include Tally-ready file-export setup and finance handoff in Growth and Enterprise at no additional setup fee. Confirm target Tally version, ledger/voucher mapping and acceptance of a sample import before marking onboarding complete. Standard self-service exports remain eligible on all plans. The inclusion is a service entitlement, with no feature-access gate and no external API requirement for file exports. Continuous accounting sync and bespoke integrations need their own scope.
+
+`includedServices.institutionOwnedRazorpaySetupPlans = ["starter", "pro", "enterprise"]`. Standard implementation includes the institution’s own Razorpay fee-payment setup. The institution owns the Razorpay account and receives settlement into its bank account. Gateway approval, fees and terms follow its Razorpay agreement. SquareCampus stores payment status and supports fee reconciliation. Payment-provider fees are excluded from the platform estimate. Do not treat school fee receipts as SquareCampus revenue or route settlement through a platform-owned merchant account.
+
+Indian fee operations include term plans, instalments, concessions, partial payments and GST-aware receipts for taxable components. Confirm the institution’s fee heads, tax configuration, receipt sequence, refund approvals and reconciliation responsibilities during implementation.
 
 ## 4. Monthly communication wallet
 
@@ -85,7 +95,7 @@ Count each recipient and each billable SMS segment. Included balances reset at t
 | --- | --- | --- | --- |
 | `starter` | 0 | 0 | Proposed |
 | `pro` | 1500 | 1500000 | Confirmed |
-| `enterprise` | 2500 | 2500000 | Confirmed |
+| `enterprise` | 4000 | 4000000 | Confirmed |
 
 These are shared tenant-wide monthly pools. `staffMultiplierEnabled = false`. Included AIC expires monthly and is consumed before purchased AIC. Purchased AIC carries forward. The legacy global `aic.allowancesApproved` flag is false while Starter’s allocation is proposed. The accompanying `allowanceStatus` identifies the confirmed Growth and Enterprise pools. Preserve these per-plan approval states during ingestion.
 
@@ -130,7 +140,9 @@ taxForLinePaise = floor((linePaise × 1800 + 5000) / 10000)
 
 Sum the separately rounded tax lines. Recompute prices server-side under the selected policy version. Invoices follow verified billing details and the applicable CGST/SGST or IGST treatment. The invoicing entity is **FAIRHELM SYSTEMS (OPC) PRIVATE LIMITED**, GSTIN **29AAHCF1819L1ZA**.
 
-A 1200-student Enterprise purchase with API, optional SSO, new white-label setup and 10000 prepaid AIC totals **₹480000 before GST**, **₹86400 estimated GST**, and **₹566400 including GST**. Comparable renewal is **₹410000 before GST** and **₹483800 including estimated GST**.
+A 1200-student Enterprise purchase with API, optional SSO, white-label apps (included) and 10000 prepaid AIC totals **₹455000 before GST**, **₹81900 estimated GST**, and **₹536900 including GST**. Comparable renewal is **₹410000 before GST** and **₹483800 including estimated GST**.
+
+`renewal.ratesFixedDuringTerm = true` and `renewal.minimumNoticeDays = 30`. Send proposed renewal rates in writing at least 30 days before the next term. Future standard-feature launches carry no feature-based fee or repricing. An existing branding entitlement can originate from included Enterprise setup and survives ordinary renewal or plan changes.
 
 ## 7. Programme exceptions and pending configuration
 

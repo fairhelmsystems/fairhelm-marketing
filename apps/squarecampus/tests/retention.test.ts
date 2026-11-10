@@ -161,10 +161,7 @@ test("the pricing pointer is one shared statement on every plan presentation", (
     "Your plan does not determine your legal retention obligations. Storage and archive arrangements are specified in your proposal and order form."
   );
   assert.equal(retentionPointer.href, "https://legal.fairhelmsystems.com/squarecampus/data-retention/");
-  // Every plan band renders the same component inside the per-plan loop.
-  const bands = read("src/components/pricing/plan-architecture.tsx");
-  const loop = bands.slice(bands.indexOf("plans.map("));
-  assert.ok(loop.includes("<RetentionPointer"), "plan bands must render <RetentionPointer />");
+  // The statement is the same for every plan, so it is rendered once, beside the comparison.
   assert.ok(read("src/components/pricing/plan-matrix.tsx").includes("<RetentionPointer"));
   assert.ok(plans.length === 3);
   // It never names or varies by a plan.

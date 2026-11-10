@@ -186,8 +186,8 @@ test("custom prepaid purchases count once, fund demand, and do not repeat at ren
     undefined,
     10000
   );
-  assert.equal(fixed.firstYearFixedPaise, 42500000);
-  assert.equal(fixed.purchaseYearWithPrepaidPaise, 47000000);
+  assert.equal(fixed.firstYearFixedPaise, 40000000);
+  assert.equal(fixed.purchaseYearWithPrepaidPaise, 44500000);
   assert.equal(fixed.renewalFixedPaise, 40000000);
   const forecast = recommendPlan(
     1200,
@@ -215,9 +215,9 @@ test("GST is charged on the graduated purchase once and Enterprise SSO stays opt
     },
   };
   const quote = getStudioEstimate(state).selected?.fixed;
-  assert.equal(quote?.purchaseYearWithPrepaidPaise, 47000000);
-  assert.equal(quote?.firstYearTaxPaise, 8460000);
-  assert.equal(quote?.firstYearIncludingTaxPaise, 55460000);
+  assert.equal(quote?.purchaseYearWithPrepaidPaise, 44500000);
+  assert.equal(quote?.firstYearTaxPaise, 8010000);
+  assert.equal(quote?.firstYearIncludingTaxPaise, 52510000);
   assert.equal(quote?.renewalIncludingTaxPaise, 47200000);
   const withoutSso = getStudioEstimate({ ...state, inputs: { ...state.inputs, sso: false } })
     .selected?.fixed;

@@ -3,6 +3,7 @@ import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { DetailsFaq } from "@fairhelm/ui/components/details-faq";
 import { InfoPopover } from "@fairhelm/ui/components/info-popover";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
+import { EnterpriseValue } from "@/components/pricing/enterprise-value";
 import { AicWalkthrough } from "@/components/pricing/aic-walkthrough";
 import { PlanMatrix } from "@/components/pricing/plan-matrix";
 import { PricingStudio } from "@/components/pricing/pricing-studio";
@@ -52,6 +53,7 @@ export default function PricingPage() {
                 <strong>{corePlatform.promise}</strong>
               </p>
               <p>{corePlatform.included}</p>
+              <p>{corePlatform.futureFeatures}</p>
               <p>{dataEventsApi.qualification}</p>
             </InfoPopover>
             <p className="pricing-promise-note">{dataEventsApi.optionalServicesNotice}</p>
@@ -68,9 +70,9 @@ export default function PricingPage() {
       >
         <PlanMatrix />
         <p className="type-support mt-6">
-          AIC allowances are tenant-wide monthly pools. Additional quantity limits and service-depth
-          commitments require approval before publication.
+          AIC allowances are tenant-wide monthly pools shared by all authorised staff.
         </p>
+        <EnterpriseValue />
       </SectionShell>
       <SectionShell
         mobileDisclosure="Included and optional services"
@@ -116,7 +118,7 @@ export default function PricingPage() {
               </div>
               <div>
                 <dt>WhatsApp</dt>
-                <dd>Category and destination tariff pending</dd>
+                <dd>Priced by category and destination; the rate is on your order form</dd>
               </div>
             </dl>
             <details data-md-include>
@@ -124,8 +126,8 @@ export default function PricingPage() {
               <p>
                 A long or Unicode SMS may use several billable segments per recipient. At 1,000
                 students, the monthly pool can fund recipient emails of {emailExamples} when used
-                entirely for email. SMS, email and eligible WhatsApp traffic draw from that same
-                pool. WhatsApp weights require an approved category and destination rate card.
+                entirely for email. SMS and email draw from that same pool. WhatsApp is priced by category and
+                destination and confirmed on your order form.
               </p>
               <p>
                 Central SquareCampus email transport uses platform sender configuration. It needs no
@@ -143,8 +145,8 @@ export default function PricingPage() {
             </p>
             <dl>
               <div>
-                <dt>Starter draft pool</dt>
-                <dd>0 AIC/month, proposed</dd>
+                <dt>Starter monthly pool</dt>
+                <dd>None included; buy prepaid AIC</dd>
               </div>
               <div>
                 <dt>Growth monthly pool</dt>
@@ -189,7 +191,7 @@ export default function PricingPage() {
         <AicWalkthrough />
       </SectionShell>
       <SectionShell
-        mobileDisclosure="Pilot, security and data"
+        mobileDisclosure="Launch pilot"
         id="pilot"
         title="Evaluate with an agreed scope."
       >
@@ -202,7 +204,6 @@ export default function PricingPage() {
             launchPilot.scope,
             launchPilot.boundaries,
             launchPilot.pricing,
-            launchPilot.separation,
           ].map((fact) => (
             <p key={fact}>{fact}</p>
           ))}
@@ -212,6 +213,12 @@ export default function PricingPage() {
             variant="secondary"
           />
         </details>
+      </SectionShell>
+      <SectionShell
+        mobileDisclosure="Founding partnership"
+        id="founding"
+        title="A separate, paid route: founding partnership."
+      >
         <details className="pricing-programme" data-md-include>
           <summary>{foundingProgramme.name}</summary>
           <p>
@@ -220,7 +227,7 @@ export default function PricingPage() {
           <p>{foundingProgramme.pilot.paidNote}</p>
           <p>
             Founding pilots run for {foundingProgramme.pilot.window}, with the choice to convert,
-            extend or stop.
+            extend or stop. {launchPilot.separation}
           </p>
           <ButtonLink
             href="/launch-partners/"
@@ -228,8 +235,13 @@ export default function PricingPage() {
             variant="secondary"
           />
         </details>
-        <div id="baseline" className="pricing-baseline">
-          <h3>Security and institutional data</h3>
+      </SectionShell>
+      <SectionShell
+        mobileDisclosure="Security and data"
+        id="baseline"
+        title="Security and institutional data."
+      >
+        <div className="pricing-baseline">
           <p>{securityBaseline}</p>
           <p>{dataPortability}</p>
         </div>

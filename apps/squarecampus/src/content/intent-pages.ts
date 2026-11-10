@@ -19,7 +19,7 @@ import { blogHref } from "@fairhelm/config/urls";
  *   and one post, so the graph is dense in both directions.
  */
 
-import { multiCampusContrast, product } from "./commercial";
+import { commercialScope, multiCampusContrast, product } from "./commercial";
 
 export type IntentPage = {
   slug: string;
@@ -237,8 +237,8 @@ export const intentPages: IntentPage[] = [
     },
     limits: [
       "Fee heads, instalments, concessions and late-fee rules are configured from your current structure during implementation.",
-      "Payments run through your institution's own gateway account; SquareCampus never handles the money, and gateway fees are between you and the gateway.",
-      "Connections to accounting software are scoped integration work, assessed per package; there is no pre-built connector.",
+      commercialScope.paymentGateway,
+      commercialScope.tallyExport,
       "Historical dues and receipts are migrated from Growth and validated in a parallel run; anything the old records cannot support is flagged before go-live.",
     ],
     faqs: [
@@ -250,7 +250,7 @@ export const intentPages: IntentPage[] = [
       {
         question: "Which payment methods are supported?",
         answer:
-          "Online payments through a payment gateway, counter cash, cheques and bank transfers post to one ledger. Gateway options are confirmed during scoping.",
+          `Online payments through the institution’s own Razorpay account, counter cash, cheques and bank transfers post to one fee ledger. ${commercialScope.paymentGateway}`,
       },
       {
         question: "How is follow-up on overdue fees handled?",
@@ -260,7 +260,7 @@ export const intentPages: IntentPage[] = [
       {
         question: "Can finance keep its existing accounting software?",
         answer:
-          "Yes. Collections and receipts export in accounting-friendly formats, and a bounded deployment can run alongside the existing finance stack.",
+          `Yes. ${commercialScope.tallyExport} Continuous accounting synchronization and bespoke integrations are scoped separately.`,
       },
     ],
     related: [

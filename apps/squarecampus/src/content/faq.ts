@@ -29,6 +29,11 @@ export const faqCategories: Array<{ id: FaqCategoryId | "all"; name: string }> =
 ];
 
 export const faqs: FaqItem[] = [
+  {
+    question: "Will new standard features increase my price?",
+    answer: corePlatform.futureFeatures,
+    category: "pricing",
+  },
   // Getting started
   {
     question: "What is SquareCampus?",

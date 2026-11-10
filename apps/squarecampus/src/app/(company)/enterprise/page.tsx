@@ -1,3 +1,4 @@
+import { pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import { ResponsiveDisclosure } from "@fairhelm/ui/components/responsive-disclosure";
 import {
   Building2,
@@ -15,9 +16,7 @@ import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { IdentityFlow } from "@/components/site/identity-flow";
 import {
   CTAGroup,
-  Eyebrow,
   FeaturePanel,
-  OperationalBadge,
 } from "@fairhelm/ui/components/marketing";
 import { PageSchema } from "@/components/site/page-schema";
 import { Reveal } from "@fairhelm/ui/components/reveal";
@@ -35,7 +34,7 @@ import { enterpriseForSmallerInstitutions } from "@/content/pricing";
 import { createPageMetadata } from "@/lib/seo";
 
 const description =
-  "Explore SquareCampus Enterprise for institutional governance, cross-campus command, identity and audit requirements, with deployment and commercial scope agreed during discovery.";
+  "SquareCampus Enterprise includes 4,000 monthly AEGIS AI Credits, white-label Android and iOS setup, optional Entra SSO and larger communication allowances. Every plan shares the same standard features.";
 
 export const metadata: Metadata = createPageMetadata({
   title: "SquareCampus Enterprise | Institutional Governance",
@@ -46,24 +45,17 @@ export const metadata: Metadata = createPageMetadata({
 const icons = [Network, Building2, Workflow, Fingerprint, ShieldCheck, Sparkles, GitBranch];
 
 export default function EnterprisePage() {
+  const monthlyAic = (pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000).toLocaleString("en-IN");
+  const communicationCredits = pricingPolicy.communication.monthlyCreditsPerStudent.enterprise;
   return (
     <main tabIndex={-1} id="main-content">
       <PageSchema name="SquareCampus Enterprise" description={description} path="/enterprise" />
       <SectionShell className="key-page-hero pt-12 sm:pt-16">
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           <Reveal immediate className="space-y-6">
-            <OperationalBadge tone="brand" icon={Building2}>
-              SquareCampus Enterprise
-            </OperationalBadge>
-            <h1 className="type-display">
-              Run every campus.
-              <br />
-              <span className="text-[color:var(--brand)]">Govern them as one.</span>
-            </h1>
+            <h1 className="type-display">More room for AEGIS.</h1>
             <p className="type-body measure text-[color:var(--muted-foreground)]">
-              For trusts, school groups and standalone institutions with deeper governance, identity
-              or audit requirements. Define central policy, campus accountability and the controls
-              your institution needs in one agreed operating scope.
+              Enterprise includes larger monthly pools, branded apps and optional Entra SSO.
             </p>
             <CTAGroup>
               <ButtonLink href="/contact/" label="Discuss Enterprise" variant="cta" />
@@ -71,42 +63,37 @@ export default function EnterprisePage() {
             </CTAGroup>
             <p className="type-caption">{pricingAvailability.short}</p>
           </Reveal>
-<ResponsiveDisclosure label="See the governance model" className="hero-visual-disclosure">          <Reveal delay={100}>
-            <FeaturePanel tone="strong" className="relative overflow-hidden">
-              <Eyebrow>Institutional governance</Eyebrow>
-              <div className="mt-7 rounded-[var(--radius-panel)] border border-[color:var(--brand)]/35 bg-[color:var(--brand-tint)] px-5 py-5">
-                <div className="flex items-center gap-3">
-                  <Network aria-hidden className="size-5 text-[color:var(--brand)]" />
-                  <p className="type-card-title">One institutional policy</p>
-                </div>
-                <p className="type-support mt-3">Identity, authority and audit requirements</p>
-              </div>
-              <div aria-hidden className="mx-auto h-8 w-px bg-[color:var(--line-strong)]" />
-              <div className="grid grid-cols-3 gap-3">
-                {["Campus A", "Campus B", "Campus C"].map((campus) => (
-                  <div
-                    key={campus}
-                    className="rounded-[var(--radius-chip)] border border-[color:var(--line)] bg-[color:var(--surface)] px-2 py-4 text-center"
-                  >
-                    <Building2 aria-hidden className="mx-auto size-5 text-[color:var(--brand)]" />
-                    <p className="mt-3 text-sm font-medium">{campus}</p>
-                    <p className="type-caption mt-2">Local scope</p>
+          <ResponsiveDisclosure label="See what Enterprise includes" className="hero-visual-disclosure">
+            <Reveal immediate delay={100}>
+              <FeaturePanel tone="strong">
+                <h2 className="type-card-title">Included with Enterprise</h2>
+                <dl className="mt-6 divide-y divide-(--line)">
+                  <div className="pb-5">
+                    <dt className="type-support">AEGIS AI Credits each month</dt>
+                    <dd className="mt-2 font-display text-5xl tabular-nums">{monthlyAic} AIC</dd>
                   </div>
-                ))}
-              </div>
-              <p className="type-support mt-6">Central governance. Defined local responsibility.</p>
-              <p className="type-caption mt-3">
-                Illustrative governance model. The proposal confirms available controls and
-                deployment scope.
-              </p>
-            </FeaturePanel>
-          </Reveal></ResponsiveDisclosure>
+                  <div className="py-5">
+                    <dt className="type-support">Communication credits each month</dt>
+                    <dd className="type-card-title mt-2">{communicationCredits} × enrolled students</dd>
+                  </div>
+                  <div className="py-5">
+                    <dt className="type-card-title">Your institution’s app identity</dt>
+                    <dd className="type-support mt-2">White-label Android and iOS setup included.</dd>
+                  </div>
+                  <div className="pt-5">
+                    <dt className="type-card-title">Microsoft Entra SSO</dt>
+                    <dd className="type-support mt-2">Activate it when you need it. The licence price stays the same.</dd>
+                  </div>
+                </dl>
+                <p className="type-caption mt-6">Monthly pools reset each cycle. Additional usage is prepaid. Store fees and maintenance scope are confirmed before activation.</p>
+              </FeaturePanel>
+            </Reveal>
+          </ResponsiveDisclosure>
         </div>
       </SectionShell>
 
       <SectionShell mobileDisclosure="Institutional governance"
         id="governance"
-        eyebrow="The Enterprise dimension"
         title="Institutional governance, across the operating model."
         body="Every plan is eligible for generally available institutional governance. Discovery establishes implemented capabilities, institutional boundaries, optional services and delivery scope for each dimension."
       >
@@ -130,7 +117,6 @@ export default function EnterprisePage() {
 
       <SectionShell mobileDisclosure="Sign-in and access"
         id="identity"
-        eyebrow="Identity and authority"
         title="Institutional sign-in. SquareCampus-governed access."
         body={identity.principle}
       >
@@ -151,7 +137,6 @@ export default function EnterprisePage() {
 
       <SectionShell mobileDisclosure="Plans at any enrolment"
         id="fit"
-        eyebrow="Chosen by requirement"
         title={enterpriseForSmallerInstitutions.heading}
         body={enterpriseForSmallerInstitutions.body}
       >
@@ -171,7 +156,6 @@ export default function EnterprisePage() {
 
       <SectionShell mobileDisclosure="Security and data ownership"
         id="foundations"
-        eyebrow="The shared foundations"
         title="A complete core. A common security baseline."
       >
         <div className="grid gap-6 lg:grid-cols-2">
@@ -179,7 +163,10 @@ export default function EnterprisePage() {
             <h3 className="type-card-title">Every plan starts with the core</h3>
             <p className="type-support mt-4">{corePlatform.included}</p>
             <p className="type-support mt-4">{corePlatform.multiCampus}</p>
+            <p className="type-support mt-4">{corePlatform.futureFeatures}</p>
             <p className="type-support mt-4">{commercialScope.implementation}</p>
+            <p className="type-support mt-4">{commercialScope.tallyExport}</p>
+            <p className="type-support mt-4">{commercialScope.paymentGateway}</p>
           </FeaturePanel>
           <FeaturePanel>
             <h3 className="type-card-title">Institution-owned data and defined terms</h3>
@@ -192,15 +179,14 @@ export default function EnterprisePage() {
 
       <SectionShell className="key-page-close"
         id="discovery"
-        eyebrow="Define the operating scope"
         title="Bring the governance question."
       >
         <FeaturePanel tone="strong" className="grid items-center gap-7 lg:grid-cols-[1fr_auto]">
           <div>
             <p className="type-body">
-              Share your campus structure, identity requirements, approval boundaries and audit
-              expectations. We establish the supported scope and deployment responsibilities, then
-              document the commercial terms in a written proposal.
+              Bring your campus structure and an operational question. Review the standard platform,
+              Enterprise allowances and any separately scoped services against your published
+              price calculation.
             </p>
             <p className="type-support mt-4">{commercialScope.noSurprises}</p>
           </div>

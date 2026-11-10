@@ -8,7 +8,7 @@ The adopted AIC catalogue is `2026-11-09.v3`. The combined public pricing policy
 
 The supplied v3 Markdown and JSON replace earlier AIC pack prices, rollover assumptions, customer cost-conversion formulas and linear forecasts. The owner waived the missing CODEX_PROMPT.md and separate Python-validator/golden-fixture bundle. The repository tests use the worked examples in the supplied Markdown.
 
-The user's later commercial decisions govern non-AIC fields. Optional Entra SSO and white-label apps remain eligible on Growth and Enterprise. API fees remain ₹2,500/₹5,000/₹10,000 yearly and request limits remain 250/500/2,000 per sliding 60-second window. The attachment's older all-plan SSO/branding and unconfigured uniform API fields were excluded from the merge.
+The user's later commercial decisions govern non-AIC fields. Optional Entra SSO and white-label apps remain eligible on Growth and Enterprise; Enterprise includes white-label apps. API fees remain ₹2,500/₹5,000/₹10,000 yearly and request limits are 250/500/4,000 per sliding 60-second window. The attachment's older all-plan SSO/branding and unconfigured uniform API fields were excluded from the merge.
 
 ## Public catalogue
 
@@ -25,7 +25,7 @@ All packs have equal plan eligibility and support repeated purchases. Pricing ap
 
 ## Quote and forecast arithmetic
 
-Selected prepaid packs add once to the purchase-year amount. The fixed subscription and comparable renewal remain separate. At 1,200 students on Enterprise with SSO, new branding and one 10,000-AIC pack, the fixed purchase-year subtotal is ₹4,27,500, the amount with the selected pack is ₹4,57,500 and comparable renewal is ₹4,02,500. These figures exclude GST and other usage.
+Selected prepaid packs add once to the purchase-year amount. The fixed subscription and comparable renewal remain separate. At 1,200 students on Enterprise with SSO, included branding and one 10,000-AIC pack, the fixed purchase-year subtotal is ₹4,00,000, the amount with the selected pack is ₹4,45,000 and comparable renewal is ₹4,00,000. These figures exclude GST and other usage.
 
 The monthly projection consumes included grants first, expires unused included amounts and carries purchased balance. Its public assumptions are constant declared demand for 12 months, zero opening purchased balance before selected packs, and no purchased expiry within the horizon. The inherited 0/150/250 flat plan grants are explicitly conditional. Manual packs fund the projection before further pack purchases are suggested, preventing duplicate purchase cost.
 
@@ -48,7 +48,7 @@ Worked examples include 1,001 AIC for ₹10,000, 6,000 for ₹25,000, 9,000 for 
 ## Unresolved configuration
 
 - Exact workflow-to-tariff map and operation tariff version.
-- Final interpretation of the inherited flat included allocations and Starter's proposed zero grant.
+- Final interpretation of the inherited flat included allocations and Starter's zero grant (now stated publicly as no included AIC).
 - Purchased-credit validity, cancellation, refunds and transfers.
 - Actual checkout release status and purchasing integration.
 - Internal model/operation budgets, approved Foundry deployment allowlist and measured quality routing.

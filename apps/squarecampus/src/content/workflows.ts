@@ -53,7 +53,7 @@ export const workflows: readonly Workflow[] = [
     task: "Datesheet, marks entry and moderation run as handovers between named roles.",
     result: "Report cards come from the marks entered, and every change is recorded.",
     href: "/school-exam-management-software/",
-    linkLabel: "Exam and results management",
+    linkLabel: "Exams and results",
   },
   {
     id: "communication",

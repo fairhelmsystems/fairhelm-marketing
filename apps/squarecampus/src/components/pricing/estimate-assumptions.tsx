@@ -15,14 +15,16 @@ function AssumptionCopy({ fixed }: { fixed: FixedEstimate }) {
   return (
     <div className="pricing-assumptions">
       <p className="pricing-assumptions-intro">
-        AIC uses a shared institution-wide pool of {formatAic(fixed.monthlyIncludedMilliAic)} AIC
-        each month{fixed.plan === "starter" ? ", proposed" : ""}. Included credits expire monthly.
-        Purchased AIC carries forward. Purchase validity and cancellation terms require
-        confirmation.
+        {fixed.monthlyIncludedMilliAic > 0
+          ? `AIC uses a shared institution-wide pool of ${formatAic(fixed.monthlyIncludedMilliAic)} AIC each month. Included credits expire monthly.`
+          : "This plan includes no monthly AIC; AIC is bought as prepaid credits."}{" "}
+        Purchased AIC carries forward. Validity and cancellation terms are on your order form.
       </p>
       <ul>
         <li>
-          Renewal assumes the same enrolment, plan, prices, tax treatment and optional services.
+          This estimate assumes the same enrolment, plan and optional services at renewal. Renewal
+          rates are sent in writing at least {pricingPolicy.renewal.minimumNoticeDays} days before
+          the renewal date.
         </li>
         <li>
           Your <strong>{formatInr(fixed.annualLicencePaise)}</strong> annual licence equals{" "}
@@ -34,12 +36,11 @@ function AssumptionCopy({ fixed }: { fixed: FixedEstimate }) {
           <li>
             Selected prepaid AIC costs{" "}
             <strong>{formatInr(fixed.prepaidAic.totalPaise)} once</strong>. They are included in the
-            purchase-year amount and feed the usage forecast. Renewal does not automatically buy
-            credits again.
+            purchase-year amount. Renewal does not automatically buy credits again.
           </li>
         )}
         <li>
-          Android + iOS branding costs{" "}
+          Android + iOS branding is included in Enterprise. On Growth it costs{" "}
           <strong>{formatInr(pricingPolicy.addOns.whiteLabelAndroidAndIosOncePaise)} once</strong>,
           in the year first purchased. Existing branding carries across ordinary renewals and plan
           changes.

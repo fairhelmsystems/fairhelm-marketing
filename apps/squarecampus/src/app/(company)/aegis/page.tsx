@@ -1,6 +1,5 @@
 import { ResponsiveDisclosure } from "@fairhelm/ui/components/responsive-disclosure";
 import {
-  BellRing,
   Building2,
   ChartNoAxesCombined,
   Check,
@@ -29,12 +28,11 @@ import {
   createWebPageSchema,
   SEO_CONFIG,
 } from "@/lib/seo";
-import { LeadIn } from "@fairhelm/ui/components/marketing";
 
 export const metadata: Metadata = createPageMetadata({
   title: "AEGIS: AI for School Operations",
   description:
-    "AEGIS is the intelligence inside SquareCampus, not a chatbot on an ERP: read-only, plain-language answers from the institution's own records, in role scope, with an audit trail on every question.",
+    "Ask AEGIS questions of your institution’s records. Review the scope and AIC quote before execution, then trace the table, chart and summary to their sources.",
   path: "/aegis",
   ogImage: "https://squarecampus.com/og/aegis.png",
 });
@@ -103,20 +101,20 @@ const governancePillars = [
 const eraComparison = [
   {
     legacy:
-      "Ask the office to prepare a report, wait days, get a spreadsheet that's already stale.",
+      "A question waits while someone assembles a spreadsheet from several exports.",
     aegis: "Ask AEGIS in plain language and get an answer from the institution's own records.",
   },
   {
-    legacy: "Exceptions surface at term end, when the damage is already done.",
+    legacy: "A term-end review finds an exception with no clearly recorded owner.",
     aegis:
       "Attendance, fee, academic, and communication exceptions are flagged against thresholds the institution sets.",
   },
   {
-    legacy: "Every export is another uncontrolled copy of student data floating around.",
+    legacy: "A circulated export separates student records from their access controls.",
     aegis: "Answers stay inside role-based permissions, tenant boundaries, and audit trails.",
   },
   {
-    legacy: "Leadership sees each campus through a different lens, stitched by hand.",
+    legacy: "Campus reports need manual reconciliation before a trust-level review.",
     aegis:
       "One governed, trust-level view across campuses — with campus-level accountability intact.",
   },
@@ -147,16 +145,13 @@ export default function AegisPage() {
       />
 
       <SectionShell className="key-page-hero pt-12 sm:pt-16">
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
           <Reveal immediate className="space-y-6">
             <h1 className="font-display text-4xl leading-none tracking-[-0.06em] sm:text-5xl lg:text-[4.4rem]">
               Ask AEGIS. Don&rsquo;t chase reports.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-muted-foreground">
-              <LeadIn>{"Adaptive Enterprise Governance & Intelligence System"}</LeadIn>
-              The AI inside SquareCampus, not a chatbot bolted onto an ERP. Ask in plain language;
-              it answers from your school&rsquo;s records, inside your permissions, on the audit
-              trail. It suggests — people decide and act.
+              Ask your records. Review the evidence. Your team decides what happens next.
             </p>
             <div className="flex flex-wrap gap-3">
               <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} />
@@ -191,7 +186,6 @@ export default function AegisPage() {
           read as AEGIS acting on the institution's behalf. */}
       <SectionShell mobileDisclosure="What AEGIS can do"
         id="boundaries"
-        eyebrow="What AEGIS does, and does not do"
         title="Answers and suggestions. People decide and act."
         body={AEGIS_PLAIN_DEFINITION}
         compactBody
@@ -214,7 +208,6 @@ export default function AegisPage() {
 
       <SectionShell mobileDisclosure="Example questions and answers"
         id="examples"
-        eyebrow="Three example questions"
         title="What an answer is drawn from, and where AEGIS stops"
         body="How AEGIS is designed to answer three everyday questions. Each answer stays inside the asker's permissions, shows its sources and when the data was last updated, and ends with a suggestion rather than an action."
       >
@@ -227,9 +220,8 @@ export default function AegisPage() {
             >
               <div className="flex items-center justify-between gap-3">
                 <p className="section-kicker">{item.role}</p>
-                <item.icon aria-hidden className="size-5 shrink-0 text-(--brand)" />
               </div>
-              <h3 className="mt-4 font-display text-xl leading-snug tracking-[-0.03em]">
+              <h3 className="mt-4 text-balance font-display text-xl leading-snug tracking-[-0.03em]">
                 {item.question}
               </h3>
               <dl className="mt-4 grid gap-3 text-sm leading-6">
@@ -252,7 +244,6 @@ export default function AegisPage() {
       </SectionShell>
 
       <SectionShell mobileDisclosure="Permissions and governance"
-        eyebrow="Governance first"
         title="Intelligence that strengthens control instead of leaking it"
         body="AEGIS is designed governance-first: the permission check happens before an answer exists, not after it."
       >
@@ -274,8 +265,10 @@ export default function AegisPage() {
               data-reveal-item
               className="surface-panel rounded-[1.6rem] p-6"
             >
-              <pillar.icon className="size-5 text-(--teal)" />
-              <h2 className="mt-5 font-display text-2xl tracking-[-0.04em]">{pillar.title}</h2>
+              <div className="flex items-center gap-3">
+                <pillar.icon aria-hidden className="size-5 shrink-0 text-(--teal)" />
+                <h2 className="font-display text-2xl tracking-[-0.04em]">{pillar.title}</h2>
+              </div>
               <p className="mt-3 text-base leading-7 text-muted-foreground">{pillar.body}</p>
             </article>
           ))}
@@ -283,7 +276,6 @@ export default function AegisPage() {
       </SectionShell>
 
       <SectionShell mobileDisclosure="The records behind an answer"
-        eyebrow="Context is the moat"
         title="AEGIS works because the operating system underneath is connected"
         body="AEGIS is designed to work from the records your institution already runs on in SquareCampus — who may see what, timelines, fee state and communication history — rather than guessing."
       >
@@ -293,15 +285,14 @@ export default function AegisPage() {
       </SectionShell>
 
       <SectionShell mobileDisclosure="Compare reporting workflows"
-        eyebrow="Before and after"
-        title="The report-chasing era is over"
-        body="If your current ERP's answer to every leadership question is 'we'll prepare a report', the comparison below will feel familiar."
+        title="From a question to an accountable decision"
+        body="Review the records, scope and responsible team together. The person who owns the workflow decides what to do."
       >
         <Reveal staggerChildren className="grid gap-4">
           {eraComparison.map((row) => (
             <article key={row.aegis} data-reveal-item className="grid gap-3 lg:grid-cols-2">
               <div className="rounded-[1.4rem] bg-(--surface-muted) p-5">
-                <p className="text-xs text-muted-foreground">Legacy ERP reporting</p>
+                <p className="text-xs text-muted-foreground">A reporting bottleneck</p>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">{row.legacy}</p>
               </div>
               <div className="surface-panel-strong rounded-[1.4rem] p-5">
@@ -313,37 +304,38 @@ export default function AegisPage() {
         </Reveal>
       </SectionShell>
 
-      <SectionShell mobileDisclosure="Leadership use cases" eyebrow="What AEGIS helps with" title="From data to defensible decisions">
+      <SectionShell mobileDisclosure="Leadership use cases" title="One quote for the complete operation"
+        body="See the scope and credit charge before execution. The resulting table, chart and summary belong to one analytical operation. Reopening its answer carries no additional AIC charge.">
         <Reveal staggerChildren className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {[
             {
-              icon: BellRing,
-              text: "Identify attendance, fee, academic, and communication exceptions early.",
+              icon: Check,
+              text: "An accepted 2-AIC quote covers its table, chart, summary and first render.",
             },
             {
               icon: Landmark,
-              text: "Give leadership a trust-level view across campuses without flattening accountability.",
+              text: "Reopening the answer or sorting its returned table costs no additional AIC.",
             },
             {
               icon: Building2,
-              text: "Support principals and administrators with contextual operational insight.",
+              text: "A new analysis or a changed scope receives a fresh quote.",
             },
             {
               icon: ShieldCheck,
-              text: "Preserve governance through RBAC, audit trails, and controlled access.",
+              text: "Access denials and platform failures carry no AIC charge.",
             },
             {
               icon: Sparkles,
-              text: "Turn school data into actionable intelligence without compromising ownership or privacy.",
+              text: "SMS, email and WhatsApp use the separate communication wallet.",
             },
             {
               icon: ChartNoAxesCombined,
-              text: "Help management ask sharper questions and act with better operational clarity.",
+              text: "Authorized staff share the institution’s AIC balance.",
             },
           ].map((item) => (
-            <div key={item.text} data-reveal-item className="surface-panel rounded-[1.4rem] p-5">
-              <item.icon className="size-4.5 text-(--brand)" />
-              <p className="mt-4 text-sm leading-7 text-muted-foreground">{item.text}</p>
+            <div key={item.text} data-reveal-item className="surface-panel flex items-start gap-3 rounded-[1.4rem] p-5">
+              <item.icon aria-hidden className="mt-1 size-4.5 shrink-0 text-(--brand)" />
+              <p className="text-sm leading-7 text-muted-foreground">{item.text}</p>
             </div>
           ))}
         </Reveal>
@@ -358,16 +350,15 @@ export default function AegisPage() {
                 Bring one question you currently wait days to answer.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
-                <LeadIn>{"See it on your own numbers"}</LeadIn>
-                In a guided demo we&rsquo;ll walk through how AEGIS is designed to answer it, what
-                it would draw on in your records, and where its limits are.
+                Follow a sample analysis from its scope and AIC quote to its table, chart and summary.
+                Then map the question to your records and permissions in a guided demo.
               </p>
             </div>
             <div className="grid gap-3">
               <ButtonLink href={siteCtas.demoHref} label={ctaLabels.demo} />
               <ButtonLink
-                href={siteCtas.securityHref}
-                label="Review the trust posture"
+                href="/pricing/#aic-examples"
+                label="Explore AIC examples"
                 variant="secondary"
               />
             </div>

@@ -24,6 +24,13 @@ test("custom prepaid AIC accepts exact quantities and applies graduated rates", 
 }) => {
   await page.goto("http://localhost:3100/pricing/#aic-packs");
   await expect(page.locator(".pricing-aic-pack")).toHaveCount(0);
+  if (
+    !(await page
+      .locator("#pricing-usage-inputs")
+      .evaluate((element) => (element as HTMLDetailsElement).open))
+  )
+    await page.getByText("Add usage and prepaid AIC", { exact: true }).click();
+  await page.getByRole("checkbox", { name: "Add prepaid AIC", exact: true }).check();
   await page.getByRole("button", { name: /^Edit extra prepaid aic,/i }).click();
   const input = page.getByRole("spinbutton", { name: "Extra prepaid AIC", exact: true });
   await input.fill("5001");
@@ -42,6 +49,13 @@ test("an extreme prepaid quantity produces a field error without crashing the ca
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("http://localhost:3100/pricing/#aic-packs");
+  if (
+    !(await page
+      .locator("#pricing-usage-inputs")
+      .evaluate((element) => (element as HTMLDetailsElement).open))
+  )
+    await page.getByText("Add usage and prepaid AIC", { exact: true }).click();
+  await page.getByRole("checkbox", { name: "Add prepaid AIC", exact: true }).check();
   await page.getByRole("button", { name: /^Edit extra prepaid aic,/i }).click();
   const input = page.getByRole("spinbutton", { name: "Extra prepaid AIC", exact: true });
   await input.fill("9007199254740");
@@ -95,68 +109,38 @@ test("feature access explanation is exported and works without JavaScript", asyn
   await context.close();
 });
 
-test("the graduated purchase counts once and uses selected AIC in the forecast", async ({
+test("the prepaid purchase counts once and stays printable without a burn forecast", async ({
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-09.8&plan=enterprise&auto=0&students=1200&sso=1&whiteLabel=1&prepaidAicCredits=10000&monthlyAic=400"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=enterprise&auto=0&students=1200&sso=1&whiteLabel=1&prepaidAicCredits=10000&monthlyAic=400"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
   await expect(page.getByTestId("first-year-total")).toHaveText("₹4,70,000");
   await expect(page.getByTestId("renewal-total")).toHaveText("₹4,00,000");
-  await expect(page.getByTestId("purchase-year-gst")).toHaveText("₹84,600");
-  await expect(page.getByTestId("purchase-year-with-gst")).toHaveText("₹5,54,600");
-  await expect(page.getByTestId("renewal-with-gst")).toHaveText("₹4,72,000");
-  await expect(page.getByTestId("aic-forecast")).toContainText("8,200 AIC");
-  await expect(page.locator("#live-estimate [data-testid='aic-forecast']")).toHaveCount(0);
-  await expect(page.locator(".pricing-aic-calculator #pricing-aic")).toHaveCount(1);
-  await expect(page.getByTestId("expected-year-spend")).toHaveText("₹4,70,000");
-  await expect(
-    page.getByRole("link", { name: "Discuss this estimate", exact: true })
-  ).toHaveAttribute("href", /prepaidAicCredits=10000/);
+  await expect(page.locator(".pricing-aic-forecast, #pricing-aic")).toHaveCount(0);
   await page.emulateMedia({ media: "print" });
   await expect(page.getByTestId("selected-aic-purchase")).toBeVisible();
-  await expect(page.getByTestId("aic-forecast")).toBeVisible();
-  await expect(page.getByTestId("aic-forecast")).toContainText(
-    "contractual validity is unconfigured"
-  );
+  await expect(page.getByTestId("selected-aic-purchase")).toContainText("10,000 prepaid AIC");
   await page.emulateMedia({ media: "screen" });
-  if ((page.viewportSize()?.width ?? 0) < 640)
-    await page.getByText("Calculate AIC top-ups", { exact: true }).click();
-  await page.getByRole("button", { name: /^Edit extra prepaid aic,/i }).click();
-  const quantity = page.getByRole("spinbutton", { name: "Extra prepaid AIC", exact: true });
-  await quantity.fill("0.5");
-  await expect(
-    page.getByRole("button", { name: "Copy estimate link", exact: true })
-  ).toBeDisabled();
-  await quantity.fill("10000");
-  await expect(page.getByRole("button", { name: "Copy estimate link", exact: true })).toBeEnabled();
 });
 
-test("graduated-volume plan comparison keeps the cost-only Starter winner for 400 AIC per month", async ({
+test("legacy monthly burn fields do not add hypothetical purchases or restrict prepaid quantity", async ({
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-09.8&plan=starter&auto=1&students=1000&monthlyAic=400"
-  );
-  await expect(page.getByRole("button", { name: "Starter", exact: true })).toHaveAttribute(
-    "data-pressed",
-    ""
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=starter&auto=1&students=1000&prepaidAicCredits=250000&monthlyAic=999999999"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
-  await expect(page.getByTestId("expected-year-spend")).toHaveText("₹1,99,000");
-  await expect(page.getByTestId("aic-forecast")).toContainText("4,800 AIC");
-  await expect(page.getByTestId("aic-top-up-gst")).toHaveText("₹4,320");
-  await expect(page.getByTestId("aic-top-up-with-gst")).toHaveText("₹28,320");
-  if ((page.viewportSize()?.width ?? 0) < 640)
-    await page.getByText("Compare the three plans", { exact: true }).click();
-  await expect(page.getByTestId("projection-starter")).toContainText("₹1,99,000");
-  await expect(page.getByTestId("projection-pro")).toContainText("₹2,40,000");
-  await expect(page.getByTestId("projection-enterprise")).toContainText("₹3,59,000");
-  await expect(page.getByTestId("recommendation")).toContainText("inherited monthly AIC pools");
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await expect(page.getByTestId("first-year-total")).toHaveText("₹6,65,000");
+  await expect(page.getByTestId("renewal-total")).toHaveText("₹1,75,000");
+  await expect(page.getByTestId("selected-aic-purchase")).toContainText("2,50,000 prepaid AIC");
+  await expect(page.locator(".pricing-aic-forecast, #pricing-aic, #pricing-aic-range")).toHaveCount(
+    0
+  );
+  await expect(page.getByTestId("expected-year-spend")).toHaveCount(0);
 });
 
 for (const theme of ["dark", "light"]) {
@@ -188,7 +172,7 @@ for (const theme of ["dark", "light"]) {
       ).toContain("linear-gradient");
       await expect(
         page.getByRole("checkbox", { name: "Automatically recommend a plan", exact: true })
-      ).not.toBeChecked();
+      ).toHaveCount(0);
       const otherName = name === "Starter" ? "Growth" : "Starter";
       const other = page.getByRole("button", { name: otherName, exact: true });
       await expect(other).toHaveAttribute("aria-pressed", "false");
@@ -203,9 +187,7 @@ for (const theme of ["dark", "light"]) {
         await other.evaluate((element) => getComputedStyle(element).color)
       );
     }
-    await page
-      .getByRole("checkbox", { name: "Automatically recommend a plan", exact: true })
-      .press("Space");
+    await page.getByRole("button", { name: "Starter", exact: true }).click();
     await expect(page.getByRole("button", { name: "Starter", exact: true })).toHaveAttribute(
       "data-pressed",
       ""
@@ -227,9 +209,9 @@ test("malformed shared estimates recover valid selections and still produce a pr
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-09.8&plan=enterprise&auto=0&students=2400&sso=1&monthlyAic=400&smsSegments=oops&pack_aic_1000=2&pack_aic_10000=bad"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=enterprise&auto=0&students=2400&sso=1&monthlyAic=400&smsSegments=oops&pack_aic_1000=2&pack_aic_10000=bad"
   );
-  await expect(page.getByText(/Usable selections restored/)).toBeVisible();
+  await expect(page.getByText(/Saved selections were adapted/)).toBeVisible();
   await expect(page.getByRole("button", { name: "Edit enrolled students, 2,400" })).toBeVisible();
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
@@ -280,7 +262,7 @@ test("API fees follow manual plan selection in purchase and renewal totals", asy
     .check();
   await page
     .getByRole("checkbox", {
-      name: "Microsoft Entra SSO Included, optional activation",
+      name: "Microsoft Entra SSO Included",
       exact: true,
     })
     .check();
@@ -336,11 +318,10 @@ test("paid Starter SSO stays eligible while white-label apps require Growth", as
   await sso.uncheck();
   await expect(starter).toHaveAttribute("data-pressed", "");
   await branding.check();
+  await expect(starter).toHaveAttribute("data-pressed", "");
+  await growth.click();
   await expect(growth).toHaveAttribute("data-pressed", "");
   await sso.check();
-  await page
-    .getByRole("checkbox", { name: "We have already purchased app branding", exact: true })
-    .check();
   await starter.click();
   await expect(starter).toHaveAttribute("data-pressed", "");
   await expect(
@@ -354,7 +335,7 @@ test("paid Starter SSO stays eligible while white-label apps require Growth", as
     0
   );
   await growth.click();
-  await expect(page.getByTestId("first-year-total")).toHaveText("₹2,65,500");
+  await expect(page.getByTestId("first-year-total")).toHaveText("₹2,90,500");
   await expect(page.getByTestId("renewal-total")).toHaveText("₹2,65,500");
   await expect(page.getByRole("button", { name: "Copy estimate link", exact: true })).toBeEnabled();
   await expect(page.getByTestId("quote-invalid")).toHaveCount(0);
@@ -364,14 +345,14 @@ test("Enterprise SSO is optional at the same price with either activation choice
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-09.8&plan=enterprise&auto=0&students=1200"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=enterprise&auto=0&students=1200"
   );
   if ((page.viewportSize()?.width ?? 0) < 640) {
     await page.getByText("Add optional services", { exact: true }).click();
     await page.getByText("Full estimate breakdown", { exact: true }).click();
   }
   const sso = page.getByRole("checkbox", {
-    name: "Microsoft Entra SSO Included, optional activation",
+    name: "Microsoft Entra SSO Included",
     exact: true,
   });
   await expect(sso).not.toBeChecked();
@@ -390,7 +371,7 @@ test("restored incompatible Starter estimates display the eligibility correction
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-09.8&plan=starter&auto=0&students=1200&sso=1&whiteLabel=1"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=starter&auto=0&students=1200&sso=1&whiteLabel=1"
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
@@ -398,7 +379,7 @@ test("restored incompatible Starter estimates display the eligibility correction
   await expect(
     page.getByRole("button", { name: "Copy estimate link", exact: true })
   ).toBeDisabled();
-  await page.getByRole("checkbox", { name: "Automatically recommend a plan", exact: true }).check();
+  await page.getByRole("button", { name: "Growth", exact: true }).click();
   await expect(page.getByRole("button", { name: "Growth", exact: true })).toHaveAttribute(
     "data-pressed",
     ""
@@ -456,7 +437,7 @@ test("student input sits beside the slider and keeps exact typed and keyboard va
     page.getByRole("button", { name: "Copy estimate link", exact: true })
   ).toBeDisabled();
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-09.8&plan=starter&auto=0&students=105000"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=starter&auto=0&students=105000"
   );
   await expect(count).toHaveText("1,05,000");
   await expect(slider).toHaveValue("105000");
@@ -507,46 +488,31 @@ test("the student cap allows 50 lakh and rejects larger edits", async ({ page })
   ).toBeDisabled();
 });
 
-test("published throughput preserves manual override and drives automatic comparison", async ({
+test("legacy API peaks recover to the current manual plan and published service limits", async ({
   page,
 }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-09.8&plan=pro&auto=0&students=1200&dataEventsApi=1&apiPeakRequests=501&apiPeakWindowSeconds=60"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=pro&auto=1&students=1200&dataEventsApi=1&apiPeakRequests=501&apiPeakWindowSeconds=60"
   );
   await expect(page.getByRole("button", { name: "Growth", exact: true })).toHaveAttribute(
     "data-pressed",
     ""
   );
-  const breakdown = page.getByText("Full estimate breakdown", { exact: true });
-  if ((page.viewportSize()?.width ?? 0) < 640) await breakdown.click();
-  await expect(page.getByTestId("api-capacity-warning")).toContainText(
-    "Manual selection is preserved"
+  await expect(page.locator("#pricing-api-peak")).toHaveCount(0);
+  await expect(
+    page.getByText(
+      "Saved selections were adapted to the current controls. Review all quantities before sharing.",
+      { exact: true }
+    )
+  ).toBeVisible();
+  if ((page.viewportSize()?.width ?? 0) < 640)
+    await page.getByText("Add optional services", { exact: true }).click();
+  await expect(page.locator("#pricing-api-help")).toContainText(
+    "500 requests per rolling 60-second window"
   );
-  await expect(page.getByTestId("api-annual-price")).toHaveText("₹5,000");
-  await page.getByText("Add expected usage and custom scope", { exact: true }).click();
-  await expect(page.locator("#pricing-api-peak-range")).toHaveValue("501");
-  await page.getByRole("checkbox", { name: "Automatically recommend a plan", exact: true }).check();
-  for (const [requests, plan] of [
-    ["250", "Starter"],
-    ["251", "Growth"],
-    ["500", "Growth"],
-    ["501", "Enterprise"],
-    ["2000", "Enterprise"],
-  ]) {
-    await page.locator("#pricing-api-peak").click();
-    await page.locator("#pricing-api-peak").fill(requests);
-    await page.locator("#pricing-api-peak").press("Enter");
-    await expect(page.getByRole("button", { name: plan, exact: true })).toHaveAttribute(
-      "data-pressed",
-      ""
-    );
-    await expect(page.getByTestId("api-capacity-warning")).toHaveCount(0);
-  }
-  await page.locator("#pricing-api-peak").click();
-  await page.locator("#pricing-api-peak").fill("2001");
-  await page.locator("#pricing-api-peak").press("Enter");
-  await expect(page.getByTestId("api-capacity-warning")).toContainText(
-    "No evaluated plan can be recommended"
+  await page.getByRole("button", { name: "Enterprise", exact: true }).click();
+  await expect(page.locator("#pricing-api-help")).toContainText(
+    "2,000 requests per rolling 60-second window"
   );
 });
 
@@ -557,23 +523,15 @@ test("all usage quantities have sliders with exact editable values and optional 
   const options = page.getByText("Add optional services", { exact: true });
   if ((page.viewportSize()?.width ?? 0) < 640) await options.click();
   await page.getByRole("checkbox", { name: "Data & Events API ₹2,500/year", exact: true }).check();
-  await page.getByText("Add expected usage and custom scope", { exact: true }).click();
-  if ((page.viewportSize()?.width ?? 0) < 640)
-    await page.getByText("Calculate AIC top-ups", { exact: true }).click();
-  for (const id of [
-    "pricing-api-peak",
-    "pricing-aic",
-    "pricing-sms",
-    "pricing-emails",
-    "pricing-whatsapp",
-  ]) {
+  await page.getByText("Add usage and prepaid AIC", { exact: true }).click();
+  for (const id of ["pricing-sms", "pricing-emails", "pricing-whatsapp"]) {
     const label = page.locator(`#${id}`);
     const slider = page.locator(`#${id}-range`);
     await expect(label).toHaveText("Not set");
     await expect(slider).toHaveValue("0");
     await expect(slider).toHaveAttribute("aria-valuetext", "Not set");
     await slider.press("ArrowRight");
-    await expect(label).toHaveText(id === "pricing-aic" ? "0.001" : "1");
+    await expect(label).toHaveText("1");
     await label.click();
     await expect(label).toBeFocused();
     await label.fill("7500");
@@ -582,18 +540,6 @@ test("all usage quantities have sliders with exact editable values and optional 
     await expect(label).toBeFocused();
     await expect(slider).toHaveValue("7500");
   }
-
-  const aic = page.locator("#pricing-aic");
-  await aic.click();
-  await aic.fill("123.456");
-  await aic.press("Enter");
-  await page.locator("#pricing-aic-range").press("ArrowRight");
-  await expect(aic).toHaveText("123.457");
-  await aic.click();
-  await aic.fill("");
-  await aic.press("Enter");
-  await expect(aic).toHaveText("Not set");
-  await expect(page.locator("#pricing-aic-range")).toHaveValue("0");
 
   const sms = page.locator("#pricing-sms");
   await sms.click();
@@ -615,12 +561,10 @@ test("all usage quantities have sliders with exact editable values and optional 
 
 test("usage sliders restore exact shared quantities and expand their domains", async ({ page }) => {
   await page.goto(
-    "http://localhost:3100/pricing/?pricing=1&v=2026-11-09.8&plan=starter&auto=0&students=1200&dataEventsApi=1&apiPeakRequests=7500&apiPeakWindowSeconds=60&monthlyAic=123.456&smsSegments=105000&recipientEmails=1000000000&whatsappMessages=2"
+    "http://localhost:3100/pricing/?pricing=1&v=2026-11-10.1&plan=starter&auto=0&students=1200&dataEventsApi=1&apiPeakRequests=7500&apiPeakWindowSeconds=60&monthlyAic=123.456&smsSegments=105000&recipientEmails=1000000000&whatsappMessages=2"
   );
-  await page.getByText("Add expected usage and custom scope", { exact: true }).click();
+  await page.getByText("Add usage and prepaid AIC", { exact: true }).click();
   for (const [id, value, displayed, maximum] of [
-    ["pricing-api-peak", "7500", "7,500", "8000"],
-    ["pricing-aic", "123.456", "123.456", "10000"],
     ["pricing-sms", "105000", "1,05,000", "200000"],
     ["pricing-emails", "1000000000", "1,00,00,00,000", "1000000000"],
     ["pricing-whatsapp", "2", "2", "10000"],

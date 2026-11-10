@@ -6,7 +6,7 @@ import { Button } from "@fairhelm/ui/components/button";
 import { Info } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { formatInr, formatInrRatio } from "@/lib/pricing-estimate";
+import { formatAic, formatInr, formatInrRatio } from "@/lib/pricing-estimate";
 
 const BottomSheet = dynamic(() => import("@fairhelm/ui/components/bottom-sheet"), { ssr: false });
 type FixedEstimate = ReturnType<typeof calculateFixedEstimate>;
@@ -15,9 +15,10 @@ function AssumptionCopy({ fixed }: { fixed: FixedEstimate }) {
   return (
     <div className="pricing-assumptions">
       <p className="pricing-assumptions-intro">
-        AIC uses a draft shared tenant pool. Starter’s zero included AIC is proposed. Included
-        credits expire monthly. Purchased AIC carries forward. Exact grant interpretation, purchase
-        validity and cancellation terms require confirmation.
+        AIC uses a shared institution-wide pool of {formatAic(fixed.monthlyIncludedMilliAic)} AIC
+        each month{fixed.plan === "starter" ? ", proposed" : ""}. Included credits expire monthly.
+        Purchased AIC carries forward. Purchase validity and cancellation terms require
+        confirmation.
       </p>
       <ul>
         <li>

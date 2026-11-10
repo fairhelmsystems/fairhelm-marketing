@@ -16,7 +16,7 @@ const planName = (id: string) => plans.find((plan) => plan.id === id)?.name ?? i
 
 export function PlanMatrix() {
   return (
-    <div className="mt-8">
+    <div id="model" className="mt-8">
       <h3 className="type-card-title mb-4">Actual inclusions, side by side.</h3>
       {/* The plan cards above already summarise each plan; on a phone the
           full matrix is one tap away (MobileExpand) instead of a long wall. */}

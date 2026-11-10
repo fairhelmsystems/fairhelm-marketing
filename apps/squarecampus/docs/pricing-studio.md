@@ -59,7 +59,7 @@ Effective per-student and monthly-equivalent prices are rounded only for display
 
 ### Communication forecast
 
-The monthly included communication pool is one credit per enrolled student. One credit is three subcredits. A recipient email consumes one subcredit, and a billable SMS recipient segment consumes three. Long or Unicode SMS may have several segments. WhatsApp weights are supplied per approved category and destination version.
+The monthly included communication pool is three credits per enrolled student on Starter, six on Growth and nine on Enterprise. One credit is three subcredits. A recipient email consumes one subcredit, and a billable SMS recipient segment consumes three. Long or Unicode SMS may have several segments. WhatsApp weights are supplied per approved category and destination version.
 
 `projectCommunication` consumes the monthly grant before purchased subcredits. Unused included grant expires at the next contractual monthly reset. Purchased subcredits carry forward across forecast months. Whole-credit purchases cost 25 paise each and retain their unused subcredits. The calculator begins with no purchased balance and repeats the entered demand for twelve months. It does not assume an institution’s actual wallet balance.
 
@@ -85,7 +85,7 @@ The deterministic comparison uses the same enrolment, selected add-ons and enter
 
 Without workload it returns `lowest_subscription`. Complete priced workload yields `estimated_lowest_total`. Missing relevant tariffs yield `incomplete_usage_pricing`, with a known fixed-subscription comparison. Custom service requirements yield `custom_service_quote_required`. Unknown fees cannot become zero-cost services or automatically disqualify Starter.
 
-The checkbox defaults checked. Shared explicit preferences override it. Manual plan choice turns auto mode off and preserves all other inputs. Unchecking preserves the currently calculated selection. Re-enabling recalculates from current inputs without an effect loop. Plan/mode/status changes are announced politely after 400ms. Price-only slider ticks do not trigger repeated announcements.
+Plan selection is manual. Enrolment, add-ons and usage edits preserve the selected plan, including when it needs a capacity or eligibility correction. The automatic selector was removed on 10 November 2026. Legacy auto links retain their recorded plan and show a recovery notice. Plan/status changes are announced politely after 400ms. Price-only slider ticks do not trigger repeated announcements.
 
 Synthetic test tariffs make each plan genuinely cheapest in a separate scenario. These are test-only examples. No marketing preference is injected into the ranking.
 
@@ -93,7 +93,7 @@ Synthetic test tariffs make each plan genuinely cheapest in a separate scenario.
 
 The existing `/demo/` intake receives validated inputs and a recomputed editable summary in its existing message field. Its existing consent, human check, request payload and endpoint remain responsible for the submission. The calculator itself does not submit an enquiry.
 
-Shared URLs contain pricing version, aggregate counts, stable plan identifier, explicit auto preference and add-on flags. Unknown totals, school identities and staff values are ignored by the decoder and excluded by the encoder. Duplicate, invalid and stale values fail restoration. Stale links show a notice and current default inputs. School names, emails, prompts and student data are never encoded.
+Shared URLs contain pricing version, aggregate counts, stable manually selected plan identifier and add-on flags. Unknown totals, school identities and staff values are ignored by the decoder and excluded by the encoder. Duplicate, invalid and stale values fail restoration. Stale links show a notice and current default inputs. School names, emails, prompts and student data are never encoded.
 
 No formal quote API exists here. A future quote endpoint must validate inputs and pricing version and recompute amounts on the server. Client totals, recommendation labels, tax amounts and wallet balances cannot become authoritative through submission.
 
@@ -105,7 +105,7 @@ No approved calculator analytics sink or consent-controlled event dispatcher exi
 
 The owner’s mobile target is approximately 2.5 screens for the default page. Pricing, Home, Platform, Enterprise, AEGIS and the school-management-system hub use the shared `SectionShell.mobileDisclosure` and native `ResponsiveDisclosure` for secondary content. The content exists once in the DOM, remains in the Markdown/source context and can be expanded with keyboard controls. Deep links open their relevant disclosure. Explicitly expanded views can be longer.
 
-Pricing keeps enrolment, plan choice, automatic comparison and a compact fixed subtotal in the default phone view. Optional services, full line items, detailed comparisons and commercial FAQs expand on demand. The full panel follows controls in document flow and has no inner scrolling container. Desktop content is inline. Company disclosures remain visible in the footer, whose mobile spacing and optional contact/social area are compacted.
+Pricing keeps enrolment, manual plan choice and a compact fixed subtotal in the default phone view. Optional services, full line items, detailed comparisons and commercial FAQs expand on demand. The full panel follows controls in document flow and has no inner scrolling container. Desktop content is inline. Company disclosures remain visible in the footer, whose mobile spacing and optional contact/social area are compacted.
 
 ## Verification record
 
@@ -243,3 +243,38 @@ Current share links use `prepaidAicCredits`. Legacy `pack_aic_*` selections conv
 The feature-access explanation uses the shared native `InfoPopover`. Its content remains in exported HTML and Markdown. Click, touch, keyboard, Escape, light-dismiss and the close button use browser popover behaviour. CSS anchor positioning attaches it to its trigger where supported. The fallback is a viewport-centred popover. Opening it does not change the calculator's document position or page height.
 
 The previous GHE pricing page was reviewed from `origin/main`. Its institutional-fit emphasis informs the current plan descriptions. Enterprise is highlighted with its largest draft AI allowance, best-effort migration and included optional SSO. Common feature eligibility remains explicit, and automatic recommendations retain cost-based ranking.
+
+
+## Prepaid AIC and analytical walkthrough, 10 November 2026
+
+Prepaid selection uses an Add prepaid AIC checkbox in place of the API peak input. Selecting it opens a whole-credit quantity at 1,000 with a native minimum of 1,000. Clearing it removes the purchase. Typed positive amounts below 1,000 become 1,000 when editing commits. An empty selected quantity also becomes 1,000. Invalid, negative and unsafe inputs retain field validation. The custom-quote and previously purchased branding controls are removed. Legacy API-peak and custom-quote selections are cleared with a recovery notice. Existing branding ownership in older saved estimates retains its once-only charging behavior. Annual licence prices remain visible when an unrelated usage field is invalid.
+
+Monthly AIC burn inputs and forecasts are removed from the marketing calculator. Saved monthly-burn fields are ignored with a recovery notice and excluded from new shared links. Prepaid quantity and the underlying milli-AIC accounting remain independent.
+
+The three illustrative scenarios are authored sample data in `src/content/aic-walkthrough.ts`. They calculate attendance with exact ratio comparisons, financial reconciliation in integer paise and policy-aware cohort matches with null marks preserved. The walkthrough reuses the shared Base UI bottom sheet. A single reducer owns scenario, stage, approval and safeguard state. One cancellable timer advances a visible, playing scene. Reduced motion uses manual navigation. Hidden tabs pause playback and closing the sheet unmounts the player.
+
+Approval precedes substantive retrieval. Unknown scenario tariffs stay as quote placeholders. The separate 2-AIC explanation illustrates an accepted quote without assigning a scenario tariff. Sample answers are inspectable independently of playback and remain in static HTML and generated Markdown. Access denial, unapproved scope, missing policies, platform failure and a valid zero-match answer have explicit demonstration boundaries. All sample logic runs locally.
+
+The approved communication grant update is policy `2026-11-10.1`. Fixed estimates and per-plan communication projections use the same canonical 3/6/9 multipliers, and the comparison table and public copy share those values.
+
+The standalone published student-rate table is removed. The public versioned pricing policy remains linked, the live annual and active-slab calculations remain visible, and the existing `#model` and `#volume` anchors are retained on the plan comparison and policy link. Native fragment-expanded disclosures intentionally allow the browser-managed open attribute during hydration.
+
+
+## Final owner direction, 10 November 2026
+
+The monthly AIC burn input, top-up forecast, monthly projection and forecast assumptions are removed from the pricing page. An AIC purchase is solely the selected whole prepaid quantity, charged once using the existing graduated bands and minimum of 1,000. Saved monthly-burn fields are ignored with a recovery notice and excluded from new shared estimates. The analytical walkthroughs remain.
+
+Growth includes a shared tenant-wide pool of 1,500 AIC per month and Enterprise 2,500 AIC per month. Starter’s zero included AIC retains its proposed status. Included grants expire monthly and purchased balances carry forward. The policy-wide all-allowances-approved flag remains false while Starter’s grant is proposed, with the status explicitly identifying the confirmed Growth and Enterprise pools.
+
+The standalone student-rate table and its former component are removed. The public policy remains linked, active student slabs stay on the estimate, and the existing pricing anchors are preserved. Communication grants remain 3/6/9 credits per enrolled student for Starter/Growth/Enterprise.
+
+
+## Final verification of the 10 November refinement
+
+All 147 SquareCampus unit checks, all workspace unit suites and 12 type tasks passed. All five independent app builds passed, including claims, content, machine-readable, social, legal and migration gates. The exported graph covers 87 canonical pages and 10,873 owned links/assets with zero failures.
+
+Production-preview browser coverage passed 35 focused cases across 360, 390, 768, 1024 and 1440px. The broader pricing regressions passed 55 cases across phone and desktop, with one expected phone-only viewport skip. A separate 320px check verified all three scenario controls’ visible and accessible names and zero horizontal overflow. Scope approval, failure/retry, hidden-tab pause, rapid scenario switching, reduced motion, focus return, no-script evidence, sharing and print behavior were exercised.
+
+The rendered Hallmark sweep reported zero Floor failures and zero warnings, with the pre-existing recorded waiver retained. Fresh-context finish review found a label-in-name mismatch in compact scenario controls. Using full visible scenario names resolved it, with accessible-name equality and 320px overflow checks confirming the fix. Default Starter captures were corrected after a nested query-containment issue was fixed and focus/scroll were cleared for screenshots.
+
+The production-edge preview is available at `http://localhost:3100/pricing/`. Existing lint warnings are retained. The scenario operation tariffs remain unapproved, so their quote placeholders are intentional.

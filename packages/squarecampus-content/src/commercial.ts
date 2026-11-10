@@ -34,7 +34,6 @@ export const aicCommercial = {
   purchases: `Choose any whole prepaid quantity from ${pricingPolicy.aic.minimumPurchaseCredits.toLocaleString("en-IN")} AIC for ${money(pricingPolicy.aic.minimumPurchaseCredits * pricingPolicy.aic.volumeBands[0].unitPricePaise)}, plus GST. Each purchase uses graduated rates, from ${money(pricingPolicy.aic.volumeBands[0].unitPricePaise)}/AIC for the first 5,000 to ${money(pricingPolicy.aic.volumeBands[5].unitPricePaise)}/AIC above 2,50,000. Only credits inside a band receive its rate. Every plan uses the same purchase rates.`,
   wallet: "Included AIC expires at each monthly cycle boundary. Unused purchased AIC carries forward. Included credits are used first. All authorized staff share the institution's balance. Purchased-credit validity and cancellation terms require confirmation.",
   operations: `One accepted analytical objective receives a scoped, versioned quote before execution. Routine operations use approximately ${pricingPolicy.aic.routineOperationMilliAic.minimum / 1000}–${pricingPolicy.aic.routineOperationMilliAic.maximum / 1000} AIC and supported complex operations use at most ${pricingPolicy.aic.maximumOperationMilliAic / 1000} AIC. Charts, tables, the summary and first render belong to that operation. Exact workflow tariffs are confirmed before execution. Access denial, platform failure and reopening an existing result have no AIC charge.`,
-  forecast: `Forecasts use the inherited flat monthly pools of ${pricingPolicy.plans.starter.monthlyIncludedMilliAic / 1000} AIC on Starter, ${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} on Growth and ${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} on Enterprise. That working allocation requires confirmation. Estimates simulate monthly included expiry and purchased carry-forward, assume no purchased expiry within the forecast and make no purchase automatically.`,
 } as const;
 
 /** Packaging policy, not a claim that every planned module has shipped. */
@@ -297,7 +296,7 @@ export const planHierarchy = [
     id: "pro",
     name: pricingPolicy.plans.pro.name,
     summary:
-      `Every generally available feature, with included migration and a draft tenant-wide monthly pool of ${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
+      `Every generally available feature, with included migration and a tenant-wide monthly pool of ${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
     suitedFor:
       "Institutions comparing included migration and AI consumption against their expected use.",
   },
@@ -305,7 +304,7 @@ export const planHierarchy = [
     id: "enterprise",
     name: "Enterprise",
     summary:
-      `Every generally available feature, including institutional governance, with optional Entra SSO included in the licence, best-effort migration and a draft tenant-wide monthly pool of ${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
+      `Every generally available feature, including institutional governance, with optional Entra SSO included in the licence, best-effort migration and a tenant-wide monthly pool of ${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AEGIS AI Credits.`,
     suitedFor:
       "Institutions choosing the largest included AI pool, best-effort migration and optional Entra SSO included in the annual licence.",
   },
@@ -325,7 +324,7 @@ export const pricingAvailability = {
     "One annual institutional licence with a minimum of 100 enrolled students, calculated on progressive student-volume bands for Starter, Growth or Enterprise. Only students inside each slab receive that slab's rate. Optional services and specialised deployment are separate lines.",
   volume:
     "Billable enrolment is the active enrolled students agreed in the order form. The per-student rate falls as enrolment moves up through the volume bands; growth is reconciled through an agreed true-up, and reductions are normally considered at renewal.",
-  included: `${corePlatform.included} Standard SquareCampus apps for staff, parents and students have no additional app licence fee. Staff accounts have no separate per-staff licence charge. Implementation, support and one shared communication credit per enrolled student each month are included. Growth and Enterprise also include best-effort data migration.`,
+  included: `${corePlatform.included} Standard SquareCampus apps for staff, parents and students have no additional app licence fee. Staff accounts have no separate per-staff licence charge. Implementation and support are included. Monthly shared communication credits per enrolled student are ${pricingPolicy.communication.monthlyCreditsPerStudent.starter} on Starter, ${pricingPolicy.communication.monthlyCreditsPerStudent.pro} on Growth and ${pricingPolicy.communication.monthlyCreditsPerStudent.enterprise} on Enterprise. Growth and Enterprise also include best-effort data migration.`,
   scopedSeparately:
     "Migration on Starter, custom integrations and engineering, fixed-format documents made for one institution, private-cloud or on-premises deployment, a custom SLA and usage beyond the allowance are quoted as their own lines, not folded into the licence.",
   positioning:
@@ -352,6 +351,8 @@ export const pricingAvailability = {
  * the rollout is the same for everyone and designed to need little training.
  * (Campus visits are currently free, but that is deliberately not published.)
  */
+export const communicationAllowance = `Monthly shared communication credits per enrolled student are ${pricingPolicy.communication.monthlyCreditsPerStudent.starter} on Starter, ${pricingPolicy.communication.monthlyCreditsPerStudent.pro} on Growth and ${pricingPolicy.communication.monthlyCreditsPerStudent.enterprise} on Enterprise.`;
+
 export const commercialScope = {
   migration: "Data migration is included in Growth and Enterprise, and quoted on Starter.",
   migrationLimit:
@@ -363,7 +364,7 @@ export const commercialScope = {
   implementation:
     "Implementation and support are included in every plan, and every institution gets the same rollout: there is no paid fast track. SquareCampus is designed to need little or no training. Only a custom SLA, such as 24×7 cover or guaranteed response times, is quoted.",
   allowance:
-    `Every plan includes one shared communication credit per enrolled student each month. Included communication credits reset monthly without rollover; purchased credits cost ${money(pricingPolicy.communication.purchasedCreditPaise)} each and carry forward. AEGIS AI Credits are a separate wallet with draft tenant-wide monthly allowances. Usage tariffs and storage scope are confirmed before activation; paid automatic overage requires administrator opt-in and a spend cap.`,
+    `${communicationAllowance} Included communication credits reset monthly without rollover; purchased credits cost ${money(pricingPolicy.communication.purchasedCreditPaise)} each and carry forward. AEGIS AI Credits are a separate wallet with tenant-wide monthly allowances. Usage tariffs and storage scope are confirmed before activation; paid automatic overage requires administrator opt-in and a spend cap.`,
   paymentGateway:
     "Fee payments run through your institution's own payment-gateway account. SquareCampus never handles the money; the gateway's fees are between you and the gateway.",
   noSurprises:
@@ -712,12 +713,17 @@ export const planComparisonRows: readonly MatrixRow[] = [
   sharedRow("Staff accounts", "No separate per-staff licence charge; role permissions apply"),
   sharedRow("Baseline security", securityBaseline),
   sharedRow("Institution-owned data and supported exports", "Documented for every deployment"),
-  sharedRow("SMS, WhatsApp and email allowances", "One shared communication credit per enrolled student each month"),
   {
-    label: "Draft included AEGIS AI Credits each month",
+    label: "SMS, WhatsApp and email allowances",
+    starter: `${pricingPolicy.communication.monthlyCreditsPerStudent.starter} shared credits per enrolled student each month`,
+    pro: `${pricingPolicy.communication.monthlyCreditsPerStudent.pro} shared credits per enrolled student each month`,
+    enterprise: `${pricingPolicy.communication.monthlyCreditsPerStudent.enterprise} shared credits per enrolled student each month`,
+  },
+  {
+    label: "Included AEGIS AI Credits each month",
     starter: `${pricingPolicy.plans.starter.monthlyIncludedMilliAic / 1000} AIC proposed. Custom prepaid quantities start at ${pricingPolicy.aic.minimumPurchaseCredits.toLocaleString("en-IN")} AIC.`,
-    pro: `${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} AIC in a shared tenant pool, pending confirmation`,
-    enterprise: `${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AIC in a shared tenant pool, pending confirmation`,
+    pro: `${pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} AIC in a shared monthly tenant pool`,
+    enterprise: `${pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AIC in a shared monthly tenant pool`,
   },
   { label: "Best-effort data migration", starter: "Separately scoped and quoted", pro: "Included against usable source exports", enterprise: "Included against usable source exports" },
   sharedRow("Implementation and support", "Standard implementation and support included; custom SLA separately quoted"),

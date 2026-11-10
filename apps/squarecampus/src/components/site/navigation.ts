@@ -3,6 +3,8 @@ import {
   BookOpen,
   Building2,
   CalendarCheck,
+  Calculator,
+  Coins,
   CircleHelp,
   ClipboardList,
   FileCheck2,
@@ -53,11 +55,12 @@ const navIcons = {
   "/contact": Mail,
   "/pricing": WalletCards,
   "/pricing/#plans": Layers3,
-  "/pricing/#model": ClipboardList,
+  "/pricing/#pricing-studio": Calculator,
+  "/pricing/#aic-packs": Coins,
+  "/pricing/#aic-examples": Sparkles,
+  "/pricing/#usage": WalletCards,
   "/pricing/#scoped-separately": FileCheck2,
-  "/pricing/#pilot": Rocket,
   "/pricing/#procurement-faq": CircleHelp,
-  "/contact/": Mail,
 } as const;
 
 function withIcon(link: NavigationLink): NavigationLink {

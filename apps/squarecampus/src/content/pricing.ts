@@ -144,7 +144,7 @@ export const pricingFaqs = [
   },
   {
     question: "What does Enterprise add beyond ordinary ERP modules?",
-    answer: `Enterprise School OS describes the product. Every subscription plan includes the same generally available feature access, including governance, analytics and multi-campus operations. The Enterprise plan has a larger draft included AIC pool and included best-effort migration. Custom services remain separately scoped. ${dataPortability}`,
+    answer: `Enterprise School OS describes the product. Every subscription plan includes the same generally available feature access, including governance, analytics and multi-campus operations. The Enterprise plan has a larger included AIC pool and included best-effort migration. Custom services remain separately scoped. ${dataPortability}`,
   },
   {
     question: "Is SquareCampus appropriate if we only need attendance and fees?",
@@ -196,10 +196,10 @@ export const pricingFaqs = [
   },
   {
     question: "How is AEGIS usage handled?",
-    answer: `${aicCommercial.purchases} ${aicCommercial.wallet} ${aicCommercial.forecast}`,
+    answer: `${aicCommercial.purchases} ${aicCommercial.wallet}`,
   },
   { question: "How much AIC does one analytical answer use?", answer: aicCommercial.operations },
-  { question: "Does purchased AIC repeat at renewal?", answer: "Prepaid AIC is a separate purchase in the quantity you choose, priced using graduated volume bands. It enters the purchase-year estimate once. Renewal does not automatically buy credits again. Additional forecast purchases require separate approval." },
+  { question: "Does purchased AIC repeat at renewal?", answer: "Prepaid AIC is a separate purchase in the quantity you choose, priced using graduated volume bands. It enters the purchase-year estimate once. Renewal does not automatically buy credits again." },
   {
     question: "Can a trust contract cover multiple campuses?",
     answer: `${corePlatform.multiCampus} A trust-level agreement can cover agreed campuses within the same billed subscription. Specialised configuration and services are scoped separately.`,

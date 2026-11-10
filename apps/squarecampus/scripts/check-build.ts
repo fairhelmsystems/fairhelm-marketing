@@ -28,7 +28,7 @@ import { llmsLinks, llmsRoute, renderLlmsTxt } from "../src/content/llms";
 import { renderLlmsFullTxt } from "../src/content/llms-full";
 import { markdownAlternatePath, markdownAlternatePaths } from "../src/content/markdown-alternates";
 import { plans, pricingFaqs } from "../src/content/pricing";
-import { pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
+import { calculateLicence, planIds, pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import {
   publicRetentionSchedule,
   RETENTION_PATH,
@@ -295,11 +295,14 @@ for (const route of CRITICAL) {
     if (!html.includes(`href="${launchPilot.enquiryHref}"`))
       fail("/pricing: launch-pilot enquiry CTA missing");
     if (/\bPro\b/.test(visibleText)) fail("/pricing: the public pro plan name must be Growth");
-    for (const text of [corePlatform.promise, "Automatically recommend a plan", "Purchase-year fixed subtotal", "Annual subscription estimate excluding additional usage", "One School OS. Open by design.", "Data & Events API", "₹2,500/year", "₹5,000/year", "₹10,000/year", "250 TPM", "500 TPM", "2,000 TPM"])
+    for (const text of [corePlatform.promise, "Choose a plan", "Purchase-year fixed subtotal", "Annual subscription estimate excluding additional usage", "One School OS. Open by design.", "Data & Events API", "₹2,500/year", "₹5,000/year", "₹10,000/year", "250 TPM", "500 TPM", "2,000 TPM"])
       if (!visibleText.includes(normaliseText(text))) fail(`/pricing: missing calculator contract: ${text}`);
-    for (const slab of pricingPolicy.studentSlabs)
-      for (const amount of Object.values(slab.ratesPaise))
-        if (!visibleText.includes(`₹${amount / 100}`)) fail(`/pricing: missing published student rate ${amount}`);
+    for (const plan of planIds) {
+      const annual = calculateLicence(plan, 1200).annualLicencePaise / 100;
+      if (!visibleText.includes(`₹${annual.toLocaleString("en-IN")}`)) fail(`/pricing: missing public ${plan} annual estimate`);
+    }
+    if (!html.includes('href="/pricing-policy.json"')) fail("/pricing: missing canonical policy link");
+    if (visibleText.includes("The published student rates")) fail("/pricing: removed student-rate block is still rendered");
   }
 }
 

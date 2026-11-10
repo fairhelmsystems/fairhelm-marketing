@@ -243,7 +243,8 @@ export function calculateFixedEstimate(
       firstYearTaxPaise === null
         ? null
         : safeMoney(purchaseYearWithPrepaidPaise + firstYearTaxPaise),
-    monthlyCommunicationCredits: students * pricingPolicy.communication.monthlyCreditsPerStudent,
+    monthlyCommunicationCredits:
+      students * pricingPolicy.communication.monthlyCreditsPerStudent[plan],
     monthlyIncludedMilliAic: pricingPolicy.plans[plan].monthlyIncludedMilliAic,
   };
 }
@@ -285,12 +286,17 @@ export function projectCommunication(
   months: readonly CommunicationMonth[],
   whatsappWeights: Readonly<Record<string, number>> = pricingPolicy.communication
     .whatsappWeightsSubcredits,
-  openingPurchasedSubcredits = 0
+  openingPurchasedSubcredits = 0,
+  plan: PlanId = "starter"
 ) {
   assertStudentCount(students);
   assertQuantity(openingPurchasedSubcredits, Number.MAX_SAFE_INTEGER);
+  if (!isPlanId(plan)) throw new RangeError("Choose a supported plan.");
   let purchasedBalance = openingPurchasedSubcredits;
-  const includedSubcredits = students * pricingPolicy.communication.subcreditsPerCredit;
+  const includedSubcredits =
+    students *
+    pricingPolicy.communication.monthlyCreditsPerStudent[plan] *
+    pricingPolicy.communication.subcreditsPerCredit;
   const rows = months.map((month) => {
     const demand = communicationDemandSubcredits(month, whatsappWeights);
     if (demand === null) return null;
@@ -397,15 +403,17 @@ export function recommendPlan(
   selectedAicCredits = 0
 ) {
   assertDataEventsApiPricing(api);
-  const communication =
-    usage.communication === undefined
-      ? null
-      : projectCommunication(
-          students,
-          Array.from({ length: 12 }, () => usage.communication as CommunicationMonth),
-          tariffs.whatsappWeightsSubcredits
-        );
   const candidates = planIds.map((plan) => {
+    const communication =
+      usage.communication === undefined
+        ? null
+        : projectCommunication(
+            students,
+            Array.from({ length: 12 }, () => usage.communication as CommunicationMonth),
+            tariffs.whatsappWeightsSubcredits,
+            0,
+            plan
+          );
     const fixed = calculateFixedEstimate(
       plan,
       students,

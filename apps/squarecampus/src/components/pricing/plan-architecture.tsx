@@ -57,8 +57,16 @@ export function PlanArchitecture({
                 ? `${formatInrRatio(licence.annualLicencePaise, students)} per student/year. Billed annually.`
                 : "Annual licence, excluding GST."}
             </p>
+            <p className="type-support">
+              {(
+                Math.max(0, students ?? 0) *
+                pricingPolicy.communication.monthlyCreditsPerStudent[plan.id]
+              ).toLocaleString("en-IN")}{" "}
+              communication credits/month
+            </p>
             <p className="pricing-plan-pool">
-              {formatAic(pricingPolicy.plans[plan.id].monthlyIncludedMilliAic)} draft AIC/month
+              {formatAic(pricingPolicy.plans[plan.id].monthlyIncludedMilliAic)} AIC/month
+              {plan.id === "starter" ? ", proposed" : ""}
             </p>
             <p className="type-support pricing-plan-sso">
               {plan.id === "enterprise"
@@ -69,7 +77,7 @@ export function PlanArchitecture({
             {projection && (
               <div className="type-support" data-testid={`projection-${plan.id}`}>
                 <p>
-                  Conditional purchase-year spend{" "}
+                  Purchase-year estimate{" "}
                   <strong>
                     {!projection.fixed.eligible
                       ? "Selected services unavailable"
@@ -78,18 +86,12 @@ export function PlanArchitecture({
                         : formatInr(projection.firstYearExpectedPaise)}
                   </strong>
                 </p>
-                {projection.aic?.forecast && (
-                  <p>
-                    Purchased AIC left{" "}
-                    <strong>{formatAic(projection.aic.forecast.closingPurchasedMilliAic)}</strong>
-                  </p>
-                )}
               </div>
             )}
             <p className="type-support pricing-plan-scope">
               {plan.id === "starter"
                 ? "Zero included AIC is proposed. Migration is separately quoted."
-                : "Shared tenant AI pool, pending confirmation. Best-effort migration included."}
+                : "Shared tenant AI pool. Best-effort migration included."}
             </p>
             {onSelect ? (
               <Button

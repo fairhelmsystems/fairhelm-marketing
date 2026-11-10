@@ -43,9 +43,9 @@ test("pricing HTML serves real rates, equal feature access and a single accessib
   const html = renderToStaticMarkup(createElement(PricingPage));
   assert.match(html, /Your school\./);
   assert.match(html, /No module or feature is gated behind a plan/);
-  assert.match(html, /Automatically recommend a plan/);
-  for (const rate of ["₹175", "₹225", "₹350", "₹150", "₹190", "₹250", "₹110", "₹200"])
-    assert.ok(html.includes(rate));
+  assert.doesNotMatch(html, /Automatically recommend a plan/);
+  for (const amount of ["₹2,05,000", "₹2,63,000", "₹4,00,000"]) assert.ok(html.includes(amount));
+  assert.doesNotMatch(html, /The published student rates/);
   assert.equal(html.split('id="live-estimate"').length - 1, 1);
   assert.equal(html.split('id="pricing-students"').length - 1, 1);
   assert.match(html, /staff, parents and students/);
@@ -169,7 +169,7 @@ test("Enterprise at 1200 with SSO and new combined app branding matches the brie
     fixtures.enterpriseWithNewBrandingAndSso.firstYearFixedPaise
   );
   assert.equal(quote.renewalFixedPaise, fixtures.enterpriseWithNewBrandingAndSso.renewalFixedPaise);
-  assert.equal(quote.monthlyCommunicationCredits, 1200);
+  assert.equal(quote.monthlyCommunicationCredits, 10800);
   assert.equal(quote.newBrandingPaise, 2500000);
   assert.equal(quote.annualSsoPaise, 0);
   assert.equal(quote.firstYearTaxPaise, null);
@@ -226,8 +226,8 @@ const month = (recipientEmails: number) => ({
 test("communication recipient emails use exact subcredits and share the student grant", () => {
   assert.equal(communicationDemandSubcredits(month(1)), 1);
   assert.equal(communicationDemandSubcredits(month(3)), 3);
-  assert.equal(projectCommunication(1000, [month(3000)]).totalPaise, 0);
-  assert.equal(projectCommunication(1000, [month(3001)]).totalPaise, 25);
+  assert.equal(projectCommunication(1000, [month(9000)]).totalPaise, 0);
+  assert.equal(projectCommunication(1000, [month(9001)]).totalPaise, 25);
 });
 
 test("mixed communication uses approved category weights and recipient SMS segments", () => {
@@ -256,14 +256,14 @@ test("mixed communication uses approved category weights and recipient SMS segme
 });
 
 test("monthly grants expire while leftover purchased subcredits survive subsequent months", () => {
-  const quote = projectCommunication(100, [month(301), month(301), month(301)]);
+  const quote = projectCommunication(100, [month(901), month(901), month(901)]);
   assert.equal(quote.totalPaise, 25);
   assert.deepEqual(
     quote.months.map((row) => row?.closingPurchasedSubcredits),
     [2, 1, 0]
   );
-  assert.equal(projectCommunication(100, [month(0), month(303)]).totalPaise, 25);
-  assert.equal(projectCommunication(100, [month(302)], {}, 2).totalPaise, 0);
+  assert.equal(projectCommunication(100, [month(0), month(903)]).totalPaise, 25);
+  assert.equal(projectCommunication(100, [month(902)], {}, 2).totalPaise, 0);
 });
 
 test("no entered workload gets the lowest subscription without a best-fit claim", () => {
@@ -277,9 +277,9 @@ test("no entered workload gets the lowest subscription without a best-fit claim"
 
 test("AIC forecasts use working flat pools while unknown communication tariffs stay incomplete", () => {
   assert.equal(pricingPolicy.aic.staffMultiplierEnabled, false);
-  assert.equal(pricingPolicy.plans.pro.monthlyIncludedMilliAic, 150000);
-  assert.equal(pricingPolicy.plans.enterprise.monthlyIncludedMilliAic, 250000);
-  assert.equal(projectAic("pro", 200000).annualPaise, 500000);
+  assert.equal(pricingPolicy.plans.pro.monthlyIncludedMilliAic, 1500000);
+  assert.equal(pricingPolicy.plans.enterprise.monthlyIncludedMilliAic, 2500000);
+  assert.equal(projectAic("pro", 200000).annualPaise, 0);
   assert.equal(projectAic("enterprise", 0).annualPaise, 0);
   assert.equal(
     recommendPlan(1200, noAddOns, { monthlyMilliAic: 1000 }).status,
@@ -319,25 +319,64 @@ test("custom services preserve the plan eligibility imposed by selected add-ons"
   assert.equal(result.status, "custom_service_quote_required");
 });
 
-test("manual selection disables auto, preserves every other input and survives future edits", () => {
-  for (const plan of planIds) {
-    let state = studioReducer(initialStudioState, { type: "plan", plan });
-    assert.equal(state.autoRecommend, false);
-    assert.equal(state.inputs, initialStudioState.inputs);
-    state = studioReducer(state, { type: "inputs", values: { students: "10001", sso: true } });
-    assert.equal(getStudioEstimate(state).selected?.plan, plan);
-    state = studioReducer(state, { type: "auto", checked: true });
-    assert.equal(state.autoRecommend, true);
-    assert.equal(getStudioEstimate(state).selected?.plan, "starter");
-    assert.equal(state.inputs.students, "10001");
-    assert.equal(state.inputs.sso, true);
+test("monthly communication grants and top-ups follow the selected plan multiplier", () => {
+  for (const [plan, multiplier] of [
+    ["starter", 3],
+    ["pro", 6],
+    ["enterprise", 9],
+  ] as const) {
+    const fixed = calculateFixedEstimate(plan, 1000);
+    assert.equal(fixed.monthlyCommunicationCredits, 1000 * multiplier);
+    const included = {
+      smsRecipientSegments: 1000 * multiplier,
+      recipientEmails: 0,
+      whatsappRecipientMessages: {},
+    };
+    assert.equal(projectCommunication(1000, [included], {}, 0, plan).totalPaise, 0);
+    assert.equal(
+      projectCommunication(
+        1000,
+        [{ ...included, smsRecipientSegments: included.smsRecipientSegments + 1 }],
+        {},
+        0,
+        plan
+      ).totalPaise,
+      25
+    );
+    const candidate = recommendPlan(1000, noAddOns, { communication: included }).candidates.find(
+      (candidate) => candidate.plan === plan
+    );
+    assert.equal(candidate?.communication?.totalPaise, 0);
   }
 });
 
-test("unchecking auto preserves the current calculated plan", () => {
-  const state = studioReducer(initialStudioState, { type: "auto", checked: false });
-  assert.equal(state.plan, getStudioEstimate(initialStudioState).selected?.plan);
-  assert.equal(state.autoRecommend, false);
+test("plan selection is manual and survives every input edit", () => {
+  for (const plan of planIds) {
+    let state = studioReducer(initialStudioState, { type: "plan", plan });
+    assert.equal(state.inputs, initialStudioState.inputs);
+    state = studioReducer(state, {
+      type: "inputs",
+      values: { students: "10001", sso: true },
+    });
+    assert.equal(getStudioEstimate(state).selected?.plan, plan);
+    assert.equal(state.inputs.students, "10001");
+    assert.equal(state.inputs.sso, true);
+    assert.equal(encodeEstimate(state).has("auto"), false);
+  }
+});
+
+test("legacy auto and burn-rate links retain their recorded plan without adding forecast costs", () => {
+  const restored = decodeEstimate(
+    new URLSearchParams(
+      `pricing=1&v=${pricingPolicy.version}&plan=enterprise&auto=1&students=1200&monthlyAic=123.456`
+    )
+  );
+  assert.equal(restored.status, "recovered");
+  assert.equal(restored.state?.plan, "enterprise");
+  assert.ok(restored.state);
+  assert.equal(getStudioEstimate(restored.state).selected?.plan, "enterprise");
+  assert.equal(encodeEstimate(restored.state).has("monthlyAic"), false);
+  assert.equal(getStudioEstimate(restored.state).selected?.aic, null);
 });
 
 test("share links round-trip preferences and recover independent valid fields", () => {
@@ -374,7 +413,6 @@ test("malformed links retain usable selections without accepting invalid money o
   assert.equal(result.status, "recovered");
   assert.equal(result.state?.plan, "enterprise");
   assert.equal(result.state?.inputs.students, "2400");
-  assert.equal(result.state?.inputs.monthlyAic, "400");
   assert.equal(result.state?.inputs.smsSegments, "");
   assert.equal(result.state?.inputs.sso, true);
   assert.equal(result.state?.inputs.prepaidAicCredits, "2000");

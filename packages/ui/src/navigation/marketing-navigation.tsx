@@ -1,5 +1,6 @@
 "use client";
 
+import { revealAnchor } from "@fairhelm/ui/lib/reveal-anchor";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
@@ -108,6 +109,7 @@ function NavDisclosure({
                 <Link
                   href={link.href}
                   aria-current={current ? "page" : undefined}
+                  onNavigate={() => revealAnchor(link.href)}
                   onClick={() => onOpenChange(false)}
                   className="navigation-material-item flex items-start gap-3 rounded-xl px-3.5 py-2.5 outline-none"
                 >
@@ -230,6 +232,7 @@ export function MobileNavigation({
     <Link
       href={link.href}
       aria-current={linkIsCurrent(link.href, pathname) ? "page" : undefined}
+      onNavigate={() => revealAnchor(link.href)}
       onClick={onNavigate}
       className="navigation-material-item flex items-center gap-3 rounded-2xl px-4 py-2.5 text-[0.95rem] outline-none"
     >

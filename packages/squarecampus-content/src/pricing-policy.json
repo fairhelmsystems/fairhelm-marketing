@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-09.8",
+  "version": "2026-11-10.1",
   "currency": "INR",
   "billingPeriod": "annual",
   "deployment": "standard_managed_cloud",
@@ -36,11 +36,11 @@
     },
     "pro": {
       "name": "Growth",
-      "monthlyIncludedMilliAic": 150000
+      "monthlyIncludedMilliAic": 1500000
     },
     "enterprise": {
       "name": "Enterprise",
-      "monthlyIncludedMilliAic": 250000
+      "monthlyIncludedMilliAic": 2500000
     }
   },
   "addOns": {
@@ -97,7 +97,11 @@
     "nativeClientsRequireApiAddOn": false
   },
   "communication": {
-    "monthlyCreditsPerStudent": 1,
+    "monthlyCreditsPerStudent": {
+      "starter": 3,
+      "pro": 6,
+      "enterprise": 9
+    },
     "subcreditsPerCredit": 3,
     "smsRecipientSegmentSubcredits": 3,
     "recipientEmailSubcredits": 1,
@@ -109,7 +113,7 @@
   "aic": {
     "allocationMode": "tenant_monthly_pool",
     "allowancesApproved": false,
-    "allowanceStatus": "draft_pool_interpretation_and_proposed_starter_zero",
+    "allowanceStatus": "growth_enterprise_monthly_pools_confirmed_starter_zero_proposed",
     "staffMultiplierEnabled": false,
     "includedRollover": false,
     "purchasedExpiryPolicy": null,

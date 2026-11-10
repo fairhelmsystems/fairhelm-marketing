@@ -166,11 +166,11 @@ test("the 400-AIC forecast compares actual graduated costs and keeps the cost-on
   const result = recommendPlan(1000, noAddOns, { monthlyMilliAic: 400000 });
   assert.deepEqual(
     result.candidates.map((candidate) => candidate.aic?.annualPaise),
-    [2400000, 1500000, 900000]
+    [2400000, 0, 0]
   );
   assert.deepEqual(
     result.candidates.map((candidate) => candidate.firstYearExpectedPaise),
-    [19900000, 24000000, 35900000]
+    [19900000, 22500000, 35000000]
   );
   assert.equal(result.plan, "starter");
   assert.equal(result.status, "conditional_usage_forecast");
@@ -200,13 +200,12 @@ test("custom prepaid purchases count once, fund demand, and do not repeat at ren
   ).candidates[2].aic?.forecast;
   assert.equal(forecast?.additionalPurchasePaise, 0);
   assert.equal(forecast?.totalPurchasePaise, 4500000);
-  assert.equal(forecast?.closingPurchasedMilliAic, 8200000);
+  assert.equal(forecast?.closingPurchasedMilliAic, 10000000);
 });
 
 test("GST is charged on the graduated purchase once and Enterprise SSO stays optional at the same price", () => {
   const state = {
     ...initialStudioState,
-    autoRecommend: false,
     plan: "enterprise" as const,
     inputs: {
       ...initialStudioState.inputs,

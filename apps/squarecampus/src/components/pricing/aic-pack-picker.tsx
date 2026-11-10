@@ -6,7 +6,15 @@ import {
   maxAicPurchaseCredits,
   pricingPolicy,
 } from "@fairhelm/squarecampus-content/pricing";
-import { FieldLegend, FieldSet } from "@fairhelm/ui/components/field";
+import { Checkbox } from "@fairhelm/ui/components/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@fairhelm/ui/components/field";
 import { InfoPopover } from "@fairhelm/ui/components/info-popover";
 import { QuantityField } from "@/components/pricing/quantity-field";
 import { formatInr, formatInrRatio } from "@/lib/pricing-estimate";
@@ -21,19 +29,45 @@ export function AicPurchasePicker({
   onChange: (credits: string) => void;
 }) {
   const purchase = error ? null : calculateAicPurchase(Number(credits));
+  const enabled = credits !== "0";
+  const minimum = pricingPolicy.aic.minimumPurchaseCredits;
   return (
     <FieldSet id="aic-packs">
       <FieldLegend>Buy the AIC you need</FieldLegend>
-      <QuantityField
-        id="pricing-prepaid-aic"
-        label="Extra prepaid AIC"
-        value={credits}
-        maximum={maxAicPurchaseCredits}
-        initialMaximum={250000}
-        hint={`Choose 0 or at least ${pricingPolicy.aic.minimumPurchaseCredits.toLocaleString("en-IN")} whole AIC. Graduated discounts apply to each purchase. GST is additional.`}
-        error={error}
-        onChange={onChange}
-      />
+      <Field orientation="horizontal">
+        <Checkbox
+          id="pricing-buy-aic"
+          aria-labelledby="pricing-buy-aic-label"
+          checked={enabled}
+          onCheckedChange={(checked) => onChange(checked ? String(minimum) : "0")}
+        />
+        <FieldContent>
+          <FieldLabel id="pricing-buy-aic-label" htmlFor="pricing-buy-aic">
+            Add prepaid AIC
+          </FieldLabel>
+          <FieldDescription>
+            Choose at least {minimum.toLocaleString("en-IN")} whole AIC. Graduated discounts apply
+            to each purchase. GST is additional.
+          </FieldDescription>
+        </FieldContent>
+      </Field>
+      {enabled && (
+        <QuantityField
+          id="pricing-prepaid-aic"
+          label="Extra prepaid AIC"
+          value={credits}
+          minimum={minimum}
+          maximum={maxAicPurchaseCredits}
+          initialMaximum={250000}
+          hint={`Minimum purchase ${minimum.toLocaleString("en-IN")} whole AIC. Edit the quantity or clear Add prepaid AIC to remove the purchase.`}
+          error={error}
+          onChange={onChange}
+          onCommit={(raw) => {
+            if (raw === "" || (Number(raw) >= 0 && Number(raw) < minimum))
+              onChange(String(minimum));
+          }}
+        />
+      )}
       {purchase && purchase.credits > 0 && (
         <dl className="pricing-aic-purchase-summary" data-testid="aic-purchase-price">
           <div>
@@ -76,6 +110,9 @@ export function AicPurchasePicker({
           cancellation terms require confirmation.
         </p>
       </InfoPopover>
+      <a className="aic-examples-link" href="#aic-examples">
+        What uses AIC?
+      </a>
     </FieldSet>
   );
 }

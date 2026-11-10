@@ -17,24 +17,24 @@ export function QuantityField({
   value,
   hint,
   error,
-  decimal = false,
   minimum = 0,
   maximum = pricingPolicy.validation.maxMonthlyQuantity,
   initialMaximum = 10000,
   sliderId = `${id}-range`,
   onChange,
+  onCommit,
 }: {
   id: string;
   label: string;
   value: string;
   hint?: string;
   error?: string;
-  decimal?: boolean;
   minimum?: number;
   maximum?: number;
   initialMaximum?: number;
   sliderId?: string;
   onChange: (value: string) => void;
+  onCommit?: (value: string) => void;
 }) {
   const [editing, setEditing] = useState(false);
   const input = useRef<HTMLInputElement>(null);
@@ -47,7 +47,7 @@ export function QuantityField({
   );
   const sliderValue = Math.min(sliderMaximum, numericValue ?? minimum);
   const sliderFill = ((sliderValue - minimum) / (sliderMaximum - minimum)) * 100;
-  const step = decimal ? "0.001" : "1";
+  const step = "1";
   const ticks = [
     minimum,
     Math.floor(sliderMaximum / 4),
@@ -57,7 +57,7 @@ export function QuantityField({
   const displayedValue =
     numericValue === null
       ? value || "Not set"
-      : numericValue.toLocaleString("en-IN", { maximumFractionDigits: decimal ? 3 : 0 });
+      : numericValue.toLocaleString("en-IN", { maximumFractionDigits: 0 });
   const description = `${id}-help${error ? ` ${id}-error` : ""}`;
 
   useEffect(() => {
@@ -99,6 +99,9 @@ export function QuantityField({
             aria-describedby={description}
             aria-invalid={Boolean(error)}
             aria-valuetext={value === "" ? "Not set" : displayedValue}
+            aria-valuenow={sliderValue}
+            aria-valuemin={minimum}
+            aria-valuemax={sliderMaximum}
             onChange={(event) => {
               lastSliderValue.current = event.target.value;
               onChange(event.target.value);
@@ -114,7 +117,9 @@ export function QuantityField({
               <span
                 key={count}
                 title={count.toLocaleString("en-IN")}
-                style={{ left: `${((count - minimum) / (sliderMaximum - minimum)) * 100}%` }}
+                style={{
+                  left: `${((count - minimum) / (sliderMaximum - minimum)) * 100}%`,
+                }}
               >
                 {sliderMaximum > 10000
                   ? compactQuantity.format(count)
@@ -132,13 +137,16 @@ export function QuantityField({
             min={minimum}
             max={maximum}
             step={step}
-            inputMode={decimal ? "decimal" : "numeric"}
+            inputMode="numeric"
             value={value}
             onChange={(event) => {
               lastSliderValue.current = null;
               onChange(event.target.value);
             }}
-            onBlur={() => setEditing(false)}
+            onBlur={() => {
+              onCommit?.(value);
+              setEditing(false);
+            }}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 event.preventDefault();

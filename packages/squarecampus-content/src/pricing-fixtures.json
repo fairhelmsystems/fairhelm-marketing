@@ -1,5 +1,5 @@
 {
-  "pricingVersion": "2026-11-09.8",
+  "pricingVersion": "2026-11-10.1",
   "currency": "INR",
   "amountUnit": "paise",
   "annualLicence": [
@@ -56,7 +56,7 @@
     "students": 1200,
     "firstYearFixedPaise": 42500000,
     "renewalFixedPaise": 40000000,
-    "monthlyCommunicationCredits": 1200
+    "monthlyCommunicationCredits": 10800
   },
   "syntheticDataEventsApi": {
     "isSyntheticTestOnly": true,

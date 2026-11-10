@@ -1,14 +1,15 @@
-import { pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
+import { planIds, pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
 import { DetailsFaq } from "@fairhelm/ui/components/details-faq";
 import { InfoPopover } from "@fairhelm/ui/components/info-popover";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
-import { CommercialModel } from "@/components/pricing/commercial-model";
+import { AicWalkthrough } from "@/components/pricing/aic-walkthrough";
 import { PlanMatrix } from "@/components/pricing/plan-matrix";
 import { PricingStudio } from "@/components/pricing/pricing-studio";
 import { ScopedCostGrid } from "@/components/pricing/scoped-cost-grid";
 import {
   corePlatform,
+  communicationAllowance,
   aicCommercial,
   dataEventsApi,
   dataPortability,
@@ -20,6 +21,16 @@ import { pricingFaqs } from "@/content/pricing";
 import { formatInr } from "@/lib/pricing-estimate";
 
 export default function PricingPage() {
+  const emailExamples = planIds
+    .map((plan) => {
+      const emails =
+        (1000 *
+          pricingPolicy.communication.monthlyCreditsPerStudent[plan] *
+          pricingPolicy.communication.subcreditsPerCredit) /
+        pricingPolicy.communication.recipientEmailSubcredits;
+      return `${emails.toLocaleString("en-IN")} on ${pricingPolicy.plans[plan].name}`;
+    })
+    .join(", ");
   return (
     <main tabIndex={-1} id="main-content" className="pricing-page">
       <SectionShell className="pricing-hero">
@@ -51,15 +62,14 @@ export default function PricingPage() {
         <PricingStudio />
       </SectionShell>
       <SectionShell
-        mobileDisclosure="Student rates and inclusions"
+        mobileDisclosure="Plan inclusions"
         id="enterprise-adds"
         title="Same access. Clear allowances."
       >
-        <CommercialModel />
         <PlanMatrix />
         <p className="type-support mt-6">
-          Draft AIC allowances are tenant-wide monthly pools. Additional quantity limits and
-          service-depth commitments require approval before publication.
+          AIC allowances are tenant-wide monthly pools. Additional quantity limits and service-depth
+          commitments require approval before publication.
         </p>
       </SectionShell>
       <SectionShell
@@ -87,9 +97,9 @@ export default function PricingPage() {
           <article>
             <h3>Shared communication credits</h3>
             <p>
-              One credit per enrolled student each month, shared across authorised senders and
-              channels. Included credits reset at the contractual monthly cycle; purchased balances
-              carry forward.
+              {communicationAllowance} Credits are shared across authorised senders and channels.
+              Included credits reset at the contractual monthly cycle; purchased balances carry
+              forward.
             </p>
             <dl>
               <div>
@@ -113,9 +123,9 @@ export default function PricingPage() {
               <summary>Recipient counts and shared usage</summary>
               <p>
                 A long or Unicode SMS may use several billable segments per recipient. At 1,000
-                students the shared monthly pool can fund 3,000 recipient emails when used entirely
-                for email. SMS, email and eligible WhatsApp traffic draw from that same pool.
-                WhatsApp weights require an approved category and destination rate card.
+                students, the monthly pool can fund recipient emails of {emailExamples} when used
+                entirely for email. SMS, email and eligible WhatsApp traffic draw from that same
+                pool. WhatsApp weights require an approved category and destination rate card.
               </p>
               <p>
                 Central SquareCampus email transport uses platform sender configuration. It needs no
@@ -137,12 +147,20 @@ export default function PricingPage() {
                 <dd>0 AIC/month, proposed</dd>
               </div>
               <div>
-                <dt>Growth draft pool</dt>
-                <dd>{pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000} AIC/month</dd>
+                <dt>Growth monthly pool</dt>
+                <dd>
+                  {(pricingPolicy.plans.pro.monthlyIncludedMilliAic / 1000).toLocaleString("en-IN")}{" "}
+                  AIC/month
+                </dd>
               </div>
               <div>
-                <dt>Enterprise draft pool</dt>
-                <dd>{pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000} AIC/month</dd>
+                <dt>Enterprise monthly pool</dt>
+                <dd>
+                  {(pricingPolicy.plans.enterprise.monthlyIncludedMilliAic / 1000).toLocaleString(
+                    "en-IN"
+                  )}{" "}
+                  AIC/month
+                </dd>
               </div>
               <div>
                 <dt>Minimum prepaid purchase</dt>
@@ -157,9 +175,8 @@ export default function PricingPage() {
               </div>
             </dl>
             <details data-md-include>
-              <summary>How AI consumption is estimated</summary>
+              <summary>How AI credits work</summary>
               <p>{aicCommercial.wallet}</p>
-              <p>{aicCommercial.forecast}</p>
             </details>
             <p>{aicCommercial.operations}</p>
             <p>
@@ -169,6 +186,7 @@ export default function PricingPage() {
             </p>
           </article>
         </div>
+        <AicWalkthrough />
       </SectionShell>
       <SectionShell
         mobileDisclosure="Pilot, security and data"

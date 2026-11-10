@@ -1,4 +1,4 @@
-import {siteHref} from "@fairhelm/config/urls";
+import { siteHref } from "@fairhelm/config/urls";
 import { blogHref } from "@fairhelm/config/urls";
 import type { NavigationGroup, NavigationLink } from "@fairhelm/ui/navigation/types";
 
@@ -90,39 +90,39 @@ export const primaryNavigation: readonly (NavGroup | NavLink)[] = [
     footer: { href: "/enterprise", label: "Explore Enterprise" },
     links: [
       {
-        href: "/pricing",
-        label: "Pricing overview",
-        description: "The institutional licence at a glance",
+        href: "/pricing/#pricing-studio",
+        label: "Pricing calculator",
+        description: "Annual licence, services and prepaid AIC",
       },
       {
         href: "/pricing/#plans",
-        label: "Plans & comparison",
+        label: "Compare plans",
         description: "Starter, Growth and Enterprise",
-      },
-      {
-        href: "/pricing/#model",
-        label: "How the licence works",
-        description: "The inputs that shape your proposal",
       },
       {
         href: "/pricing/#scoped-separately",
         label: "Included & optional",
-        description: "What the licence covers",
+        description: "Feature access and priced add-ons",
       },
       {
-        href: "/pricing/#pilot",
-        label: "Selected launch pilot",
-        description: "Eligibility, scope and the 90-day evaluation",
+        href: "/pricing/#aic-packs",
+        label: "Prepaid AIC",
+        description: "Choose credits with volume discounts",
+      },
+      {
+        href: "/pricing/#aic-examples",
+        label: "What uses AIC?",
+        description: "Follow three example analytical operations",
+      },
+      {
+        href: "/pricing/#usage",
+        label: "Credit allowances",
+        description: "Communication and monthly AIC pools",
       },
       {
         href: "/pricing/#procurement-faq",
-        label: "Commercial questions",
-        description: "Answers before you commit",
-      },
-      {
-        href: "/contact/",
-        label: "Request a proposal",
-        description: "Start with your institution's requirements",
+        label: "Pricing questions",
+        description: "Billing, renewals and purchases",
       },
     ],
   },
@@ -229,7 +229,10 @@ export const footerGroups = [
       { href: siteHref("squarecampus", "/terms-of-service"), label: "Terms of Service" },
       { href: siteHref("squarecampus", "/acceptable-use"), label: "Acceptable Use" },
       { href: siteHref("squarecampus", "/refund-policy"), label: "Cancellation & Refunds" },
-      { href: siteHref("squarecampus", "/data-processing-addendum"), label: "Data Processing Addendum" },
+      {
+        href: siteHref("squarecampus", "/data-processing-addendum"),
+        label: "Data Processing Addendum",
+      },
       { href: siteHref("squarecampus", "/data-retention/"), label: "Data Retention" },
     ],
   },

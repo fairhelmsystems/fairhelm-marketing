@@ -411,3 +411,13 @@ The owner approved replacing fixed prepaid AIC packs with custom whole-credit pu
 The owner also approved optional Microsoft Entra SSO on every plan. Starter and Growth cost ₹2,500/year when selected. Enterprise includes SSO in its annual licence, with no price difference when activation is declined. This supersedes the earlier Growth/Enterprise SSO eligibility restriction. White-label app eligibility retains its existing separate policy. Institution-owned Microsoft licences, tenant configuration and technical onboarding still apply.
 
 The former GHE pricing page was inspected for positioning context. Current Enterprise copy highlights its real included SSO, migration and draft AI allowance. Generally available core features remain eligible on every plan.
+
+
+### 10 November 2026 pricing controls and communication grants
+
+The owner approved monthly shared communication credits of enrolled students × 3 on Starter, × 6 on Growth and × 9 on Enterprise. Policy `2026-11-10.1` is the canonical source for fixed estimates, per-plan usage forecasts and public comparisons. Prepaid AIC is selected with a checkbox and starts at 1,000 whole credits. Plan selection is manual. The API peak, custom-quote and previously purchased branding controls are removed.
+
+The AEGIS walkthrough uses authored sample records and policies. Its three operation tariffs remain unapproved and appear as quote placeholders. A separate conditional 2-AIC example explains that one accepted quote covers the complete operation. The walkthrough performs local calculations and preserves the access, scope, policy and single-charge boundaries.
+
+
+The final owner direction removes all monthly AIC burn forecasting from the marketing calculator. Prepaid AIC is a once-only quantity purchase. Growth’s institution-wide monthly included pool is 1,500 AIC and Enterprise’s is 2,500 AIC. These quantities are confirmed. Starter’s zero monthly grant retains its proposed status. Purchased validity and cancellation terms remain separately defined, with purchased carry-forward preserved.

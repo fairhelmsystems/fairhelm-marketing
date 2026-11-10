@@ -53,14 +53,13 @@ test("optional forecasts distinguish a blank field from an explicit zero", () =>
     ...initialStudioState,
     inputs: {
       ...initialStudioState.inputs,
-      monthlyAic: "0",
       smsSegments: "0",
       dataEventsApi: true,
       apiPeakRequests: "0",
       apiPeakWindowSeconds: "60",
     },
   });
-  assert.equal(zero.usage.monthlyMilliAic, 0);
+  assert.equal(zero.usage.monthlyMilliAic, undefined);
   assert.equal(zero.usage.communication?.smsRecipientSegments, 0);
   assert.equal(zero.usage.apiPeak?.requests, 0);
 });
@@ -90,7 +89,7 @@ const unconfiguredApi: DataEventsApiPricing = {
 };
 
 test("the public API policy keeps price, limits and release state explicit", () => {
-  assert.equal(pricingPolicy.version, "2026-11-09.8");
+  assert.equal(pricingPolicy.version, "2026-11-10.1");
   assert.deepEqual(publicDataEventsApiPricing.annualDataEventsApiPaise, {
     starter: 250000,
     pro: 500000,
@@ -161,7 +160,8 @@ test("SSO is eligible on every plan while white-label apps require Growth", () =
     assert.equal(result.candidates[0].firstYearExpectedPaise, null);
     assert.equal(result.candidates[1].fixed.eligible, true);
     const state = { ...initialStudioState, inputs: { ...initialStudioState.inputs, ...selected } };
-    assert.equal(getStudioEstimate(state).selected?.plan, "pro");
+    assert.equal(getStudioEstimate(state).selected?.plan, "starter");
+    assert.equal(getStudioEstimate(state).selected?.fixed.eligible, false);
   }
   assert.equal(
     recommendPlan(1200, { ...noAddOns, brandingAlreadyPurchased: true }).plan,
@@ -203,7 +203,6 @@ test("API throughput is evaluated within the plans supporting the selected add-o
 test("manual incompatible selections remain editable but cannot create a shareable quote", () => {
   const manual = {
     ...initialStudioState,
-    autoRecommend: false,
     inputs: {
       ...initialStudioState.inputs,
       sso: true,
@@ -475,7 +474,7 @@ test("a known-suitable plan is distinguished from plans with unknown capacity", 
   assert.equal(result.status, "incomplete_api_capacity");
 });
 
-test("manual override exposes a capacity warning and auto reevaluates the same inputs", () => {
+test("manual selection keeps capacity warnings through input changes", () => {
   let state = studioReducer(initialStudioState, {
     type: "inputs",
     values: {
@@ -488,8 +487,7 @@ test("manual override exposes a capacity warning and auto reevaluates the same i
   const manual = getStudioEstimate(state, api);
   assert.equal(manual.selected?.plan, "starter");
   assert.equal(manual.selected?.apiCapacity.status, "insufficient");
-  state = studioReducer(state, { type: "auto", checked: true });
-  assert.equal(getStudioEstimate(state, api).selected?.plan, "enterprise");
+  assert.equal(getStudioEstimate(state, api).selected?.plan, "starter");
   state = studioReducer(state, { type: "inputs", values: { apiPeakRequests: "99" } });
   assert.equal(getStudioEstimate(state, api).recommendation?.plan, null);
   assert.equal(getStudioEstimate(state, api).recommendation?.status, "unmet_api_capacity");

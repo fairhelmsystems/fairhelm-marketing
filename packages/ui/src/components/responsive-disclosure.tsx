@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactNode, useEffect, useRef, useState } from "react";
+import { revealAnchor } from "@fairhelm/ui/lib/reveal-anchor";
 import { cn } from "@fairhelm/ui/lib/utils";
 
 /** A single DOM tree for interactive content. Phones use native disclosure;
@@ -25,18 +26,7 @@ export function ResponsiveDisclosure({
       if (node) node.open = media.matches || node.contains(document.activeElement);
       setInline(media.matches);
     };
-    const openAnchor = () => {
-      const node = details.current;
-      let anchor: string;
-      try {
-        anchor = decodeURIComponent(window.location.hash.slice(1));
-      } catch {
-        return;
-      }
-      const target = document.getElementById(anchor);
-      if (node && target && (node.contains(target) || node.closest("[id]") === target))
-        node.open = true;
-    };
+    const openAnchor = () => revealAnchor(window.location.href);
     update();
     openAnchor();
     media.addEventListener("change", update);
@@ -48,7 +38,13 @@ export function ResponsiveDisclosure({
   }, []);
 
   return (
-    <details ref={details} className={cn("responsive-disclosure", className)} data-inline={inline}>
+    <details
+      ref={details}
+      className={cn("responsive-disclosure", className)}
+      data-inline={inline}
+      // Native fragment navigation can open this disclosure before React hydrates it.
+      suppressHydrationWarning
+    >
       <summary>{label}</summary>
       <div data-md-include>{children}</div>
     </details>

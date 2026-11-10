@@ -38,13 +38,19 @@ test("comparison preserves equal core, security, ownership and consumption discl
     "Operational scope",
     "Baseline security",
     "Institution-owned data and supported exports",
-    "SMS, WhatsApp and email allowances",
   ]) {
     const row = planComparisonRows.find((item) => item.label === label);
     assert.ok(row, label);
     assert.equal(row.starter, row.pro, label);
     assert.equal(row.pro, row.enterprise, label);
   }
+  const allowances = planComparisonRows.find(
+    (row) => row.label === "SMS, WhatsApp and email allowances"
+  );
+  assert.ok(allowances);
+  assert.match(allowances.starter, /^3 shared credits/);
+  assert.match(allowances.pro, /^6 shared credits/);
+  assert.match(allowances.enterprise, /^9 shared credits/);
   const campuses = planComparisonRows.find((row) => row.label === "Institutional structure");
   assert.ok(campuses);
   for (const plan of plans) assert.match(campuses[plan.id], /Multi-campus operations/);

@@ -14,7 +14,6 @@ import type { PlanId } from "@/content/commercial";
 
 export type StudioInputs = {
   students: string;
-  monthlyAic: string;
   smsSegments: string;
   recipientEmails: string;
   whatsappMessages: string;
@@ -23,14 +22,12 @@ export type StudioInputs = {
   customService: boolean;
   prepaidAicCredits: string;
 } & AddOns;
-export type StudioState = { inputs: StudioInputs; plan: PlanId; autoRecommend: boolean };
+export type StudioState = { inputs: StudioInputs; plan: PlanId };
 
 export const initialStudioState: StudioState = {
   plan: "starter",
-  autoRecommend: true,
   inputs: {
     students: "1200",
-    monthlyAic: "",
     smsSegments: "",
     recipientEmails: "",
     whatsappMessages: "",
@@ -73,7 +70,6 @@ export function parseStudioInputs(inputs: StudioInputs) {
   const errors: Partial<
     Record<
       | "students"
-      | "monthlyAic"
       | "smsSegments"
       | "recipientEmails"
       | "whatsappMessages"
@@ -90,21 +86,6 @@ export function parseStudioInputs(inputs: StudioInputs) {
   );
   if (students === null)
     errors.students = `Enter a whole student count from ${pricingPolicy.validation.minStudents.toLocaleString("en-IN")} to ${pricingPolicy.validation.maxStudents.toLocaleString("en-IN")}, using digits only.`;
-  let monthlyMilliAic: number | undefined;
-  if (inputs.monthlyAic !== "") {
-    if (!/^\d+(\.\d{1,3})?$/.test(inputs.monthlyAic)) {
-      errors.monthlyAic = "Enter a non-negative AIC amount with up to three decimal places.";
-    } else {
-      const [whole, fractional = ""] = inputs.monthlyAic.split(".");
-      const milli = Number(whole) * 1000 + Number(fractional.padEnd(3, "0"));
-      if (
-        !Number.isSafeInteger(milli) ||
-        milli > pricingPolicy.validation.maxMonthlyQuantity * 1000
-      ) {
-        errors.monthlyAic = "Enter an AIC amount up to 1,00,00,00,000.";
-      } else monthlyMilliAic = milli;
-    }
-  }
   const channels = { smsSegments: 0, recipientEmails: 0, whatsappMessages: 0 };
   for (const key of ["smsSegments", "recipientEmails", "whatsappMessages"] as const) {
     if (inputs[key] === "") continue;
@@ -113,7 +94,7 @@ export function parseStudioInputs(inputs: StudioInputs) {
       errors[key] = "Enter a whole number from 0 to 1,00,00,00,000, using digits only.";
     else channels[key] = value;
   }
-  const usage: ExpectedUsage = { monthlyMilliAic };
+  const usage: ExpectedUsage = {};
   const selectedAicCredits =
     inputs.prepaidAicCredits === ""
       ? 0
@@ -177,15 +158,14 @@ export function getStudioEstimate(
     api,
     parsed.selectedAicCredits
   );
-  const plan = state.autoRecommend ? (recommendation.plan ?? state.plan) : state.plan;
-  const selected = recommendation.candidates.find((candidate) => candidate.plan === plan) ?? null;
+  const selected =
+    recommendation.candidates.find((candidate) => candidate.plan === state.plan) ?? null;
   return { ...parsed, recommendation, selected };
 }
 
 export type StudioAction =
   | { type: "inputs"; values: Partial<StudioInputs> }
   | { type: "plan"; plan: PlanId }
-  | { type: "auto"; checked: boolean }
   | { type: "restore"; state: StudioState };
 
 export function studioReducer(state: StudioState, action: StudioAction): StudioState {
@@ -193,13 +173,7 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
     case "inputs":
       return { ...state, inputs: { ...state.inputs, ...action.values } };
     case "plan":
-      return { ...state, plan: action.plan, autoRecommend: false };
-    case "auto":
-      return {
-        ...state,
-        plan: getStudioEstimate(state).selected?.plan ?? state.plan,
-        autoRecommend: action.checked,
-      };
+      return { ...state, plan: action.plan };
     case "restore":
       return action.state;
   }
@@ -208,7 +182,6 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
 const inputKeys = [
   "students",
   "prepaidAicCredits",
-  "monthlyAic",
   "smsSegments",
   "recipientEmails",
   "whatsappMessages",
@@ -232,7 +205,6 @@ export function encodeEstimate(state: StudioState) {
     pricing: "1",
     v: pricingPolicy.version,
     plan: estimate.selected.plan,
-    auto: state.autoRecommend ? "1" : "0",
   });
   for (const key of inputKeys) {
     if (
@@ -252,7 +224,7 @@ export function decodeEstimate(
   | { status: "absent"; state: null }
   | { status: "valid" | "recovered" | "stale"; state: StudioState } {
   const packKeys = legacyAicPacks.map((pack) => `pack_${pack.id}`);
-  const knownKeys = ["plan", "auto", ...inputKeys, ...flagKeys, ...packKeys];
+  const knownKeys = ["plan", "auto", "monthlyAic", ...inputKeys, ...flagKeys, ...packKeys];
   if (!params.has("pricing") && !knownKeys.some((key) => params.has(key)))
     return { status: "absent", state: null };
 
@@ -270,7 +242,7 @@ export function decodeEstimate(
   if (rawPlan !== null && !isPlanId(rawPlan)) recovered = true;
   const auto = read("auto");
   if (auto !== null && auto !== "0" && auto !== "1") recovered = true;
-  const autoRecommend = auto === "1" || (auto !== "0" && !isPlanId(rawPlan));
+  if (auto === "1") recovered = true;
   const inputs = { ...initialStudioState.inputs };
   for (const key of inputKeys) {
     const value = read(key);
@@ -302,10 +274,14 @@ export function decodeEstimate(
       inputs.prepaidAicCredits = String(legacyCredits);
     }
   }
-  if (!inputs.dataEventsApi) {
-    inputs.apiPeakRequests = "";
-    inputs.apiPeakWindowSeconds = "";
-  }
+  // These controls were removed. Legacy links keep their plan and published service fee.
+  if (inputs.apiPeakRequests !== "" || inputs.apiPeakWindowSeconds !== "" || inputs.customService)
+    recovered = true;
+  inputs.apiPeakRequests = "";
+  inputs.apiPeakWindowSeconds = "";
+  inputs.customService = false;
+  // AIC purchases no longer assume a monthly burn rate or a forecast horizon.
+  if (read("monthlyAic") !== null) recovered = true;
   const parsed = parseStudioInputs(inputs);
   for (const key of inputKeys) {
     if (!parsed.errors[key]) continue;
@@ -316,7 +292,7 @@ export function decodeEstimate(
     inputs.apiPeakRequests = "";
     inputs.apiPeakWindowSeconds = "";
   }
-  const state = { plan, inputs, autoRecommend };
+  const state = { plan, inputs };
   try {
     getStudioEstimate(state);
   } catch (error) {

@@ -18,11 +18,23 @@
  *   bun run motion:render aegis        # ids containing "aegis"
  */
 import { createHash } from "node:crypto";
-import { mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { bundle } from "@remotion/bundler";
-import { renderMedia, renderStill, selectComposition } from "@remotion/renderer";
+import {
+  renderMedia,
+  renderStill,
+  selectComposition,
+} from "@remotion/renderer";
 import { compositionId, MOTION_ENTRIES, THEME_NAMES } from "../src/registry";
 import { CANVAS } from "../src/theme";
 
@@ -33,22 +45,18 @@ const PUBLIC_DIR = join(SITE_ROOT, "public", "motion");
 const MANIFEST = join(SITE_ROOT, "src", "content", "motion-assets.ts");
 
 const filter = process.argv.slice(2).filter((a) => !a.startsWith("-"));
-const matches = (id: string) => filter.length === 0 || filter.some((f) => id.includes(f));
+const matches = (id: string) =>
+  filter.length === 0 || filter.some((f) => id.includes(f));
 
 const sha8 = (file: string) =>
   createHash("sha256").update(readFileSync(file)).digest("hex").slice(0, 8);
 
 const kb = (file: string) => Math.round(statSync(file).size / 1024);
 
-/** Rename to a content-hashed name and drop any earlier hash of the same asset. */
+/** Publish a hashed file. Previous assets remain until the manifest commits. */
 function publish(tmp: string, base: string, ext: string) {
   const hash = sha8(tmp);
   const finalName = `${base}.${hash}.${ext}`;
-  for (const existing of readdirSync(PUBLIC_DIR)) {
-    if (existing.startsWith(`${base}.`) && existing.endsWith(`.${ext}`) && existing !== finalName) {
-      rmSync(join(PUBLIC_DIR, existing));
-    }
-  }
   const finalPath = join(PUBLIC_DIR, finalName);
   if (tmp !== finalPath) {
     renameSync(tmp, finalPath);
@@ -65,8 +73,19 @@ type ManifestEntry = {
   height: number;
   fps: number;
   durationInFrames: number;
-  light: { mp4?: string; poster: string };
-  dark: { mp4?: string; poster: string };
+  segments?: { id: string; startFrame: number; durationInFrames: number }[];
+  light: {
+    mp4?: string;
+    webm?: string;
+    poster: string;
+    stills?: Record<string, string>;
+  };
+  dark: {
+    mp4?: string;
+    webm?: string;
+    poster: string;
+    stills?: Record<string, string>;
+  };
 };
 
 async function main() {
@@ -78,15 +97,23 @@ async function main() {
     onProgress: () => undefined,
   });
 
+  const previous = (await import(pathToFileURL(MANIFEST).href))
+    .motionAssets as Record<string, ManifestEntry>;
   const manifest: ManifestEntry[] = [];
   const report: string[] = [];
 
   for (const entry of MOTION_ENTRIES) {
     if (!matches(entry.id)) {
+      if (!previous[entry.id])
+        throw new Error(
+          `Render ${entry.id} before publishing the complete manifest.`,
+        );
+      manifest.push(previous[entry.id]);
       continue;
     }
 
-    const themed: Partial<Record<"light" | "dark", { mp4?: string; poster: string }>> = {};
+    const themed: Partial<Record<"light" | "dark", ManifestEntry["light"]>> =
+      {};
 
     for (const theme of THEME_NAMES) {
       const id = compositionId(entry, theme);
@@ -113,6 +140,32 @@ async function main() {
       const poster = publish(posterTmp, `${entry.id}-${theme}`, "webp");
       report.push(`  poster ${poster.name.padEnd(46)} ${poster.sizeKb} KB`);
 
+      const stills: Record<string, string> = {};
+      for (const segment of entry.segments ?? []) {
+        const frame = segment.startFrame + segment.durationInFrames - 1;
+        if (frame === entry.posterFrame) {
+          stills[segment.id] = `/motion/${poster.name}`;
+          continue;
+        }
+        const stillTmp = join(PUBLIC_DIR, `.tmp-${id}-${segment.id}.webp`);
+        await renderStill({
+          composition,
+          serveUrl,
+          output: stillTmp,
+          frame,
+          imageFormat: "webp",
+          inputProps: entry.props(theme),
+          overwrite: true,
+        });
+        const still = publish(
+          stillTmp,
+          `${entry.id}-${theme}-stage-${segment.id}`,
+          "webp",
+        );
+        stills[segment.id] = `/motion/${still.name}`;
+        report.push(`  stage  ${still.name} ${still.sizeKb} KB`);
+      }
+
       let mp4: { name: string; sizeKb: number } | undefined;
       if (entry.tier === 1) {
         const videoTmp = join(PUBLIC_DIR, `.tmp-${id}.mp4`);
@@ -138,7 +191,11 @@ async function main() {
         report.push(`  video  ${mp4.name.padEnd(46)} ${mp4.sizeKb} KB`);
       }
 
-      themed[theme] = { poster: `/motion/${poster.name}`, mp4: mp4 && `/motion/${mp4.name}` };
+      themed[theme] = {
+        poster: `/motion/${poster.name}`,
+        mp4: mp4 && `/motion/${mp4.name}`,
+        ...(entry.segments ? { stills } : {}),
+      };
     }
 
     manifest.push({
@@ -150,28 +207,41 @@ async function main() {
       height: entry.height,
       fps: CANVAS.fps,
       durationInFrames: entry.durationInFrames,
+      ...(entry.segments ? { segments: entry.segments } : {}),
       light: themed.light!,
       dark: themed.dark!,
     });
     console.log(`✓ ${entry.id}`);
   }
 
-  if (filter.length === 0) {
-    writeManifest(manifest);
-    console.log(`\nManifest written: ${MANIFEST}`);
-  } else {
-    console.log("\nPartial render — manifest left untouched. Re-run without a filter to update it.");
+  writeManifest(manifest);
+  const retained = JSON.stringify(manifest);
+  for (const entry of MOTION_ENTRIES.filter((item) => matches(item.id))) {
+    for (const theme of THEME_NAMES) {
+      const base = `${entry.id}-${theme}`;
+      for (const file of readdirSync(PUBLIC_DIR)) {
+        if (
+          (file.startsWith(`${base}.`) || file.startsWith(`${base}-stage-`)) &&
+          !retained.includes(`/motion/${file}`)
+        ) {
+          rmSync(join(PUBLIC_DIR, file));
+        }
+      }
+    }
   }
+  console.log(`\nManifest written: ${MANIFEST}`);
 
   console.log(`\n${report.join("\n")}`);
 }
 
-/** Emitted in Biome's own formatting so a render never leaves `bun run check` failing. */
-const source = (key: string, value: { poster: string; mp4?: string }) =>
+/** Writes the complete typed asset manifest. */
+const source = (key: string, value: ManifestEntry["light"]) =>
   [
     `    ${key}: {`,
     `      poster: "${value.poster}",`,
     ...(value.mp4 ? [`      mp4: "${value.mp4}",`] : []),
+    ...(value.webm ? [`      webm: "${value.webm}",`] : []),
+    ...(value.stills ? [`      stills: ${JSON.stringify(value.stills)},`] : []),
     "    },",
   ].join("\n");
 
@@ -186,16 +256,17 @@ function writeManifest(entries: ManifestEntry[]) {
     height: ${e.height},
     fps: ${e.fps},
     durationInFrames: ${e.durationInFrames},
+${e.segments ? `    segments: ${JSON.stringify(e.segments)},` : ""}
     description:
       ${JSON.stringify(e.description)},
 ${source("light", e.light)}
 ${source("dark", e.dark)}
-  },`
+  },`,
     )
     .join("\n");
 
   writeFileSync(
-    MANIFEST,
+    `${MANIFEST}.tmp`,
     `/**
  * GENERATED FILE — do not edit by hand.
  *
@@ -214,6 +285,7 @@ export type MotionSource = {
   /** Present for tier-1 assets only. Tier 2 ships the still and no video. */
   mp4?: string;
   webm?: string;
+  stills?: Record<string, string>;
 };
 
 export type MotionAsset = {
@@ -224,6 +296,7 @@ export type MotionAsset = {
   height: number;
   fps: number;
   durationInFrames: number;
+  segments?: readonly { id: string; startFrame: number; durationInFrames: number }[];
   /** Text alternative. The DOM around the figure remains authoritative. */
   description: string;
   light: MotionSource;
@@ -236,8 +309,9 @@ ${body}
 
 export type MotionAssetId = keyof typeof motionAssets;
 `,
-    "utf8"
+    "utf8",
   );
+  renameSync(`${MANIFEST}.tmp`, MANIFEST);
 }
 
 main().catch((error) => {

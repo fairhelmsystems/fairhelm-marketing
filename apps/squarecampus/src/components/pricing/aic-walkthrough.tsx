@@ -1,19 +1,9 @@
 "use client";
 
-import {
-  BookOpenCheck,
-  ChartNoAxesCombined,
-  Check,
-  Database,
-  FileText,
-  Fingerprint,
-  LockKeyhole,
-  MessageSquare,
-  Pause,
-  Play,
-  RotateCcw,
-  ShieldCheck,
-} from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Pause, Play, RotateCcw } from "lucide-react";
+import { AicMotionArtwork } from "@/components/pricing/aic-motion-artwork";
+import { MotionPoster } from "@/components/site/motion-poster";
+import { motionAssets } from "@/content/motion-assets";
 import { aicScenarioSummaries } from "@/content/aic-walkthrough";
 import dynamic from "next/dynamic";
 import { useEffect, useReducer, useState } from "react";
@@ -252,105 +242,6 @@ function StageEvidence({ scenario, state }: { scenario: AicScenario; state: Walk
   );
 }
 
-function FlowArtwork({ state, vertical }: { state: WalkthroughState; vertical: boolean }) {
-  const scenario = aicScenarios.find((item) => item.id === state.scenarioId) ?? aicScenarios[0];
-  const permitted = state.mode !== "blocked" || state.boundary !== "access-denied";
-  const reading = state.stage >= 4 && state.approved;
-  const source = vertical ? { x: 140, y: 44 } : { x: 60, y: 140 };
-  const gate = vertical ? { x: 140, y: 140 } : { x: 230, y: 140 };
-  const rules = vertical ? { x: 140, y: 240 } : { x: 390, y: 140 };
-  const answer = vertical ? { x: 140, y: 340 } : { x: 550, y: 140 };
-  const path = vertical ? "M140 44V340" : "M60 140H550";
-  const GateIcon = permitted && state.stage > 1 ? ShieldCheck : LockKeyhole;
-  const ResultIcon = state.stage === 7 ? Check : state.stage >= 5 ? ChartNoAxesCombined : FileText;
-  return (
-    <svg
-      className={vertical ? "aic-flow-art aic-flow-narrow" : "aic-flow-art aic-flow-wide"}
-      viewBox={vertical ? "0 0 280 390" : "0 0 640 280"}
-      aria-hidden="true"
-    >
-      <path className="aic-flow-track" d={path} />
-      {state.stage > 0 && (
-        <path
-          className="aic-flow-connection"
-          d={
-            vertical
-              ? `M140 44V${state.stage < 4 ? 140 : state.stage < 7 ? 240 : 340}`
-              : `M60 140H${state.stage < 4 ? 230 : state.stage < 7 ? 390 : 550}`
-          }
-        />
-      )}
-      {["north", "central", "south"].map((campus, index) => {
-        const x = vertical ? 44 + index * 96 : source.x;
-        const y = vertical ? source.y : 48 + index * 92;
-        const allowed = campus === "north" || scenario.id !== "attendance-check";
-        return (
-          <g
-            key={campus}
-            className="aic-campus-lane"
-            data-allowed={allowed && permitted}
-            transform={`translate(${x} ${y})`}
-          >
-            <rect x="-24" y="-24" width="48" height="48" rx="9" />
-            <Database x="-11" y="-11" width="22" height="22" />
-            <path
-              className="aic-flow-track"
-              d={vertical ? `M0 24V48H${140 - x}` : `M24 0H76V${140 - y}H${gate.x - x - 28}`}
-            />
-          </g>
-        );
-      })}
-      <g
-        className="aic-art-transition"
-        transform={`translate(${gate.x} ${gate.y})`}
-        key={`gate-${state.stage}`}
-      >
-        <rect className="aic-art-node" x="-32" y="-32" width="64" height="64" rx="12" />
-        <GateIcon x="-15" y="-15" width="30" height="30" />
-      </g>
-      <g transform={`translate(${rules.x} ${rules.y})`}>
-        <rect className="aic-art-node" x="-34" y="-32" width="68" height="64" rx="8" />
-        {state.stage === 0 ? (
-          <MessageSquare x="-14" y="-14" width="28" height="28" />
-        ) : state.stage === 3 ? (
-          <Fingerprint x="-14" y="-14" width="28" height="28" />
-        ) : (
-          <BookOpenCheck x="-14" y="-14" width="28" height="28" />
-        )}
-        {reading &&
-          [0, 1, 2].map((index) => (
-            <g
-              className="aic-record-tile"
-              key={index}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <rect
-                className="aic-art-node"
-                x={-36 + index * 24}
-                y={vertical ? 44 : -78}
-                width="22"
-                height="17"
-                rx="3"
-              />
-              <path d={`M${-31 + index * 24} ${vertical ? 50 : -72}h12`} />
-            </g>
-          ))}
-      </g>
-      <g
-        className="aic-art-answer"
-        data-ready={state.stage >= 6}
-        transform={`translate(${answer.x} ${answer.y})`}
-      >
-        <rect className="aic-art-node" x="-30" y="-32" width="60" height="64" rx="8" />
-        <ResultIcon x="-14" y="-14" width="28" height="28" />
-        {state.stage === 7 && (
-          <path className="aic-receipt-edge" d="M-22 32l6 7 6-7 6 7 6-7 6 7 6-7 6 7 4-7" />
-        )}
-      </g>
-    </svg>
-  );
-}
-
 function WalkthroughPlayer({ initialScenario }: { initialScenario: AicScenarioId }) {
   const [state, dispatch] = useReducer(walkthroughReducer, initialScenario, initialWalkthrough);
   const [reducedMotion, setReducedMotion] = useState(true);
@@ -424,89 +315,95 @@ function WalkthroughPlayer({ initialScenario }: { initialScenario: AicScenarioId
           <blockquote>{scenario.prompt}</blockquote>
         </details>
       </div>
-      <ol className="aic-stage-sequence" aria-label="Operation stages">
-        {aicStages.map((stage, index) => (
-          <li
-            key={stage.id}
-            aria-current={index === state.stage ? "step" : undefined}
-            data-complete={index < state.stage}
-          >
-            <span>{index + 1}</span>
-            {stage.label}
-          </li>
-        ))}
-      </ol>
-      <div className="aic-playback-controls">
-        {!reducedMotion && (
-          <Button
-            type="button"
-            variant="outline"
-            disabled={stopped || state.mode === "approval"}
-            onClick={() => dispatch({ type: state.mode === "playing" ? "pause" : "play" })}
-          >
-            {state.mode === "playing" ? (
-              <Pause data-icon="inline-start" />
-            ) : (
-              <Play data-icon="inline-start" />
-            )}
-            {state.mode === "playing" ? "Pause" : "Play walkthrough"}
-          </Button>
-        )}
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => dispatch({ type: "previous" })}
-          disabled={state.stage === 0}
-        >
-          Previous stage
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => dispatch({ type: "next" })}
-          disabled={stopped || state.mode === "approval" || state.mode === "complete"}
-        >
-          Next stage
-        </Button>
-        <Button type="button" variant="ghost" onClick={() => dispatch({ type: "replay" })}>
-          <RotateCcw data-icon="inline-start" />
-          Replay
-        </Button>
-      </div>
-      <p className="aic-control-note">
-        {reducedMotion
-          ? "Reduced motion. Explore each stage with the controls."
-          : "Pause or inspect a stage at any time."}{" "}
-        Demo only. No credits are used.
-      </p>
       <section
         className="aic-stage-scene"
         aria-labelledby="aic-current-stage"
         data-stage={current.id}
       >
-        <div className="aic-current-caption">
-          <h3 id="aic-current-stage">{current.label}</h3>
-          <p>{current.caption}</p>
-        </div>
         <div className="aic-artwork">
-          <FlowArtwork state={state} vertical={false} />
-          <FlowArtwork state={state} vertical />
+          <AicMotionArtwork
+            key={state.scenarioId}
+            scenario={scenario}
+            state={state}
+            reducedMotion={reducedMotion}
+          />
         </div>
-        <div className="aic-scene-context">
-          <span>
-            {scenario.id === "attendance-check"
-              ? "North Campus only. Other campuses excluded."
-              : "North, Central and South campuses."}
-          </span>
-          <span>
-            {state.stage < 4
-              ? "Institutional records remain unread."
-              : stopped
-                ? "Execution stopped."
-                : "Approved records only. Read-only analysis."}
-          </span>
+        <div className="aic-motion-sidebar">
+          <div className="aic-current-caption">
+            <div className="aic-stage-title">
+              <h3 id="aic-current-stage">{current.label}</h3>
+              <span className="aic-stage-index">
+                <span className="sr-only">Stage </span>
+                {state.stage + 1} of {aicStages.length}
+              </span>
+            </div>
+            <p>{current.caption}</p>
+          </div>
+          <div className="aic-playback-controls">
+            {!reducedMotion && (
+              <Button
+                type="button"
+                aria-label={state.mode === "playing" ? "Pause" : "Play walkthrough"}
+                variant="outline"
+                disabled={stopped || state.mode === "approval"}
+                onClick={() => dispatch({ type: state.mode === "playing" ? "pause" : "play" })}
+              >
+                {state.mode === "playing" ? (
+                  <Pause data-icon="inline-start" />
+                ) : (
+                  <Play data-icon="inline-start" />
+                )}
+                {state.mode === "playing" ? "Pause" : "Play"}
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => dispatch({ type: "previous" })}
+              disabled={state.stage === 0}
+            >
+              <ChevronLeft aria-hidden />
+              <span className="sr-only">Previous stage</span>
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => dispatch({ type: "next" })}
+              disabled={stopped || state.mode === "approval" || state.mode === "complete"}
+            >
+              <ChevronRight aria-hidden />
+              <span className="sr-only">Next stage</span>
+            </Button>
+            <Button type="button" variant="ghost" onClick={() => dispatch({ type: "replay" })}>
+              <RotateCcw aria-hidden />
+              <span className="sr-only">Replay</span>
+            </Button>
+          </div>
+          <p className="aic-control-note">
+            {reducedMotion
+              ? "Reduced motion. Explore each stage with the controls."
+              : "Pause or inspect a stage at any time."}{" "}
+            Demo only. No credits are used.
+          </p>
+          <div className="aic-scene-context">
+            <span>
+              {scenario.id === "attendance-check"
+                ? "North Campus only. Other campuses excluded."
+                : "North, Central and South campuses."}
+            </span>
+            <span>
+              {state.stage < 4
+                ? "Institutional records remain unread."
+                : stopped
+                  ? "Execution stopped."
+                  : "Approved records only. Read-only analysis."}
+            </span>
+          </div>
         </div>
-        <StageEvidence scenario={scenario} state={state} />
+        <details className="aic-evidence-details">
+          <summary>Inspect the records and calculation</summary>
+          <StageEvidence scenario={scenario} state={state} />
+        </details>
         {state.mode === "approval" && (
           <div className="aic-approval">
             <p>
@@ -559,6 +456,21 @@ function WalkthroughPlayer({ initialScenario }: { initialScenario: AicScenarioId
       <details className="aic-sample-details" open={state.mode === "complete"}>
         <summary>Inspect sample answer</summary>
         <ScenarioAnswer scenario={scenario} empty={state.boundary === "zero-matches"} />
+      </details>
+      <details className="aic-stage-outline">
+        <summary>All operation stages</summary>
+        <ol className="aic-stage-sequence" aria-label="Operation stages">
+          {aicStages.map((stage, index) => (
+            <li
+              key={stage.id}
+              aria-current={index === state.stage ? "step" : undefined}
+              data-complete={index < state.stage}
+            >
+              <span>{index + 1}</span>
+              {stage.label}
+            </li>
+          ))}
+        </ol>
       </details>
       <details className="aic-safeguards">
         <summary>Scope, sources and safeguards</summary>
@@ -615,6 +527,8 @@ export function AicWalkthrough() {
             key={scenario.id}
             type="button"
             variant="outline"
+            className="aic-example-card"
+            aria-label={scenario.label}
             aria-haspopup="dialog"
             onClick={() => {
               setScenarioId(scenario.id);
@@ -622,8 +536,19 @@ export function AicWalkthrough() {
               setOpen(true);
             }}
           >
-            <Play data-icon="inline-start" />
-            {scenario.label}
+            <MotionPoster
+              asset={motionAssets[`aic-${scenario.id}`]}
+              alt=""
+              className="aic-example-poster"
+            />
+            <span className="aic-example-card-copy">
+              <span className="aic-example-card-title">{scenario.label}</span>
+              <span className="aic-example-card-summary">{aicScenarioSummaries[scenario.id]}</span>
+              <span className="aic-example-card-action">
+                <Play aria-hidden />
+                Explore the example
+              </span>
+            </span>
           </Button>
         ))}
       </div>

@@ -293,3 +293,11 @@ Future generally available standard features are included in every plan at the e
 Policy `2026-11-10.3` supersedes `.2` to include institution-specific custom AEGIS dashboards in Enterprise. Requirements and delivery scope are agreed during onboarding, with no separate dashboard setup charge. Analytical operations use the AIC wallet. Standard analytics and self-service reporting retain equal plan eligibility.
 
 Plan summaries show price, purpose and labelled monthly allowances. Optional Entra SSO has an inclusion badge on Enterprise, independent of the selected-plan state. Full inclusions appear once in the comparison table. Scope, monthly-pool and retention notes share an aligned layout below it.
+
+## Remotion AIC walkthrough
+
+The three authored scenarios now use the existing build-time Remotion pipeline. Scenario records, policies, calculations and formatted values live in the shared content package. The page and renderer consume that same model.
+
+Each scenario has light and dark video variants and eight stage posters. Videos load after Play is requested. The existing walkthrough state machine controls access checks, quote approval, record retrieval and one complete answer. The media view seeks only to the matching segment, pauses at its boundary and follows scenario changes, visibility changes and explicit pause/replay controls. Reduced-motion and data-saving visitors use the current stage poster. Boundary examples use their own DOM evidence.
+
+The final table and source details remain readable HTML, including the no-script sample answers. The records-and-calculation inspector provides the underlying evidence alongside the film. AIC tariff placeholders remain intentional until operation tariffs are approved.

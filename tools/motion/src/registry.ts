@@ -29,6 +29,11 @@ import {
   productScreenDuration,
   type ScreenVariant,
 } from "./compositions/ProductScreen";
+import {
+  AicOperation,
+  aicOperationSegments,
+} from "./compositions/AicOperation";
+import { aicScenarios } from "@fairhelm/squarecampus-content/aic-walkthrough";
 import { CANVAS, type ThemeName } from "./theme";
 
 /**
@@ -48,6 +53,7 @@ export type MotionEntry = {
   tier: 1 | 2;
   /** Frame held as the poster — always the composition's meaningful end state. */
   posterFrame: number;
+  segments?: { id: string; startFrame: number; durationInFrames: number }[];
   durationInFrames: number;
   /**
    * Canvas size. Defaults to 16:9. Compositions that render inside a device
@@ -66,7 +72,12 @@ export type MotionEntry = {
   description: string;
 };
 
-const rollout = (variant: RolloutVariant, id: string, tier: 1 | 2, description: string) => ({
+const rollout = (
+  variant: RolloutVariant,
+  id: string,
+  tier: 1 | 2,
+  description: string,
+) => ({
   id,
   family: "EvidenceLedRollout",
   tier,
@@ -79,7 +90,12 @@ const rollout = (variant: RolloutVariant, id: string, tier: 1 | 2, description: 
   description,
 });
 
-const surfaces = (variant: SurfacesVariant, id: string, tier: 1 | 2, description: string) => ({
+const surfaces = (
+  variant: SurfacesVariant,
+  id: string,
+  tier: 1 | 2,
+  description: string,
+) => ({
   id,
   family: "OneCoreManySurfaces",
   tier,
@@ -104,7 +120,7 @@ const screen = (
   variant: ScreenVariant,
   id: string,
   tier: 1 | 2,
-  description: string
+  description: string,
 ): MotionEntry => ({
   id,
   family: "ProductScreen",
@@ -118,7 +134,11 @@ const screen = (
   description,
 });
 
-const phone = (variant: PhoneVariant, id: string, description: string): MotionEntry => ({
+const phone = (
+  variant: PhoneVariant,
+  id: string,
+  description: string,
+): MotionEntry => ({
   id,
   family: "PhoneScreen",
   tier: 2,
@@ -132,17 +152,35 @@ const phone = (variant: PhoneVariant, id: string, description: string): MotionEn
 });
 
 export const MOTION_ENTRIES: MotionEntry[] = [
+  ...aicScenarios.map((scenario): MotionEntry => {
+    const segments = aicOperationSegments(scenario);
+    const last = segments[segments.length - 1];
+    const durationInFrames = last.startFrame + last.durationInFrames;
+    return {
+      id: `aic-${scenario.id}`,
+      family: "AicOperation",
+      tier: 1,
+      width: 960,
+      height: 720,
+      durationInFrames,
+      posterFrame: durationInFrames - 1,
+      segments,
+      component: AicOperation,
+      props: (theme: ThemeName) => ({ theme, scenarioId: scenario.id }),
+      description: `Authored sample ${scenario.label.toLowerCase()}. A question passes through access, policies and quote approval before scoped records become one table, chart and summary.`,
+    };
+  }),
   rollout(
     "founding",
     "founding-partner-path",
     1,
-    "Four stages of the Founding Institutional Partner pilot: one bottleneck is chosen, a baseline is written down, the current system and SquareCampus run in parallel for 60 to 90 days, and the institution converts, extends or stops against the agreed measure."
+    "Four stages of the Founding Institutional Partner pilot: one bottleneck is chosen, a baseline is written down, the current system and SquareCampus run in parallel for 60 to 90 days, and the institution converts, extends or stops against the agreed measure.",
   ),
   rollout(
     "rollout",
     "rollout-path",
     1,
-    "The six-stage SquareCampus rollout: blueprint, migration clinic, role-based training, parallel validation, staged go-live, and adoption follow-through after handover."
+    "The six-stage SquareCampus rollout: blueprint, migration clinic, role-based training, parallel validation, staged go-live, and adoption follow-through after handover.",
   ),
   {
     id: "governed-question-path",
@@ -161,47 +199,47 @@ export const MOTION_ENTRIES: MotionEntry[] = [
     "architecture",
     "platform-core-surfaces",
     1,
-    "Admissions, academics, finance, communication and operations stop exchanging exports with each other and instead act on one shared identity, data and workflow core, so a change made once is already current everywhere else."
+    "Admissions, academics, finance, communication and operations stop exchanging exports with each other and instead act on one shared identity, data and workflow core, so a change made once is already current everywhere else.",
   ),
   surfaces(
     "audience",
     "ecosystem-core-surfaces",
     2,
-    "Parents, teachers, principals, finance teams and trustees each work from the same institutional record, seeing the part of it their role owns."
+    "Parents, teachers, principals, finance teams and trustees each work from the same institutional record, seeing the part of it their role owns.",
   ),
   screen(
     "audit",
     "security-audit-screen",
     1,
-    "The SquareCampus audit timeline: a fee concession approved with a recorded reason, an attendance correction logged as an override, a report export recorded against the person who ran it, and a request for records outside the asker's role refused rather than fulfilled."
+    "The SquareCampus audit timeline: a fee concession approved with a recorded reason, an attendance correction logged as an override, a report export recorded against the person who ran it, and a request for records outside the asker's role refused rather than fulfilled.",
   ),
   screen(
     "operations",
     "platform-operations-screen",
     2,
-    "The SquareCampus daily operations console: fee follow-up drifting past its reminder window with an owner assigned, admissions waiting on document verification, attendance below the policy threshold escalated, and a concession request awaiting trust sign-off."
+    "The SquareCampus daily operations console: fee follow-up drifting past its reminder window with an owner assigned, admissions waiting on document verification, attendance below the policy threshold escalated, and a concession request awaiting trust sign-off.",
   ),
   screen(
     "parallel-run",
     "rollout-parallel-run-screen",
     2,
-    "Parallel validation during a rollout: the collection register, the daily attendance register and guardian circular delivery reconciled against the institution's existing system, with one admissions discrepancy under review and the agreed success measure tracked."
+    "Parallel validation during a rollout: the collection register, the daily attendance register and guardian circular delivery reconciled against the institution's existing system, with one admissions discrepancy under review and the agreed success measure tracked.",
   ),
   screen(
     "surfaces",
     "ecosystem-surfaces-screen",
     2,
-    "One institutional record acted on from every surface: a guardian acknowledging a fee reminder, a teacher marking a register, finance applying an approved concession, transport notifying a route change, and the trust view already current without an export."
+    "One institutional record acted on from every surface: a guardian acknowledging a fee reminder, a teacher marking a register, finance applying an approved concession, transport notifying a route change, and the trust view already current without an export.",
   ),
   phone(
     "attendance",
     "phone-attendance-screen",
-    "A teacher marking the morning register on a phone, with a third absence in the week raised as an exception that routes to a named owner."
+    "A teacher marking the morning register on a phone, with a third absence in the week raised as an exception that routes to a named owner.",
   ),
   phone(
     "fees",
     "phone-fees-screen",
-    "A guardian's view of a term fee on a phone: tuition and transport due, an approved concession recorded, and the previous term's receipt available."
+    "A guardian's view of a term fee on a phone: tuition and transport due, an approved concession recorded, and the previous term's receipt available.",
   ),
   {
     id: "operating-signal-to-action",
@@ -221,4 +259,5 @@ export const MOTION_ENTRIES: MotionEntry[] = [
 export const THEME_NAMES: ThemeName[] = ["light", "dark"];
 
 /** Studio/render composition id for one entry in one theme. */
-export const compositionId = (entry: MotionEntry, theme: ThemeName) => `${entry.id}-${theme}`;
+export const compositionId = (entry: MotionEntry, theme: ThemeName) =>
+  `${entry.id}-${theme}`;

@@ -16,6 +16,8 @@
 /* Hallmark · plan refinement 2026-11-10: structured price, purpose and allowances with native subgrid alignment, neutral SSO badge and shared scope notes · dropped repeated Included in plan disclosures at owner request */
 /* Hallmark · dropped /demo/?pricing=1&v=2026-11-10.2&plan=starter&students=1200&prepaidAicCredits=0&sso=0&dataEventsApi=0&whiteLabel=0&brandingAlreadyPurchased=0&customService=0 · the live estimate link uses policy .3 for included Enterprise dashboards and retains the same demo destination */
 /* Hallmark · plan refinement finish-review: fresh-context subagent, fix, one sentence-spacing finding resolved in Enterprise value copy · desktop and expanded mobile alignment accepted */
+/* Hallmark · AIC motion: shared Remotion pipeline, three authored data stories, stage posters and controlled segment playback · retained quote approval and complete-operation billing boundaries */
+/* Hallmark · AIC finish-review: fresh-context subagent, fix, mobile media labels reflowed with a 38px source minimum and separated point annotations · confirmed in phone recaptures */
 @import "tailwindcss";
 @import "@fairhelm/ui/styles.css";
 
@@ -2120,12 +2122,12 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
 }
 .aic-example-triggers {
   display: none;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
   margin-block: 1.25rem;
 }
 .aic-walkthrough[data-enhanced="true"] .aic-example-triggers {
-  display: flex;
+  display: grid;
 }
 .aic-walkthrough[data-enhanced="true"] .aic-static-examples {
   display: none;
@@ -2242,40 +2244,6 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
 .aic-current-caption p {
   margin-top: 0.5rem;
   color: var(--muted-foreground);
-}
-.aic-flow-art {
-  width: 100%;
-  max-height: 17rem;
-  color: var(--brand);
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-}
-.aic-flow-narrow {
-  display: none;
-}
-.aic-flow-track {
-  stroke: var(--line-strong);
-  stroke-dasharray: 4 5;
-}
-.aic-flow-connection {
-  stroke: var(--brand);
-  stroke-width: 2;
-}
-.aic-campus-lane > rect,
-.aic-art-node {
-  fill: var(--surface-strong);
-  stroke: var(--line-strong);
-}
-.aic-campus-lane[data-allowed="false"] {
-  color: var(--muted-foreground);
-  stroke-dasharray: 2 3;
-}
-.aic-art-answer {
-  color: var(--muted-foreground);
-}
-.aic-art-answer[data-ready="true"] {
-  color: var(--brand);
 }
 .aic-scene-context {
   display: flex;
@@ -2448,21 +2416,6 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
-.aic-player[data-playing="true"][data-motion="true"] .aic-record-tile {
-  animation: aic-record-arrive 700ms both;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-@keyframes aic-record-arrive {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 @media (min-width: 64rem) {
   .aic-walkthrough-sheet {
     margin-bottom: 2dvh;
@@ -2482,13 +2435,6 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
   .aic-stage-scene {
     padding: 1rem;
   }
-  .aic-flow-wide {
-    display: none;
-  }
-  .aic-flow-narrow {
-    display: block;
-    max-height: 22rem;
-  }
   .aic-scene-context {
     flex-direction: column;
     gap: 0.35rem;
@@ -2503,11 +2449,6 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .aic-player .aic-record-tile {
-    animation: none;
-    transform: none;
-    opacity: 1;
-  }
   .pricing-service-card {
     transition: none;
   }
@@ -2578,4 +2519,198 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
 .aic-playback-controls { position: sticky; top: 0; padding-block: 0.75rem; background: var(--surface); border-bottom: 1px solid var(--line-strong); }
 @media (max-width: 39.99rem) {
   .aic-scenario-selector [data-slot="toggle-group-item"] { padding-inline: 0.25rem; font-size: 0.8125rem; }
+}
+
+
+/* AIC films use the same build-time Remotion system as the governed-question diagram. */
+.aic-example-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: auto;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  white-space: normal;
+}
+.aic-example-card .aic-example-poster {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+}
+.aic-example-card-copy {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+.aic-example-card-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.aic-example-card-summary {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.aic-example-card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+.aic-example-card-action svg {
+  width: 1rem;
+  height: 1rem;
+}
+.aic-request {
+  border: 0;
+  padding: 0;
+}
+.aic-scenario-selector,
+.aic-request {
+  margin-block: 0.75rem;
+}
+.aic-stage-scene {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  background: var(--background);
+}
+.aic-artwork,
+.aic-motion-sidebar {
+  min-width: 0;
+}
+.aic-motion-view {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+}
+.aic-motion-view > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+.aic-motion-view[data-video-ready="true"] > video {
+  opacity: 1;
+}
+.aic-motion-view .aic-motion-poster {
+  border: 0;
+  border-radius: 0;
+}
+.aic-motion-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+.aic-current-caption .aic-stage-index {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  color: var(--brand-ink);
+}
+.aic-playback-controls {
+  position: static;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--background);
+}
+.aic-playback-controls > button {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+.aic-motion-sidebar .aic-scene-context {
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.aic-evidence-details,
+.aic-stage-outline {
+  border-top: 1px solid var(--line-strong);
+}
+.aic-evidence-details > summary,
+.aic-stage-outline > summary {
+  min-height: 2.75rem;
+  padding-block: 0.75rem;
+  cursor: pointer;
+}
+.aic-evidence-details .aic-stage-evidence {
+  margin-top: 0;
+  padding-top: 0;
+  border: 0;
+}
+.aic-motion-boundary {
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  min-height: 16rem;
+  padding: 2rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+}
+.aic-motion-boundary > svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--brand);
+}
+.aic-motion-boundary h4 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.aic-motion-boundary p,
+.aic-motion-fallback {
+  color: var(--muted-foreground);
+}
+.aic-motion-fallback {
+  position: absolute;
+  inset-inline: 1rem;
+  bottom: 0.5rem;
+  font-size: 0.875rem;
+  background: var(--surface);
+}
+@media (min-width: 64rem) {
+  .aic-stage-scene {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .aic-stage-scene > :not(.aic-artwork, .aic-motion-sidebar) {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 39.99rem) {
+  .aic-example-triggers,
+  .aic-walkthrough[data-enhanced="true"] .aic-example-triggers {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .aic-example-card {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    align-items: center;
+  }
+  .aic-example-card-copy {
+    padding: 0.75rem;
+  }
+  .aic-example-card-summary {
+    display: none;
+  }
+}
+
+.aic-stage-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.aic-stage-title .aic-stage-index {
+  flex-shrink: 0;
+  margin: 0;
 }

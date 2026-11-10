@@ -217,6 +217,7 @@
       "name": "@fairhelm/motion",
       "version": "1.0.0",
       "dependencies": {
+        "@fairhelm/squarecampus-content": "workspace:*",
         "@remotion/cli": "4.0.518",
         "@remotion/google-fonts": "4.0.518",
         "react": "19.2.3",

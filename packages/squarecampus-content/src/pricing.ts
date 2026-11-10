@@ -13,6 +13,9 @@ export {
 } from "./aic-packs";
 
 export const pricingPolicy = policy;
+
+export { formatInr } from "./format-inr";
+
 export const planIds: readonly PlanId[] = ["starter", "pro", "enterprise"];
 
 export function isPlanId(value: unknown): value is PlanId {

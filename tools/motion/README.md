@@ -25,8 +25,7 @@ bun run motion:studio
 `motion:render` renders every composition and rewrites the manifest.
 `motion:studio` opens the Remotion Studio for previewing and editing.
 
-Render a subset while iterating (the manifest is left alone so it can never
-end up half-written):
+Render a subset while iterating. The complete manifest is merged with existing assets and replaced atomically after the selected renders succeed:
 
 ```bash
 bun run motion:render aegis
@@ -77,3 +76,10 @@ Remotion is free for individuals and for companies of up to three people; a
 paid Company Licence becomes mandatory at four or more people operating the
 Remotion software. Confirm Fairhelm's current headcount against
 <https://www.remotion.pro/license> before relying on the free licence.
+
+
+## Interactive AIC stories
+
+The `AicOperation` family reads the same authored scenario records, rules and calculations as the pricing page from `@fairhelm/squarecampus-content/aic-walkthrough`. Each story renders one video plus a settled poster for each of its eight stages, in both themes. The website owns approval and stage transitions and plays only the matching segment. Reduced-motion and data-saving visitors receive the current stage poster. Record details and final answers remain readable HTML.
+
+Render the three AIC stories with `bun run motion:render aic-`. Old hashes are pruned only after the complete manifest is written successfully.

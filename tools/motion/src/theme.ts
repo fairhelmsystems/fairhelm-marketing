@@ -42,6 +42,7 @@ export type MotionTheme = {
   dim: string;
   faint: string;
   brand: string;
+  brandInk: string;
   brandSoft: string;
   brandLine: string;
   teal: string;
@@ -65,6 +66,7 @@ export const THEMES: Record<ThemeName, MotionTheme> = {
     dim: "#6B747E",
     faint: "#AEB3B8",
     brand: "#4485BE", // --brand
+    brandInk: "oklch(0.48 0.12 247)", // --brand-ink
     brandSoft: "#EFF4F9",
     brandLine: "#B9D0E4",
     teal: "#318267", // --state-ok
@@ -86,6 +88,7 @@ export const THEMES: Record<ThemeName, MotionTheme> = {
     dim: "#8A929C",
     faint: "#4A5058",
     brand: "#6CA1D0", // --brand
+    brandInk: "#6CA1D0", // --brand-ink follows --brand in dark mode
     brandSoft: "#0E1520",
     brandLine: "#2E4560",
     teal: "#7DC2A7", // --state-ok
@@ -119,7 +122,6 @@ export const type = {
   body: 34,
   meta: 28,
 } as const;
-
 
 /** Uppercase mono micro-label, the site's `.eyebrow` treatment. */
 export const eyebrowStyle = (t: MotionTheme) =>

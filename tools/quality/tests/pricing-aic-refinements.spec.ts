@@ -402,3 +402,116 @@ test("plan summaries separate selection from included SSO and align their facts"
   await page.screenshot({ path: info.outputPath("plans-and-notes-expanded.png"), fullPage: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
 });
+
+test("Remotion playback follows stages and pauses at the quote boundary", async ({
+  page,
+}, info) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  const dialog = await openExample(page);
+  const movie = dialog.locator(".aic-motion-view video");
+  await expect(movie).not.toHaveAttribute("src", /.+/);
+  await dialog.getByRole("button", { name: "Play walkthrough", exact: true }).click();
+  await expect(movie).toHaveAttribute("src", /aic-attendance-check-.*\.mp4/);
+  await expect
+    .poll(() => movie.evaluate((element: HTMLVideoElement) => element.readyState))
+    .toBeGreaterThan(1);
+  await expect(dialog.locator(".aic-stage-scene")).toHaveAttribute("data-stage", "approval", {
+    timeout: 10000,
+  });
+  await expect.poll(() => movie.evaluate((element: HTMLVideoElement) => element.paused)).toBe(true);
+  await expect(dialog.locator(".aic-operation-receipt")).toHaveCount(0);
+  await expect(dialog).toContainText("Institutional records remain unread.");
+  await dialog.getByRole("button", { name: "Continue example", exact: true }).click();
+  await dialog.getByRole("button", { name: "Pause", exact: true }).click();
+  await expect.poll(() => movie.evaluate((element: HTMLVideoElement) => element.paused)).toBe(true);
+  await dialog.getByRole("button", { name: "Next stage", exact: true }).click();
+  await expect(dialog.getByTestId("aic-motion")).toHaveAttribute("data-stage", "analyse");
+  await dialog.getByText("Inspect the records and calculation", { exact: true }).click();
+  await expect(dialog).toContainText("Student D");
+  await page.screenshot({
+    path: info.outputPath("remotion-attendance-analysis.png"),
+    fullPage: false,
+  });
+  await dialog.getByRole("button", { name: "Fee reconciliation", exact: true }).click();
+  await expect(dialog.getByTestId("aic-motion")).toHaveAttribute("data-stage", "understand");
+  await expect(dialog.locator(".aic-motion-view video")).not.toHaveAttribute("src", /.+/);
+});
+
+test("data-saving mode keeps AIC motion as stage stills", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "connection", {
+      configurable: true,
+      value: Object.assign(new EventTarget(), { saveData: true }),
+    });
+  });
+  const requests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().endsWith(".mp4")) requests.push(request.url());
+  });
+  const dialog = await openExample(page);
+  await dialog.getByRole("button", { name: "Play walkthrough", exact: true }).click();
+  await expect(dialog.locator(".aic-stage-scene")).toHaveAttribute("data-stage", "access");
+  await expect(dialog.locator(".aic-motion-view video")).not.toHaveAttribute("src", /.+/);
+  expect(requests).toEqual([]);
+});
+
+for (const theme of ["light", "dark"] as const) {
+  test(`AIC stories show readable authored scenes in ${theme} mode`, async ({ page }, info) => {
+    await page.addInitScript(
+      (value) => localStorage.setItem("fairhelm-marketing-theme", value),
+      theme
+    );
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
+    const dialog = await openExample(page);
+    for (const [name, id] of [
+      ["Attendance check", "attendance-check"],
+      ["Fee reconciliation", "fee-reconciliation"],
+      ["Policy-aware review", "policy-aware-review"],
+    ]) {
+      await dialog.getByRole("button", { name, exact: true }).click();
+      const next = dialog.getByRole("button", { name: "Next stage", exact: true });
+      for (let index = 0; index < 3; index++) await next.click();
+      await dialog.getByRole("button", { name: "Continue example", exact: true }).click();
+      await next.click();
+      const poster = dialog.locator(".aic-motion-poster img:visible");
+      await expect(poster).toHaveAttribute("src", new RegExp(`aic-${id}-${theme}-stage-analyse`));
+      await expect(poster).toHaveJSProperty("naturalWidth", 960);
+      await expect(dialog.locator(".aic-motion-view video")).not.toHaveAttribute("src", /.+/);
+      await dialog.locator(".aic-stage-scene").scrollIntoViewIfNeeded();
+      await page.screenshot({
+        path: info.outputPath(`${id}-${theme}-analysis.png`),
+        fullPage: false,
+      });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(
+        false
+      );
+    }
+    await dialog.getByRole("button", { name: "Close AEGIS walkthrough", exact: true }).click();
+    await expect(dialog).not.toBeVisible();
+    const gallery = page.locator(".aic-example-triggers");
+    await expect(gallery).toBeVisible();
+    await gallery.screenshot({ path: info.outputPath(`aic-gallery-${theme}.png`) });
+  });
+}
+
+test("an unavailable movie keeps stage evidence and one complete sample answer", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.route("**/motion/*.mp4", (route) => route.abort("failed"));
+  const dialog = await openExample(page);
+  await dialog.getByRole("button", { name: "Play walkthrough", exact: true }).click();
+  await expect(dialog.locator(".aic-motion-fallback")).toBeVisible();
+  await dialog.getByRole("button", { name: "Pause", exact: true }).click();
+  await dialog.getByRole("button", { name: "Replay", exact: true }).click();
+  const next = dialog.getByRole("button", { name: "Next stage", exact: true });
+  for (let index = 0; index < 3; index++) await next.click();
+  await expect(next).toBeDisabled();
+  await expect(dialog).toContainText("Institutional records remain unread.");
+  await dialog.getByRole("button", { name: "Continue example", exact: true }).click();
+  await dialog.getByRole("button", { name: "Pause", exact: true }).click();
+  for (let index = 0; index < 3; index++) await next.click();
+  await expect(dialog.getByTestId("aic-sample-answer")).toContainText("3 sample students");
+  await expect(dialog.locator(".aic-operation-receipt")).toHaveCount(1);
+});

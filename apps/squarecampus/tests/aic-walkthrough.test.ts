@@ -1,3 +1,6 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { motionAssets } from "../src/content/motion-assets";
 import {
   aicScenarios,
   calculateScenario,
@@ -27,6 +30,13 @@ test("authored sample answers calculate the exact attendance, finance and policy
   assert.deepEqual(review.matchedIds, [...aicScenarios[2].expected.matchedIds]);
   assert.deepEqual(review.incompleteIds, [...aicScenarios[2].expected.incompleteIds]);
   assert.equal(review.rows[3].finding, "outside");
+  assert.deepEqual(review.rows[0].metrics, {
+    attendancePercent: 75,
+    thresholdPercent: 85,
+    declinePoints: 14,
+  });
+  assert.equal(review.rows[3].metrics?.attendancePercent, review.rows[3].metrics?.thresholdPercent);
+  assert.equal(review.rows[4].metrics?.declinePoints, null);
   assert.equal(review.rows[4].cells[3], "Unavailable");
   assert.ok(aicScenarios.every((scenario) => scenario.quotedAic === null));
 });
@@ -73,6 +83,32 @@ test("access, policy, scope and platform boundaries cannot bypass their stop", (
       assert.equal(state.stage, 4);
       assert.equal(state.approved, true);
       assert.equal(state.boundary, "normal");
+    }
+  }
+});
+
+test("rendered AIC stories carry contiguous stages and valid immutable media", () => {
+  for (const scenario of aicScenarios) {
+    const asset = motionAssets[`aic-${scenario.id}`];
+    assert.equal(asset.width, 960);
+    assert.equal(asset.height, 720);
+    assert.equal(asset.segments.length, 8);
+    let nextFrame = 0;
+    for (const segment of asset.segments) {
+      assert.equal(segment.startFrame, nextFrame);
+      assert.ok(segment.durationInFrames > 0);
+      nextFrame += segment.durationInFrames;
+    }
+    assert.equal(nextFrame, asset.durationInFrames);
+    for (const source of [asset.light, asset.dark]) {
+      for (const segment of asset.segments) assert.ok(source.stills[segment.id]);
+      const paths = new Set([source.poster, source.mp4, ...Object.values(source.stills)]);
+      for (const path of paths) {
+        const bytes = readFileSync(new URL(`../public${path}`, import.meta.url));
+        assert.ok(bytes.length > 0, path);
+        const digest = createHash("sha256").update(bytes).digest("hex").slice(0, 8);
+        assert.ok(path.includes(`.${digest}.`), path);
+      }
     }
   }
 });

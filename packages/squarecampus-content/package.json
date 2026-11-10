@@ -10,7 +10,8 @@
     "./commercial": "./src/commercial.ts",
     "./company": "./src/company.ts",
     "./blog/posts": "./src/blog/posts.ts",
-    "./retention": "./src/retention.ts"
+    "./retention": "./src/retention.ts",
+    "./aic-walkthrough": "./src/aic-walkthrough.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"

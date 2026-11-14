@@ -1,4 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+async function openTermReference(page: Page) {
+  const outer = page.locator("details.pricing-full-estimate");
+  if (!(await outer.evaluate((element) => (element as HTMLDetailsElement).open))) {
+    await page.getByText("Full estimate breakdown", { exact: true }).click();
+  }
+  const details = page.locator("details.pricing-estimate-breakdown");
+  if (!(await details.evaluate((element) => (element as HTMLDetailsElement).open))) {
+    await page.getByText("Full term reference and services", { exact: true }).click();
+  }
+}
 
 const origin = "http://localhost:3100";
 const walkthroughTitle = "One question. A complete analytical answer.";
@@ -330,8 +341,10 @@ test("Enterprise includes branding and presents conditional first-year and recur
     exact: true,
   });
   await branding.check();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹4,00,000");
   await branding.uncheck();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹4,00,000");
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Plan inclusions", { exact: true }).click();

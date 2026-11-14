@@ -1,4 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+async function openTermReference(page: Page) {
+  const outer = page.locator("details.pricing-full-estimate");
+  if (!(await outer.evaluate((element) => (element as HTMLDetailsElement).open))) {
+    await page.getByText("Full estimate breakdown", { exact: true }).click();
+  }
+  const details = page.locator("details.pricing-estimate-breakdown");
+  if (!(await details.evaluate((element) => (element as HTMLDetailsElement).open))) {
+    await page.getByText("Full term reference and services", { exact: true }).click();
+  }
+}
 
 test("closed phone pricing fits the reference reading length with usable disclosures", async ({
   page,
@@ -38,8 +49,11 @@ test("custom prepaid AIC accepts exact quantities and applies graduated rates", 
   await expect(page.getByTestId("aic-purchase-price")).toContainText("₹25,004");
   const breakdown = page.getByText("Full estimate breakdown", { exact: true });
   if ((page.viewportSize()?.width ?? 0) < 640) await breakdown.click();
+  await openTermReference(page);
   await expect(page.getByTestId("selected-aic-purchase")).toContainText("5,001 prepaid AIC");
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹2,30,004");
+  await openTermReference(page);
   await expect(page.getByTestId("renewal-total")).toHaveText("₹2,05,000");
 });
 
@@ -117,11 +131,15 @@ test("the prepaid purchase counts once and stays printable without a burn foreca
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹4,45,000");
+  await openTermReference(page);
   await expect(page.getByTestId("renewal-total")).toHaveText("₹4,00,000");
   await expect(page.locator(".pricing-aic-forecast, #pricing-aic")).toHaveCount(0);
   await page.emulateMedia({ media: "print" });
+  await openTermReference(page);
   await expect(page.getByTestId("selected-aic-purchase")).toBeVisible();
+  await openTermReference(page);
   await expect(page.getByTestId("selected-aic-purchase")).toContainText("10,000 prepaid AIC");
   await page.emulateMedia({ media: "screen" });
 });
@@ -134,8 +152,11 @@ test("legacy monthly burn fields do not add hypothetical purchases or restrict p
   );
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹6,65,000");
+  await openTermReference(page);
   await expect(page.getByTestId("renewal-total")).toHaveText("₹1,75,000");
+  await openTermReference(page);
   await expect(page.getByTestId("selected-aic-purchase")).toContainText("2,50,000 prepaid AIC");
   await expect(page.locator(".pricing-aic-forecast, #pricing-aic, #pricing-aic-range")).toHaveCount(
     0
@@ -216,6 +237,7 @@ test("malformed shared estimates recover valid selections and still produce a pr
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
   await expect(page.getByTestId("selected-plan")).toHaveText("Enterprise");
+  await openTermReference(page);
   await expect(page.getByTestId("selected-aic-purchase")).toContainText("2,000 prepaid AIC");
   const pdf = await page.pdf({ format: "A4", preferCSSPageSize: true, printBackground: true });
   expect(pdf.subarray(0, 5).toString()).toBe("%PDF-");
@@ -232,6 +254,7 @@ test("estimate assumptions open in a dismissible sheet and remain available in p
   await page.goto("http://localhost:3100/pricing/");
   if ((page.viewportSize()?.width ?? 0) < 640)
     await page.getByText("Full estimate breakdown", { exact: true }).click();
+  await openTermReference(page);
   const trigger = page.getByRole("button", { name: "Estimate assumptions", exact: true });
   await expect(trigger).toHaveCSS("text-decoration-line", "underline");
   await trigger.click();
@@ -280,8 +303,11 @@ test("API fees follow manual plan selection in purchase and renewal totals", asy
     ["Enterprise", "₹10,000", "₹4,10,000", "₹4,10,000", "4,000"],
   ]) {
     await page.getByRole("button", { name: plan, exact: true }).click();
+    await openTermReference(page);
     await expect(page.getByTestId("first-year-total")).toHaveText(purchaseYear);
+    await openTermReference(page);
     await expect(page.getByTestId("renewal-total")).toHaveText(renewal);
+    await openTermReference(page);
     await expect(page.getByTestId("api-annual-price")).toHaveText(fee);
     await expect(page.locator("#pricing-api-help")).toContainText(
       `${capacity} requests per rolling 60-second window`
@@ -296,8 +322,11 @@ test("API fees follow manual plan selection in purchase and renewal totals", asy
   ).toHaveAttribute("href", /dataEventsApi=1/);
   if ((page.viewportSize()?.width ?? 0) < 640) await breakdown.click();
   await page.emulateMedia({ media: "print" });
+  await openTermReference(page);
   await expect(page.getByTestId("api-annual-price")).toBeVisible();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹4,10,000");
+  await openTermReference(page);
   await expect(page.getByTestId("renewal-total")).toHaveText("₹4,10,000");
   await page.emulateMedia({ media: "screen" });
 });
@@ -335,7 +364,9 @@ test("paid Starter SSO stays eligible while white-label apps require Growth", as
     0
   );
   await growth.click();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹2,90,500");
+  await openTermReference(page);
   await expect(page.getByTestId("renewal-total")).toHaveText("₹2,65,500");
   await expect(page.getByRole("button", { name: "Copy estimate link", exact: true })).toBeEnabled();
   await expect(page.getByTestId("quote-invalid")).toHaveCount(0);
@@ -356,10 +387,13 @@ test("Enterprise SSO is optional at the same price with either activation choice
     exact: true,
   });
   await expect(sso).not.toBeChecked();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹4,00,000");
   await sso.check();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹4,00,000");
   await sso.uncheck();
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹4,00,000");
   await expect(page.getByRole("button", { name: "Enterprise", exact: true })).toHaveAttribute(
     "data-pressed",
@@ -384,6 +418,7 @@ test("restored incompatible Starter estimates display the eligibility correction
     "data-pressed",
     ""
   );
+  await openTermReference(page);
   await expect(page.getByTestId("first-year-total")).toHaveText("₹2,90,500");
 });
 
@@ -580,10 +615,11 @@ test("slab cards follow active student bands and keep their exact subtotals", as
   await page.goto("http://localhost:3100/pricing/");
   const breakdown = page.getByText("Full estimate breakdown", { exact: true });
   if ((page.viewportSize()?.width ?? 0) < 640) await breakdown.click();
+  await openTermReference(page);
   const cards = page.getByTestId("pricing-slab-card");
   for (const [students, count, amounts, total] of [
-    ["100", 0, [], "₹17,500"],
-    ["1000", 0, [], "₹1,75,000"],
+    ["100", 1, ["₹17,500"], "₹17,500"],
+    ["1000", 1, ["₹1,75,000"], "₹1,75,000"],
     ["1001", 2, ["₹1,75,000", "₹150"], "₹1,75,150"],
     ["1200", 2, ["₹1,75,000", "₹30,000"], "₹2,05,000"],
     ["5000", 2, ["₹1,75,000", "₹6,00,000"], "₹7,75,000"],
@@ -595,8 +631,8 @@ test("slab cards follow active student bands and keep their exact subtotals", as
     await page.getByRole("spinbutton", { name: "Enrolled students", exact: true }).press("Enter");
     await expect(cards).toHaveCount(count);
     await expect(
-      page.getByRole("heading", { name: "Progressive slab breakdown", exact: true })
-    ).toHaveCount(count > 0 ? 1 : 0);
+      page.getByRole("heading", { name: "Student pricing slabs", exact: true })
+    ).toHaveCount(1);
     await expect(cards.locator("dd")).toHaveText([...amounts]);
     await expect(page.getByTestId("annual-licence")).toHaveText(total);
   }
@@ -616,7 +652,7 @@ test("slab cards follow active student bands and keep their exact subtotals", as
   await page.emulateMedia({ media: "print" });
   await expect(cards).toHaveCount(3);
   await expect(cards.nth(2)).toBeVisible();
-  await expect(page.locator(".pricing-slab-details summary")).toHaveCount(0);
+  await expect(page.locator(".pricing-slab-summary summary")).toHaveCount(0);
   await expect(page.locator(".pricing-assumptions summary")).toHaveCount(0);
   await expect(page.locator(".pricing-assumptions li")).toHaveCount(4);
   await expect(page.locator(".pricing-assumptions strong")).toHaveText([
@@ -634,4 +670,62 @@ test("slab cards follow active student bands and keep their exact subtotals", as
       .evaluate((element) => getComputedStyle(element).color)
   ).toBe(printInk);
   await page.emulateMedia({ media: "screen" });
+});
+
+test("prepaid term reference updates and preserves an accessible compact breakdown", async ({
+  page,
+}) => {
+  await page.goto("http://localhost:3100/pricing/");
+  await page.getByRole("button", { name: "Growth", exact: true }).click();
+  await page.getByRole("button", { name: /^Edit enrolled students,/ }).click();
+  const students = page.getByRole("spinbutton", { name: "Enrolled students", exact: true });
+  await students.fill("1000");
+  await students.press("Enter");
+  await page.getByRole("button", { name: "5 years", exact: true }).click();
+  await openTermReference(page);
+  await expect(page.getByTestId("first-year-total")).toHaveText("₹7,87,500");
+  await expect(page.getByTestId("purchase-year-with-gst")).toHaveText("₹9,29,250");
+  await expect(page.getByTestId("summary-licence").locator("s")).toHaveText("₹11,25,000");
+  await expect(page.getByTestId("summary-licence")).toContainText("₹7,87,500");
+  await expect(page.getByTestId("primary-term-total")).toHaveText("₹9,29,250");
+  await expect(page.getByTestId("pricing-slab-card")).toHaveCount(1);
+  if ((page.viewportSize()?.width ?? 0) < 640)
+    await page.getByText("Add optional services", { exact: true }).click();
+  await page.getByRole("checkbox", { name: /Microsoft Entra SSO/ }).check();
+  await expect(page.getByTestId("summary-sso")).toContainText("₹2,500 / year × 5");
+  await expect(page.getByTestId("summary-sso")).toContainText("₹12,500");
+  await expect(page.getByTestId("primary-term-total")).toHaveText("₹9,44,000");
+  await expect(page.getByTestId("total-monthly-equivalent")).toHaveText("₹13,333.33");
+  await expect(page.getByTestId("total-student-equivalent")).toHaveText("₹13.33");
+  await page.getByRole("checkbox", { name: /Microsoft Entra SSO/ }).uncheck();
+  await page.getByRole("button", { name: "1 year", exact: true }).click();
+  await expect(page.getByTestId("summary-licence").locator("s")).toHaveCount(0);
+  await expect(page.getByTestId("first-year-total")).toHaveText("₹2,25,000");
+  await page.getByText("Full term reference and services", { exact: true }).press("Enter");
+  await expect(page.getByTestId("first-year-total")).toBeHidden();
+});
+
+test("pricing FAQs search questions and answers within the selected category", async ({ page }) => {
+  await page.goto("http://localhost:3100/pricing/#procurement-faq");
+  const section = page.locator("#procurement-faq");
+  const search = section.getByRole("searchbox", { name: "Search pricing FAQs" });
+  await expect(search).toBeVisible();
+
+  const categories = section.getByRole("group", { name: "Pricing FAQ categories" });
+  const all = categories.getByRole("button", { name: "All", exact: true });
+  const plan = categories.getByRole("button", { name: "Plans & billing" });
+  const pilot = categories.getByRole("button", { name: "Pilots & onboarding" });
+  const longerTerm = section.getByText("What discount applies to terms longer than five years?");
+  await expect(all).toHaveAttribute("aria-pressed", "true");
+  await search.fill("35% longer");
+  await expect(longerTerm).toBeVisible();
+  await pilot.click();
+  await expect(pilot).toHaveAttribute("aria-pressed", "true");
+  await expect(section.getByRole("status")).toHaveText(/No matching questions/);
+  await plan.click();
+  await longerTerm.click();
+  await expect(section.locator(".pricing-faq details[open]")).toContainText("35% on Enterprise");
+  await search.clear();
+  await all.click();
+  await expect(section.getByText("Is there a trial or pilot option?")).toBeVisible();
 });

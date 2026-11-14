@@ -63,7 +63,15 @@ export const enterpriseForSmallerInstitutions = {
  * availability line, and the proposal confirms what an institution gets.
  */
 export const licenceIncludes: ReadonlyArray<{
-  id: "platform" | "apps" | "reports" | "support" | "allowance" | "migration" | "tally" | "payments";
+  id:
+    | "platform"
+    | "apps"
+    | "reports"
+    | "support"
+    | "allowance"
+    | "migration"
+    | "tally"
+    | "payments";
   title: string;
   detail: string;
   plans?: string;
@@ -119,137 +127,212 @@ export const licenceIncludes: ReadonlyArray<{
  */
 export const WHITE_LABEL_NOTE = `White-label Android and iOS branding is included in Enterprise. On Growth it costs ₹25,000 once, combined, in the year first purchased. A valid existing branding entitlement is not charged again on ordinary renewal or a plan change. Native branded apps require no external API add-on. ${mobileAppPublishing} Store fees and maintenance scope must be confirmed before purchase. Subscription-backed functions require an active subscription. Founding Institutional Partner treatment follows the executed agreement.`;
 
+const fiveYearDiscount = pricingPolicy.prepaidCommitment.discountPercent["5"];
+export const longerPrepaidTermNote = `For terms longer than five years, the maximum platform licence discount is ${fiveYearDiscount.starter}% on Starter and Growth and ${fiveYearDiscount.enterprise}% on Enterprise. Request a written quote for a longer term.`;
+
+export const pricingFaqCategories = {
+  plans: "Plans & billing",
+  services: "Services & usage",
+  pilots: "Pilots & onboarding",
+  security: "Security & data",
+} as const;
+
 /**
  * Procurement FAQ. This array is the single source for both the rendered
  * accordion and the FAQPage JSON-LD, so the visible text and the structured
  * data cannot drift apart.
  */
 export const pricingFaqs = [
-  { question: "Are custom AEGIS dashboards included?", answer: commercialScope.customAegisDashboards },
-  { question: "Is Tally export setup included?", answer: commercialScope.tallyExport },
-  { question: "Who receives fee payments?", answer: commercialScope.paymentGateway },
-  { question: "Which Indian fee rules are supported?", answer: commercialScope.indianFeeOperations },
   {
+    category: "services",
+    question: "Are custom AEGIS dashboards included?",
+    answer: commercialScope.customAegisDashboards,
+  },
+  {
+    category: "services",
+    question: "Is Tally export setup included?",
+    answer: commercialScope.tallyExport,
+  },
+  {
+    category: "services",
+    question: "Who receives fee payments?",
+    answer: commercialScope.paymentGateway,
+  },
+  {
+    category: "services",
+    question: "Which Indian fee rules are supported?",
+    answer: commercialScope.indianFeeOperations,
+  },
+  {
+    category: "plans",
     question: "Will new standard features increase my price?",
     answer: corePlatform.futureFeatures,
   },
-  { question: "Are data and audit exports included?", answer: dataEventsApi.exports },
   {
+    category: "security",
+    question: "Are data and audit exports included?",
+    answer: dataEventsApi.exports,
+  },
+  {
+    category: "services",
     question: "How is the Data & Events API priced?",
     answer: `${dataEventsApi.pricing} ${dataEventsApi.availability}`,
   },
   {
+    category: "services",
     question: "Do API resources or events differ by plan?",
     answer: `No. ${dataEventsApi.catalogue} Only the request limit differs: ${apiRpm.starter.requests.toLocaleString("en-IN")}, ${apiRpm.pro.requests.toLocaleString("en-IN")} and ${apiRpm.enterprise.requests.toLocaleString("en-IN")} requests per minute on Starter, Growth and Enterprise.`,
   },
   {
+    category: "services",
     question: "Do API rate limits create overage charges?",
     answer:
       "No. Requests above your limit are throttled, with no overage charge and no automatic upgrade. Limits are counted in a sliding 60-second window across the institution's external clients. Stream bounds and replay retention are confirmed during onboarding.",
   },
   {
+    category: "services",
     question: "Do native or white-label apps need the API add-on?",
     answer: dataEventsApi.nativeWorkflows,
   },
-  { question: "Does API access require paid Entra SSO?", answer: dataEventsApi.identity },
-  { question: "Is app branding charged again at renewal?", answer: WHITE_LABEL_NOTE },
   {
+    category: "security",
+    question: "Does API access require paid Entra SSO?",
+    answer: dataEventsApi.identity,
+  },
+  {
+    category: "services",
+    question: "Is app branding charged again at renewal?",
+    answer: WHITE_LABEL_NOTE,
+  },
+  {
+    category: "plans",
     question: "Is pricing public?",
     answer: pricingAvailability.short,
   },
   {
+    category: "plans",
     question: "What does Enterprise add beyond ordinary ERP modules?",
     answer: `Nothing is locked behind Enterprise: every plan has the same generally available features, including governance, analytics and multi-campus operations. Enterprise adds a larger included AIC pool (${aicPerMonth("enterprise")} against ${aicPerMonth("pro")} AIC a month on Growth), more shared communication credits (${creditsPerStudent.enterprise} against ${creditsPerStudent.pro} per student a month), white-label Android and iOS apps and Entra SSO included in the licence, included institution-specific custom AEGIS dashboards, and a higher Data & Events API limit (${apiRpm.enterprise.requests.toLocaleString("en-IN")} against ${apiRpm.pro.requests.toLocaleString("en-IN")} requests per minute). Migration is included in Growth too. Custom services remain separately scoped. ${dataPortability}`,
   },
   {
+    category: "plans",
     question: "Is SquareCampus appropriate if we only need attendance and fees?",
     answer: `Usually not. ${pricingAvailability.positioning}`,
   },
   {
+    category: "pilots",
     question: "Can we keep our existing ERP during the pilot?",
     answer:
       "Yes. A pilot covers one campus or one workflow bundle, and your ERP keeps running and stays authoritative. Replacing anything is a later decision, taken on evidence.",
   },
   {
+    category: "pilots",
     question: "Is migration included?",
     answer: `${commercialScope.migration} ${commercialScope.migrationLimit}`,
   },
   {
+    category: "services",
     question: "Do custom reports cost extra?",
     answer: commercialScope.reporting,
   },
   {
+    category: "pilots",
     question: "What does implementation cost?",
     answer: `Nothing extra. ${commercialScope.implementation}`,
   },
   {
+    category: "plans",
     question: "Can the price grow after we sign?",
     answer: `Not by surprise. ${commercialScope.noSurprises} ${commercialScope.renewal}`,
   },
   {
+    category: "security",
     question: "Can SquareCampus run in our own cloud account?",
     answer:
       "Not today. SquareCampus runs as managed cloud on Microsoft Azure in India. If your governance requires something different, raise it during scoping and we will tell you plainly whether we can support it.",
   },
   {
+    category: "security",
     question: "Which sign-in options does each plan have?",
     answer: `${identity.baseline.body} ${identity.sso.body} ${identity.enterprise.body}`,
   },
   {
+    category: "security",
     question: "Does SquareCampus access our Outlook or Microsoft 365 data?",
     answer:
       "No. Entra ID sign-in authenticates identity only; no access to email, files, Teams or SharePoint is needed.",
   },
   {
+    category: "security",
     question: "Does single sign-on automatically create and remove users?",
     answer:
       "Single sign-on authenticates identity. Automated provisioning and lifecycle controls require separately validated support; available functionality and configuration are confirmed during technical onboarding.",
   },
   {
+    category: "plans",
     question: "Is GST included?",
     answer: `${pricingAvailability.taxes} Applicable Indian taxes are shown on the order form and on tax invoices issued by ${company.legalNameDisplay} under GSTIN ${company.gstin}.`,
   },
   {
+    category: "services",
     question: "How is AEGIS usage handled?",
     answer: `${aicCommercial.purchases} ${aicCommercial.wallet}`,
   },
-  { question: "How much AIC does one analytical answer use?", answer: aicCommercial.operations },
   {
+    category: "services",
+    question: "How much AIC does one analytical answer use?",
+    answer: aicCommercial.operations,
+  },
+  {
+    category: "services",
     question: "Does purchased AIC repeat at renewal?",
     answer:
       "Prepaid AIC is a separate purchase in the quantity you choose, priced using graduated volume bands. It enters the purchase-year estimate once. Renewal does not automatically buy credits again.",
   },
   {
+    category: "plans",
     question: "Can a trust contract cover multiple campuses?",
     answer:
       "Yes. A trust-level agreement can cover agreed campuses within the same billed subscription. Specialised configuration and services are scoped separately.",
   },
   {
+    category: "pilots",
     question: "What is the Founding Institutional Pilot?",
     answer: `${foundingProgramme.positionsStatement} ${foundingProgramme.nature}`,
   },
   {
+    category: "plans",
     question: "Do all plans include the core platform and multi-campus operations?",
     answer: `Yes. ${corePlatform.promise} Plans differ only in included allowances and services, and campuses in the same billed institutional subscription count together for enrolment. ${corePlatform.availability}`,
   },
   {
+    category: "security",
     question: "Can Starter request Microsoft Entra single sign-on separately?",
     answer: identity.sso.body,
   },
   {
+    category: "security",
     question: "Are security and data portability restricted to Enterprise?",
     answer: `${securityBaseline} ${dataPortability}`,
   },
   {
+    category: "pilots",
     question: "Is there a trial or pilot option?",
     answer: `${launchPilot.summary} ${launchPilot.eligibility} ${launchPilot.boundaries} ${launchPilot.pricing} ${launchPilot.separation}`,
   },
   {
+    category: "pilots",
     question: "Where is the launch pilot available?",
     answer: launchPilot.geography,
   },
   {
+    category: "services",
     question: "Can we buy one enhancement without changing our whole plan?",
     answer: `Optional services follow their plan eligibility and technical readiness. Data & Events API is available on every plan. Entra SSO is optional on every plan and included in Enterprise. White-label apps are included in Enterprise and a ₹25,000 one-time charge on Growth. ${identity.sso.body} Other enhancements, consumption and professional services are assessed and quoted separately; their availability is not implied by appearing in a scoping discussion.`,
+  },
+  {
+    category: "plans",
+    question: "What discount applies to terms longer than five years?",
+    answer: longerPrepaidTermNote,
   },
 ] as const;

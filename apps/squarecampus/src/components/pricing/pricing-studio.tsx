@@ -6,6 +6,7 @@ import {
   planIds,
   calculateLicence,
   calculatePrepaidLicence,
+  calculateTermReference,
   pricingPolicy,
   publicEstimateTax,
   publicDataEventsApiPricing,
@@ -30,7 +31,7 @@ import { QuantityField } from "@/components/pricing/quantity-field";
 import { EstimateAssumptions } from "@/components/pricing/estimate-assumptions";
 import { planIcons } from "@/components/pricing/plan-icons";
 import type { PlanId } from "@/content/commercial";
-import { WHITE_LABEL_NOTE } from "@/content/pricing";
+import { longerPrepaidTermNote, WHITE_LABEL_NOTE } from "@/content/pricing";
 import {
   decodeEstimate,
   encodeEstimate,
@@ -59,6 +60,10 @@ export function PricingStudio() {
           estimate.termYears,
           publicEstimateTax
         )
+      : null;
+  const termReference =
+    selected && prepaid
+      ? calculateTermReference(selected.fixed, prepaid.years, publicEstimateTax)
       : null;
   const selectedPlan = selected?.plan ?? state.plan;
   const planName = pricingPolicy.plans[selectedPlan].name;
@@ -144,16 +149,20 @@ export function PricingStudio() {
               error={estimate.errors.students}
               onChange={(students) => setInputs({ students })}
             />
-            {selected && canQuote && prepaid && (
+            {selected && canQuote && prepaid && termReference && (
               <div className="pricing-mobile-summary">
                 <span className="pricing-mobile-plan">
                   <PlanIcon aria-hidden />
-                  <b>{planName}</b> prepaid platform licence
+                  <b>{planName}</b> estimated term total
                 </span>
-                <strong>{formatInr(prepaid.prepaidPaise)} upfront</strong>
+                <strong>
+                  {termReference.includingTaxPaise === null
+                    ? `${formatInr(termReference.subtotalPaise)} before GST`
+                    : `${formatInr(termReference.includingTaxPaise)} including estimated GST`}
+                </strong>
                 <span>
-                  {prepaid.years} {prepaid.years === 1 ? "year" : "years"}; GST and optional
-                  services extra. Monthly amounts are equivalents only.
+                  {prepaid.years} {prepaid.years === 1 ? "year" : "years"}; selected term; add-on
+                  billing is agreed separately. Monthly amounts are equivalents only.
                 </span>
                 <a href="#live-estimate">Full breakdown</a>
               </div>
@@ -213,7 +222,7 @@ export function PricingStudio() {
               </ToggleGroup>
               <p className="type-support">
                 The entire selected licence term is payable upfront. Optional services and usage are
-                separate.
+                separate. {longerPrepaidTermNote}
               </p>
             </FieldSet>
             <ResponsiveDisclosure label="Add optional services">
@@ -388,132 +397,205 @@ export function PricingStudio() {
                   <PlanIcon aria-hidden />
                   {planName}
                 </p>
-                {prepaid && (
+                {prepaid && termReference && (
                   <section aria-labelledby="prepaid-heading" className="pricing-slab-details">
-                    <h3 id="prepaid-heading">Your effective monthly licence cost</h3>
+                    <h3 id="prepaid-heading">
+                      {termReference.complete ? "Estimated total" : "Known estimated total"} for{" "}
+                      {prepaid.years} {prepaid.years === 1 ? "year" : "years"}
+                    </h3>
                     <p>
-                      {prepaid.discountPercent}% commitment discount for {planName}, {prepaid.years}{" "}
-                      {prepaid.years === 1 ? "year" : "years"}.
+                      {prepaid.discountPercent}% commitment discount on the {planName} licence.
                     </p>
-                    <dl className="pricing-line-items">
-                      <div>
-                        <dt>Standard monthly equivalent</dt>
-                        <dd>
-                          {prepaid.discountPercent > 0 ? (
-                            <s>{formatInr(prepaid.standardMonthlyPaise)}</s>
-                          ) : (
-                            formatInr(prepaid.standardMonthlyPaise)
+                    <div className="pricing-prepaid-overview">
+                      <div className="pricing-prepaid-monthly">
+                        <span>
+                          {termReference.includingTaxPaise === null
+                            ? "Term total before GST"
+                            : "Term total including estimated GST"}
+                        </span>
+                        <strong data-testid="primary-term-total">
+                          {formatInr(
+                            termReference.includingTaxPaise ?? termReference.subtotalPaise
                           )}
-                        </dd>
+                        </strong>
+                        {!termReference.complete && (
+                          <span>Incomplete: unpriced selections are excluded.</span>
+                        )}
                       </div>
-                      <div>
-                        <dt>Discounted monthly equivalent</dt>
-                        <dd>
-                          <strong>{formatInr(prepaid.discountedMonthlyPaise)}</strong>
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>Monthly equivalent savings ({prepaid.discountPercent}%)</dt>
-                        <dd>{formatInr(prepaid.monthlySavingsPaise)}</dd>
-                      </div>
-                      <div>
-                        <dt>Standard per student / month</dt>
-                        <dd>{formatInr(prepaid.standardStudentMonthlyPaise)}</dd>
-                      </div>
-                      <div>
-                        <dt>Discounted per student / month</dt>
-                        <dd>{formatInr(prepaid.discountedStudentMonthlyPaise)}</dd>
-                      </div>
-                      <div>
-                        <dt>Licence savings over the term</dt>
-                        <dd>{formatInr(prepaid.totalSavingsPaise)}</dd>
-                      </div>
-                      <div>
-                        <dt>Upfront platform licence</dt>
-                        <dd>
-                          <strong>{formatInr(prepaid.prepaidPaise)}</strong>
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>
-                          Estimated licence GST
-                          {publicEstimateTax ? ` (${publicEstimateTax.basisPoints / 100}%)` : ""}
-                        </dt>
-                        <dd>
-                          {prepaid.gstPaise === null ? "Unconfigured" : formatInr(prepaid.gstPaise)}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>Upfront licence including estimated GST</dt>
-                        <dd>
-                          {prepaid.invoiceTotalPaise === null
-                            ? "Unconfigured"
-                            : formatInr(prepaid.invoiceTotalPaise)}
-                        </dd>
-                      </div>
-                    </dl>
+                      <dl className="pricing-prepaid-totals">
+                        <div>
+                          <dt>
+                            Prepaid licence · {prepaid.years}{" "}
+                            {prepaid.years === 1 ? "year" : "years"}
+                          </dt>
+                          <dd className="pricing-licence-prices" data-testid="summary-licence">
+                            {prepaid.years > 1 && (
+                              <span className="pricing-original-price">
+                                <span className="sr-only">Original price </span>
+                                <s>{formatInr(prepaid.annualLicencePaise * prepaid.years)}</s>
+                              </span>
+                            )}
+                            <strong>
+                              {prepaid.years > 1 && (
+                                <span className="sr-only">Discounted price </span>
+                              )}
+                              {formatInr(prepaid.prepaidPaise)}
+                            </strong>
+                          </dd>
+                        </div>
+                        {state.inputs.sso && (
+                          <div data-testid="summary-sso">
+                            <dt>
+                              Microsoft Entra SSO · {formatInr(selected.fixed.annualSsoPaise)} /
+                              year × {prepaid.years}
+                            </dt>
+                            <dd>
+                              {selected.fixed.annualSsoPaise === 0
+                                ? "Included"
+                                : formatInr(selected.fixed.annualSsoPaise * prepaid.years)}
+                            </dd>
+                          </div>
+                        )}
+                        {state.inputs.dataEventsApi && (
+                          <div data-testid="summary-api">
+                            <dt>
+                              Data &amp; Events API
+                              {selected.fixed.annualDataEventsApiPaise === null
+                                ? ""
+                                : ` · ${formatInr(selected.fixed.annualDataEventsApiPaise)} / year × ${prepaid.years}`}
+                            </dt>
+                            <dd>
+                              {selected.fixed.annualDataEventsApiPaise === null
+                                ? "Price pending · excluded"
+                                : formatInr(
+                                    selected.fixed.annualDataEventsApiPaise * prepaid.years
+                                  )}
+                            </dd>
+                          </div>
+                        )}
+                        {state.inputs.whiteLabel && (
+                          <div data-testid="summary-branding">
+                            <dt>White-label branding · one time</dt>
+                            <dd>
+                              {state.inputs.brandingAlreadyPurchased
+                                ? "Previously purchased"
+                                : selected.fixed.newBrandingPaise === 0
+                                  ? "Included"
+                                  : formatInr(selected.fixed.newBrandingPaise)}
+                            </dd>
+                          </div>
+                        )}
+                        {selected.fixed.prepaidAic.credits > 0 && (
+                          <div data-testid="summary-aic">
+                            <dt>
+                              Prepaid AIC ·{" "}
+                              {selected.fixed.prepaidAic.credits.toLocaleString("en-IN")} credits,
+                              one time
+                            </dt>
+                            <dd>{formatInr(selected.fixed.prepaidAic.totalPaise)}</dd>
+                          </div>
+                        )}
+                        <div className="pricing-term-subtotal">
+                          <dt>Term subtotal before GST</dt>
+                          <dd>{formatInr(termReference.subtotalPaise)}</dd>
+                        </div>
+                        <div>
+                          <dt>
+                            Estimated GST
+                            {publicEstimateTax ? ` (${publicEstimateTax.basisPoints / 100}%)` : ""}
+                          </dt>
+                          <dd>
+                            {termReference.taxPaise === null
+                              ? "Unconfigured or incomplete"
+                              : formatInr(termReference.taxPaise)}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Effective monthly equivalent, before GST</dt>
+                          <dd data-testid="total-monthly-equivalent">
+                            {formatInr(termReference.monthlyPaise)}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Per student / month, before GST</dt>
+                          <dd data-testid="total-student-equivalent">
+                            {formatInr(termReference.studentMonthlyPaise)}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Licence savings over the term</dt>
+                          <dd>{formatInr(termReference.totalSavingsPaise)}</dd>
+                        </div>
+                      </dl>
+                    </div>
+                    <section
+                      className="pricing-slab-summary"
+                      aria-labelledby="pricing-slabs-heading"
+                    >
+                      <h3 id="pricing-slabs-heading">Student pricing slabs</h3>
+                      <p>Annual licence before commitment discount and GST.</p>
+                      <dl className="pricing-slab-cards">
+                        {selected.fixed.slabs
+                          .filter((slab) => slab.students > 0)
+                          .map((slab) => (
+                            <div
+                              key={slab.from}
+                              className="pricing-slab-card"
+                              data-testid="pricing-slab-card"
+                            >
+                              <dt>
+                                <span className="pricing-slab-range">
+                                  Students {slab.from.toLocaleString("en-IN")}–
+                                  {(slab.from + slab.students - 1).toLocaleString("en-IN")}
+                                </span>
+                                <span className="pricing-slab-calculation">
+                                  {slab.students.toLocaleString("en-IN")} ×{" "}
+                                  {formatInr(slab.ratePaise)}
+                                </span>
+                              </dt>
+                              <dd>{formatInr(slab.totalPaise)}</dd>
+                            </div>
+                          ))}
+                      </dl>
+                    </section>
                     <p className="pricing-estimate-caption">
-                      Monthly figures are pricing equivalents only. The entire contracted
-                      subscription term is payable upfront. Calculations use the selected enrolment
-                      baseline. Additional students may result in separately payable annual
-                      adjustments, subject to approved terms. Optional services, usage and their
-                      taxes are separate and are not included in this licence-only total.
+                      The licence term is payable upfront. Monthly equivalents include selected
+                      services, not instalments. Add-on billing and enrolment adjustments follow
+                      agreed terms.
                     </p>
+                    <details className="pricing-prepaid-details" data-md-include>
+                      <summary>Monthly and per-student details</summary>
+                      <dl className="pricing-line-items">
+                        <div>
+                          <dt>Standard monthly equivalent, before GST</dt>
+                          <dd>{formatInr(termReference.standardMonthlyPaise)}</dd>
+                        </div>
+                        <div>
+                          <dt>Discounted monthly equivalent, before GST</dt>
+                          <dd>{formatInr(termReference.monthlyPaise)}</dd>
+                        </div>
+                        <div>
+                          <dt>
+                            Monthly equivalent savings ({prepaid.discountPercent}% licence discount)
+                          </dt>
+                          <dd>{formatInr(termReference.monthlySavingsPaise)}</dd>
+                        </div>
+                        <div>
+                          <dt>Standard per student / month, before GST</dt>
+                          <dd>{formatInr(termReference.standardStudentMonthlyPaise)}</dd>
+                        </div>
+                        <div>
+                          <dt>Discounted per student / month, before GST</dt>
+                          <dd>{formatInr(termReference.studentMonthlyPaise)}</dd>
+                        </div>
+                        <div>
+                          <dt>Prepaid licence, before GST</dt>
+                          <dd>{formatInr(prepaid.prepaidPaise)}</dd>
+                        </div>
+                      </dl>
+                    </details>
                   </section>
                 )}
-                <h3>Annual reference and optional services</h3>
-                <dl>
-                  <div className="pricing-total">
-                    <dt>
-                      {apiPriceMissing
-                        ? "Known annual reference subtotal"
-                        : selected.fixed.prepaidAic.totalPaise > 0
-                          ? "Annual reference with prepaid AIC"
-                          : "Annual reference fixed subtotal"}
-                    </dt>
-                    <dd className="pricing-total-number" data-testid="first-year-total">
-                      {formatInr(selected.fixed.purchaseYearWithPrepaidPaise)}
-                    </dd>
-                  </div>
-                </dl>
-                <p className="pricing-estimate-caption">
-                  {selected.fixed.prepaidAic.totalPaise > 0
-                    ? "Includes selected prepaid AIC. GST and custom services are separate."
-                    : "Annual reference only; the selected prepaid term licence is shown above. GST and custom services are separate."}
-                </p>
-                <dl className="pricing-line-items pricing-tax-summary">
-                  <div>
-                    <dt>
-                      Estimated GST
-                      {publicEstimateTax ? ` (${publicEstimateTax.basisPoints / 100}%)` : ""}
-                    </dt>
-                    <dd data-testid="purchase-year-gst">
-                      {selected.fixed.firstYearTaxPaise === null
-                        ? "Unconfigured"
-                        : formatInr(selected.fixed.firstYearTaxPaise)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Annual reference including estimated GST</dt>
-                    <dd data-testid="purchase-year-with-gst">
-                      {selected.fixed.firstYearIncludingTaxPaise === null
-                        ? "Incomplete price"
-                        : formatInr(selected.fixed.firstYearIncludingTaxPaise)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Renewal including estimated GST</dt>
-                    <dd data-testid="renewal-with-gst">
-                      {selected.fixed.renewalIncludingTaxPaise === null
-                        ? "Incomplete price"
-                        : formatInr(selected.fixed.renewalIncludingTaxPaise)}
-                    </dd>
-                  </div>
-                </dl>
-                <p className="pricing-estimate-caption">
-                  Domestic estimate. Final tax treatment and the CGST/SGST or IGST split follow your
-                  billing details on the invoice.
-                </p>
                 {apiPriceMissing && (
                   <p className="pricing-estimate-caption" data-testid="api-price-incomplete">
                     Data & Events API interest included. Its annual fee is unconfigured and excluded
@@ -543,150 +625,180 @@ export function PricingStudio() {
                     variant="cta"
                   />
                 </div>
-                <p className="pricing-print-version">
-                  SquareCampus pricing estimate for{" "}
-                  {selected.fixed.students.toLocaleString("en-IN")} enrolled students. Pricing
-                  policy {pricingPolicy.version}.
-                </p>
-                <dl className="pricing-line-items">
-                  <div>
-                    <dt>Annual licence</dt>
-                    <dd data-testid="annual-licence">
-                      {formatInr(selected.fixed.annualLicencePaise)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Effective student/year price</dt>
-                    <dd>
-                      {formatInrRatio(selected.fixed.annualLicencePaise, selected.fixed.students)}
-                    </dd>
-                  </div>
-                </dl>
-                {selected.fixed.students > 1000 && (
-                  <section className="pricing-slab-details" aria-labelledby="pricing-slabs-heading">
-                    <h3 id="pricing-slabs-heading">Progressive slab breakdown</h3>
-                    <dl className="pricing-slab-cards">
-                      {selected.fixed.slabs
-                        .filter((slab) => slab.students > 0)
-                        .map((slab) => (
-                          <div
-                            key={slab.from}
-                            className="pricing-slab-card"
-                            data-testid="pricing-slab-card"
-                          >
-                            <dt>
-                              <span className="pricing-slab-range">
-                                Students {slab.from.toLocaleString("en-IN")} to
-                                {(slab.from + slab.students - 1).toLocaleString("en-IN")}
-                              </span>
-                              <span className="pricing-slab-calculation">
-                                <strong>{slab.students.toLocaleString("en-IN")}</strong> ×{" "}
-                                <strong>{formatInr(slab.ratePaise)}</strong>
-                              </span>
-                            </dt>
-                            <dd>{formatInr(slab.totalPaise)}</dd>
-                          </div>
-                        ))}
-                    </dl>
-                  </section>
-                )}
-                <dl className="pricing-line-items">
-                  {state.inputs.sso && (
-                    <div>
-                      <dt>Entra SSO each year</dt>
-                      <dd>{formatInr(selected.fixed.annualSsoPaise)}</dd>
-                    </div>
-                  )}
-                  {state.inputs.dataEventsApi && (
-                    <div>
-                      <dt>Data & Events API each year</dt>
-                      <dd data-testid="api-annual-price">
-                        {selected.fixed.annualDataEventsApiPaise === null
-                          ? "Unconfigured, excluded"
-                          : formatInr(selected.fixed.annualDataEventsApiPaise)}
+                <details className="pricing-estimate-breakdown" data-md-include>
+                  <summary>Full term reference and services</summary>
+                  <h3>Term reference and optional services</h3>
+                  <dl>
+                    <div className="pricing-total">
+                      <dt>
+                        {apiPriceMissing
+                          ? "Known term reference subtotal"
+                          : "Term reference subtotal"}
+                      </dt>
+                      <dd className="pricing-total-number" data-testid="first-year-total">
+                        {termReference
+                          ? formatInr(termReference.subtotalPaise)
+                          : "Incomplete price"}
                       </dd>
                     </div>
-                  )}
-                  {state.inputs.whiteLabel && (
+                  </dl>
+                  <p className="pricing-estimate-caption">
+                    The discounted licence covers {prepaid?.years}{" "}
+                    {prepaid?.years === 1 ? "year" : "years"}. This reference assumes selected
+                    annual add-ons continue each year, and includes selected one-time charges once.
+                    Add-on billing terms are agreed separately; usage and custom services are
+                    excluded.
+                  </p>
+                  <dl className="pricing-line-items pricing-tax-summary">
                     <div>
                       <dt>
-                        {state.inputs.brandingAlreadyPurchased
-                          ? "Branding previously purchased"
-                          : "Android + iOS branding once"}
+                        Estimated term GST
+                        {publicEstimateTax ? ` (${publicEstimateTax.basisPoints / 100}%)` : ""}
                       </dt>
-                      <dd>{formatInr(selected.fixed.newBrandingPaise)}</dd>
+                      <dd data-testid="purchase-year-gst">
+                        {termReference?.taxPaise == null
+                          ? "Unconfigured or incomplete"
+                          : formatInr(termReference.taxPaise)}
+                      </dd>
                     </div>
-                  )}
-                  {selected.fixed.prepaidAic.credits > 0 && (
-                    <div data-testid="selected-aic-purchase">
+                    <div>
+                      <dt>Term reference including estimated GST</dt>
+                      <dd data-testid="purchase-year-with-gst">
+                        {termReference?.includingTaxPaise == null
+                          ? "Incomplete price"
+                          : formatInr(termReference.includingTaxPaise)}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Annual renewal reference including estimated GST</dt>
+                      <dd data-testid="renewal-with-gst">
+                        {selected.fixed.renewalIncludingTaxPaise === null
+                          ? "Incomplete price"
+                          : formatInr(selected.fixed.renewalIncludingTaxPaise)}
+                      </dd>
+                    </div>
+                  </dl>
+                  <p className="pricing-estimate-caption">
+                    Domestic estimate. Final tax treatment and the CGST/SGST or IGST split follow
+                    your billing details on the invoice.
+                  </p>
+                  <p className="pricing-print-version">
+                    SquareCampus pricing estimate for{" "}
+                    {selected.fixed.students.toLocaleString("en-IN")} enrolled students. Pricing
+                    policy {pricingPolicy.version}.
+                  </p>
+                  <dl className="pricing-line-items">
+                    <div>
+                      <dt>Annual licence</dt>
+                      <dd data-testid="annual-licence">
+                        {formatInr(selected.fixed.annualLicencePaise)}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Effective student/year price</dt>
+                      <dd>
+                        {formatInrRatio(selected.fixed.annualLicencePaise, selected.fixed.students)}
+                      </dd>
+                    </div>
+                  </dl>
+                  <dl className="pricing-line-items">
+                    {state.inputs.sso && (
+                      <div>
+                        <dt>Entra SSO each year</dt>
+                        <dd>{formatInr(selected.fixed.annualSsoPaise)}</dd>
+                      </div>
+                    )}
+                    {state.inputs.dataEventsApi && (
+                      <div>
+                        <dt>Data & Events API each year</dt>
+                        <dd data-testid="api-annual-price">
+                          {selected.fixed.annualDataEventsApiPaise === null
+                            ? "Unconfigured, excluded"
+                            : formatInr(selected.fixed.annualDataEventsApiPaise)}
+                        </dd>
+                      </div>
+                    )}
+                    {state.inputs.whiteLabel && (
+                      <div>
+                        <dt>
+                          {state.inputs.brandingAlreadyPurchased
+                            ? "Branding previously purchased"
+                            : "Android + iOS branding once"}
+                        </dt>
+                        <dd>{formatInr(selected.fixed.newBrandingPaise)}</dd>
+                      </div>
+                    )}
+                    {selected.fixed.prepaidAic.credits > 0 && (
+                      <div data-testid="selected-aic-purchase">
+                        <dt>
+                          {selected.fixed.prepaidAic.credits.toLocaleString("en-IN")} prepaid AIC
+                        </dt>
+                        <dd>{formatInr(selected.fixed.prepaidAic.totalPaise)}</dd>
+                      </div>
+                    )}
+                    <div>
                       <dt>
-                        {selected.fixed.prepaidAic.credits.toLocaleString("en-IN")} prepaid AIC
+                        {apiPriceMissing
+                          ? "Known recurring subtotal/year"
+                          : "Recurring fixed subtotal/year"}
                       </dt>
-                      <dd>{formatInr(selected.fixed.prepaidAic.totalPaise)}</dd>
+                      <dd>{formatInr(selected.fixed.recurringFixedPaise)}</dd>
                     </div>
-                  )}
-                  <div>
-                    <dt>
-                      {apiPriceMissing
-                        ? "Known recurring subtotal/year"
-                        : "Recurring fixed subtotal/year"}
-                    </dt>
-                    <dd>{formatInr(selected.fixed.recurringFixedPaise)}</dd>
+                    <div>
+                      <dt>
+                        {apiPriceMissing
+                          ? "Known comparable renewal/year"
+                          : "Comparable annual renewal"}
+                      </dt>
+                      <dd data-testid="renewal-total">
+                        {formatInr(selected.fixed.renewalFixedPaise)}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Monthly communication credits</dt>
+                      <dd>{selected.fixed.monthlyCommunicationCredits.toLocaleString("en-IN")}</dd>
+                    </div>
+                    <div>
+                      <dt>Monthly included AIC</dt>
+                      <dd>{formatAic(selected.fixed.monthlyIncludedMilliAic)} AIC</dd>
+                    </div>
+                  </dl>
+                  <EstimateAssumptions fixed={selected.fixed} />
+                  <div
+                    className="pricing-usage-result"
+                    data-testid="usage-result"
+                    data-empty={
+                      estimate.usage.communication === undefined && !state.inputs.customService
+                    }
+                  >
+                    <h3>Communication usage forecast</h3>
+                    {estimate.usage.communication === undefined ? (
+                      <p>
+                        No communication forecast entered. Add monthly demand to estimate top-ups.
+                      </p>
+                    ) : (
+                      <dl className="pricing-line-items">
+                        {selected.communication && (
+                          <div>
+                            <dt>Communication top-ups / year</dt>
+                            <dd>
+                              {selected.communication.totalPaise === null
+                                ? "Tariff pending"
+                                : formatInr(selected.communication.totalPaise)}
+                            </dd>
+                          </div>
+                        )}
+                      </dl>
+                    )}
+                    {(status === "incomplete_usage_pricing" ||
+                      status === "custom_service_quote_required") && (
+                      <p>
+                        Complete usage or service pricing needs confirmation. The fixed subscription
+                        above remains calculable.
+                      </p>
+                    )}
                   </div>
-                  <div>
-                    <dt>
-                      {apiPriceMissing
-                        ? "Known comparable renewal/year"
-                        : "Comparable annual renewal"}
-                    </dt>
-                    <dd data-testid="renewal-total">
-                      {formatInr(selected.fixed.renewalFixedPaise)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Monthly communication credits</dt>
-                    <dd>{selected.fixed.monthlyCommunicationCredits.toLocaleString("en-IN")}</dd>
-                  </div>
-                  <div>
-                    <dt>Monthly included AIC</dt>
-                    <dd>{formatAic(selected.fixed.monthlyIncludedMilliAic)} AIC</dd>
-                  </div>
-                </dl>
-                <EstimateAssumptions fixed={selected.fixed} />
-                <div
-                  className="pricing-usage-result"
-                  data-testid="usage-result"
-                  data-empty={
-                    estimate.usage.communication === undefined && !state.inputs.customService
-                  }
-                >
-                  <h3>Communication usage forecast</h3>
-                  {estimate.usage.communication === undefined ? (
-                    <p>
-                      No communication forecast entered. Add monthly demand to estimate top-ups.
-                    </p>
-                  ) : (
-                    <dl className="pricing-line-items">
-                      {selected.communication && (
-                        <div>
-                          <dt>Communication top-ups / year</dt>
-                          <dd>
-                            {selected.communication.totalPaise === null
-                              ? "Tariff pending"
-                              : formatInr(selected.communication.totalPaise)}
-                          </dd>
-                        </div>
-                      )}
-                    </dl>
-                  )}
-                  {(status === "incomplete_usage_pricing" ||
-                    status === "custom_service_quote_required") && (
-                    <p>
-                      Complete usage or service pricing needs confirmation. The fixed subscription
-                      above remains calculable.
-                    </p>
-                  )}
-                </div>
+                </details>
               </>
             ) : (
               <p className="pricing-invalid-quote" data-testid="quote-invalid" role="status">

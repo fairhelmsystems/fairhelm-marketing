@@ -1,11 +1,12 @@
+import { DatabaseBackup, FlaskConical, Rocket, ShieldCheck } from "lucide-react";
 import { planIds, pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import { ButtonLink } from "@fairhelm/ui/components/button-link";
-import { DetailsFaq } from "@fairhelm/ui/components/details-faq";
 import { InfoPopover } from "@fairhelm/ui/components/info-popover";
 import { SectionShell } from "@fairhelm/ui/components/section-shell";
 import { EnterpriseValue } from "@/components/pricing/enterprise-value";
 import { AicWalkthrough } from "@/components/pricing/aic-walkthrough";
 import { PlanMatrix } from "@/components/pricing/plan-matrix";
+import { PricingFaqExplorer } from "@/components/pricing/pricing-faq-explorer";
 import { PricingStudio } from "@/components/pricing/pricing-studio";
 import { ScopedCostGrid } from "@/components/pricing/scoped-cost-grid";
 import {
@@ -18,7 +19,6 @@ import {
   launchPilot,
   securityBaseline,
 } from "@/content/commercial";
-import { pricingFaqs } from "@/content/pricing";
 import { formatInr } from "@/lib/pricing-estimate";
 
 export default function PricingPage() {
@@ -123,8 +123,8 @@ export default function PricingPage() {
               <p>
                 A long or Unicode SMS may use several billable segments per recipient. At 1,000
                 students, the monthly pool can fund recipient emails of {emailExamples} when used
-                entirely for email. SMS and email draw from that same pool. WhatsApp is priced by category and
-                destination and confirmed on your order form.
+                entirely for email. SMS and email draw from that same pool. WhatsApp is priced by
+                category and destination and confirmed on your order form.
               </p>
               <p>
                 Central SquareCampus email transport uses platform sender configuration. It needs no
@@ -188,58 +188,76 @@ export default function PricingPage() {
         <AicWalkthrough />
       </SectionShell>
       <SectionShell
-        mobileDisclosure="Launch pilot"
+        mobileDisclosure="Institutional pilots"
         id="pilot"
         title="Evaluate with an agreed scope."
+        className="pricing-evaluation"
       >
-        <details className="pricing-programme" data-md-include>
-          <summary>{launchPilot.name}</summary>
-          {[
-            launchPilot.summary,
-            launchPilot.eligibility,
-            launchPilot.geography,
-            launchPilot.scope,
-            launchPilot.boundaries,
-            launchPilot.pricing,
-          ].map((fact) => (
-            <p key={fact}>{fact}</p>
-          ))}
-          <ButtonLink
-            href={launchPilot.enquiryHref}
-            label="Request launch-pilot review"
-            variant="secondary"
-          />
-        </details>
-      </SectionShell>
-      <SectionShell
-        mobileDisclosure="Founding pilot"
-        id="founding"
-        title="Founding Institutional Pilot 2026–27."
-      >
-        <details className="pricing-programme" data-md-include>
-          <summary>{foundingProgramme.name}</summary>
-          <p>
-            {foundingProgramme.positionsStatement} {foundingProgramme.nature}
-          </p>
-          <p>{foundingProgramme.pilot.paidNote}</p>
-          <p>
-            Access runs {foundingProgramme.pilot.window} from the agreed activation date. Renewal is optional at standard annual pricing, with no automatic credit for the pilot fee. {launchPilot.separation}
-          </p>
-          <ButtonLink
-            href="/launch-partners/"
-            label="Review the founding pilot"
-            variant="secondary"
-          />
-        </details>
+        <div className="pricing-evaluation-grid">
+          <article className="pricing-evaluation-card">
+            <FlaskConical aria-hidden className="pricing-evaluation-icon" />
+            <h3>{launchPilot.name}</h3>
+            <p>{launchPilot.summary}</p>
+            <p>{launchPilot.eligibility}</p>
+            <details data-md-include>
+              <summary>Launch pilot scope and terms</summary>
+              {[
+                launchPilot.geography,
+                launchPilot.scope,
+                launchPilot.boundaries,
+                launchPilot.pricing,
+              ].map((fact) => (
+                <p key={fact}>{fact}</p>
+              ))}
+            </details>
+            <ButtonLink
+              href={launchPilot.enquiryHref}
+              label="Request launch-pilot review"
+              variant="secondary"
+              className="pricing-evaluation-action"
+            />
+          </article>
+          <article id="founding" className="pricing-evaluation-card">
+            <Rocket aria-hidden className="pricing-evaluation-icon" />
+            <h3>{foundingProgramme.name}</h3>
+            <p>{foundingProgramme.pilot.paidNote}</p>
+            <p>Access runs {foundingProgramme.pilot.window} from the agreed activation date.</p>
+            <details data-md-include>
+              <summary>Founding pilot scope and renewal</summary>
+              <p>
+                {foundingProgramme.positionsStatement} {foundingProgramme.nature}
+              </p>
+              <p>
+                Renewal is optional at standard annual pricing, with no automatic credit for the
+                pilot fee. {launchPilot.separation}
+              </p>
+            </details>
+            <ButtonLink
+              href="/launch-partners/"
+              label="Review the founding pilot"
+              variant="secondary"
+              className="pricing-evaluation-action"
+            />
+          </article>
+        </div>
       </SectionShell>
       <SectionShell
         mobileDisclosure="Security and data"
         id="baseline"
         title="Security and institutional data."
+        className="pricing-evaluation"
       >
-        <div className="pricing-baseline">
-          <p>{securityBaseline}</p>
-          <p>{dataPortability}</p>
+        <div className="pricing-evaluation-grid">
+          <article className="pricing-evaluation-card">
+            <ShieldCheck aria-hidden className="pricing-evaluation-icon" />
+            <h3>Security safeguards</h3>
+            <p>{securityBaseline}</p>
+          </article>
+          <article className="pricing-evaluation-card">
+            <DatabaseBackup aria-hidden className="pricing-evaluation-icon" />
+            <h3>Data ownership and export</h3>
+            <p>{dataPortability}</p>
+          </article>
         </div>
       </SectionShell>
       <SectionShell
@@ -247,7 +265,7 @@ export default function PricingPage() {
         id="procurement-faq"
         title="Before you decide."
       >
-        <DetailsFaq items={pricingFaqs} className="pricing-faq" />
+        <PricingFaqExplorer />
       </SectionShell>
       <SectionShell id="request-proposal" className="pricing-close">
         <div className="pricing-close-row">

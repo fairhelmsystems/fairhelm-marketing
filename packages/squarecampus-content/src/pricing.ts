@@ -310,6 +310,48 @@ export function calculateFixedEstimate(
   };
 }
 
+/** Term reference assumes selected annual add-ons continue for each year; billing terms are agreed separately. */
+export function calculateTermReference(
+  fixed: ReturnType<typeof calculateFixedEstimate>,
+  years: number,
+  tax: TaxPolicy | null = null
+) {
+  const licence = calculatePrepaidLicence(fixed.plan, fixed.students, years, tax);
+  const annualAddOns = safeMoney(fixed.annualSsoPaise + (fixed.annualDataEventsApiPaise ?? 0));
+  const oneTime = safeMoney(fixed.newBrandingPaise + fixed.prepaidAic.totalPaise);
+  const subtotalPaise = safeMoney(licence.prepaidPaise + safeMoney(annualAddOns * years) + oneTime);
+  const standardSubtotalPaise = safeMoney(
+    safeMoney(fixed.annualLicencePaise * years) + safeMoney(annualAddOns * years) + oneTime
+  );
+  const roundRatio = (amount: number, divisor: number) =>
+    safeMoney(
+      Number((BigInt(amount) * BigInt(2) + BigInt(divisor)) / (BigInt(2) * BigInt(divisor)))
+    );
+  const taxAmountPaise =
+    tax === null || !fixed.complete || licence.gstPaise === null
+      ? null
+      : safeMoney(
+          licence.gstPaise +
+            safeMoney(taxPaise(fixed.annualSsoPaise, tax) * years) +
+            safeMoney(taxPaise(fixed.annualDataEventsApiPaise ?? 0, tax) * years) +
+            taxPaise(fixed.newBrandingPaise, tax) +
+            taxPaise(fixed.prepaidAic.totalPaise, tax)
+        );
+  return {
+    subtotalPaise,
+    standardSubtotalPaise,
+    monthlyPaise: roundRatio(subtotalPaise, years * 12),
+    standardMonthlyPaise: roundRatio(standardSubtotalPaise, years * 12),
+    monthlySavingsPaise: roundRatio(standardSubtotalPaise - subtotalPaise, years * 12),
+    studentMonthlyPaise: roundRatio(subtotalPaise, years * 12 * fixed.students),
+    standardStudentMonthlyPaise: roundRatio(standardSubtotalPaise, years * 12 * fixed.students),
+    totalSavingsPaise: standardSubtotalPaise - subtotalPaise,
+    taxPaise: taxAmountPaise,
+    includingTaxPaise: taxAmountPaise === null ? null : safeMoney(subtotalPaise + taxAmountPaise),
+    complete: fixed.complete,
+  };
+}
+
 export type CommunicationMonth = {
   smsRecipientSegments: number;
   recipientEmails: number;

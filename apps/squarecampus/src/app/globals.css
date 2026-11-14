@@ -1395,9 +1395,7 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
   font-size: 1.5rem;
   line-height: 1.3;
 }
-.pricing-wallets p,
-.pricing-programme p,
-.pricing-baseline p {
+.pricing-wallets p {
   margin-top: 1rem;
   color: var(--muted-foreground);
   line-height: 1.65;
@@ -1423,18 +1421,61 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
 .pricing-wallets details {
   border-top: 1px solid var(--line-strong);
 }
-.pricing-programme {
-  border-top: 1px solid var(--line-strong);
-  padding-block: 1rem;
+.pricing-evaluation + .pricing-evaluation {
+  padding-top: 0;
 }
-.pricing-programme > :where(a) {
-  margin-top: 1.5rem;
+.pricing-evaluation-grid {
+  display: grid;
+  gap: 1rem;
 }
-.pricing-baseline {
-  margin-top: 2.5rem;
+.pricing-evaluation-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
 }
-.pricing-baseline h3 {
-  font-size: 1.5rem;
+.pricing-evaluation-icon {
+  box-sizing: content-box;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0.65rem;
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--brand) 11%, transparent);
+  color: var(--brand);
+}
+.pricing-evaluation-card h3 {
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.pricing-evaluation-card p {
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+.pricing-evaluation-card details {
+  width: 100%;
+  border-top: 1px solid var(--line);
+  padding-top: 0.75rem;
+}
+.pricing-evaluation-card :where(details) p {
+  margin-top: 0.75rem;
+}
+.pricing-evaluation-card summary {
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.pricing-evaluation-action {
+  margin-top: auto;
+}
+@media (min-width: 48rem) {
+  .pricing-evaluation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .pricing-close {
   padding-top: 2rem;
@@ -2042,7 +2083,9 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.75rem;
 }
-.pricing-service-options > [data-slot="field"] { align-items: stretch; }
+.pricing-service-options > [data-slot="field"] {
+  align-items: stretch;
+}
 .pricing-service-card {
   display: flex;
   align-items: flex-start;
@@ -2072,8 +2115,18 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
-.pricing-service-copy { display: flex; flex-direction: column; min-width: 0; gap: 0.5rem; }
-.pricing-service-description { color: var(--muted-foreground); font-size: 0.875rem; line-height: 1.45; text-wrap: pretty; }
+.pricing-service-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.5rem;
+}
+.pricing-service-description {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
 .pricing-service-wide {
   grid-column: 1 / -1;
 }
@@ -2515,12 +2568,24 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
     grid-column: 1;
   }
 }
-.aic-request summary { min-height: 2.75rem; padding-block: 0.4rem; cursor: pointer; }
-.aic-playback-controls { position: sticky; top: 0; padding-block: 0.75rem; background: var(--surface); border-bottom: 1px solid var(--line-strong); }
-@media (max-width: 39.99rem) {
-  .aic-scenario-selector [data-slot="toggle-group-item"] { padding-inline: 0.25rem; font-size: 0.8125rem; }
+.aic-request summary {
+  min-height: 2.75rem;
+  padding-block: 0.4rem;
+  cursor: pointer;
 }
-
+.aic-playback-controls {
+  position: sticky;
+  top: 0;
+  padding-block: 0.75rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line-strong);
+}
+@media (max-width: 39.99rem) {
+  .aic-scenario-selector [data-slot="toggle-group-item"] {
+    padding-inline: 0.25rem;
+    font-size: 0.8125rem;
+  }
+}
 
 /* AIC films use the same build-time Remotion system as the governed-question diagram. */
 .aic-example-card {
@@ -2713,4 +2778,153 @@ nav[aria-label="Table of contents"] a:nth-child(n + 13) {
 .aic-stage-title .aic-stage-index {
   flex-shrink: 0;
   margin: 0;
+}
+
+/* Pricing studio: keep the decision and the prepaid total together on screen. */
+.pricing-prepaid-overview {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+.pricing-prepaid-monthly {
+  display: grid;
+  gap: 0.2rem;
+  line-height: 1.4;
+}
+.pricing-page .pricing-estimate .pricing-prepaid-monthly > span {
+  color: var(--surface-inverse-muted);
+}
+.pricing-page .pricing-estimate .pricing-prepaid-monthly > strong {
+  font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+.pricing-prepaid-totals {
+  display: grid;
+  gap: 0.35rem;
+  border-top: 1px solid var(--surface-inverse-line);
+  padding-top: 0.75rem;
+  line-height: 1.4;
+}
+.pricing-page .pricing-estimate .pricing-prepaid-totals > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.pricing-page .pricing-estimate .pricing-prepaid-totals dt {
+  color: var(--surface-inverse-muted);
+}
+.pricing-prepaid-totals dd {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.pricing-prepaid-details {
+  margin-top: 0.5rem;
+}
+.pricing-prepaid-details summary {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.pricing-prepaid-details .pricing-line-items {
+  margin-top: 0.5rem;
+}
+@media (min-width: 64rem) {
+  .pricing-studio-heading {
+    margin-bottom: 1rem;
+  }
+  .pricing-workbench {
+    gap: 1.25rem;
+  }
+  .pricing-controls,
+  .pricing-estimate {
+    padding: 1.35rem;
+  }
+  .pricing-controls [data-slot="field-group"] {
+    gap: 1.15rem;
+  }
+  .pricing-controls [data-slot="field-set"] {
+    gap: 0.65rem;
+  }
+  .pricing-controls .pricing-plan-choice {
+    padding: 0.65rem 0.4rem;
+    gap: 0.4rem;
+  }
+  .pricing-estimate-heading {
+    padding-bottom: 0.65rem;
+  }
+  .pricing-selected-plan {
+    margin-top: 0.75rem;
+  }
+  .pricing-estimate .pricing-slab-details {
+    margin-top: 0.65rem;
+  }
+  .pricing-estimate-caption {
+    line-height: 1.4;
+  }
+}
+.pricing-estimate-breakdown {
+  border-top: 1px solid var(--surface-inverse-line);
+  margin-top: 0.75rem;
+}
+.pricing-estimate-breakdown > summary {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+@media print {
+  .pricing-estimate-breakdown:not([open]) > :not(summary) {
+    display: revert;
+  }
+}
+
+/* Student slabs share the estimate surface and make progressive pricing visible. */
+.pricing-slab-summary {
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--surface-inverse-line);
+  padding-top: 0.75rem;
+}
+.pricing-slab-summary > p {
+  color: var(--surface-inverse-muted);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.pricing-slab-summary .pricing-slab-cards {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
+  grid-auto-flow: row;
+  padding-top: 0.5rem;
+  gap: 0.5rem;
+}
+.pricing-slab-summary .pricing-slab-card {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--cite-neon) 32%, var(--surface-inverse));
+  border-radius: var(--radius);
+  padding: 0.65rem;
+  background: color-mix(in srgb, var(--surface-inverse) 92%, var(--cite-neon) 8%);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--cite-neon) 10%, transparent);
+}
+.pricing-slab-summary .pricing-slab-calculation {
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+}
+.pricing-slab-summary .pricing-slab-card dd {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.pricing-page .pricing-estimate .pricing-term-subtotal {
+  border-top: 1px solid var(--surface-inverse-line);
+  padding-top: 0.45rem;
+  font-weight: 600;
+}
+.pricing-page .pricing-estimate .pricing-licence-prices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.15rem 0.5rem;
+}
+.pricing-page .pricing-estimate .pricing-original-price {
+  color: var(--surface-inverse-muted);
 }

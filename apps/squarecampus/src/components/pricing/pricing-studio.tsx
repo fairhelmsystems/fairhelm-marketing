@@ -5,6 +5,7 @@ import { useEffect, useReducer, useState } from "react";
 import {
   planIds,
   calculateLicence,
+  calculatePrepaidLicence,
   pricingPolicy,
   publicEstimateTax,
   publicDataEventsApiPricing,
@@ -50,6 +51,15 @@ export function PricingStudio() {
   const [announcement, setAnnouncement] = useState("");
   const estimate = getStudioEstimate(state);
   const { selected, recommendation } = estimate;
+  const prepaid =
+    selected && estimate.termYears !== null
+      ? calculatePrepaidLicence(
+          selected.plan,
+          selected.fixed.students,
+          estimate.termYears,
+          publicEstimateTax
+        )
+      : null;
   const selectedPlan = selected?.plan ?? state.plan;
   const planName = pricingPolicy.plans[selectedPlan].name;
   const PlanIcon = planIcons[selectedPlan];
@@ -113,7 +123,7 @@ export function PricingStudio() {
     <div className="pricing-studio" id="pricing-studio">
       <div className="pricing-studio-heading">
         <h2 className="type-section-title">Price your institution.</h2>
-        <p>One annual subscription. Every generally available feature.</p>
+        <p>Choose a prepaid term. Every generally available standard feature.</p>
       </div>
       {restoreNotice && (
         <p className="pricing-notice" role="status">
@@ -134,19 +144,16 @@ export function PricingStudio() {
               error={estimate.errors.students}
               onChange={(students) => setInputs({ students })}
             />
-            {selected && canQuote && (
+            {selected && canQuote && prepaid && (
               <div className="pricing-mobile-summary">
                 <span className="pricing-mobile-plan">
                   <PlanIcon aria-hidden />
-                  <b>{planName}</b> {apiPriceMissing ? "known subtotal" : "purchase year"}
+                  <b>{planName}</b> prepaid platform licence
                 </span>
-                <strong>{formatInr(selected.fixed.purchaseYearWithPrepaidPaise)}</strong>
+                <strong>{formatInr(prepaid.prepaidPaise)} upfront</strong>
                 <span>
-                  {apiPriceMissing
-                    ? "API fee unconfigured and excluded. GST and usage extra."
-                    : selected.fixed.prepaidAic.totalPaise > 0
-                      ? "Includes selected prepaid AIC. GST is additional."
-                      : "Fixed subtotal excluding GST and additional usage"}
+                  {prepaid.years} {prepaid.years === 1 ? "year" : "years"}; GST and optional
+                  services extra. Monthly amounts are equivalents only.
                 </span>
                 <a href="#live-estimate">Full breakdown</a>
               </div>
@@ -186,6 +193,28 @@ export function PricingStudio() {
                   );
                 })}
               </ToggleGroup>
+            </FieldSet>
+            <FieldSet>
+              <FieldLegend>Prepaid commitment</FieldLegend>
+              <ToggleGroup
+                aria-label="Prepaid commitment in years"
+                value={[state.inputs.termYears]}
+                variant="outline"
+                className="w-full items-stretch"
+                onValueChange={(values) =>
+                  setInputs({ termYears: values[0] ?? state.inputs.termYears })
+                }
+              >
+                {[1, 2, 3, 4, 5].map((year) => (
+                  <ToggleGroupItem key={year} value={String(year)} className="min-h-12 flex-1">
+                    {year} {year === 1 ? "year" : "years"}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+              <p className="type-support">
+                The entire selected licence term is payable upfront. Optional services and usage are
+                separate.
+              </p>
             </FieldSet>
             <ResponsiveDisclosure label="Add optional services">
               <FieldSet>
@@ -351,7 +380,7 @@ export function PricingStudio() {
           >
             <div className="pricing-estimate-heading">
               <h2 id="live-estimate-heading">Live estimate</h2>
-              <span>INR / billed annually</span>
+              <span>INR / prepaid licence and annual service estimates</span>
             </div>
             {selected && canQuote ? (
               <>
@@ -359,14 +388,88 @@ export function PricingStudio() {
                   <PlanIcon aria-hidden />
                   {planName}
                 </p>
+                {prepaid && (
+                  <section aria-labelledby="prepaid-heading" className="pricing-slab-details">
+                    <h3 id="prepaid-heading">Your effective monthly licence cost</h3>
+                    <p>
+                      {prepaid.discountPercent}% commitment discount for {planName}, {prepaid.years}{" "}
+                      {prepaid.years === 1 ? "year" : "years"}.
+                    </p>
+                    <dl className="pricing-line-items">
+                      <div>
+                        <dt>Standard monthly equivalent</dt>
+                        <dd>
+                          {prepaid.discountPercent > 0 ? (
+                            <s>{formatInr(prepaid.standardMonthlyPaise)}</s>
+                          ) : (
+                            formatInr(prepaid.standardMonthlyPaise)
+                          )}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Discounted monthly equivalent</dt>
+                        <dd>
+                          <strong>{formatInr(prepaid.discountedMonthlyPaise)}</strong>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Monthly equivalent savings ({prepaid.discountPercent}%)</dt>
+                        <dd>{formatInr(prepaid.monthlySavingsPaise)}</dd>
+                      </div>
+                      <div>
+                        <dt>Standard per student / month</dt>
+                        <dd>{formatInr(prepaid.standardStudentMonthlyPaise)}</dd>
+                      </div>
+                      <div>
+                        <dt>Discounted per student / month</dt>
+                        <dd>{formatInr(prepaid.discountedStudentMonthlyPaise)}</dd>
+                      </div>
+                      <div>
+                        <dt>Licence savings over the term</dt>
+                        <dd>{formatInr(prepaid.totalSavingsPaise)}</dd>
+                      </div>
+                      <div>
+                        <dt>Upfront platform licence</dt>
+                        <dd>
+                          <strong>{formatInr(prepaid.prepaidPaise)}</strong>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>
+                          Estimated licence GST
+                          {publicEstimateTax ? ` (${publicEstimateTax.basisPoints / 100}%)` : ""}
+                        </dt>
+                        <dd>
+                          {prepaid.gstPaise === null ? "Unconfigured" : formatInr(prepaid.gstPaise)}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Upfront licence including estimated GST</dt>
+                        <dd>
+                          {prepaid.invoiceTotalPaise === null
+                            ? "Unconfigured"
+                            : formatInr(prepaid.invoiceTotalPaise)}
+                        </dd>
+                      </div>
+                    </dl>
+                    <p className="pricing-estimate-caption">
+                      Monthly figures are pricing equivalents only. The entire contracted
+                      subscription term is payable upfront. Calculations use the selected enrolment
+                      baseline. Additional students may result in separately payable annual
+                      adjustments, subject to approved terms. Optional services, usage and their
+                      taxes are separate and are not included in this licence-only total.
+                    </p>
+                  </section>
+                )}
+                <h3>Annual reference and optional services</h3>
                 <dl>
                   <div className="pricing-total">
                     <dt>
                       {apiPriceMissing
-                        ? "Known purchase-year subtotal"
+                        ? "Known annual reference subtotal"
                         : selected.fixed.prepaidAic.totalPaise > 0
-                          ? "Purchase year with prepaid AIC"
-                          : "Purchase-year fixed subtotal"}
+                          ? "Annual reference with prepaid AIC"
+                          : "Annual reference fixed subtotal"}
                     </dt>
                     <dd className="pricing-total-number" data-testid="first-year-total">
                       {formatInr(selected.fixed.purchaseYearWithPrepaidPaise)}
@@ -376,7 +479,7 @@ export function PricingStudio() {
                 <p className="pricing-estimate-caption">
                   {selected.fixed.prepaidAic.totalPaise > 0
                     ? "Includes selected prepaid AIC. GST and custom services are separate."
-                    : "Annual subscription estimate excluding additional usage. GST and custom services are separate."}
+                    : "Annual reference only; the selected prepaid term licence is shown above. GST and custom services are separate."}
                 </p>
                 <dl className="pricing-line-items pricing-tax-summary">
                   <div>
@@ -391,7 +494,7 @@ export function PricingStudio() {
                     </dd>
                   </div>
                   <div>
-                    <dt>Purchase year including estimated GST</dt>
+                    <dt>Annual reference including estimated GST</dt>
                     <dd data-testid="purchase-year-with-gst">
                       {selected.fixed.firstYearIncludingTaxPaise === null
                         ? "Incomplete price"

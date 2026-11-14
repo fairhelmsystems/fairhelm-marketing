@@ -323,10 +323,10 @@ export const CARDS = {
     path: "faq",
   },
   "launch-partners": {
-    label: "FOUNDING PARTNERS",
-    headline: "Shape the School OS against a real bottleneck.",
+    label: "FOUNDING PILOT",
+    headline: "Start with SquareCampus this academic year.",
     subhead:
-      "A founder-led pilot for schools, school groups and trusts, with preferential founding terms and a written baseline.",
+      "INR 50,000 + GST for an agreed pilot scope through 31 March 2027.",
     path: "launch-partners",
   },
   blog: {

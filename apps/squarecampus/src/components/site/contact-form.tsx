@@ -765,8 +765,7 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
               {isFoundingPartner ? (
                 <div className="grid gap-5 rounded-2xl border border-(--line) bg-(--surface-sunken) p-4 sm:p-5">
                   <p className="text-sm leading-6 text-muted-foreground">
-                    The diagnosis is only as good as the bottleneck. Anything you can answer here
-                    makes the first conversation shorter and more concrete. All optional.
+                    Share what you can to help us scope the pilot. All fields below are optional; please do not include student personal data.
                   </p>
                   <Field id={`${ids}-bottleneck`} label="The operational bottleneck" optional>
                     <textarea
@@ -825,13 +824,13 @@ export function ContactForm({ intent = "demo" }: { intent?: FormIntent }) {
                 </div>
               ) : null}
 
-              <Field id={`${ids}-message`} label="Anything the session should focus on?" optional>
+              <Field id={`${ids}-message`} label={isFoundingPartner ? "City and state, school or school-group category, approximate students, workflows and preferred activation date" : "Anything the session should focus on?"} optional>
                 <textarea
                   id={`${ids}-message`}
                   name="message"
                   rows={3}
                   className={cn(fieldClassName, "h-auto resize-y py-3")}
-                  placeholder="Current stack, timelines, or the one workflow you want to see."
+                  placeholder={isFoundingPartner ? "Location, institution category, student count, workflows and timing" : "Current stack, timelines, or the one workflow you want to see."}
                   value={state.message}
                   onChange={(event) => set("message", event.target.value)}
                 />

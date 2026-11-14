@@ -212,9 +212,9 @@ export default function PricingPage() {
         </details>
       </SectionShell>
       <SectionShell
-        mobileDisclosure="Founding partnership"
+        mobileDisclosure="Founding pilot"
         id="founding"
-        title="A separate, paid route: founding partnership."
+        title="Founding Institutional Pilot 2026–27."
       >
         <details className="pricing-programme" data-md-include>
           <summary>{foundingProgramme.name}</summary>
@@ -223,12 +223,11 @@ export default function PricingPage() {
           </p>
           <p>{foundingProgramme.pilot.paidNote}</p>
           <p>
-            Founding pilots run for {foundingProgramme.pilot.window}, with the choice to convert,
-            extend or stop. {launchPilot.separation}
+            Access runs {foundingProgramme.pilot.window} from the agreed activation date. Renewal is optional at standard annual pricing, with no automatic credit for the pilot fee. {launchPilot.separation}
           </p>
           <ButtonLink
             href="/launch-partners/"
-            label="Review founding partnerships"
+            label="Review the founding pilot"
             variant="secondary"
           />
         </details>

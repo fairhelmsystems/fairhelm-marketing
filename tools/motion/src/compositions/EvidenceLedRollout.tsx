@@ -69,7 +69,7 @@ const COPY: Record<RolloutVariant, { eyebrow: string; title: string }> = {
   // rollout variant repeated its page's <h1>. Both now say something the
   // surrounding copy does not.
   founding: {
-    eyebrow: "Founding institutional partner",
+    eyebrow: "Founding institutional pilot",
     title: "One bottleneck. One baseline. One decision.",
   },
   rollout: {
@@ -246,7 +246,7 @@ const PilotStage: React.FC<{ theme: MotionTheme; frame: number; from: number }> 
   return (
     <>
       <StatusChip theme={theme} tone="brand" style={rise(frame, from)}>
-        60–90 day pilot
+        Through 31 March 2027
       </StatusChip>
       <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12, minWidth: 0 }}>

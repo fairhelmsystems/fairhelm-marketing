@@ -174,7 +174,7 @@ export const MOTION_ENTRIES: MotionEntry[] = [
     "founding",
     "founding-partner-path",
     1,
-    "Four stages of the Founding Institutional Partner pilot: one bottleneck is chosen, a baseline is written down, the current system and SquareCampus run in parallel for 60 to 90 days, and the institution converts, extends or stops against the agreed measure.",
+    "Four stages of the founding pilot: agree scope, establish a baseline, evaluate the agreed workflows, and choose whether to subscribe.",
   ),
   rollout(
     "rollout",

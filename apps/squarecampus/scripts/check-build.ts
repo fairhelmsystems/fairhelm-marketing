@@ -293,7 +293,7 @@ for (const route of CRITICAL) {
     if (!html.includes(`href="${launchPilot.enquiryHref}"`))
       fail("/pricing: launch-pilot enquiry CTA missing");
     if (/\bPro\b/.test(visibleText)) fail("/pricing: the public pro plan name must be Growth");
-    for (const text of [corePlatform.promise, "Choose a plan", "Purchase-year fixed subtotal", "Annual subscription estimate excluding additional usage", "One School OS. Open by design.", "Data & Events API", "₹2,500/year", "₹5,000/year", "₹10,000/year", "250 RPM", "500 RPM", "4,000 RPM"])
+    for (const text of [corePlatform.promise, "Choose a plan", "Annual reference fixed subtotal", "the selected prepaid term licence is shown above", "Your effective monthly licence cost", "The entire contracted subscription term is payable upfront", "One School OS. Open by design.", "Data & Events API", "₹2,500/year", "₹5,000/year", "₹10,000/year", "250 RPM", "500 RPM", "4,000 RPM"])
       if (!visibleText.includes(normaliseText(text))) fail(`/pricing: missing calculator contract: ${text}`);
     for (const plan of planIds) {
       const annual = calculateLicence(plan, 1200).annualLicencePaise / 100;

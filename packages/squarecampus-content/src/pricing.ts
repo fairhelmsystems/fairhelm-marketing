@@ -91,6 +91,62 @@ export function calculateLicence(plan: PlanId, students: number) {
   };
 }
 
+/** Prepaid platform licence only; add-ons and usage retain their own terms. */
+export function calculatePrepaidLicence(
+  plan: PlanId,
+  students: number,
+  years: number,
+  tax: TaxPolicy | null = null
+) {
+  if (!Number.isInteger(years) || years < 1 || years > 5)
+    throw new RangeError("Choose a term from one to five years.");
+  const annual = calculateLicence(plan, students).annualLicencePaise;
+  const discountPercent =
+    pricingPolicy.prepaidCommitment.discountPercent[String(years) as "1" | "2" | "3" | "4" | "5"][
+      plan
+    ];
+  const round = (numerator: bigint, denominator: bigint) =>
+    safeMoney(Number((numerator * BigInt(2) + denominator) / (BigInt(2) * denominator)));
+  const amount = BigInt(annual);
+  const factor = BigInt(100 - discountPercent);
+  const discountedAnnualNumerator = amount * factor;
+  const standardMonthlyPaise = round(amount, BigInt(12));
+  const discountedMonthlyPaise = round(discountedAnnualNumerator, BigInt(1200));
+  const prepaidPaise = round(discountedAnnualNumerator * BigInt(years), BigInt(100));
+  const undiscountedTermPaise = safeMoney(annual * years);
+  const gstPaise = tax === null ? null : taxPaise(prepaidPaise, tax);
+  return {
+    years,
+    discountPercent,
+    annualLicencePaise: annual,
+    standardMonthlyPaise,
+    discountedMonthlyPaise,
+    monthlySavingsPaise: round(amount * BigInt(discountPercent), BigInt(1200)),
+    standardStudentMonthlyPaise: round(amount, BigInt(12 * students)),
+    discountedStudentMonthlyPaise: round(discountedAnnualNumerator, BigInt(1200 * students)),
+    prepaidPaise,
+    totalSavingsPaise: undiscountedTermPaise - prepaidPaise,
+    gstPaise,
+    invoiceTotalPaise: gstPaise === null ? null : safeMoney(prepaidPaise + gstPaise),
+  };
+}
+
+/** Illustrative proposed annual adjustment; does not create or authorize an invoice. */
+export function calculateProposedAnnualGrowthAdjustment(
+  plan: PlanId,
+  baselineStudents: number,
+  censusStudents: number,
+  years: number
+) {
+  const baseline = calculatePrepaidLicence(plan, baselineStudents, years);
+  assertQuantity(censusStudents, pricingPolicy.validation.maxStudents);
+  if (censusStudents <= baselineStudents) return 0;
+  const census = calculateLicence(plan, censusStudents).annualLicencePaise;
+  const difference = Math.max(0, census - baseline.annualLicencePaise);
+  const numerator = BigInt(difference) * BigInt(100 - baseline.discountPercent);
+  return Number((numerator * BigInt(2) + BigInt(100)) / BigInt(200));
+}
+
 export type AddOns = {
   sso: boolean;
   dataEventsApi?: boolean;

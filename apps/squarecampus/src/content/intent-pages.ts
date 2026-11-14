@@ -568,7 +568,7 @@ export const intentPages: IntentPage[] = [
       },
       {
         href: "/launch-partners/",
-        label: "Founding Institutional Partners",
+        label: "Founding Institutional Pilot",
         note: "The programme for school groups",
       },
       { href: "/aegis/", label: "AEGIS", note: "Cross-campus questions, answered in scope" },

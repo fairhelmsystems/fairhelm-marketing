@@ -5,6 +5,8 @@ import {
   legacyAicPacks,
   formatInr,
   calculateAicPurchase,
+  calculatePrepaidLicence,
+  publicEstimateTax,
   assertStudentCount,
   isPlanId,
   pricingPolicy,
@@ -15,6 +17,7 @@ import type { PlanId } from "@/content/commercial";
 
 export type StudioInputs = {
   students: string;
+  termYears: string;
   smsSegments: string;
   recipientEmails: string;
   whatsappMessages: string;
@@ -29,6 +32,7 @@ export const initialStudioState: StudioState = {
   plan: "starter",
   inputs: {
     students: "1200",
+    termYears: "1",
     smsSegments: "",
     recipientEmails: "",
     whatsappMessages: "",
@@ -71,6 +75,7 @@ export function parseStudioInputs(inputs: StudioInputs) {
   const errors: Partial<
     Record<
       | "students"
+      | "termYears"
       | "smsSegments"
       | "recipientEmails"
       | "whatsappMessages"
@@ -87,6 +92,8 @@ export function parseStudioInputs(inputs: StudioInputs) {
   );
   if (students === null)
     errors.students = `Enter a whole student count from ${pricingPolicy.validation.minStudents.toLocaleString("en-IN")} to ${pricingPolicy.validation.maxStudents.toLocaleString("en-IN")}, using digits only.`;
+  const termYears = parseWholeNumber(inputs.termYears, 5, 1);
+  if (termYears === null) errors.termYears = "Choose a term from one to five years.";
   const channels = { smsSegments: 0, recipientEmails: 0, whatsappMessages: 0 };
   for (const key of ["smsSegments", "recipientEmails", "whatsappMessages"] as const) {
     if (inputs[key] === "") continue;
@@ -136,6 +143,7 @@ export function parseStudioInputs(inputs: StudioInputs) {
   }
   return {
     students,
+    termYears,
     usage,
     selectedAicCredits,
     errors,
@@ -182,6 +190,7 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
 
 const inputKeys = [
   "students",
+  "termYears",
   "prepaidAicCredits",
   "smsSegments",
   "recipientEmails",
@@ -325,7 +334,14 @@ export function formatAic(milliAic: number) {
 export function estimateEnquiryMessage(state: StudioState) {
   const selected = getStudioEstimate(state).selected;
   if (!selected?.fixed.eligible) return null;
+  const prepaid = calculatePrepaidLicence(
+    selected.plan,
+    selected.fixed.students,
+    Number(state.inputs.termYears),
+    publicEstimateTax
+  );
   return [
+    `Prepaid platform licence: ${prepaid.years} years, ${prepaid.discountPercent}% discount, ${formatInr(prepaid.prepaidPaise)} upfront before GST. Additional students may result in a separately payable annual adjustment, subject to approval and agreement.`,
     `Please review my SquareCampus pricing estimate (${pricingPolicy.version}).`,
     `${pricingPolicy.plans[selected.plan].name} for ${selected.fixed.students} enrolled students.`,
     `Annual licence ${formatInr(selected.fixed.annualLicencePaise)}.`,

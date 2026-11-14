@@ -185,7 +185,7 @@ export const llmsSections: LlmsSection[] = [
         path: "/launch-partners/higher-education",
         title: "Higher education",
         description:
-          "For private universities and multi-school groups: a governed operating layer that runs alongside the existing ERP, LMS, payment and identity systems. Not a university ERP, SIS or LMS",
+          "Higher-education requirements are separately assessed and scoped.",
       },
       {
         path: "/services",
@@ -215,8 +215,8 @@ export const llmsSections: LlmsSection[] = [
       },
       {
         path: "/launch-partners",
-        title: "Founding Institutional Partner programme",
-        description: `${foundingProgramme.positionsStatement} ${foundingProgramme.nature} Entitlements under the executed agreement: ${foundingProgramme.entitlements.map((e) => e.title.toLowerCase()).join(", ")}`,
+        title: "Founding Institutional Pilot 2026–27",
+        description: `${foundingProgramme.positionsStatement} ${foundingProgramme.nature} Standard modules become available within the agreed scope as released. Renewal is optional at ordinary annual prices.`,
       },
     ],
   },

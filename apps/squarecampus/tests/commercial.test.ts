@@ -13,7 +13,7 @@ import {
 } from "../src/content/commercial";
 import { company } from "../src/content/company";
 import { faqs } from "../src/content/faq";
-import { foundingPartners, higherEducationPartners } from "../src/content/founding-partners";
+import policy from "@fairhelm/squarecampus-content/pricing-policy.json";
 import { plans, pricingFaqs, WHITE_LABEL_NOTE } from "../src/content/pricing";
 import { pricingPolicy } from "@fairhelm/squarecampus-content/pricing";
 import { securityFaqs } from "../src/content/security-faq";
@@ -30,41 +30,22 @@ test("Fairhelm owns the publisher accounts for standard and white-label mobile a
   assert.ok(WHITE_LABEL_NOTE.includes(mobileAppPublishing));
 });
 
-test("exactly two Founding Institutional Partner positions, one school and one university", () => {
-  assert.equal(foundingProgramme.positions, 2);
-  assert.equal(foundingProgramme.positionLabels.length, 2);
-  assert.match(foundingProgramme.positionLabels[0], /school/i);
-  assert.match(foundingProgramme.positionLabels[1], /university/i);
-  assert.match(foundingProgramme.positionsStatement, /exactly two/i);
-  assert.match(foundingProgramme.closure, /closes permanently/i);
+test("founding pilot has a fixed fee and no automatic conversion", () => {
+  const pilot = policy.foundingPilot;
+  assert.equal(pilot.feePaise, 5000000);
+  assert.equal(pilot.autoRenew, false);
+  assert.equal(pilot.conversionCreditPaise, 0);
+  assert.equal(pilot.accessEnd, "2027-03-31T23:59:00+05:30");
+  assert.match(pilot.tax, /additional/);
+  assert.match(pilot.scope, /limits/);
+  assert.match(foundingProgramme.nature, /₹50,000/);
 });
 
-test("the protected Enterprise discount is 40% and carries no duration", () => {
-  assert.equal(foundingProgramme.enterpriseDiscountPercent, 40);
-  const text = JSON.stringify([foundingProgramme, foundingPartners, higherEducationPartners]);
-  assert.match(text, /40% (Enterprise )?discount|40% discount on Enterprise/);
-  assert.doesNotMatch(text, /lifetime/i);
-  assert.doesNotMatch(text, /initial term/i);
-  assert.doesNotMatch(text, /for the agreed term/i);
-});
-
-test("Founding Partner copy uses neutral commitment wording and no securities language", () => {
-  const text = JSON.stringify([foundingProgramme, foundingPartners, higherEducationPartners]);
-  assert.match(text, /strategic capital commitment under a separately executed agreement/);
-  for (const hit of findStaleClaims(text)) {
-    assert.fail(`stale claim in founding partner content: ${hit.pattern} (${hit.reason})`);
-  }
-  assert.doesNotMatch(text, /cohort/i);
-});
-
-test("roadmap influence is bounded: no veto, control or IP ownership", () => {
-  const boundaries = foundingProgramme.boundaries.join(" ");
-  assert.match(boundaries, /not a veto/);
-  assert.match(boundaries, /intellectual property/i);
-  assert.match(
-    boundaries,
-    /retains final product, architecture, security and engineering authority/
-  );
+test("current founding programme excludes superseded public terms", () => {
+  const text = JSON.stringify(foundingProgramme);
+  assert.doesNotMatch(text, /60[–-]90|40%|strategic capital|exactly two|white.labelled/i);
+  assert.match(text, /generally available/i);
+  assert.equal(50000 * 0.18, 9000);
 });
 
 test("stable plan identifiers expose Growth and equal generally available feature eligibility", () => {

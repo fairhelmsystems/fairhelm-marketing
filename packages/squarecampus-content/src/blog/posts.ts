@@ -577,7 +577,7 @@ export const allBlogPosts: BlogPost[] = [
         heading: "In higher education, the gap runs between systems you already own",
         paragraphs: [
           "For a private university or a multi-school group, the same gap wears different clothes. The systems already exist and mostly work: an application portal collects applications, an ERP holds the student record, a payment gateway takes the fees. The gap runs between them. A payment succeeds at the gateway but is not reflected against the application, so the applicant is chased for money already paid. A verified application waits for seat allocation in another office’s system, owned by nobody that either office can name.",
-          "The instinct is to replace one of the systems, and it is usually the wrong instinct. The portal, the ERP and the gateway stay authoritative — they are not the problem. The problem is that nobody governs the case as it crosses between them. So the wedge is an exception queue that sits across those systems: every stalled case with a named owner and a current position, while each underlying system keeps doing its job. That is the shape of the higher-education route described at squarecampus.com/launch-partners/higher-education/ — one bounded workflow, run alongside what already exists.",
+          "The instinct is to replace one of the systems, and it is usually the wrong instinct. The portal, the ERP and the gateway stay authoritative — they are not the problem. The problem is that nobody governs the case as it crosses between them. Higher-education requirements need separate assessment and scope.",
         ],
       },
       {
@@ -1715,153 +1715,19 @@ export const allBlogPosts: BlogPost[] = [
   },
   {
     slug: "founding-institutional-partner-pilot",
-    title: "What a Founding Institutional Partner Pilot Actually Involves",
-    summary:
-      "What a founding pilot with SquareCampus actually involves: a paid, scoped 60–90 day engagement, a written baseline, one success measure, and a real way to stop.",
+    title: "The Founding Institutional Pilot for 2026–27",
+    summary: "A fixed-price, scoped school pilot through 31 March 2027, with optional annual renewal.",
     date: "2026-08-29",
-    tag: "Founding partners",
-    tags: [
-      "founding institutional partner",
-      "school operating system",
-      "pilot programme",
-      "indian schools",
-      "vendor evaluation",
-    ],
-    readingTime: "11 min read",
-    image: {
-      src: "/images/blog/founding-partner-hero.webp",
-      alt: "Morning light falling across an empty administrative office in an Indian school, with wooden desks, stacked paper files and a ceiling fan.",
-      caption:
-        "A pilot is a bounded piece of work with a written finish line — not a leap of faith.",
-    },
-    hero: {
-      eyebrow: "Founding partners",
-      lede: "SquareCampus is a School Operating System — an institutional decision layer for Indian schools and educational trusts. The Founding Institutional Partner programme is the most consequential way to adopt it, so this is the plainest thing we have published about it: what a pilot is, what it asks of an institution, what it deliberately does not promise, and how to decide whether to apply — including how to decide against.",
-    },
+    tag: "Founding pilot",
+    tags: ["school operating system", "pilot programme"],
+    readingTime: "2 min read",
+    hero: { eyebrow: "Founding pilot", lede: "Evaluate SquareCampus during the remaining 2026–27 academic cycle." },
     sections: [
-      {
-        heading: "A founding pilot is paid work, agreed in writing",
-        paragraphs: [
-          `${launchPilot.separation} ${launchPilot.summary} Details are on squarecampus.com/pricing/.`,
-          "Here is the sentence some vendors save for the proposal call, and we would rather you read it first: a Founding Institutional Partner pilot is a paid, scoped commercial engagement. Scope, success measures, fees and conversion terms are agreed in writing before implementation begins. It is not a free trial. It is not an unlimited custom-development programme. It is a bounded piece of work with a written finish line, and money changes hands. No figure appears in this post or anywhere on our site, because the number depends on scope — but the fact of it should never be a surprise.",
-          "We put this first for a practical reason. ‘Founding partner’ and ‘help shape the roadmap’ can reasonably sound like a free or subsidised arrangement. A trustee who forms that impression and then discovers otherwise on the first call trusts everything else we say a little less — and a pilot runs on trust from its opening week. Discovering the commercial reality here, in a blog post, costs nothing. Discovering it in front of your board costs the relationship its footing.",
-          "The written agreement is also where the honesty runs in both directions. SquareCampus is a young company, and you should weigh that plainly rather than politely ignore it. The pilot structure exists because of that fact, not despite it: the scope is small, your current systems keep running, your data stays exportable throughout, and stopping at the end is a published outcome. Everything in the rest of this post is a protection you can hold us to on paper.",
-        ],
-      },
-      {
-        heading: "The pilot is deliberately small",
-        paragraphs: [
-          "A founding pilot solves one measurable operating bottleneck, on one campus or one agreed bundle of workflows, in 60–90 days. A bottleneck is simply a place where work piles up — fees that take days to reconcile, admissions enquiries that stall between offices, reports that contradict each other. The pilot picks one, not five. If the first conversation surfaces several problems worth solving, we still start with one, because one problem can be measured and five can only be discussed.",
-          "Small is not a limitation; it is the design. A pilot that spreads across the whole institution cannot finish inside a term, and a pilot that cannot finish cannot be judged. It quietly becomes a phased programme nobody agreed to, with a renewal conversation where a verdict should have been. Bounding the work is what makes the verdict possible — and the verdict, not the deployment, is the product of a pilot.",
-        ],
-        bullets: [
-          "One bottleneck: a single operating problem whose cost or delay can be observed today — not a general wish to digitise.",
-          "One deployment: one campus, or one agreed workflow bundle. Not the whole institution at once.",
-          "One window: 60–90 days, sequenced around admissions, fee deadlines, examinations and results rather than through them.",
-          "One success measure: agreed in writing before implementation, so the closing conversation is about a number, not a feeling.",
-          "No rip-and-replace: nothing your institution currently depends on is switched off to find out whether this works.",
-        ],
-      },
-      {
-        heading: "Write the baseline down before anything is installed",
-        paragraphs: [
-          "A baseline is a written record of how the workflow performs today, before anything changes: how long it takes, who owns each step, where it stalls, and what it costs in staff hours or delay. It is written before implementation begins — not reconstructed afterwards, when memory has already picked a side. Alongside it, both sides agree one success measure: the single number or observable change the pilot will be judged against at the end.",
-          "In practice this is not a research project. It is usually a few pages, drafted with your team during discovery. If the bottleneck is fee reconciliation, the baseline might record that closing a month currently takes the accounts office several working days across three systems, and name the person who carries that work. Nothing fancier is needed. What matters is that the starting position is on paper, agreed by the people who actually do the work, before the first login is created.",
-          "Without a baseline, a pilot produces opinions instead of evidence. The vendor remembers the wins, the sceptics remember the glitches, and the closing meeting becomes a negotiation over what everyone recalls. With a baseline, the closing meeting is short: here is where we started, here is where we are, here is what we agreed success would look like. Institutions run on that kind of record everywhere else. A pilot should not be the exception.",
-        ],
-        image: {
-          src: "/images/blog/founding-partner-baseline.webp",
-          alt: "An open blank register and a pen on a school office desk in India, with paper files stacked to one side.",
-          caption:
-            "The baseline goes on paper before implementation — so the result is measured, not argued.",
-          orientation: "right",
-        },
-      },
-      {
-        heading: "Someone senior has to own the outcome",
-        paragraphs: [
-          "Every founding pilot needs a named executive sponsor — a senior person inside the institution who owns the outcome as their own. A principal, a trustee, a director, a registrar, a group leader. Not a committee, and not the most junior person who could be spared. The sponsor is the answer to a simple question every pilot eventually asks: when this needs a decision, who makes it? If that question has no one-name answer on day one, it will be answered by delay on day forty.",
-          "The role is real work, though not heavy work. The sponsor convenes the people the workflow crosses, clears obstacles that staff cannot clear themselves, joins the weekly implementation reviews, and makes the convert, extend or stop decision at the end on the evidence. Where the sponsor’s authority is visible, staff treat the pilot as an institutional decision rather than an IT experiment happening to them — and that visibility does more for adoption than any feature.",
-          "If no one senior will put their name on the outcome, the honest reading is that the institution does not want the change yet. That is worth knowing before money and staff time are committed, not after. It is one of the questions we ask directly in the first conversation, and one of the grounds on which we will suggest not proceeding.",
-        ],
-      },
-      {
-        heading: "Your current systems stay on, and stay in charge",
-        paragraphs: [
-          "During the pilot, everything you already run stays in place and stays authoritative. Your ERP or student information system remains the system of record — the system whose numbers are treated as final whenever two systems disagree. Your LMS keeps teaching, your payment portal keeps collecting, your identity provider keeps deciding who logs in. SquareCampus is deployed as a governed operating layer around the chosen bottleneck, not as a replacement for the estate. Nothing is switched off to find out whether this works.",
-          "Anything your finance or academic teams must trust runs as a parallel run — the old process and the new one operating side by side, with results compared until the numbers agree and the teams say so. That is the same discipline described on the rollout page at squarecampus.com/rollout/, sequenced around admissions, fee deadlines, examinations and results. Where the AEGIS intelligence layer is part of the agreed scope, the same caution applies: it is role-scoped, grounded in your institution’s own records, auditable, and read-only in its first version. It is not a chatbot, and it does not act on its own.",
-          "This is also, frankly, your protection against us. A young vendor asking you to switch off working systems is asking you to carry its risk. We are asking for something much narrower: run the pilot alongside what you have, compare the results, and agree in writing, before the pilot starts, what data you can take out and in what form. If SquareCampus disappeared mid-pilot, your operations would continue exactly as they did before it arrived.",
-        ],
-        image: {
-          src: "/images/blog/founding-partner-parallel.webp",
-          alt: "Two adjacent desks in an Indian school records room, each holding its own ledgers, filing trays and stacked folders.",
-          caption:
-            "Old process and new, side by side, until the numbers agree and the teams say so.",
-          orientation: "left",
-        },
-      },
-      {
-        heading: "It ends with a decision: convert, extend, or stop",
-        paragraphs: [
-          "A founding pilot closes with one of three outcomes, and all three belong to the founding programme at squarecampus.com/launch-partners/ rather than negotiated in the room. The decision is made against the success measure agreed at the start, by the sponsor, on the evidence. There is no fourth outcome in which the pilot drifts on indefinitely because nobody wants to call it — that drift is the commonest way pilots fail institutions, and the published outcomes exist to prevent it.",
-          "Stopping is a real outcome, not a failure state anyone will argue you out of. An institution that stops leaves with three things: the measurement itself, the process documentation written during the pilot, and its data through the agreed export arrangements — the same ownership posture described on the trust page at squarecampus.com/security/. A written baseline and a clean stop leave you better equipped for your next evaluation, whoever it is with. We think that is a fair floor for a pilot with a young company.",
-          "The stop option is also what makes a conversion mean something. When walking away is easy, and expected as a possibility from the start, an institution that chooses to continue is doing so on evidence — and its board can defend that decision in one page. That is worth more to us than a renewal won by inertia. To be blunt, it is the only kind of institution a programme with two founding positions can be built on.",
-        ],
-        bullets: [
-          "Convert: the measure was met, and the institution moves onto the founding-partner commercial structure agreed before the pilot began.",
-          "Extend: the evidence is promising but incomplete — the same scope runs longer, under the same written terms, against the same measure.",
-          "Stop: the measure was not met, or priorities changed. The engagement ends, and the institution keeps its measurement, its documentation and its data.",
-        ],
-        image: {
-          src: "/images/blog/founding-partner-decision.webp",
-          alt: "Late-afternoon light in a quiet Indian school administrative office, chairs pushed in and files closed on the desks.",
-          caption: "Convert, extend, or stop — the pilot ends with a decision, not a drift.",
-          orientation: "top",
-        },
-      },
-      {
-        heading: "What founding status does not give you",
-        paragraphs: [
-          "Founding partner status carries real entitlements — a protected 40% discount on Enterprise commercial terms, white-labelled mobile apps without the standard white-label charge, a named implementation counterpart, defined influence on the roadmap. It is just as important to say what it does not create, because unspoken expectations surface at the worst possible moments. The list below is not small print; it is the same boundary published on the founding partner page at squarecampus.com/launch-partners/, and it applies to both Founding Partner positions equally.",
-          "Exact entitlements are governed by the proposal and the signed order form — not by this post, and not by anything said in a meeting. If a promise matters to your institution, ask for it in writing and expect to receive it in writing. That is the standard we recommend for every vendor evaluation, and we hold ourselves to it. A programme that trades on being honest cannot carry private side-arrangements that contradict the published one.",
-        ],
-        bullets: [
-          "No exclusivity: founding status does not prevent SquareCampus working with other institutions, including ones near you.",
-          "No ownership of SquareCampus intellectual property: workflows built during the pilot remain part of the product.",
-          "No veto over other customers, or over what the product becomes.",
-          "No unlimited bespoke engineering: the innovation allocation is defined and bounded in the proposal.",
-          "No guaranteed roadmap outcome: workflow proposals receive structured, written consideration — influence is real, command is not.",
-        ],
-      },
-      {
-        heading: "Who should not apply",
-        paragraphs: [
-          "The most useful thing we can publish about this programme is a list of institutions it will not serve well. Applying, being accepted, and then discovering mid-pilot that the fit was wrong costs a school far more than reading this section. If any of the following describes your institution today, a founding pilot is the wrong instrument — sometimes only for now, sometimes altogether. None of these are judgements about the institution; they are statements about what a pilot needs in order to work.",
-          "The mirror image is also true. An institution with a sponsor, a bottleneck it genuinely wants measured, and the capacity to take part in discovery and weekly reviews is exactly who the programme is for. There are two founding positions, one school and one university, and the programme closes when both are allocated — that is a statement about how the work is done, not a scarcity device, and you will not find a countdown anywhere on our site. The full programme, including the questions boards ask before saying yes, is on the founding partner page.",
-        ],
-        bullets: [
-          "No executive sponsor: if no principal, trustee, director, registrar or group leader will own the outcome, the pilot will drift no matter how good the software is.",
-          "No measurable bottleneck: ‘we should digitise’ is a mood, not a problem. A pilot needs a workflow whose cost or delay can be observed today.",
-          "No capacity during the term: if the coming 60–90 days hold a leadership transition, an inspection or an accreditation cycle, wait. A pilot competing for attention loses.",
-          "Wanting a cheaper attendance app: good, inexpensive point tools exist, and we will say so. An institutional decision layer is the wrong purchase for that need.",
-          "Wanting a free trial or unlimited custom development: the programme is neither, and no conversation will make it either.",
-        ],
-      },
-      {
-        heading: "Universities and multi-school groups take a different route",
-        paragraphs: [
-          "A private university or a multi-campus higher-education group is a different conversation, with its own page at squarecampus.com/launch-partners/higher-education/. The evidence model is identical — one bounded scope, one written baseline, one named sponsor, 60–90 days, then convert, extend or stop. But the wedge is usually different. Universities rarely lack software; they lose weeks in the gaps between systems that already exist. A pilot there typically governs an exception queue: a list of cases that fell between two systems — an admission that cleared one stage and stalled at the next, a payment that succeeded at the gateway but never matched the record — each with a named owner and a current position.",
-          "One boundary is worth stating even in a school-focused post: clinical and hospital information systems are outside the suggested pilot scope. Where an institution operates a teaching hospital, a pilot is scoped to non-clinical administrative workflows only, and SquareCampus makes no medical, patient-care, accreditation or regulatory claim. A wedge that touches patient care is not a wedge; it is a liability, and we will decline it. Naming that boundary up front protects the conversation more than silence would.",
-          "However you arrive — school, trust, group or university — the first step is the same and costs nothing: a 30-minute institutional diagnosis. Bring one bottleneck. Tell us where visibility arrives late, where ownership goes unclear, where staff rebuild the same truth by hand. We will tell you honestly whether it belongs in a founding pilot, and ‘not this, not yet’ is an answer we actually give. It is a strange way to market a programme. It is the only way to run this one.",
-        ],
-      },
+      { heading: "A defined commercial scope", paragraphs: ["The one-time fee is ₹50,000 plus applicable GST, invoiced upfront. An executed order form and confirmed payment precede activation. Access runs from the agreed activation date through 31 March 2027 at 23:59 IST, so later activation means a shorter period.", "The order form establishes the institution, campuses, users, workflows, available modules, onboarding, support, resource limits and evaluation criteria. Production-ready standard modules released during the pilot are included within scope without additional module licence charges. Separately chargeable services and consumption require agreed terms and authorization."] },
+      { heading: "Evaluating the pilot", paragraphs: ["The institution and SquareCampus agree a baseline, success measures and reporting appropriate to the selected workflows. Outcomes are assessed against evidence rather than assumed savings."] },
+      { heading: "A choice at the end", paragraphs: ["A written renewal quote is provided at least 30 days before the standard end date. The institution can choose standard annual pricing or exit without compulsory renewal. There is no automatic credit for the pilot fee. Data export and offboarding follow the agreement and applicable policies.", "The selected complimentary launch pilot remains a separate approval-only arrangement. Existing signed agreements retain their rights."] },
     ],
-    cta: {
-      heading: "Bring one bottleneck to the first conversation",
-      body: "A 30-minute institutional diagnosis, with no commitment on either side: where the workflow stalls, what a bounded 60–90 day pilot would cover, what it would measure, and whether a Founding Partner position is the right fit at all.",
-      href: "/launch-partners/#request-diagnosis",
-      label: "Request a partnership diagnosis",
-    },
+    cta: { heading: "Discuss your pilot scope", body: "Tell us about your institution and the work you want to evaluate.", href: "/launch-partners/#request-diagnosis", label: "Apply for the Founding Pilot" },
   },
   {
     slug: "how-to-choose-school-management-system",

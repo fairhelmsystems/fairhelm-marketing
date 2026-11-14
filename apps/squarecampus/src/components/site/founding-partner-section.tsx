@@ -41,7 +41,7 @@ export function FoundingPartnerSection() {
               />
               <ButtonLink
                 href={FOUNDING_PARTNER_DEMO_HREF}
-                label="Discuss partnership"
+                label="Apply for the Founding Pilot"
                 variant="ghost"
                 className="w-full justify-center sm:w-auto"
               />

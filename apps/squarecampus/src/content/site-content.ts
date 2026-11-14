@@ -26,7 +26,7 @@ export const siteCtas = {
 export const ctaLabels = {
   demo: "Book a demo",
   proposal: "Request a proposal",
-  foundingPartner: "Request a partnership diagnosis",
+  foundingPartner: "Apply for the Founding Pilot",
 } as const;
 
 export type NavLink = NavigationLink;
@@ -133,7 +133,7 @@ export const primaryNavigation: readonly (NavGroup | NavLink)[] = [
       { href: "/compare", label: "Compare school ERPs" },
       { href: "/faq", label: "FAQ" },
       { href: blogHref("/"), label: "Blog" },
-      { href: "/launch-partners", label: "Founding partners" },
+      { href: "/launch-partners", label: "Founding pilot" },
       { href: "/about", label: "About" },
       { href: "/contact", label: "Contact" },
     ],
@@ -186,7 +186,7 @@ export const footerGroups = [
       { href: "/school-management-software-for-icse-schools", label: "ICSE Schools" },
       { href: "/school-management-software-for-state-board-schools", label: "State Board Schools" },
       { href: "/launch-partners/higher-education", label: "Higher Education" },
-      { href: siteCtas.launchPartnersHref, label: "Founding Partners" },
+      { href: siteCtas.launchPartnersHref, label: "Founding Pilot" },
     ],
   },
   {

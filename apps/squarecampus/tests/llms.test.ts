@@ -83,9 +83,8 @@ test("contains no instructions to assistants and no stale commercial claims", ()
 
 test("states the canonical facts an evaluator needs", () => {
   for (const fact of [
-    "exactly two Founding Institutional Partner positions",
-    "closes permanently",
-    "40%",
+    "₹50,000",
+    "31 March 2027",
     "Annual INR subscription rates and progressive student slabs are public on the pricing page",
     "additional usage and custom services are separate",
     "SquareCampus-managed sign-in",

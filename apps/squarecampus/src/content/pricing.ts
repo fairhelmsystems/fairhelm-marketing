@@ -225,7 +225,7 @@ export const pricingFaqs = [
       "Yes. A trust-level agreement can cover agreed campuses within the same billed subscription. Specialised configuration and services are scoped separately.",
   },
   {
-    question: "How many Founding Institutional Partner positions exist?",
+    question: "What is the Founding Institutional Pilot?",
     answer: `${foundingProgramme.positionsStatement} ${foundingProgramme.nature}`,
   },
   {

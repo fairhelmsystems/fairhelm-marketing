@@ -25,7 +25,7 @@ export const FOUNDING_PARTNER_FORM_HREF = `/launch-partners/#${FORM_ANCHORS.foun
  */
 export const enquiryTypes: Record<FormIntent, string> = {
   demo: "Guided platform demo",
-  "founding-partner": "Founding Institutional Partnership",
+  "founding-partner": "Founding Institutional Pilot",
   proposal: "Proposal request",
   "launch-pilot": "Selected Institutional Launch Pilot",
 };
@@ -62,15 +62,13 @@ export const formCopy: Record<
       "We reply within one business day with a proposed session plan and the people worth bringing into the conversation.",
   },
   "founding-partner": {
-    eyebrow: "Request a diagnosis",
-    heading: "Describe the bottleneck, not the wishlist.",
-    body: "Tell us where visibility arrives late, ownership becomes unclear, or staff rebuild the same truth by hand. The more precise the bottleneck, the more useful the first conversation.",
-    submitLabel: "Request a partnership diagnosis",
-    emailSubmitLabel: "Request a partnership diagnosis via email",
-    idleNote:
-      "We reply with a written view of whether this belongs in a founding pilot, and what a bounded scope would look like.",
-    successNote:
-      "We reply within one business day with a written view of whether this belongs in a founding pilot, and what a bounded scope would look like.",
+    eyebrow: "Founding Institutional Pilot",
+    heading: "Tell us about your institution.",
+    body: "Share your location, approximate students and campuses, workflows, preferred activation timing and the problem you want to solve. Please do not include student personal data.",
+    submitLabel: "Apply for the Founding Pilot",
+    emailSubmitLabel: "Apply via email",
+    idleNote: "We review eligibility and scope. An enquiry does not activate or guarantee admission to the pilot.",
+    successNote: "Your enquiry is received for review; it does not activate or guarantee admission to the pilot.",
   },
   "launch-pilot": {
     eyebrow: "Launch-pilot enquiry",
@@ -122,19 +120,7 @@ export const demoPage = {
     ],
   },
   foundingPartnerNote:
-    "Considering the Founding Institutional Partner programme? It has its own diagnosis request.",
-} as const;
-
-/** Page copy for the founding-partner form section on /launch-partners/. */
-export const foundingPartnerForm = {
-  eyebrow: "Founding institutional partner",
-  heading: "Bring one operational bottleneck. We will map the governed path around it.",
-  lead: "This is not a product walkthrough. It is a diagnosis: we look at one workflow that currently loses time, ownership or money, and establish whether it belongs in a Founding Institutional Partner pilot.",
-  points: [
-    "SquareCampus may sit above or alongside your existing ERP, LMS, payment, identity and communication systems during the pilot.",
-    "One bounded workflow or one campus, a written baseline, and one agreed success measure.",
-    "Founding pilots are paid, scoped commercial engagements, agreed in writing before implementation begins.",
-  ],
+    "Considering the Founding Institutional Pilot? It has its own application.",
 } as const;
 
 /**

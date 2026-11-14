@@ -459,55 +459,20 @@ export const identity = {
   ],
 } as const;
 
-/**
- * Founding Institutional Partner programme facts.
- *
- * Two positions, ever. Nothing here may use securities, equity, debt,
- * ownership or board language, state a duration for the price protection, or
- * call the discount "lifetime": those belong in the executed agreement, not
- * on a public page. See docs/marketing-claims-register.md.
- */
+/** Current public founding pilot; legacy agreements remain governed by their signed terms. */
 export const foundingProgramme = {
-  name: "Founding Institutional Partner programme",
+  name: pricingPolicy.foundingPilot.name,
   href: "/launch-partners",
-  positions: 2,
-  positionLabels: ["One school or eligible school institution", "One university"],
-  positionsStatement:
-    "There are exactly two Founding Institutional Partner positions, ever: one school or eligible school institution, and one university. Once both positions are allocated, the programme closes permanently.",
-  nature:
-    "A Founding Institutional Partner is not an ordinary customer. The position involves a strategic capital commitment under a separately executed agreement, material participation in product validation, and structured roadmap input.",
-  enterpriseDiscountPercent: 40,
+  positionsStatement: "One approved institutional deployment scope, with campus and usage limits agreed in writing.",
+  nature: `₹${(pricingPolicy.foundingPilot.feePaise / 100).toLocaleString("en-IN")} + applicable GST, payable upfront. Access begins on the agreed activation date and ends 31 March 2027 at 23:59 IST.`,
   entitlements: [
-    {
-      title: "Defined roadmap influence",
-      body: "Structured, written consideration of the partner's operating requirements in roadmap planning, as defined in the executed agreement.",
-    },
-    {
-      title: "Protected 40% Enterprise discount",
-      body: "A protected 40% discount on Enterprise commercial terms, as set out in the executed agreement.",
-    },
-    {
-      title: "White-labelled mobile apps",
-      body: "The SquareCampus parent and staff apps published under the institution's own branding and store listings, without the standard white-label charge.",
-    },
-    {
-      title: "Other agreed founding privileges",
-      body: "Any further privileges are those explicitly agreed in the executed agreement, and no others.",
-    },
+    { title: "Generally available standard modules", body: "Production-ready standard modules within the agreed scope, including new standard modules when generally available, without an additional module licence charge." },
+    { title: "Managed service and scoped onboarding", body: "Standard configuration, orientation, support and agreed evaluation, subject to the order form." },
   ],
-  boundaries: [
-    "Roadmap influence is not a veto, ownership of the roadmap, product or architectural control, ownership of intellectual property, or an entitlement to unlimited custom development.",
-    "SquareCampus retains final product, architecture, security and engineering authority unless a signed agreement explicitly states otherwise.",
-    "Founding status does not create exclusivity or territory rights.",
-    "Entitlements are governed by the executed agreement. This page describes the programme; it is not an offer.",
-  ],
-  closure:
-    "Once both positions are allocated, the Founding Institutional Partner programme closes permanently.",
   pilot: {
-    window: "60–90 days",
-    paidNote:
-      "Founding pilots are paid, scoped commercial engagements. Scope, success measures, fees and conversion terms are agreed in writing before implementation begins.",
-    close: "Convert, extend or stop",
+    window: "through 31 March 2027",
+    paidNote: `The one-time pilot fee is ₹${(pricingPolicy.foundingPilot.feePaise / 100).toLocaleString("en-IN")} + applicable GST, payable upfront against an invoice. Activation requires an executed order form and confirmed payment.`,
+    close: "Subscribe at standard annual pricing or exit without compulsory renewal",
   },
 } as const;
 
@@ -526,9 +491,9 @@ export const commercialProgrammes = [
   },
   {
     name: foundingProgramme.name,
-    body: `${foundingProgramme.nature} Its paid, scoped founding engagements and negotiated privileges are separate from the complimentary launch pilot.`,
+    body: `${foundingProgramme.nature} This paid pilot is separate from the selected complimentary launch pilot.`,
     href: "/launch-partners/",
-    cta: "Review founding partnerships",
+    cta: "Review the founding pilot",
   },
 ] as const;
 

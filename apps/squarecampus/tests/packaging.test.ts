@@ -16,7 +16,7 @@ import {
   securityBaseline,
 } from "../src/content/commercial";
 import { faqs } from "../src/content/faq";
-import { foundingPartners, higherEducationPartners } from "../src/content/founding-partners";
+
 import { renderLlmsTxt } from "../src/content/llms";
 import { plans, pricingFaqs } from "../src/content/pricing";
 import { securityFaqs } from "../src/content/security-faq";
@@ -107,10 +107,8 @@ test("launch and founding programmes retain separate costs, durations and outcom
   assert.match(launchPilot.pricing, /subscribe or discontinue/);
   assert.match(launchPilot.geography, /Kotdwara and surrounding areas/);
   assert.match(launchPilot.separation, /does not confer founding status/);
-  assert.equal(foundingProgramme.pilot.window, "60–90 days");
-  assert.match(foundingProgramme.pilot.paidNote, /paid, scoped/);
-  assert.equal(foundingPartners.page.path.paidNote, foundingProgramme.pilot.paidNote);
-  assert.equal(higherEducationPartners.evidence.paidNote, foundingProgramme.pilot.paidNote);
+  assert.equal(foundingProgramme.pilot.window, "through 31 March 2027");
+  assert.match(foundingProgramme.pilot.paidNote, /₹50,000/);
 });
 
 test("pilot FAQ answers and machine-readable orientation use canonical facts", () => {

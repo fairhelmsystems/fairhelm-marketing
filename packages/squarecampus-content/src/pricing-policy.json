@@ -211,5 +211,55 @@
     "customAegisDashboardPlans": [
       "enterprise"
     ]
+  },
+  "foundingPilot": {
+    "id": "founding-institutional-pilot-2026-27",
+    "version": "2026-11-14.1",
+    "name": "SquareCampus Founding Institutional Pilot — 2026–27",
+    "feePaise": 5000000,
+    "currency": "INR",
+    "tax": "additional at invoicing",
+    "academicCycle": "2026–27",
+    "accessEnd": "2027-03-31T23:59:00+05:30",
+    "activation": "agreed after executed order form and confirmed payment",
+    "billing": "one-time upfront",
+    "autoRenew": false,
+    "conversionCreditPaise": 0,
+    "scope": "approved deployment and order-form usage limits",
+    "futureStandardModules": "included on general availability within agreed scope",
+    "activationStatus": "approved and contracted engagements only"
+  },
+  "prepaidCommitment": {
+    "version": "2026-11-14.1",
+    "payment": "full_term_upfront",
+    "discountPercent": {
+      "1": {
+        "starter": 0,
+        "pro": 0,
+        "enterprise": 0
+      },
+      "2": {
+        "starter": 10,
+        "pro": 10,
+        "enterprise": 10
+      },
+      "3": {
+        "starter": 15,
+        "pro": 15,
+        "enterprise": 15
+      },
+      "4": {
+        "starter": 25,
+        "pro": 25,
+        "enterprise": 25
+      },
+      "5": {
+        "starter": 30,
+        "pro": 30,
+        "enterprise": 35
+      }
+    },
+    "scope": "platform_licence_only",
+    "enrolmentReconciliation": "proposed_subject_to_approval"
   }
 }

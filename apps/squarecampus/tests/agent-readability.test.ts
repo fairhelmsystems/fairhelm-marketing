@@ -69,12 +69,8 @@ const fixture: ReadonlyArray<{ question: string; expect: string[] }> = [
     ],
   },
   {
-    question: "How many Founding Institutional Partner positions exist?",
-    expect: ["exactly two Founding Institutional Partner positions", "closes permanently"],
-  },
-  {
-    question: "What does a Founding Partner receive?",
-    expect: ["40%", "roadmap influence", "without the standard white-label charge"],
+    question: "What is the Founding Institutional Pilot?",
+    expect: ["₹50,000", "31 March 2027"],
   },
   {
     question: "Is SquareCampus appropriate if I only need attendance and fees?",

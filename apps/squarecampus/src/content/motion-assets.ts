@@ -192,7 +192,7 @@ export const motionAssets = {
     durationInFrames: 276,
 
     description:
-      "Four stages of the Founding Institutional Partner pilot: one bottleneck is chosen, a baseline is written down, the current system and SquareCampus run in parallel for 60 to 90 days, and the institution converts, extends or stops against the agreed measure.",
+      "Historical founding-pilot illustration, not used on the current programme page.",
     light: {
       poster: "/motion/founding-partner-path-light.bc9af67e.webp",
       mp4: "/motion/founding-partner-path-light.53299fb2.mp4",

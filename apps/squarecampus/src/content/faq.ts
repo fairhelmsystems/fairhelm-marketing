@@ -204,8 +204,8 @@ export const faqs: FaqItem[] = [
     category: "pricing",
   },
   {
-    question: "How many Founding Institutional Partner positions exist?",
-    answer: `${foundingProgramme.positionsStatement} ${foundingProgramme.nature} Under the executed agreement a Founding Partner receives defined roadmap influence, a protected ${foundingProgramme.enterpriseDiscountPercent}% discount on Enterprise commercial terms, white-labelled mobile apps without the standard white-label charge, and any other privileges explicitly agreed.`,
+    question: "What is the Founding Institutional Pilot?",
+    answer: `${foundingProgramme.nature} ${foundingProgramme.positionsStatement} Renewal requires affirmative acceptance at standard annual pricing; no automatic pilot credit applies.`,
     category: "pricing",
   },
   {
